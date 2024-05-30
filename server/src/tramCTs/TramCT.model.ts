@@ -29,7 +29,7 @@ export class TramCT {
   @Field({ nullable: true })
   DiaDiem: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   TinhHinhDB: string;
 
@@ -41,11 +41,11 @@ export class TramCT {
   @Field({ nullable: true })
   SoDoTram: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   VanDeChuY: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   QuyDinh: string;
 

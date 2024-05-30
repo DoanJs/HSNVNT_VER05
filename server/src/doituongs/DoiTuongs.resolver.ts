@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
@@ -21,13 +23,11 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DoiTuong } from './DoiTuong.model';
 import { DoiTuongsService } from './DoiTuongs.service';
 import { DoiTuongInput } from './type/DoiTuong.input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 
 @Resolver(() => DoiTuong)
 @UseGuards(GraphQLGuard)
 export class DoiTuongsResolver {
-  constructor(private doituongsService: DoiTuongsService) { }
+  constructor(private doituongsService: DoiTuongsService) {}
 
   @Query((returns) => [DoiTuong])
   doituongs(
@@ -95,15 +95,6 @@ export class DoiTuongsResolver {
   LoaiDT(@Parent() doituong: DoiTuong): Promise<LoaiDT> {
     return this.doituongsService.LoaiDT(doituong);
   }
-
-
-
-
-
-
-
-
-
 
   @ResolveField((returns) => [DoiTuongCA])
   DoiTuongCAs(@Parent() doituong: DoiTuong): Promise<DoiTuongCA[]> {

@@ -42,7 +42,7 @@ export class CAQHvaTDsService {
     return await this.caQHvaTDRepository.query(
       SP_GET_DATA(
         'CAQHvaTDs',
-        'MaCAQHvaTD != 0',
+        `'MaCAQHvaTD != 0'`,
         'MaCAQHvaTD',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -52,7 +52,7 @@ export class CAQHvaTDsService {
 
   async caQHvaTD(id: number): Promise<CAQHvaTD> {
     const result = await this.caQHvaTDRepository.query(
-      SP_GET_DATA('CAQHvaTDs', `MaCAQHvaTD = ${id}`, 'MaCAQHvaTD', 0, 1),
+      SP_GET_DATA('CAQHvaTDs', `'MaCAQHvaTD = ${id}'`, 'MaCAQHvaTD', 0, 1),
     );
     return result[0];
   }

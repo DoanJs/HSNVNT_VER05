@@ -9,4 +9,4 @@ import { DoisService } from './Dois.service';
   imports: [TypeOrmModule.forFeature([Doi]), DataLoaderModule],
   providers: [DoisResolver, DoisService],
 })
-export class DoisModule { }
+export class DoisModule {}

@@ -61,21 +61,14 @@ export class DiaChiNV {
   })
   TSThucHiens: [CBCS];
 
-  @OneToOne(() => BaoCaoKQXMDiaChi, baocaoKQXMDiaChi => baocaoKQXMDiaChi.DiaChiNV)
-  BaoCaoKQXMDiaChi: BaoCaoKQXMDiaChi
+  @OneToOne(
+    () => BaoCaoKQXMDiaChi,
+    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.DiaChiNV,
+  )
+  BaoCaoKQXMDiaChi: BaoCaoKQXMDiaChi;
 
-  @OneToOne(() => KetQuaXMDiaChi, ketquaXMDiaChi => ketquaXMDiaChi.DiaChiNV)
-  KetQuaXMDiaChi: KetQuaXMDiaChi
-
-
-
-
-
-
-
-
-  
-
+  @OneToOne(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.DiaChiNV)
+  KetQuaXMDiaChi: KetQuaXMDiaChi;
 
   @OneToOne(
     () => BaoCaoKQXMDiaChi,

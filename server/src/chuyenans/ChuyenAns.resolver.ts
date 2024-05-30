@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,14 +7,13 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
+import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnsService } from './ChuyenAns.service';
 import { ChuyenAnInput } from './type/ChuyenAn.input';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
-import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
-import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 
 @Resolver(() => ChuyenAn)
 @UseGuards(GraphQLGuard)

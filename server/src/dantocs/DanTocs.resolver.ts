@@ -16,7 +16,7 @@ import { DanTocInput } from './type/DanToc.Input';
 
 @Resolver(() => DanToc)
 export class DanTocsResolver {
-  constructor(private dantocsService: DanTocsService) { }
+  constructor(private dantocsService: DanTocsService) {}
   @Query((returns) => [DanToc])
   dantocs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -51,15 +51,8 @@ export class DanTocsResolver {
 
   @ResolveField((returns) => QuocTich)
   QuocTich(@Parent() dantoc: DanToc): Promise<QuocTich> {
-    return this.dantocsService.QuocTich(dantoc)
+    return this.dantocsService.QuocTich(dantoc);
   }
-
-
-
-
-
-
-  
 
   @ResolveField((returns) => [DoiTuong])
   DoiTuongs(@Parent() dantoc: DanToc): Promise<DoiTuong[]> {

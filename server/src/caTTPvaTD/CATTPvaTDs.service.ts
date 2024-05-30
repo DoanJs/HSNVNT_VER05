@@ -36,7 +36,7 @@ export class CATTPvaTDsService {
     return await this.caTTPvaTDRepository.query(
       SP_GET_DATA(
         'CATTPvaTDs',
-        'MaCATTPvaTD != 0',
+        `'MaCATTPvaTD != 0'`,
         'MaCATTPvaTD',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -46,7 +46,7 @@ export class CATTPvaTDsService {
 
   async caTTPvaTD(id: number): Promise<CATTPvaTD> {
     const result = await this.caTTPvaTDRepository.query(
-      SP_GET_DATA('CATTPvaTDs', `MaCATTPvaTD = ${id}`, 'MaCATTPvaTD', 0, 1),
+      SP_GET_DATA('CATTPvaTDs', `'MaCATTPvaTD = ${id}'`, 'MaCATTPvaTD', 0, 1),
     );
     return result[0];
   }
@@ -56,9 +56,9 @@ export class CATTPvaTDsService {
       SP_CHANGE_DATA(
         "'CREATE'",
         'CATTPvaTDs',
-        '"CATTPvaTD, MaCapCA"',
-        `N'${this.caTTPvaTD_DataInput(caTTPvaTDInput).CATTPvaTD},
-          ${this.caTTPvaTD_DataInput(caTTPvaTDInput).MaCapCA}
+        "'CATTPvaTD, MaCapCA'",
+        `N' ${this.caTTPvaTD_DataInput(caTTPvaTDInput).CATTPvaTD},
+            ${this.caTTPvaTD_DataInput(caTTPvaTDInput).MaCapCA}
         '`,
         "'MaCATTPvaTD = SCOPE_IDENTITY()'",
       ),
@@ -111,7 +111,7 @@ export class CATTPvaTDsService {
     return await this.caTTPvaTDRepository.query(
       SP_GET_DATA(
         'CAQHvaTDs',
-        `MaCATTPvaTD = ${MaCATTPvaTD}`,
+        `'MaCATTPvaTD = ${MaCATTPvaTD}'`,
         'MaCAQHvaTD',
         0,
         0,

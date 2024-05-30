@@ -9,4 +9,4 @@ import { DanhGiaTSTHsService } from './DanhGiaTSTHs.service';
   imports: [TypeOrmModule.forFeature([DanhGiaTSTH]), DataLoaderModule],
   providers: [DanhGiaTSTHsResolver, DanhGiaTSTHsService],
 })
-export class DanhGiaTSTHsModule { }
+export class DanhGiaTSTHsModule {}

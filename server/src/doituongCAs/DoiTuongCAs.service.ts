@@ -31,8 +31,8 @@ export class DoiTuongCAsService {
   doituongCAs(utilsParams: UtilsParamsInput): Promise<DoiTuongCA[]> {
     return this.doituongCARepository.query(
       SP_GET_DATA(
-        "'DoiTuongCAs'",
-        "'MaDTCA != 0'",
+        'DoiTuongCAs',
+        `'MaDTCA != 0'`,
         'MaDTCA',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -51,7 +51,7 @@ export class DoiTuongCAsService {
 
   async doituongCA(id: number): Promise<DoiTuongCA> {
     const result = await this.doituongCARepository.query(
-      SP_GET_DATA("'DoiTuongCAs'", `'MaDTCA = ${id}'`, 'MaDTCA', 0, 1),
+      SP_GET_DATA('DoiTuongCAs', `'MaDTCA = ${id}'`, 'MaDTCA', 0, 1),
     );
     return result[0];
   }
@@ -63,11 +63,11 @@ export class DoiTuongCAsService {
       SP_CHANGE_DATA(
         "'CREATE'",
         'DoiTuongCAs',
-        "'BiSo, ViTri, MaCA, MaDoiTuong'",
-        `N'${this.doituongCA_DataInput(doituongCAInput).BiSo},
-          ${this.doituongCA_DataInput(doituongCAInput).ViTri},
-          ${this.doituongCA_DataInput(doituongCAInput).MaCA},
-          ${this.doituongCA_DataInput(doituongCAInput).MaDoiTuong}
+        `'BiSo, ViTri, MaCA, MaDoiTuong'`,
+        `N' ${this.doituongCA_DataInput(doituongCAInput).BiSo},
+            ${this.doituongCA_DataInput(doituongCAInput).ViTri},
+            ${this.doituongCA_DataInput(doituongCAInput).MaCA},
+            ${this.doituongCA_DataInput(doituongCAInput).MaDoiTuong}
         '`,
         "'MaDTCA = SCOPE_IDENTITY()'",
       ),
@@ -86,7 +86,7 @@ export class DoiTuongCAsService {
         null,
         null,
         null,
-        `N'BiSo = ${this.doituongCA_DataInput(doituongCAInput).BiSo},
+        `N' BiSo = ${this.doituongCA_DataInput(doituongCAInput).BiSo},
             ViTri = ${this.doituongCA_DataInput(doituongCAInput).ViTri},
             MaCA = ${this.doituongCA_DataInput(doituongCAInput).MaCA},
             MaDoiTuong = ${

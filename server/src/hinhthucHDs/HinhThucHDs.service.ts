@@ -26,7 +26,7 @@ export class HinhThucHDsService {
   hinhthucHDs(utilsParams: UtilsParamsInput): Promise<HinhThucHD[]> {
     return this.hinhthucHDRepository.query(
       SP_GET_DATA(
-        "'HinhThucHDs'",
+        'HinhThucHDs',
         "'MaHTHD != 0'",
         'MaHTHD',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -37,7 +37,7 @@ export class HinhThucHDsService {
 
   async hinhthucHD(id: number): Promise<HinhThucHD> {
     const result = await this.hinhthucHDRepository.query(
-      SP_GET_DATA("'HinhThucHDs'", `'MaHTHD = ${id}'`, 'MaHTHD', 0, 1),
+      SP_GET_DATA('HinhThucHDs', `'MaHTHD = ${id}'`, 'MaHTHD', 0, 1),
     );
     return result[0];
   }
@@ -48,7 +48,7 @@ export class HinhThucHDsService {
         "'CREATE'",
         'HinhThucHDs',
         'HinhThuc',
-        `N'${this.hinhthuc_DataInput(hinhthuc).HinhThuc}'`,
+        `N' ${this.hinhthuc_DataInput(hinhthuc).HinhThuc}'`,
         "'MaHTHD = SCOPE_IDENTITY()'",
       ),
     );
@@ -63,7 +63,7 @@ export class HinhThucHDsService {
         null,
         null,
         null,
-        `N'HinhThuc = ${this.hinhthuc_DataInput(hinhthuc).HinhThuc}'`,
+        `N' HinhThuc = ${this.hinhthuc_DataInput(hinhthuc).HinhThuc}'`,
         `'MaHTHD = ${id}'`,
       ),
     );

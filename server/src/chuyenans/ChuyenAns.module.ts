@@ -7,9 +7,13 @@ import { ChuyenAnsResolver } from './ChuyenAns.resolver';
 import { ChuyenAnsService } from './ChuyenAns.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChuyenAn]), DataLoaderModule, JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    TypeOrmModule.forFeature([ChuyenAn]),
+    DataLoaderModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [ChuyenAnsResolver, ChuyenAnsService],
 })
-export class ChuyenAnsModule { }
+export class ChuyenAnsModule {}

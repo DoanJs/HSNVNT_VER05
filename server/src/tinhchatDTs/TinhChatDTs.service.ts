@@ -27,7 +27,7 @@ export class TinhChatDTsService {
   tinhChatDTs(utilsParams: UtilsParamsInput): Promise<TinhChatDT[]> {
     return this.tinhchatDTRepository.query(
       SP_GET_DATA(
-        "'TinhChatDTs'",
+        'TinhChatDTs',
         "'MaTCDT != 0'",
         'MaTCDT',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -38,7 +38,7 @@ export class TinhChatDTsService {
 
   async tinhChatDT(id: number): Promise<TinhChatDT> {
     const result = await this.tinhchatDTRepository.query(
-      SP_GET_DATA("'TinhChatDTs'", `'MaTCDT = ${id}'`, 'MaTCDT', 0, 1),
+      SP_GET_DATA('TinhChatDTs', `'MaTCDT = ${id}'`, 'MaTCDT', 0, 1),
     );
     return result[0];
   }
@@ -49,7 +49,7 @@ export class TinhChatDTsService {
         "'CREATE'",
         'TinhChatDTs',
         'TinhChat',
-        `N'${this.tinhChatDT_DataInput(tinhchat).TinhChat}'`,
+        `N' ${this.tinhChatDT_DataInput(tinhchat).TinhChat}'`,
         "'MaTCDT = SCOPE_IDENTITY()'",
       ),
     );
@@ -64,7 +64,7 @@ export class TinhChatDTsService {
         null,
         null,
         null,
-        `N'TinhChat = ${this.tinhChatDT_DataInput(tinhchat).TinhChat}'`,
+        `N' TinhChat = ${this.tinhChatDT_DataInput(tinhchat).TinhChat}'`,
         `'MaTCDT = ${id}'`,
       ),
     );

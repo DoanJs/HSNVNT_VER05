@@ -15,6 +15,6 @@ export class DDNB {
 
   // relation
 
-  @ManyToMany(() => KetQuaTSNT, ketquaTSNT=> ketquaTSNT.DDNBs)
-  KetQuaTSNTs: [KetQuaTSNT]
+  @ManyToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.DDNBs)
+  KetQuaTSNTs: [KetQuaTSNT];
 }

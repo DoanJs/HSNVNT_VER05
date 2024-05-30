@@ -146,7 +146,7 @@ export class DataLoaderService {
   public readonly loaderDoi = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.doiRepository.query(
-        SP_GET_DATA('Dois', `'MaDoi = ${id}'`, 'MaDoi')
+        SP_GET_DATA('Dois', `'MaDoi = ${id}'`, 'MaDoi', 0, 0)
       );
       return response[0];
     });
@@ -155,7 +155,7 @@ export class DataLoaderService {
   public readonly loaderTinhChat = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tinhchatRepository.query(
-        `SELECT * FROM TinhChatDTs WHERE MaTCDT = ${id}`,
+        SP_GET_DATA('TinhChatDTs', `'MaTCDT = ${id}'`, 'MaTCDT', 0, 0)
       );
       return response[0];
     });
@@ -164,7 +164,7 @@ export class DataLoaderService {
   public readonly loaderLoaiDT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.loaiDTRepository.query(
-        `SELECT * FROM LoaiDTs WHERE MaLoaiDT = ${id}`,
+        SP_GET_DATA('LoaiDTs', `'MaLoaiDT = ${id}'`, 'MaLoaiDT', 0, 0)
       );
       return response[0];
     });
@@ -173,7 +173,7 @@ export class DataLoaderService {
   public readonly loaderCATTPvaTD = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.caTTPvaTDRepository.query(
-        `SELECT * FROM CATTPvaTDs WHERE MaCATTPvaTD = ${id}`,
+        SP_GET_DATA('CATTPvaTDs', `'MaCATTPvaTD = ${id}'`, 'MaCATTPvaTD', 0, 0)
       );
       return response[0];
     });
@@ -191,7 +191,7 @@ export class DataLoaderService {
   public readonly loaderHinhThucHD = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.cbcsRepository.query(
-        `SELECT * FROM HinhThucHDs WHERE MaHTHD = ${id}`,
+        SP_GET_DATA('HinhThucHDs', `'MaHTHD = ${id}'`, 'MaHTHD', 0, 0)
       );
       return response[0];
     });
@@ -218,7 +218,7 @@ export class DataLoaderService {
   public readonly loaderDDNB = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.ddnbRepository.query(
-        `SELECT * FROM DDNBs WHERE MaDDNB = ${id}`,
+        SP_GET_DATA('DDNBs', `'MaDDNB = ${id}'`, 'MaDDNB', 0, 0)
       );
       return response[0];
     });
@@ -227,7 +227,7 @@ export class DataLoaderService {
   public readonly loaderTinhTP = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tinhTPRepository.query(
-        `SELECT * FROM TinhTPs WHERE MaTinhTP = ${id}`,
+        SP_GET_DATA('TinhTPs', `'MaTinhTP = ${id}'`, 'MaTinhTP', 0, 0)
       );
       return response[0];
     });
@@ -236,7 +236,7 @@ export class DataLoaderService {
   public readonly loaderLoaiLLDB = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.loaiLLDBRepository.query(
-        `SELECT * FROM LoaiLLDBs WHERE MaLoaiLLDB = ${id}`,
+        SP_GET_DATA('LoaiLLDBs', `'MaLoaiLLDB = ${id}'`, 'MaLoaiLLDB', 0, 0)
       );
       return response[0];
     });
@@ -326,7 +326,7 @@ export class DataLoaderService {
   public readonly loaderLLDB = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.lldbRepository.query(
-        `SELECT * FROM LLDBs WHERE MaLLDB = ${id}`,
+        SP_GET_DATA('LLDBs', `'MaLLDB = ${id}'`, 'MaLLDB', 0, 0)
       );
       return response[0];
     });
@@ -335,7 +335,7 @@ export class DataLoaderService {
   public readonly loaderCapCA = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.capCARepository.query(
-        `SELECT * FROM CapCAs WHERE MaCapCA = ${id}`,
+        SP_GET_DATA('CapCAs', `'MaCapCA = ${id}'`, 'MaCapCA', 0, 0)
       );
       return response[0];
     });
@@ -344,7 +344,7 @@ export class DataLoaderService {
   public readonly loaderBienPhapDT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.bienPhapDTRepository.query(
-        `SELECT * FROM BienPhapDTs WHERE MaBPDT = ${id}`,
+        SP_GET_DATA('BienPhapDTs', `'MaBPDT = ${id}'`, 'MaBPDT', 0, 0)
       );
       return response[0];
     });

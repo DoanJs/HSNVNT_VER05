@@ -10,7 +10,7 @@ export class LucLuongThamGiaKH {
   @Field()
   MaLLTGKH: number;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   ViTri: string;
 

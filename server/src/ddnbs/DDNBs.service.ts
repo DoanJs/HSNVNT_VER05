@@ -45,7 +45,7 @@ export class DDNBsService {
         "'CREATE'",
         'DDNBs',
         'DacDiem',
-        `N'${this.ddnb_DataInput(ddnb).DacDiem}'`,
+        `N' ${this.ddnb_DataInput(ddnb).DacDiem}'`,
         "'MaDDNB = SCOPE_IDENTITY()'",
       ),
     );
@@ -60,8 +60,8 @@ export class DDNBsService {
         null,
         null,
         null,
-        `N'DacDiem = ${this.ddnb_DataInput(ddnb).DacDiem}'`,
-        `"MaDDNB = ${id}"`,
+        `N' DacDiem = ${this.ddnb_DataInput(ddnb).DacDiem}'`,
+        `'MaDDNB = ${id}'`,
       ),
     );
     return result[0];
@@ -76,7 +76,7 @@ export class DDNBsService {
         null,
         null,
         null,
-        `"MaDDNB = ${id}"`,
+        `'MaDDNB = ${id}'`,
       ),
     );
     return result[0];
@@ -86,7 +86,7 @@ export class DDNBsService {
 
   async KetQuaTSNTs(MaDDNB: number): Promise<KetQuaTSNT[]> {
     const result = (await this.ddnbRepository.query(
-      `SELECT MaKQ FROM KetQuaTSNTs_DDNBs WHERE MaDDNB = ${MaDDNB}`,
+      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaDDNB = ${MaDDNB}'`, 'MaKQ', 0, 0)
     )) as [{ MaKQ: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderKetQuaTSNT.load(obj.MaKQ),

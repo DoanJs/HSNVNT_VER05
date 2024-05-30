@@ -74,7 +74,7 @@ export class CBCSsService {
     return this.cbcsRepository.query(
       SP_GET_DATA_DECRYPT(
         'CBCSs',
-        "'MaCBCS != 0'",
+        `'MaCBCS != 0'`,
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
       ),

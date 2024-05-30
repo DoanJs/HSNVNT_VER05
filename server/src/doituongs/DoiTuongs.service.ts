@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
+import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
@@ -11,12 +12,11 @@ import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
-import { SP_CHANGE_DOITUONG, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import { SP_CHANGE_DOITUONG, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DoiTuong } from './DoiTuong.model';
 import { DoiTuongInput } from './type/DoiTuong.input';
-import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
 
 @Injectable()
 export class DoiTuongsService {
@@ -24,7 +24,7 @@ export class DoiTuongsService {
     @InjectRepository(DoiTuong)
     private doituongRepository: Repository<DoiTuong>,
     private readonly dataloaderService: DataLoaderService,
-  ) { }
+  ) {}
 
   public readonly doituong_DataInput = (
     Type: string,
@@ -121,7 +121,7 @@ export class DoiTuongsService {
 
   async BienPhapDTs(MaDoiTuong: number): Promise<BienPhapDT[]> {
     const result = (await this.doituongRepository.query(
-      `SELECT * FROM BienPhapDTs_DoiTuongs WHERE MaDoiTuong = ${MaDoiTuong}`,
+      SP_GET_DATA('BienPhapDTs_DoiTuongs', `'MaDoiTuong = ${MaDoiTuong}'`, 'MaBPDT', 0, 0)
     )) as [{ MaBPDT: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBienPhapDT.load(obj.MaBPDT),
@@ -149,18 +149,9 @@ export class DoiTuongsService {
     return this.dataloaderService.loaderLoaiDT.load(doituong.MaLoai);
   }
 
-
-
-
-
-
-
-
-
-
   async DoiTuongCAs(MaDoiTuong: number): Promise<DoiTuongCA[]> {
     return this.doituongRepository.query(
-      `SELECT * FROM DoiTuongCAs WHERE MaDoiTuong = ${MaDoiTuong}`,
+      SP_GET_DATA('DoiTuongCAs', `'MaDoiTuong = ${MaDoiTuong}'`, 'MaDTCA', 0, 0)
     );
   }
 

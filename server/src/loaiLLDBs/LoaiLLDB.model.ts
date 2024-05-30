@@ -18,7 +18,7 @@ export class LoaiLLDB {
   @Field({ nullable: true })
   TenLLDB: string;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   KyHieu: string;
 

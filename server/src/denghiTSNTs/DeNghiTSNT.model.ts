@@ -55,8 +55,8 @@ export class DeNghiTSNT {
 
   // relation
 
-  @OneToOne(() => DauMoiPH_DN, dauMoiPH => dauMoiPH.DeNghiTSNT)
-  DauMoiPH: DauMoiPH_DN
+  @OneToOne(() => DauMoiPH_DN, (dauMoiPH) => dauMoiPH.DeNghiTSNT)
+  DauMoiPH: DauMoiPH_DN;
 
   @ManyToOne(() => CATTPvaTD, (caTTPvaTD) => caTTPvaTD.DeNghiTSNTs, {
     cascade: true,
@@ -78,8 +78,8 @@ export class DeNghiTSNT {
   })
   CAQHvaTD: CAQHvaTD;
 
-  @OneToOne(() => KyDuyet_DN, kyDuyet_DN => kyDuyet_DN.DeNghiTSNT)
-  KyDuyet_DN: KyDuyet_DN
+  @OneToOne(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DeNghiTSNT)
+  KyDuyet_DN: KyDuyet_DN;
 
   @ManyToMany(() => TinhTP, (tinhTP) => tinhTP.DeNghiTSNTs, {
     cascade: true,
@@ -114,23 +114,20 @@ export class DeNghiTSNT {
   @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.DeNghiTSNT)
   KeHoachTSNT: KeHoachTSNT;
 
-  @OneToMany(() => KetQuaXMQuanHe, ketquaXMQuanHe => ketquaXMQuanHe.DeNghiTSNT)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe]
+  @OneToMany(
+    () => KetQuaXMQuanHe,
+    (ketquaXMQuanHe) => ketquaXMQuanHe.DeNghiTSNT,
+  )
+  KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(() => KetQuaXMDiaChi, ketquaXMDiaChi => ketquaXMDiaChi.DeNghiTSNT)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi]
+  @OneToMany(
+    () => KetQuaXMDiaChi,
+    (ketquaXMDiaChi) => ketquaXMDiaChi.DeNghiTSNT,
+  )
+  KetQuaXMDiaChis: [KetQuaXMDiaChi];
 
-  @OneToOne(() => DauMoiPH_DN, daumoiPH_DN => daumoiPH_DN.DeNghiTSNT)
-  DauMoiPH_DN: DauMoiPH_DN
-
-
-
-  
-
-
-
-
-
+  @OneToOne(() => DauMoiPH_DN, (daumoiPH_DN) => daumoiPH_DN.DeNghiTSNT)
+  DauMoiPH_DN: DauMoiPH_DN;
 
   @ManyToOne(() => HinhThucHD, (hinhthucHD) => hinhthucHD.DeNghiTSNTs, {
     cascade: true,

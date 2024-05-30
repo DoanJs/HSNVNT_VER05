@@ -9,4 +9,4 @@ import { DauMoiPH_DNsService } from './DauMoiPH_DNs.service';
   imports: [TypeOrmModule.forFeature([DauMoiPH_DN]), DataLoaderModule],
   providers: [DauMoiPH_DNsResolver, DauMoiPH_DNsService],
 })
-export class DauMoiPH_DNModule { }
+export class DauMoiPH_DNModule {}

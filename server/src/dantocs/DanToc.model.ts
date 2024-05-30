@@ -19,28 +19,24 @@ export class DanToc {
   @Field()
   MaDT: number;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   TenDT: string;
 
   //relation
-  @ManyToOne(() => QuocTich, (quoctich) => quoctich.DanTocs, { cascade: true, eager: true })
+  @ManyToOne(() => QuocTich, (quoctich) => quoctich.DanTocs, {
+    cascade: true,
+    eager: true,
+  })
   @JoinColumn({
-    name: "MaQT",
-    foreignKeyConstraintName: "FK_MaQT_DanToc"
+    name: 'MaQT',
+    foreignKeyConstraintName: 'FK_MaQT_DanToc',
   })
   QuocTich: QuocTich;
 
   @OneToMany(() => CBCS, (cbcs) => cbcs.DanToc)
   CBCSs: [CBCS];
 
-
-  
-
-  
-
   @OneToOne(() => DoiTuong, (doituong) => doituong.DanToc)
   DoiTuongs: [DoiTuong];
-
-  
 }

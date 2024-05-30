@@ -9,7 +9,14 @@ import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'Dois' })
 @ObjectType()
@@ -24,12 +31,15 @@ export class Doi {
 
   // relation
 
-  @ManyToOne(() => CAQHvaTD, caQHvaTD => caQHvaTD.Dois, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaCAQHvaTD",
-    foreignKeyConstraintName: "FK_MaCAQHvaTD_Doi"
+  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.Dois, {
+    cascade: true,
+    eager: true,
   })
-  CAQHvaTD: CAQHvaTD
+  @JoinColumn({
+    name: 'MaCAQHvaTD',
+    foreignKeyConstraintName: 'FK_MaCAQHvaTD_Doi',
+  })
+  CAQHvaTD: CAQHvaTD;
 
   @OneToMany(() => CBCS, (cbcs) => cbcs.Doi)
   CBCSs: [CBCS];
@@ -43,8 +53,8 @@ export class Doi {
   @OneToMany(() => TramCT, (tramCT) => tramCT.Doi)
   TramCTs: [TramCT];
 
-  @OneToMany(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.Doi)
-  KetQuaTSNTs: [KetQuaTSNT]
+  @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.Doi)
+  KetQuaTSNTs: [KetQuaTSNT];
 
   @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.Doi)
   BaoCaoPHQHs: [BaoCaoPHQH];

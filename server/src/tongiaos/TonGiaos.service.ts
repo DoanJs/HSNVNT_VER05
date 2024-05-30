@@ -26,7 +26,7 @@ export class TonGiaosService {
   tonGiaos(utilsParams: UtilsParamsInput): Promise<TonGiao[]> {
     return this.tongiaoRepository.query(
       SP_GET_DATA(
-        "'TonGiaos'",
+        'TonGiaos',
         "'MaTG != 0'",
         'MaTG',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -37,7 +37,7 @@ export class TonGiaosService {
 
   async tonGiao(id: number): Promise<TonGiao> {
     const result = await this.tongiaoRepository.query(
-      SP_GET_DATA("'TonGiaos'", `'MaTG = ${id}'`, 'MaTG', 0, 1),
+      SP_GET_DATA('TonGiaos', `'MaTG = ${id}'`, 'MaTG', 0, 1),
     );
     return result[0];
   }
@@ -48,7 +48,7 @@ export class TonGiaosService {
         "'CREATE'",
         'TonGiaos',
         'TenTG',
-        `N'${this.tonGiao_DataInput(tenTG).TenTG}'`,
+        `N' ${this.tonGiao_DataInput(tenTG).TenTG}'`,
         "'MaTG = SCOPE_IDENTITY()'",
       ),
     );
@@ -63,7 +63,7 @@ export class TonGiaosService {
         null,
         null,
         null,
-        `N'TenTG = ${this.tonGiao_DataInput(tenTG).TenTG}'`,
+        `N' TenTG = ${this.tonGiao_DataInput(tenTG).TenTG}'`,
         `'MaTG = ${id}'`,
       ),
     );
@@ -79,7 +79,7 @@ export class TonGiaosService {
         null,
         null,
         null,
-        `"MaTG = ${id}"`,
+        `'MaTG = ${id}'`,
       ),
     );
     return result[0];

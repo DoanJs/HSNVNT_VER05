@@ -27,7 +27,7 @@ export class TinhTPsService {
   tinhTPs(utilsParams: UtilsParamsInput): Promise<TinhTP[]> {
     return this.tinhTPRepository.query(
       SP_GET_DATA(
-        "'TinhTPs'",
+        'TinhTPs',
         "'MaTinhTP != 0'",
         'MaTinhTP',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -38,20 +38,19 @@ export class TinhTPsService {
 
   async tinhTP(id: number): Promise<TinhTP> {
     const result = await this.tinhTPRepository.query(
-      SP_GET_DATA("'TinhTPs'", `'MaTinhTP = ${id}'`, 'MaTinhTP', 0, 1),
+      SP_GET_DATA('TinhTPs', `'MaTinhTP = ${id}'`, 'MaTinhTP', 0, 1),
     );
     return result[0];
   }
 
   async createTinhTP(tinhTPInput: TinhTPInput): Promise<TinhTP> {
-    const { TinhTP, Cap } = this.tinhTP_DataInput(tinhTPInput);
     const result = await this.tinhTPRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
         'TinhTPs',
         "'TinhTP, Cap'",
-        `N'${this.tinhTP_DataInput(tinhTPInput).TinhTP},
-          ${this.tinhTP_DataInput(tinhTPInput).Cap}
+        `N' ${this.tinhTP_DataInput(tinhTPInput).TinhTP},
+            ${this.tinhTP_DataInput(tinhTPInput).Cap}
         '`,
         "'MaTinhTP = SCOPE_IDENTITY()'",
       ),
@@ -60,7 +59,6 @@ export class TinhTPsService {
   }
 
   async editTinhTP(tinhTPInput: TinhTPInput, id: number): Promise<TinhTP> {
-    const { TinhTP, Cap } = this.tinhTP_DataInput(tinhTPInput);
     const result = await this.tinhTPRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -68,8 +66,8 @@ export class TinhTPsService {
         null,
         null,
         null,
-        `N'TinhTP = ${this.tinhTP_DataInput(tinhTPInput).TinhTP},
-          Cap = ${this.tinhTP_DataInput(tinhTPInput).Cap}
+        `N' TinhTP = ${this.tinhTP_DataInput(tinhTPInput).TinhTP},
+            Cap = ${this.tinhTP_DataInput(tinhTPInput).Cap}
         '`,
         `'MaTinhTP = ${id}'`,
       ),
@@ -86,7 +84,7 @@ export class TinhTPsService {
         null,
         null,
         null,
-        `"MaTinhTP = ${id}"`,
+        `'MaTinhTP = ${id}'`,
       ),
     );
     return result[0];
@@ -96,7 +94,7 @@ export class TinhTPsService {
 
   async DeNghiTSNTs(MaTinhTP: number): Promise<DeNghiTSNT[]> {
     const result = (await this.tinhTPRepository.query(
-      `SELECT * FROM DeNghiTSNTs_TinhTPs WHERE MaTinhTP = ${MaTinhTP}`,
+      SP_GET_DATA('DeNghiTSNTs_TinhTPs', `'MaTinhTP = ${MaTinhTP}'`, 'MaDN', 0, 0)
     )) as [{ MaDN: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderDeNghiTSNT.load(obj.MaDN),
@@ -106,7 +104,7 @@ export class TinhTPsService {
 
   async QuyetDinhTSNTs(MaTinhTP: number): Promise<QuyetDinhTSNT[]> {
     const result = (await this.tinhTPRepository.query(
-      `SELECT * FROM QuyetDinhTSNTs_TinhTPs WHERE MaTinhTP = ${MaTinhTP}`,
+      SP_GET_DATA('QuyetDinhTSNTs_TinhTPs', `'MaTinhTP = ${MaTinhTP}'`, 'MaQD', 0, 0)
     )) as [{ MaQD: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderQuyetDinhTSNT.load(obj.MaQD),
@@ -115,9 +113,8 @@ export class TinhTPsService {
   }
 
   async KetQuaTSNTs(MaTinhTP: number): Promise<KetQuaTSNT[]> {
-    console.log(MaTinhTP);
     const result = (await this.tinhTPRepository.query(
-      `SELECT * FROM KetQuaTSNTs_TinhTPs WHERE MaTinhTP = ${MaTinhTP}`,
+      SP_GET_DATA('KetQuaTSNTs_TinhTPs', `'MaTinhTP = ${MaTinhTP}'`, 'MaKQTSNT', 0, 0)
     )) as [{ MaKQTSNT: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderKetQuaTSNT.load(obj.MaKQTSNT),

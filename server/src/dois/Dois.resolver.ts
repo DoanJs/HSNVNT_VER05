@@ -22,7 +22,7 @@ import { DoiInput } from './type/Doi.Input';
 
 @Resolver(() => Doi)
 export class DoisResolver {
-  constructor(private doisService: DoisService) { }
+  constructor(private doisService: DoisService) {}
 
   @Query((returns) => [Doi])
   dois(@Args('utilsParams') utilsParams: UtilsParamsInput): Promise<Doi[]> {
@@ -40,7 +40,10 @@ export class DoisResolver {
   }
 
   @Mutation((returns) => Doi)
-  editDoi(@Args('doiInput') doiInput: DoiInput, @Args('id') id: number): Promise<Doi> {
+  editDoi(
+    @Args('doiInput') doiInput: DoiInput,
+    @Args('id') id: number,
+  ): Promise<Doi> {
     return this.doisService.editDoi(doiInput, id);
   }
 
@@ -55,15 +58,6 @@ export class DoisResolver {
   CAQHvaTD(@Parent() doi: Doi): Promise<CAQHvaTD> {
     return this.doisService.CAQHvaTD(doi);
   }
-
-
-  
-
-
-  
-
-
-
 
   @ResolveField((returns) => [QuyetDinhTSNT])
   QuyetDinhTSNTs(@Parent() doi: Doi): Promise<QuyetDinhTSNT[]> {

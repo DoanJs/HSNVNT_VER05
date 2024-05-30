@@ -28,7 +28,7 @@ export class KeHoachTSNT {
   @Field()
   MaKH: number;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   So: string;
 

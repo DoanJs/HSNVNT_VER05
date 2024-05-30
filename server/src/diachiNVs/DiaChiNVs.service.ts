@@ -4,7 +4,7 @@ import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { SP_CHANGE_DIACHINV, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import { SP_CHANGE_DIACHINV, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DiaChiNV } from './DiaChiNV.model';
@@ -16,7 +16,7 @@ export class DiaChiNVsService {
     @InjectRepository(DiaChiNV)
     private diachiNVRepository: Repository<DiaChiNV>,
     private dataloaderService: DataLoaderService,
-  ) { }
+  ) {}
   public readonly diaChiNV_DataInput = (
     Type: string,
     MaDC: number | null,
@@ -39,17 +39,17 @@ export class DiaChiNVsService {
       SP_GET_DATA_DECRYPT(
         'DiaChiNVs',
         "'MaDC != 0'",
-        utilsParams.skip && utilsParams.skip > 0 ? utilsParams.skip : 0,
-        utilsParams.take && utilsParams.take > 0 ? utilsParams.take : 0,
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
       ),
     );
   }
 
   async diachiNV(id: number): Promise<DiaChiNV> {
     const result = await this.diachiNVRepository.query(
-      SP_GET_DATA_DECRYPT('DiaChiNVs', `"MaDC = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('DiaChiNVs', `'MaDC = ${id}'`, 0, 1),
     );
-    return result[0]
+    return result[0];
   }
 
   async createDiaChiNV(diachiNVInput: DiaChiNVInput): Promise<DiaChiNV> {
@@ -88,7 +88,7 @@ export class DiaChiNVsService {
 
   async TSThucHiens(MaDC: number): Promise<CBCS[]> {
     const result = (await this.diachiNVRepository.query(
-      `SELECT MaCBCS FROM DiaChiNVs_CBCSs WHERE MaDC = ${MaDC}`,
+      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaDC = ${MaDC}'`, 'MaCBCS', 0, 0)
     )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),

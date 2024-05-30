@@ -44,7 +44,7 @@ export class KetQuaXMDiaChisService {
   ketQuaXMDiaChis(utilsParams: UtilsParamsInput): Promise<KetQuaXMDiaChi[]> {
     return this.ketQuaXMDiaChiRepository.query(
       SP_GET_DATA(
-        "'KetQuaXMDiaChis'",
+        'KetQuaXMDiaChis',
         "'MaKQXMDC != 0'",
         'MaKQXMDC',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -55,7 +55,7 @@ export class KetQuaXMDiaChisService {
 
   async ketQuaXMDiaChi(id: number): Promise<KetQuaXMDiaChi> {
     const result = await this.ketQuaXMDiaChiRepository.query(
-      SP_GET_DATA("'KetQuaXMDiaChis'", `'MaKQXMDC = ${id}'`, 'MaKQXMDC', 0, 1),
+      SP_GET_DATA('KetQuaXMDiaChis', `'MaKQXMDC = ${id}'`, 'MaKQXMDC', 0, 1),
     );
     return result[0];
   }
@@ -66,15 +66,15 @@ export class KetQuaXMDiaChisService {
         "'CREATE'",
         'KetQuaXMDiaChis',
         "'So, Ngay, MaCATTPvaTD, MaCAQHvaTD, MaDoiTuong, MaQD, MaDN, MaDC, MaLanhDaoPD'",
-        `N'${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).So},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).Ngay},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCATTPvaTD},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCAQHvaTD},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDoiTuong},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaQD},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDN},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDC},
-          ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaLanhDaoPD}
+        `N' ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).So},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).Ngay},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCATTPvaTD},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCAQHvaTD},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDoiTuong},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaQD},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDN},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDC},
+            ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaLanhDaoPD}
         '`,
         "'MaKQXMDC = SCOPE_IDENTITY()'",
       ),

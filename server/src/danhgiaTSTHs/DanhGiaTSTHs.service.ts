@@ -37,7 +37,7 @@ export class DanhGiaTSTHsService {
     return await this.danhgiaTSTHRepository.query(
       SP_GET_DATA(
         'DanhGiaTSTHs',
-        '"MaDanhGiaTSTH != 0"',
+        `'MaDanhGiaTSTH != 0'`,
         'MaDanhGiaTSTH',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -49,7 +49,7 @@ export class DanhGiaTSTHsService {
     const result = await this.danhgiaTSTHRepository.query(
       SP_GET_DATA(
         'DanhGiaTSTHs',
-        `"MaDanhGiaTSTH = ${id}"`,
+        `'MaDanhGiaTSTH = ${id}'`,
         'MaDanhGiaTSTH',
         0,
         1,
@@ -65,15 +65,14 @@ export class DanhGiaTSTHsService {
       SP_CHANGE_DATA(
         "'CREATE'",
         'DanhGiaTSTHs',
-        '"VaiTro, DanhGia, LyDo, MaKQ, MaCBCS"',
-        `N'
-        ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).VaiTro},
-        ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).DanhGia},
-        ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).LyDo},
-        ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaKQ},
-        ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaCBCS}
+        `'VaiTro, DanhGia, LyDo, MaKQ, MaCBCS'`,
+        `N' ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).VaiTro},
+            ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).DanhGia},
+            ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).LyDo},
+            ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaKQ},
+            ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaCBCS}
         '`,
-        "'MaDanhGiaTSTH = SCOPE_IDENTITY()'",
+        `'MaDanhGiaTSTH = SCOPE_IDENTITY()'`,
       ),
     );
     return result[0];
@@ -91,13 +90,13 @@ export class DanhGiaTSTHsService {
         null,
         null,
         `N'
-          VaiTro = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).VaiTro},
-          DanhGia = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).DanhGia},
-          LyDo = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).LyDo},
-          MaKQ = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaKQ},
-          MaCBCS = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaCBCS}
+            VaiTro = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).VaiTro},
+            DanhGia = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).DanhGia},
+            LyDo = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).LyDo},
+            MaKQ = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaKQ},
+            MaCBCS = ${this.danhgiaTSTH_DataInput(danhgiaTSTHInput).MaCBCS}
         '`,
-        `"MaDanhGiaTSTH = ${id}"`,
+        `'MaDanhGiaTSTH = ${id}'`,
       ),
     );
     return result[0];
@@ -112,7 +111,7 @@ export class DanhGiaTSTHsService {
         null,
         null,
         null,
-        `"MaDanhGiaTSTH = ${id}"`,
+        `'MaDanhGiaTSTH = ${id}'`,
       ),
     );
     return result[0];

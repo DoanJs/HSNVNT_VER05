@@ -25,7 +25,7 @@ export class LoaiDTsService {
   loaiDTs(utilsParams: UtilsParamsInput): Promise<LoaiDT[]> {
     return this.loaiDTRepository.query(
       SP_GET_DATA(
-        "'LoaiDTs'",
+        'LoaiDTs',
         "'MaLoaiDT != 0'",
         'MaLoaiDT',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -36,7 +36,7 @@ export class LoaiDTsService {
 
   async loaiDT(id: number): Promise<LoaiDT> {
     const result = await this.loaiDTRepository.query(
-      SP_GET_DATA("'LoaiDTs'", `'MaLoaiDT = ${id}'`, 'MaLoaiDT', 0, 1),
+      SP_GET_DATA('LoaiDTs', `'MaLoaiDT = ${id}'`, 'MaLoaiDT', 0, 1),
     );
     return result[0];
   }
@@ -47,7 +47,7 @@ export class LoaiDTsService {
         "'CREATE'",
         'LoaiDTs',
         'LoaiDT',
-        `N'${this.loaiDT_DataInput(loaiDT).LoaiDT}'`,
+        `N' ${this.loaiDT_DataInput(loaiDT).LoaiDT}'`,
         "'MaLoaiDT = SCOPE_IDENTITY()'",
       ),
     );
@@ -62,7 +62,7 @@ export class LoaiDTsService {
         null,
         null,
         null,
-        `N'LoaiDT = ${this.loaiDT_DataInput(loaiDT).LoaiDT}'`,
+        `N' LoaiDT = ${this.loaiDT_DataInput(loaiDT).LoaiDT}'`,
         `'MaLoaiDT = ${id}'`,
       ),
     );
@@ -78,7 +78,7 @@ export class LoaiDTsService {
         null,
         null,
         null,
-        `"MaLoaiDT = ${id}"`,
+        `'MaLoaiDT = ${id}'`,
       ),
     );
     return result[0];

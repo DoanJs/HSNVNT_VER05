@@ -7,7 +7,7 @@ import { DanTocsResolver } from './DanTocs.resolver';
 import { DanTocsService } from './DanTocs.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([DanToc, CBCS]), DataLoaderModule],
-    providers: [DanTocsResolver, DanTocsService]
+  imports: [TypeOrmModule.forFeature([DanToc, CBCS]), DataLoaderModule],
+  providers: [DanTocsResolver, DanTocsService],
 })
-export class DanTocsModule { }
+export class DanTocsModule {}

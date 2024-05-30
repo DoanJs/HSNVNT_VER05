@@ -6,6 +6,7 @@ import { PhuongTienNVInput } from './type/PhuongTienNV.input';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import {
   SP_CHANGE_PHUONGTIENNV,
+  SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
@@ -54,7 +55,7 @@ export class PhuongTienNVsService {
 
   async phuongtienNV(id: number): Promise<PhuongTienNV> {
     const result = await this.phuongtienNVRepository.query(
-      SP_GET_DATA_DECRYPT('PhuongTienNVs', `"MaPT = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('PhuongTienNVs', `'MaPT = ${id}'`, 0, 1),
     );
     return result[0];
   }
@@ -102,7 +103,7 @@ export class PhuongTienNVsService {
 
   async TSThucHiens(MaPT: number): Promise<CBCS[]> {
     const result = (await this.phuongtienNVRepository.query(
-      `SELECT MaCBCS FROM PhuongTienNVs_CBCSs WHERE MaPT = ${MaPT}`,
+      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaPT = ${MaPT}'`, 'MaCBCS', 0, 0)
     )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),

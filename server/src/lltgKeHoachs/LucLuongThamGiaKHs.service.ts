@@ -35,7 +35,7 @@ export class LucLuongThamGiaKHsService {
   ): Promise<LucLuongThamGiaKH[]> {
     return this.lucluongthamgiaKHRepository.query(
       SP_GET_DATA(
-        "'LucLuongThamGiaKHs'",
+        'LucLuongThamGiaKHs',
         "'MaLLTGKH != 0'",
         'MaLLTGKH',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -46,7 +46,7 @@ export class LucLuongThamGiaKHsService {
 
   async lucluongThamGiaKH(id: number): Promise<LucLuongThamGiaKH> {
     const result = await this.lucluongthamgiaKHRepository.query(
-      SP_GET_DATA("'LucLuongThamGiaKHs'", `'MaLLTGKH = ${id}'`, 'MaLLTGKH', 0, 1),
+      SP_GET_DATA('LucLuongThamGiaKHs', `'MaLLTGKH = ${id}'`, 'MaLLTGKH', 0, 1),
     );
     return result[0];
   }
@@ -62,9 +62,9 @@ export class LucLuongThamGiaKHsService {
         "'CREATE'",
         'LucLuongThamGiaKHs',
         "'ViTri, MaKH, MaCBCS'",
-        `N'${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).ViTri},
-          ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaKH},
-          ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaCBCS}
+        `N' ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).ViTri},
+            ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaKH},
+            ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaCBCS}
         '`,
         "'MaLLTGKH = SCOPE_IDENTITY()'",
       ),
@@ -76,9 +76,6 @@ export class LucLuongThamGiaKHsService {
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
     id: number,
   ): Promise<LucLuongThamGiaKH> {
-    const { ViTri, MaKH, MaCBCS } = this.lucluongThamGiaKH_DataInput(
-      lucluongThamGiaKHInput,
-    );
     const result = await this.lucluongthamgiaKHRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -86,9 +83,9 @@ export class LucLuongThamGiaKHsService {
         null,
         null,
         null,
-        `N'ViTri = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).ViTri},
-          MaKH = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaKH},
-          MaCBCS = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaCBCS}
+        `N' ViTri = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).ViTri},
+            MaKH = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaKH},
+            MaCBCS = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaCBCS}
         '`,
         `'MaLLTGKH = ${id}'`,
       ),

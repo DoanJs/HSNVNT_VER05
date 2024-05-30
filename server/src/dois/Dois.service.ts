@@ -33,8 +33,8 @@ export class DoisService {
   dois(utilsParams: UtilsParamsInput): Promise<Doi[]> {
     return this.doiRepository.query(
       SP_GET_DATA(
-        "'Dois'",
-        "'MaDoi != 0'",
+        'Dois',
+        `'MaDoi != 0'`,
         'MaDoi',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -44,7 +44,7 @@ export class DoisService {
 
   async doi(id: number): Promise<Doi> {
     const result = await this.doiRepository.query(
-      SP_GET_DATA("'Dois'", `'MaDoi = ${id}'`, 'MaDoi', 0, 1),
+      SP_GET_DATA('Dois', `'MaDoi = ${id}'`, 'MaDoi', 0, 1),
     );
     return result[0];
   }
@@ -54,9 +54,9 @@ export class DoisService {
       SP_CHANGE_DATA(
         "'CREATE'",
         'Dois',
-        '"TenDoi, MaCAQHvaTD"',
-        `N'${this.doi_DataInput(doiInput).TenDoi},
-          ${this.doi_DataInput(doiInput).MaCAQHvaTD}
+        `'TenDoi, MaCAQHvaTD'`,
+        `N' ${this.doi_DataInput(doiInput).TenDoi},
+            ${this.doi_DataInput(doiInput).MaCAQHvaTD}
         '`,
         "'MaDoi = SCOPE_IDENTITY()'",
       ),
@@ -72,8 +72,8 @@ export class DoisService {
         null,
         null,
         null,
-        `N'TenDoi = ${this.doi_DataInput(doiInput).TenDoi},
-          MaCAQHvaTD = ${this.doi_DataInput(doiInput).MaCAQHvaTD}
+        `N' TenDoi = ${this.doi_DataInput(doiInput).TenDoi},
+            MaCAQHvaTD = ${this.doi_DataInput(doiInput).MaCAQHvaTD}
         '`,
         `'MaDoi = ${id}'`,
       ),
@@ -90,7 +90,7 @@ export class DoisService {
         null,
         null,
         null,
-        `"MaDoi = ${id}"`,
+        `'MaDoi = ${id}'`,
       ),
     );
     return result[0];

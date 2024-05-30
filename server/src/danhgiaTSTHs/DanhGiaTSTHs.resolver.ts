@@ -15,7 +15,7 @@ import { DanhGiaTSTHInput } from './type/DanhGiaTSTH.input';
 
 @Resolver(() => DanhGiaTSTH)
 export class DanhGiaTSTHsResolver {
-  constructor(private danhgiaTSTHsService: DanhGiaTSTHsService) { }
+  constructor(private danhgiaTSTHsService: DanhGiaTSTHsService) {}
   @Query((returns) => [DanhGiaTSTH])
   danhgiaTSTHs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,

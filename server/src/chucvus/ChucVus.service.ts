@@ -17,14 +17,16 @@ export class ChucVusService {
   ) {}
 
   public readonly chucVu_DataInput = (chucVu: string) => {
-    return chucVu ? `N''${chucVu}''` : null
+    return {
+      ChucVu: chucVu ? `N''${chucVu}''` : null
+    }
   };
 
   async chucVus(utilsParams: UtilsParamsInput): Promise<ChucVu[]> {
     return await this.chucVuRepository.query(
       SP_GET_DATA(
         'ChucVus',
-        '"MaCV != 0"',
+        `'MaCV != 0'`,
         'MaCV',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -34,7 +36,7 @@ export class ChucVusService {
 
   async chucVu(id: number): Promise<ChucVu> {
     const result = await this.chucVuRepository.query(
-      SP_GET_DATA('ChucVus', `"MaCV = ${id}"`, 'MaCV', 0, 1),
+      SP_GET_DATA('ChucVus', `'MaCV = ${id}'`, 'MaCV', 0, 1),
     );
     return result[0];
   }
@@ -45,7 +47,7 @@ export class ChucVusService {
         "'CREATE'", //string thuan
         'ChucVus',
         'ChucVu',
-        `N'${this.chucVu_DataInput(chucVu)}'`, //string thuan
+        `N' ${this.chucVu_DataInput(chucVu).ChucVu}'`, //string thuan
         "'MaCV = SCOPE_IDENTITY()'", //string thuan
       ),
     );
@@ -60,8 +62,8 @@ export class ChucVusService {
         null,
         null,
         null,
-        `N'ChucVu = ${this.chucVu_DataInput(chucVu)}'`,
-        `"MaCV = ${id}"`,
+        `N' ChucVu = ${this.chucVu_DataInput(chucVu).ChucVu}'`,
+        `'MaCV = ${id}'`,
       ),
     );
     return result[0];
@@ -76,7 +78,7 @@ export class ChucVusService {
         null,
         null,
         null,
-        `"MaCV = ${id}"`,
+        `'MaCV = ${id}'`,
       ),
     );
     return result[0];

@@ -30,7 +30,7 @@ export class KyDuyet_DNsService {
   kyDuyet_DNs(utilsParams: UtilsParamsInput): Promise<KyDuyet_DN[]> {
     return this.kyDuyet_DNRepository.query(
       SP_GET_DATA(
-        "'KyDuyet_DNs'",
+        'KyDuyet_DNs',
         "'MaKDDN != 0'",
         'MaKDDN',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -41,7 +41,7 @@ export class KyDuyet_DNsService {
 
   async kyDuyet_DN(id: number): Promise<KyDuyet_DN> {
     const result = await this.kyDuyet_DNRepository.query(
-      SP_GET_DATA("'KyDuyet_DNs'", `'MaKDDN = ${id}'`, 'MaKDDN', 0, 1),
+      SP_GET_DATA('KyDuyet_DNs', `'MaKDDN = ${id}'`, 'MaKDDN', 0, 1),
     );
     return result[0];
   }
@@ -52,10 +52,10 @@ export class KyDuyet_DNsService {
         "'CREATE'",
         'KyDuyet_DNs',
         "'MaDN, MaDaiDienCATTPvaTD, MaDaiDienDonViDN, MaDaiDienDonViTSNT'",
-        `N'${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDN},
-          ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienCATTPvaTD},
-          ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViDN},
-          ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViTSNT}
+        `N' ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDN},
+            ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienCATTPvaTD},
+            ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViDN},
+            ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViTSNT}
         '`,
         "'MaKDDN = SCOPE_IDENTITY()'",
       ),

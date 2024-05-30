@@ -50,7 +50,7 @@ export class KetQuaTSNTsService {
   ketquaTSNTs(utilsParams: UtilsParamsInput): Promise<KetQuaTSNT[]> {
     return this.ketquaTSNTRepository.query(
       SP_GET_DATA(
-        "'KetQuaTSNTs'",
+        'KetQuaTSNTs',
         "'MaKQ != 0'",
         'MaKQ',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -61,7 +61,7 @@ export class KetQuaTSNTsService {
 
   async ketquaTSNT(id: number): Promise<KetQuaTSNT> {
     const result = await this.ketquaTSNTRepository.query(
-      SP_GET_DATA("'KetQuaTSNTs'", `'MaKQ = ${id}'`, 'MaKQ', 0, 1),
+      SP_GET_DATA('KetQuaTSNTs', `'MaKQ = ${id}'`, 'MaKQ', 0, 1),
     );
     return result[0];
   }
@@ -151,7 +151,7 @@ export class KetQuaTSNTsService {
 
   async DDNBs(MaKQ: number): Promise<DDNB[]> {
     const result = (await this.ketquaTSNTRepository.query(
-      `SELECT MaDDNB FROM KetQuaTSNTs_DDNBs WHERE MaKQ = ${MaKQ}`,
+      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaKQ = ${MaKQ}'`, 'MaDDNB', 0, 0)
     )) as [{ MaDDNB: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderDDNB.load(obj.MaDDNB),
@@ -161,7 +161,7 @@ export class KetQuaTSNTsService {
 
   async PhamViTSs(MaKQ: number): Promise<TinhTP[]> {
     const result = (await this.ketquaTSNTRepository.query(
-      `SELECT MaTinhTP FROM KetQuaTSNTs_TinhTPs WHERE MaKQTSNT = ${MaKQ}`,
+      SP_GET_DATA('KetQuaTSNTs_TinhTPs', `'MaKQTSNT = ${MaKQ}'`, 'MaTinhTP', 0, 0)
     )) as [{ MaTinhTP: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderTinhTP.load(obj.MaTinhTP),
@@ -171,7 +171,7 @@ export class KetQuaTSNTsService {
 
   async DanhGiaTSTHs(MaKQ: number): Promise<DanhGiaTSTH[]> {
     return this.ketquaTSNTRepository.query(
-      `SELECT * FROM DanhGiaTSTHs WHERE MaKQ = ${MaKQ}`
+      SP_GET_DATA('DanhGiaTSTHs', `'MaKQ = ${MaKQ}'`, 'MaDanhGiaTSTH', 0, 0)
     );
   }
 

@@ -10,6 +10,7 @@ import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
   SP_CHANGE_QUYETDINHTSNT,
+  SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -78,7 +79,7 @@ export class QuyetDinhTSNTsService {
 
   async quyetdinhTSNT(id: number): Promise<QuyetDinhTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `"MaQD = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaQD = ${id}'`, 0, 1),
     );
     return result[0];
   }
@@ -160,7 +161,7 @@ export class QuyetDinhTSNTsService {
 
   async PhamViTSs(MaQD: number): Promise<TinhTP[]> {
     const result = (await this.quyetdinhTSNTRepository.query(
-      `SELECT * FROM QuyetDinhTSNTs_TinhTPs WHERE MaQD = ${MaQD}`,
+      SP_GET_DATA('QuyetDinhTSNTs_TinhTPs', `'MaQD = ${MaQD}'`, 'MaTinhTP', 0, 0)
     )) as [{ MaTinhTP: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderTinhTP.load(obj.MaTinhTP),
@@ -170,7 +171,7 @@ export class QuyetDinhTSNTsService {
 
   async KetQuaTSNT (MaQD: number):Promise<KetQuaTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
-      `SELECT * FROM KetQuaTSNTs WHERE MaQD = ${MaQD}`,
+      SP_GET_DATA('KetQuaTSNTs', `'MaQD = ${MaQD}'`, 'MaKQ', 0, 0)
     );
     return result[0];
   }

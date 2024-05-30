@@ -1,28 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
+import {
+  SP_CHANGE_DATA,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DauMoiPH_DN } from './DauMoiPH_DN.model';
 import { DauMoiPH_DNInput } from './type/DauMoiPH_DN.input';
-import { CBCS } from 'src/cbcss/CBCS.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { SP_CHANGE_DATA, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
-import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 
 @Injectable()
 export class DauMoiPH_DNsService {
   constructor(
-    @InjectRepository(DauMoiPH_DN) private dauMoiPH_DNRepository: Repository<DauMoiPH_DN>,
+    @InjectRepository(DauMoiPH_DN)
+    private dauMoiPH_DNRepository: Repository<DauMoiPH_DN>,
     private readonly dataloaderService: DataLoaderService,
-  ) { }
+  ) {}
 
   public readonly daumoiPH_DN_DataInput = (
     daumoiPH_DNInput: DauMoiPH_DNInput,
   ) => {
     return {
       MaDN: daumoiPH_DNInput.MaDN ? daumoiPH_DNInput.MaDN : null,
-      MaLDDonViDN: daumoiPH_DNInput.MaLDDonViDN ? daumoiPH_DNInput.MaLDDonViDN : null,
-      MaCBTrucTiepPH: daumoiPH_DNInput.MaCBTrucTiepPH ? daumoiPH_DNInput.MaCBTrucTiepPH : null,
+      MaLDDonViDN: daumoiPH_DNInput.MaLDDonViDN
+        ? daumoiPH_DNInput.MaLDDonViDN
+        : null,
+      MaCBTrucTiepPH: daumoiPH_DNInput.MaCBTrucTiepPH
+        ? daumoiPH_DNInput.MaCBTrucTiepPH
+        : null,
     };
   };
 
@@ -30,7 +39,7 @@ export class DauMoiPH_DNsService {
     return this.dauMoiPH_DNRepository.query(
       SP_GET_DATA(
         'DauMoiPH_DNs',
-        '"MaDMPH != 0"',
+        `'MaDMPH != 0'`,
         'MaDMPH',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -40,22 +49,20 @@ export class DauMoiPH_DNsService {
 
   async dauMoiPH_DN(id: number): Promise<DauMoiPH_DN> {
     const result = await this.dauMoiPH_DNRepository.query(
-      SP_GET_DATA(
-        'DauMoiPH_DNs',
-        `"MaDMPH = ${id}"`,
-        'MaDMPH', 0, 1
-      ),
+      SP_GET_DATA('DauMoiPH_DNs', `'MaDMPH = ${id}'`, 'MaDMPH', 0, 1),
     );
     return result[0];
   }
 
-  async createDauMoiPH_DN(dauMoiPH_DNInput: DauMoiPH_DNInput): Promise<DauMoiPH_DN> {
+  async createDauMoiPH_DN(
+    dauMoiPH_DNInput: DauMoiPH_DNInput,
+  ): Promise<DauMoiPH_DN> {
     const result = await this.dauMoiPH_DNRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
         'DauMoiPH_DNs',
         "'MaDN, MaLDDonViDN, MaCBTrucTiepPH'",
-        `N'${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaDN},
+        `N' ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaDN},
             ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaLDDonViDN},
             ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaCBTrucTiepPH}
         '`,
@@ -65,7 +72,10 @@ export class DauMoiPH_DNsService {
     return result[0];
   }
 
-  async editDauMoiPH_DN(dauMoiPH_DNInput: DauMoiPH_DNInput, id: number): Promise<DauMoiPH_DN> {
+  async editDauMoiPH_DN(
+    dauMoiPH_DNInput: DauMoiPH_DNInput,
+    id: number,
+  ): Promise<DauMoiPH_DN> {
     const result = await this.dauMoiPH_DNRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -73,9 +83,9 @@ export class DauMoiPH_DNsService {
         null,
         null,
         null,
-        `N'MaDN = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaDN},
-          MaLDDonViDN = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaLDDonViDN},
-          MaCBTrucTiepPH = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaCBTrucTiepPH}
+        `N' MaDN = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaDN},
+            MaLDDonViDN = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaLDDonViDN},
+            MaCBTrucTiepPH = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaCBTrucTiepPH}
         '`,
         `'MaDMPH = ${id}'`,
       ),
@@ -102,7 +112,7 @@ export class DauMoiPH_DNsService {
 
   async DeNghiTSNT(dauMoiPH_DN: any): Promise<DeNghiTSNT> {
     const result = await this.dauMoiPH_DNRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `"MaDN = ${dauMoiPH_DN.MaDN}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaDN = ${dauMoiPH_DN.MaDN}'`, 0, 1),
     );
     return result[0];
   }

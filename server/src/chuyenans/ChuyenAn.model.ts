@@ -21,7 +21,7 @@ export class ChuyenAn {
   @Field({ nullable: true })
   TenCA: string;
 
-  @Column({ type: 'nvarchar', length: 10, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   BiSo: string;
 

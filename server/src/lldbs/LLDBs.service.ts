@@ -27,7 +27,7 @@ export class LLDBsService {
   lldbs(utilsParams: UtilsParamsInput): Promise<LLDB[]> {
     return this.lldbRepository.query(
       SP_GET_DATA(
-        "'LLDBs'",
+        'LLDBs',
         "'MaLLDB != 0'",
         'MaLLDB',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -38,7 +38,7 @@ export class LLDBsService {
 
   async lldb(id: number): Promise<LLDB> {
     const result = await this.lldbRepository.query(
-      SP_GET_DATA("'LLDBs'", `'MaLLDB = ${id}'`, 'MaLLDB', 0, 1),
+      SP_GET_DATA('LLDBs', `'MaLLDB = ${id}'`, 'MaLLDB', 0, 1),
     );
     return result[0];
   }
@@ -50,9 +50,9 @@ export class LLDBsService {
         "'CREATE'",
         'LLDBs',
         "'BiDanh, MaTSQuanLy, MaLoaiLLDB'",
-        `N'${this.lldb_DataInput(lldbInput).BiDanh},
-          ${this.lldb_DataInput(lldbInput).MaTSQuanLy},
-          ${this.lldb_DataInput(lldbInput).MaLoaiLLDB}
+        `N' ${this.lldb_DataInput(lldbInput).BiDanh},
+            ${this.lldb_DataInput(lldbInput).MaTSQuanLy},
+            ${this.lldb_DataInput(lldbInput).MaLoaiLLDB}
         '`,
         "'MaLLDB = SCOPE_IDENTITY()'",
       ),
@@ -68,9 +68,9 @@ export class LLDBsService {
         null,
         null,
         null,
-        `N'BiDanh = ${this.lldb_DataInput(lldbInput).BiDanh},
-          MaTSQuanLy = ${this.lldb_DataInput(lldbInput).MaTSQuanLy},
-          MaLoaiLLDB = ${this.lldb_DataInput(lldbInput).MaLoaiLLDB}
+        `N' BiDanh = ${this.lldb_DataInput(lldbInput).BiDanh},
+            MaTSQuanLy = ${this.lldb_DataInput(lldbInput).MaTSQuanLy},
+            MaLoaiLLDB = ${this.lldb_DataInput(lldbInput).MaLoaiLLDB}
         '`,
         `'MaLLDB = ${id}'`,
       ),
@@ -101,7 +101,7 @@ export class LLDBsService {
 
   async KeHoachTSNTs(MaLLDB: number): Promise<KeHoachTSNT[]> {
     const result = (await this.lldbRepository.query(
-      `SELECT MaKH FROM KeHoachTSNTs_LLDBs WHERE MaLLDB = ${MaLLDB}`,
+      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaLLDB = ${MaLLDB}'`, 'MaKH', 0, 0)
     )) as [{ MaKH: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderKeHoachTSNT.load(obj.MaKH),

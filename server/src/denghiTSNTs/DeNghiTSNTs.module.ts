@@ -7,9 +7,13 @@ import { DeNghiTSNTsResolver } from './DeNghiTSNTs.resolver';
 import { DeNghiTSNTsService } from './DeNghiTSNTs.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DeNghiTSNT]), DataLoaderModule, JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    TypeOrmModule.forFeature([DeNghiTSNT]),
+    DataLoaderModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [DeNghiTSNTsResolver, DeNghiTSNTsService],
 })
-export class DeNghiTSNTsModule { }
+export class DeNghiTSNTsModule {}

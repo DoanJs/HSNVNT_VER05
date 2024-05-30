@@ -40,7 +40,7 @@ export class DoiTuong {
   @Field()
   TenDT: string;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   TenKhac: string;
 
@@ -84,11 +84,11 @@ export class DoiTuong {
   @Field({ nullable: true })
   NoiO: string;
 
-  @Column({ type: 'nvarchar', length: 10, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   NgheNghiep: string;
 
-  @Column({ type: 'nvarchar', length: 10, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   ChucVu: string;
 
@@ -96,7 +96,7 @@ export class DoiTuong {
   @Field({ nullable: true })
   NoiLamViec: string;
 
-  @Column({ type: 'nvarchar', length: 10, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   PhuongTien: string;
 
@@ -104,14 +104,14 @@ export class DoiTuong {
   @Field({ nullable: true })
   SDT: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   ThongTinKhac: string;
 
   //relation
 
-  @ManyToMany(() => BienPhapDT, bienPhapDT => bienPhapDT.DoiTuongs)
-  BienPhapDTs: [BienPhapDT]
+  @ManyToMany(() => BienPhapDT, (bienPhapDT) => bienPhapDT.DoiTuongs)
+  BienPhapDTs: [BienPhapDT];
 
   @ManyToOne(() => QuocTich, (quoctich) => quoctich.DoiTuongs, {
     cascade: true,
@@ -160,30 +160,36 @@ export class DoiTuong {
   @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.DoiTuong)
   KeHoachTSNTs: [KeHoachTSNT];
 
-  @ManyToOne(() => TramCT, tramCT => tramCT.DoiTuongs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaTramCT",
-    foreignKeyConstraintName: "FK_MaTramCT_DoiTuong"
+  @ManyToOne(() => TramCT, (tramCT) => tramCT.DoiTuongs, {
+    cascade: true,
+    eager: true,
   })
-  TramCT: TramCT
+  @JoinColumn({
+    name: 'MaTramCT',
+    foreignKeyConstraintName: 'FK_MaTramCT_DoiTuong',
+  })
+  TramCT: TramCT;
 
-  @OneToMany(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.DoiTuong)
-  KetQuaTSNTs: [KetQuaTSNT]
+  @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.DoiTuong)
+  KetQuaTSNTs: [KetQuaTSNT];
 
-  @OneToMany(() => BaoCaoPHQH, baocaoPHQH => baocaoPHQH.DoiTuong)
-  BaoCaoPHQHs: [BaoCaoPHQH]
+  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.DoiTuong)
+  BaoCaoPHQHs: [BaoCaoPHQH];
 
-  @OneToMany(() => BaoCaoKQXMQuanHe, baocaoKQXMQH => baocaoKQXMQH.DoiTuong)
-  BaoCaoKQXMQHs: [BaoCaoKQXMQuanHe]
+  @OneToMany(() => BaoCaoKQXMQuanHe, (baocaoKQXMQH) => baocaoKQXMQH.DoiTuong)
+  BaoCaoKQXMQHs: [BaoCaoKQXMQuanHe];
 
-  @OneToMany(() => KetQuaXMQuanHe, ketquaXMQuanHe => ketquaXMQuanHe.DoiTuong)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe]
+  @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.DoiTuong)
+  KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(() => KetQuaXMDiaChi, ketquaXMDiaChi => ketquaXMDiaChi.DoiTuong)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi]
+  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.DoiTuong)
+  KetQuaXMDiaChis: [KetQuaXMDiaChi];
 
-  @OneToMany(() => BaoCaoKQXMDiaChi, baocaoKQXMDiaChi => baocaoKQXMDiaChi.DoiTuong)
-  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi]
+  @OneToMany(
+    () => BaoCaoKQXMDiaChi,
+    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.DoiTuong,
+  )
+  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
 
   @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.DoiTuong)
   BaoCaoKQGHs: [BaoCaoKQGH];

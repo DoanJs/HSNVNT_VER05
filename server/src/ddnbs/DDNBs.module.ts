@@ -9,4 +9,4 @@ import { DDNBsService } from './DDNBs.service';
   imports: [TypeOrmModule.forFeature([DDNB]), DataLoaderModule],
   providers: [DDNBsResolver, DDNBsService],
 })
-export class DDNBsModule { }
+export class DDNBsModule {}

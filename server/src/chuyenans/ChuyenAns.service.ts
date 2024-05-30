@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
+import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
+import { SP_CHANGE_CHUYENAN, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnInput } from './type/ChuyenAn.input';
-import { SP_CHANGE_CHUYENAN, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
-import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
-import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
 
 @Injectable()
 export class ChuyenAnsService {
@@ -41,15 +41,15 @@ export class ChuyenAnsService {
       SP_GET_DATA_DECRYPT(
         'ChuyenAns',
         "'MaCA != 0'",
-        utilsParams.skip && utilsParams.skip > 0 ? utilsParams.skip : 0,
-        utilsParams.take && utilsParams.take > 0 ? utilsParams.take : 0,
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
       ),
     );
   }
 
   async chuyenan(id: number): Promise<ChuyenAn> {
     const cbcss = await this.chuyenanRepository.query(
-      SP_GET_DATA_DECRYPT('ChuyenAns', `"MaCA = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('ChuyenAns', `'MaCA = ${id}'`, 0, 1),
     );
     return cbcss[0];
   }
@@ -62,7 +62,7 @@ export class ChuyenAnsService {
     );
     return result[0];
   }
-  
+
   async editChuyenAn(
     chuyenanInput: ChuyenAnInput,
     id: number,
@@ -91,7 +91,7 @@ export class ChuyenAnsService {
 
   async DoiTuongCAs(MaCA: number): Promise<DoiTuongCA[]> {
     return this.chuyenanRepository.query(
-      `SELECT * FROM DoiTuongCAs WHERE MaCA = ${MaCA}`
-    )
+      SP_GET_DATA('DoiTuongCAs', `'MaCA = ${MaCA}'`, 'MaDTCA', 0, 0)
+    );
   }
 }

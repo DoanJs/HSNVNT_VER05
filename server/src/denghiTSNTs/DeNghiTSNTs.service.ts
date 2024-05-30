@@ -11,6 +11,7 @@ import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
   SP_CHANGE_DENGHITSNT,
+  SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -24,7 +25,7 @@ export class DeNghiTSNTsService {
     @InjectRepository(DeNghiTSNT)
     private denghiTSNTRepository: Repository<DeNghiTSNT>,
     private readonly dataloaderService: DataLoaderService,
-  ) { }
+  ) {}
   public readonly denghiTSNT_DataInput = (
     Type: string,
     MaDN: number | null,
@@ -53,7 +54,7 @@ export class DeNghiTSNTsService {
         MaDoiTuong: denghiTSNTInput.MaDoiTuong
           ? denghiTSNTInput.MaDoiTuong
           : null,
-        MaHTHD: denghiTSNTInput.MaHTHD ? denghiTSNTInput.MaHTHD : null
+        MaHTHD: denghiTSNTInput.MaHTHD ? denghiTSNTInput.MaHTHD : null,
       },
     };
   };
@@ -63,15 +64,15 @@ export class DeNghiTSNTsService {
       SP_GET_DATA_DECRYPT(
         'DeNghiTSNTs',
         "'MaDN != 0'",
-        utilsParams.skip && utilsParams.skip > 0 ? utilsParams.skip : 0,
-        utilsParams.take && utilsParams.take > 0 ? utilsParams.take : 0,
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
       ),
     );
   }
 
   async denghiTSNT(id: number): Promise<DeNghiTSNT> {
     const result = await this.denghiTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `"MaDN = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaDN = ${id}'`, 0, 1),
     );
     return result[0];
   }
@@ -123,7 +124,7 @@ export class DeNghiTSNTsService {
 
   async DiaBanDNs(MaDN: number): Promise<TinhTP[]> {
     const result = (await this.denghiTSNTRepository.query(
-      `SELECT MaTinhTP FROM DeNghiTSNTs_TinhTPs WHERE MaDN = ${MaDN}`,
+      SP_GET_DATA('DeNghiTSNTs_TinhTPs', `'MaDN = ${MaDN}'`, 'MaTinhTP', 0, 0)
     )) as [{ MaTinhTP: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderTinhTP.load(obj.MaTinhTP),

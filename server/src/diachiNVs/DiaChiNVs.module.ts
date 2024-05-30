@@ -7,9 +7,13 @@ import { DiaChiNVsResolver } from './DiaChiNVs.resolver';
 import { DiaChiNVsService } from './DiaChiNVs.service';
 
 @Module({
-  imports: [DataLoaderModule, TypeOrmModule.forFeature([DiaChiNV]), JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    DataLoaderModule,
+    TypeOrmModule.forFeature([DiaChiNV]),
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [DiaChiNVsResolver, DiaChiNVsService],
 })
-export class DiaChiNVsModule { }
+export class DiaChiNVsModule {}

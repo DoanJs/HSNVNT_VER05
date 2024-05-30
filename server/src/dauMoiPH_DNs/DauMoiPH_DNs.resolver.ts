@@ -4,7 +4,7 @@ import {
   Parent,
   Query,
   ResolveField,
-  Resolver
+  Resolver,
 } from '@nestjs/graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
@@ -15,7 +15,7 @@ import { DauMoiPH_DNInput } from './type/DauMoiPH_DN.input';
 
 @Resolver(() => DauMoiPH_DN)
 export class DauMoiPH_DNsResolver {
-  constructor(private dauMoiPH_DNsService: DauMoiPH_DNsService) { }
+  constructor(private dauMoiPH_DNsService: DauMoiPH_DNsService) {}
 
   @Query((returns) => [DauMoiPH_DN])
   dauMoiPH_DNs(
@@ -31,7 +31,8 @@ export class DauMoiPH_DNsResolver {
 
   @Mutation((returns) => DauMoiPH_DN)
   createDauMoiPH_DN(
-    @Args('dauMoiPH_DNInput') dauMoiPH_DNInput: DauMoiPH_DNInput): Promise<DauMoiPH_DN> {
+    @Args('dauMoiPH_DNInput') dauMoiPH_DNInput: DauMoiPH_DNInput,
+  ): Promise<DauMoiPH_DN> {
     return this.dauMoiPH_DNsService.createDauMoiPH_DN(dauMoiPH_DNInput);
   }
 
@@ -49,18 +50,18 @@ export class DauMoiPH_DNsResolver {
   }
 
   //ResolveField
-  @ResolveField(returns => DeNghiTSNT)
+  @ResolveField((returns) => DeNghiTSNT)
   DeNghiTSNT(@Parent() daumoiPH_DN: DauMoiPH_DN): Promise<DeNghiTSNT> {
-    return this.dauMoiPH_DNsService.DeNghiTSNT(daumoiPH_DN)
+    return this.dauMoiPH_DNsService.DeNghiTSNT(daumoiPH_DN);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   LDDonViDN(@Parent() daumoiPH_DN: DauMoiPH_DN): Promise<CBCS> {
-    return this.dauMoiPH_DNsService.LDDonViDN(daumoiPH_DN)
+    return this.dauMoiPH_DNsService.LDDonViDN(daumoiPH_DN);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   CBTrucTiepPH(@Parent() daumoiPH_DN: DauMoiPH_DN): Promise<CBCS> {
-    return this.dauMoiPH_DNsService.CBTrucTiepPH(daumoiPH_DN)
+    return this.dauMoiPH_DNsService.CBTrucTiepPH(daumoiPH_DN);
   }
 }

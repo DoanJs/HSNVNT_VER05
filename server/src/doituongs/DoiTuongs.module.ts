@@ -7,9 +7,13 @@ import { DoiTuongsResolver } from './DoiTuongs.resolver';
 import { DoiTuongsService } from './DoiTuongs.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DoiTuong]), DataLoaderModule, JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    TypeOrmModule.forFeature([DoiTuong]),
+    DataLoaderModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [DoiTuongsResolver, DoiTuongsService],
 })
-export class DoiTuongsModule { }
+export class DoiTuongsModule {}

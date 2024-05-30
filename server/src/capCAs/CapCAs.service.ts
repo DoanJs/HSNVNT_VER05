@@ -20,7 +20,7 @@ export class CapCAsService {
     return await this.capCARepository.query(
       SP_GET_DATA(
         'CapCAs',
-        'MaCapCA != 0',
+        `'MaCapCA != 0'`,
         'MaCapCA',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -30,7 +30,7 @@ export class CapCAsService {
 
   async capCA(id: number): Promise<CapCA> {
     const result = await this.capCARepository.query(
-      SP_GET_DATA('CapCAs', `MaCapCA = ${id}`, 'MaCapCA', 0, 1),
+      SP_GET_DATA('CapCAs', `'MaCapCA = ${id}'`, 'MaCapCA', 0, 1),
     );
     return result[0];
   }
@@ -57,7 +57,7 @@ export class CapCAsService {
         null,
         null,
         `N'CapCA = ${this.capCA_DataInput(capCA)}'`,
-        `"MaCapCA = ${id}"`,
+        `'MaCapCA = ${id}'`,
       ),
     );
     return result[0];

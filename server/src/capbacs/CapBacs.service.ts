@@ -24,7 +24,7 @@ export class CapBacsService {
     return await this.capbacRepository.query(
       SP_GET_DATA(
         'CapBacs',
-        'MaCB != 0',
+        `'MaCB != 0'`,
         'MaCB',
         utilsParams.skip ? utilsParams.skip : 0,
         utilsParams.take ? utilsParams.take : 0,
@@ -34,7 +34,7 @@ export class CapBacsService {
 
   async capbac(id: number): Promise<CapBac> {
     const result = await this.capbacRepository.query(
-      SP_GET_DATA('CapBacs', `MaCB = ${id}`, 'MaCB', 0, 1),
+      SP_GET_DATA('CapBacs', `'MaCB = ${id}'`, 'MaCB', 0, 1),
     );
     return result[0];
   }

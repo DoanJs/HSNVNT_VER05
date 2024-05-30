@@ -13,7 +13,7 @@ import { DDNBsService } from './DDNBs.service';
 
 @Resolver(() => DDNB)
 export class DDNBsResolver {
-  constructor(private ddnbsService: DDNBsService) { }
+  constructor(private ddnbsService: DDNBsService) {}
   @Query((returns) => [DDNB])
   ddnbs(@Args('utilsParams') utilsParams: UtilsParamsInput): Promise<DDNB[]> {
     return this.ddnbsService.ddnbs(utilsParams);

@@ -28,7 +28,7 @@ export class QuocTichsService {
   quocTichs(utilsParams: UtilsParamsInput): Promise<QuocTich[]> {
     return this.quoctichRepository.query(
       SP_GET_DATA(
-        "'QuocTichs'",
+        'QuocTichs',
         "'MaQT != 0'",
         'MaQT',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -39,7 +39,7 @@ export class QuocTichsService {
 
   async quocTich(id: number): Promise<QuocTich> {
     const result = await this.quoctichRepository.query(
-      SP_GET_DATA("'QuocTichs'", `'MaQT = ${id}'`, 'MaQT', 0, 1),
+      SP_GET_DATA('QuocTichs', `'MaQT = ${id}'`, 'MaQT', 0, 1),
     );
     return result[0];
   }
@@ -50,7 +50,7 @@ export class QuocTichsService {
         "'CREATE'",
         'QuocTichs',
         'TenQT',
-        `N'${this.quocTich_DataInput(tenQT).TenQT}'`,
+        `N' ${this.quocTich_DataInput(tenQT).TenQT}'`,
         "'MaQT = SCOPE_IDENTITY()'",
       ),
     );
@@ -65,7 +65,7 @@ export class QuocTichsService {
         null,
         null,
         null,
-        `N'TenQT = ${this.quocTich_DataInput(tenQT).TenQT}'`,
+        `N' TenQT = ${this.quocTich_DataInput(tenQT).TenQT}'`,
         `'MaQT = ${id}'`,
       ),
     );
@@ -91,7 +91,7 @@ export class QuocTichsService {
 
   async DanTocs(MaQT: number): Promise<DanToc[]> {
     return await this.quoctichRepository.query(
-      `SELECT * FROM DanTocs WHERE MaQT = ${MaQT}`,
+      SP_GET_DATA('DanTocs', `'MaQT = ${MaQT}'`, 'MaDT', 0, 0)
     );
   }
 

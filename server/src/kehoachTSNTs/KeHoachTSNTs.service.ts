@@ -13,6 +13,7 @@ import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   SP_CHANGE_KEHOACHTSNT,
+  SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -63,15 +64,15 @@ export class KeHoachTSNTsService {
       SP_GET_DATA_DECRYPT(
         'KeHoachTSNTs',
         "'MaKH != 0'",
-        utilsParams.skip && utilsParams.skip > 0 ? utilsParams.skip : 0,
-        utilsParams.take && utilsParams.take > 0 ? utilsParams.take : 0,
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
       ),
     );
   }
 
   async kehoachTSNT(id: number): Promise<KeHoachTSNT> {
     const result = await this.kehoachTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `"MaKH = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaKH = ${id}'`, 0, 1),
     );
     return result[0];
   }
@@ -115,7 +116,7 @@ export class KeHoachTSNTsService {
 
   async KetQuaTSNT(MaKH: number): Promise<KetQuaTSNT> {
     const result = await this.kehoachTSNTRepository.query(
-      `SELECT * FROM KetQuaTSNTs WHERE MaKH = ${MaKH}`,
+      SP_GET_DATA('KetQuaTSNTs', `'MaKH = ${MaKH}'`, 'MaKQ', 0, 0)
     );
     return result[0];
   }
@@ -126,7 +127,7 @@ export class KeHoachTSNTsService {
 
   async LLDBs(MaKH: number): Promise<LLDB[]> {
     const result = (await this.kehoachTSNTRepository.query(
-      `SELECT MaLLDB FROM KeHoachTSNTs_LLDBs WHERE MaKH = ${MaKH}`,
+      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaLLBM', 0, 0)
     )) as [{ MaLLDB: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderLLDB.load(obj.MaLLDB),
@@ -148,7 +149,7 @@ export class KeHoachTSNTsService {
 
   async LLTGKeHoachs(MaKH: number): Promise<LucLuongThamGiaKH[]> {
     return this.kehoachTSNTRepository.query(
-      `SELECT * FROM LucLuongThamGiaKHs WHERE MaKH = ${MaKH}`,
+      SP_GET_DATA('LucLuongThamGiaKHs', `'MaKH = ${MaKH}'`, 'MaLLTGKH', 0, 0)
     );
   }
 

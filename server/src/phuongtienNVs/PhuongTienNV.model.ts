@@ -22,7 +22,7 @@ export default class PhuongTienNV {
   @Field({ nullable: true })
   ThoiGianPH: Date;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
   DiaDiemPH: string;
 

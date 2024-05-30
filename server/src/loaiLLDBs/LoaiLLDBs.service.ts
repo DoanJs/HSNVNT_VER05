@@ -24,7 +24,7 @@ export class LoaiLLDBsService {
   loaiLLDBs(utilsParams: UtilsParamsInput): Promise<LoaiLLDB[]> {
     return this.loaiLLDBRepository.query(
       SP_GET_DATA(
-        "'LoaiLLDBs'",
+        'LoaiLLDBs',
         "'MaLoaiLLDB != 0'",
         'MaLoaiLLDB',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -35,7 +35,7 @@ export class LoaiLLDBsService {
 
   async loaiLLDB(id: number): Promise<LoaiLLDB> {
     const result = await this.loaiLLDBRepository.query(
-      SP_GET_DATA("'LoaiLLDBs'", `'MaLoaiLLDB = ${id}'`, 'MaLoaiLLDB', 0, 1),
+      SP_GET_DATA('LoaiLLDBs', `'MaLoaiLLDB = ${id}'`, 'MaLoaiLLDB', 0, 1),
     );
     return result[0];
   }
@@ -46,8 +46,8 @@ export class LoaiLLDBsService {
         "'CREATE'",
         'LoaiLLDBs',
         "'TenLLDB, KyHieu'",
-        `N'${this.loaiLLDB_DataInput(loaiLLDBInput).TenLLDB},
-          ${this.loaiLLDB_DataInput(loaiLLDBInput).KyHieu}
+        `N' ${this.loaiLLDB_DataInput(loaiLLDBInput).TenLLDB},
+            ${this.loaiLLDB_DataInput(loaiLLDBInput).KyHieu}
         '`,
         "'MaLoaiLLDB = SCOPE_IDENTITY()'",
       ),
@@ -66,7 +66,7 @@ export class LoaiLLDBsService {
         null,
         null,
         null,
-        `N'TenLLDB = ${this.loaiLLDB_DataInput(loaiLLDBInput).TenLLDB},
+        `N' TenLLDB = ${this.loaiLLDB_DataInput(loaiLLDBInput).TenLLDB},
             KyHieu = ${this.loaiLLDB_DataInput(loaiLLDBInput).KyHieu}
         '`,
         `'MaLoaiLLDB = ${id}'`,
@@ -84,7 +84,7 @@ export class LoaiLLDBsService {
         null,
         null,
         null,
-        `"MaLoaiLLDB = ${id}"`,
+        `'MaLoaiLLDB = ${id}'`,
       ),
     );
     return result[0];
@@ -94,7 +94,7 @@ export class LoaiLLDBsService {
 
   LLDBs(MaLoaiLLDB: number): Promise<LLDB[]> {
     return this.loaiLLDBRepository.query(
-      `SELECT * FROM LLDBs WHERE MaLoaiLLDB = ${MaLoaiLLDB}`,
+      SP_GET_DATA('LLDBs', `'MaLoaiLLDB = ${MaLoaiLLDB}'`, 'MaLLDB', 0, 0)
     );
   }
 }
