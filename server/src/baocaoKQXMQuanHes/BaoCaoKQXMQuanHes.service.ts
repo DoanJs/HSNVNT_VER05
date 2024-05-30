@@ -143,7 +143,7 @@ export class BaoCaoKQXMQuanHesService {
 
   // ResolveField
 
-  async DonVi(baocaoKQXMQuanHe: any): Promise<CAQHvaTD> {
+  async CAQHvaTD(baocaoKQXMQuanHe: any): Promise<CAQHvaTD> {
     return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQXMQuanHe.MaDonVi);
   }
 

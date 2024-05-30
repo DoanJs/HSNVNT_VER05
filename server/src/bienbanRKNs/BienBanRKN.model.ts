@@ -26,11 +26,11 @@ export class BienBanRKN {
   @Field({ nullable: true })
   DanhGiaDT: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   KetLuan: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   DeXuat: string;
 

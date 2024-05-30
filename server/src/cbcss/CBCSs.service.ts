@@ -21,7 +21,7 @@ import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
-import { SP_CHANGE_CBCS, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import { SP_CHANGE_CBCS, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CBCS } from './CBCS.model';
@@ -75,15 +75,15 @@ export class CBCSsService {
       SP_GET_DATA_DECRYPT(
         'CBCSs',
         "'MaCBCS != 0'",
-        utilsParams.skip && utilsParams.skip > 0 ? utilsParams.skip : 0,
-        utilsParams.take && utilsParams.take > 0 ? utilsParams.take : 0,
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
       ),
     );
   }
 
   async cbcs(id: number): Promise<CBCS> {
     const result = await this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('CBCSs', `"MaCBCS = ${id}"`, 0, 1),
+      SP_GET_DATA_DECRYPT('CBCSs', `'MaCBCS = ${id}'`, 0, 1),
     );
     return result[0];
   }
@@ -193,19 +193,19 @@ export class CBCSsService {
 
   async LucLuongThamGiaKHs(MaCBCS: number): Promise<LucLuongThamGiaKH[]> {
     return this.cbcsRepository.query(
-      `SELECT * FROM LucLuongThamGiaKHs WHERE MaCBCS = ${MaCBCS}`,
+      SP_GET_DATA('LucLuongThamGiaKHs', `'MaCBCS = ${MaCBCS}'`, 'MaLLTGKH', 0, 0)
     );
   }
 
   async DanhGiaTSTHs(MaCBCS: number): Promise<DanhGiaTSTH[]> {
     return this.cbcsRepository.query(
-      `SELECT * FROM DanhGiaTSTHs WHERE MaCBCS = ${MaCBCS}`,
+      SP_GET_DATA('DanhGiaTSTHs', `'MaCBCS = ${MaCBCS}'`, 'MaDanhGiaTSTH', 0, 0)
     );
   }
 
   async TSThucHien_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
     const result = (await this.cbcsRepository.query(
-      `SELECT MaBCPHQH FROM BaoCaoPHQHs_CBCSs WHERE MaCBCS = ${MaCBCS}`,
+      SP_GET_DATA('BaoCaoPHQHs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCPHQH', 0, 0)
     )) as [{ MaBCPHQH: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBaoCaoPHQH.load(obj.MaBCPHQH),
@@ -215,7 +215,7 @@ export class CBCSsService {
 
   async TSThucHien_PhuongTienNVs(MaCBCS: number): Promise<PhuongTienNV[]> {
     const result = (await this.cbcsRepository.query(
-      `SELECT MaPT FROM PhuongTienNVs_CBCSs WHERE MaCBCS = ${MaCBCS}`,
+      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaPT', 0, 0)
     )) as [{ MaPT: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderPhuongTienNV.load(obj.MaPT),
@@ -225,7 +225,7 @@ export class CBCSsService {
 
   async TSThucHien_DiaChiNVs(MaCBCS: number): Promise<DiaChiNV[]> {
     const result = (await this.cbcsRepository.query(
-      `SELECT MaDC FROM DiaChiNVs_CBCSs WHERE MaCBCS = ${MaCBCS}`,
+      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaDC', 0, 0)
     )) as [{ MaDC: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderDiaChiNV.load(obj.MaDC),
@@ -247,7 +247,7 @@ export class CBCSsService {
 
   async TSThucHien_BaoCaoKQGHs(MaCBCS: number): Promise<BaoCaoKQGH[]> {
     const result = (await this.cbcsRepository.query(
-      `SELECT MaBCKQGH FROM BaoCaoKQGHs_CBCSs WHERE MaCBCS = ${MaCBCS}`,
+      SP_GET_DATA('BaoCaoKQGHs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCKQGH', 0, 0)
     )) as [{ MaBCKQGH: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBaoCaoKQGH.load(obj.MaBCKQGH),
@@ -352,7 +352,7 @@ export class CBCSsService {
 
   async TSQuanLy_LLDBs(id: number): Promise<LLDB[]> {
     return this.cbcsRepository.query(
-      `SELECT * FROM LLDBs WHERE MaTSQuanLy = ${id}`,
+      SP_GET_DATA('LLDBs', `'MaTSQuanLy = ${id}'`, 'MaLLDB', 0, 0)
     );
   }
 }

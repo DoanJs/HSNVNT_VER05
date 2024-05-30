@@ -52,7 +52,7 @@ export class BaoCaoKQXMQuanHeInput {
 
   @Field({ nullable: true })
   MaQD?: number;
-  
+
   @Field({ nullable: true })
   MaBCPHQH?: number;
 

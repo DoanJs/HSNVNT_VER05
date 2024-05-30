@@ -1,7 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'BaoCaoKTDNs' })
 @ObjectType()
@@ -24,24 +31,33 @@ export class BaoCaoKTDN {
 
   // relation
 
-  @OneToOne(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaKQ",
-    foreignKeyConstraintName: "FK_MaKQ_BaoCaoKTDN"
+  @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT, {
+    cascade: true,
+    eager: true,
   })
-  KetQuaTSNT: KetQuaTSNT
+  @JoinColumn({
+    name: 'MaKQ',
+    foreignKeyConstraintName: 'FK_MaKQ_BaoCaoKTDN',
+  })
+  KetQuaTSNT: KetQuaTSNT;
 
-  @ManyToOne(() => CBCS, cbcs => cbcs.LanhDaoPD_BaoCaoKQGHs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaLanhDaoPD",
-    foreignKeyConstraintName: "FK_MaLanhDaoPD_BaoCaoKTDN"
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoKQGHs, {
+    cascade: true,
+    eager: true,
   })
-  LanhDaoPD: CBCS
+  @JoinColumn({
+    name: 'MaLanhDaoPD',
+    foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoKTDN',
+  })
+  LanhDaoPD: CBCS;
 
-  @ManyToOne(() => CBCS, cbcs => cbcs.CBTongHop_BaoCaoKQGHs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaCBTongHop",
-    foreignKeyConstraintName: "FK_MaCBTongHop_BaoCaoKTDN"
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTongHop_BaoCaoKQGHs, {
+    cascade: true,
+    eager: true,
   })
-  CBTongHop: CBCS
+  @JoinColumn({
+    name: 'MaCBTongHop',
+    foreignKeyConstraintName: 'FK_MaCBTongHop_BaoCaoKTDN',
+  })
+  CBTongHop: CBCS;
 }

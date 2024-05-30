@@ -7,9 +7,13 @@ import { CBCSsResolver } from './CBCSs.resolver';
 import { CBCSsService } from './CBCSs.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CBCS]), DataLoaderModule, JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    TypeOrmModule.forFeature([CBCS]),
+    DataLoaderModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [CBCSsResolver, CBCSsService],
 })
-export class CBCSsModule { }
+export class CBCSsModule {}

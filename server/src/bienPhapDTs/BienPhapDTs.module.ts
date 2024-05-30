@@ -9,4 +9,4 @@ import { BienPhapDTsService } from './BienPhapDTs.service';
   imports: [TypeOrmModule.forFeature([BienPhapDT]), DataLoaderModule],
   providers: [BienPhapDTsResolver, BienPhapDTsService],
 })
-export class BienPhapDTsModule { }
+export class BienPhapDTsModule {}

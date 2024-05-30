@@ -28,7 +28,7 @@ export class BaoCaoPHQH {
   @Field({ nullable: true })
   Ngay: Date;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   BiDanh: string;
 
@@ -44,7 +44,7 @@ export class BaoCaoPHQH {
   @Field({ nullable: true })
   HinhAnh: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   DDNhanDang: string;
 
@@ -52,7 +52,7 @@ export class BaoCaoPHQH {
   @Field({ nullable: true })
   DiaChiCC: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   TSNhanXet: string;
 

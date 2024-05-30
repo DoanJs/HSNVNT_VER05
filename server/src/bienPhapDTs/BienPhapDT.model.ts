@@ -1,6 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'BienPhapDTs' })
 @ObjectType()
@@ -15,7 +21,10 @@ export class BienPhapDT {
 
   // relation
 
-  @ManyToMany(() => DoiTuong, doituong => doituong.BienPhapDTs, { cascade: true, eager: true })
+  @ManyToMany(() => DoiTuong, (doituong) => doituong.BienPhapDTs, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable({
     name: 'BienPhapDTs_DoiTuongs',
     joinColumn: {
@@ -27,7 +36,5 @@ export class BienPhapDT {
       foreignKeyConstraintName: 'FK_MaDoiTuong_BienPhapDTs_DoiTuongs',
     },
   })
-  DoiTuongs: [DoiTuong]
-
-
+  DoiTuongs: [DoiTuong];
 }

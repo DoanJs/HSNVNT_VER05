@@ -45,7 +45,7 @@ export class CBCS {
   @Field({ nullable: true })
   HoTen: string;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   TenKhac: string;
 
@@ -93,26 +93,26 @@ export class CBCS {
   @Field({ nullable: true })
   SHC: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   ThongTinChiTiet: string;
 
   // relation
 
-  @OneToMany(() => DauMoiPH_DN, dauMoiPH_DN => dauMoiPH_DN.LDDonViDN)
-  LDDonViDN_DauMoiPHs: [DauMoiPH_DN]
+  @OneToMany(() => DauMoiPH_DN, (dauMoiPH_DN) => dauMoiPH_DN.LDDonViDN)
+  LDDonViDN_DauMoiPHs: [DauMoiPH_DN];
 
-  @OneToMany(() => DauMoiPH_DN, dauMoiPH_DN => dauMoiPH_DN.CBTrucTiepPH)
-  CBTrucTiepPH_DauMoiPHs: [DauMoiPH_DN]
+  @OneToMany(() => DauMoiPH_DN, (dauMoiPH_DN) => dauMoiPH_DN.CBTrucTiepPH)
+  CBTrucTiepPH_DauMoiPHs: [DauMoiPH_DN];
 
-  @OneToMany(() => KyDuyet_DN, kyDuyet_DN => kyDuyet_DN.DaiDienCATTPvaTD)
-  DaiDienCATTPvaTD_KyDuyet_DNs: [KyDuyet_DN]
+  @OneToMany(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DaiDienCATTPvaTD)
+  DaiDienCATTPvaTD_KyDuyet_DNs: [KyDuyet_DN];
 
-  @OneToMany(() => KyDuyet_DN, kyDuyet_DN => kyDuyet_DN.DaiDienDonViDN)
-  DaiDienDonViDN_KyDuyet_DNs: [KyDuyet_DN]
+  @OneToMany(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DaiDienDonViDN)
+  DaiDienDonViDN_KyDuyet_DNs: [KyDuyet_DN];
 
-  @OneToMany(() => KyDuyet_DN, kyDuyet_DN => kyDuyet_DN.DaiDienDonViTSNT)
-  DaiDienDonViTSNT_KyDuyet_DNs: [KyDuyet_DN]
+  @OneToMany(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DaiDienDonViTSNT)
+  DaiDienDonViTSNT_KyDuyet_DNs: [KyDuyet_DN];
 
   @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.LanhDaoPD)
   LanhDaoPD_KeHoachTSNTs: [KeHoachTSNT];
@@ -153,14 +153,14 @@ export class CBCS {
   )
   TSXacMinh_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
 
-  @OneToMany(() => KetQuaXMQuanHe, ketquaXMQuanHe => ketquaXMQuanHe.LanhDaoPD)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe]
+  @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.LanhDaoPD)
+  KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(() => KetQuaXMDiaChi, ketquaXMDiaChi => ketquaXMDiaChi.LanhDaoPD)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi]
+  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.LanhDaoPD)
+  KetQuaXMDiaChis: [KetQuaXMDiaChi];
 
-  @ManyToMany(() => DiaChiNV, diachiNV => diachiNV.TSThucHiens)
-  TSThucHien_DiaChiNVs: [DiaChiNV]
+  @ManyToMany(() => DiaChiNV, (diachiNV) => diachiNV.TSThucHiens)
+  TSThucHien_DiaChiNVs: [DiaChiNV];
 
   @OneToMany(
     () => BaoCaoKQXMDiaChi,
@@ -198,30 +198,23 @@ export class CBCS {
   )
   LucLuongThamGiaKHs: [LucLuongThamGiaKH];
 
-  @OneToMany(() => BaoCaoKTDN, baocaoKTDN => baocaoKTDN.LanhDaoPD)
-  LanhDaoPD_BaoCaoKTDNs: [BaoCaoKTDN]
+  @OneToMany(() => BaoCaoKTDN, (baocaoKTDN) => baocaoKTDN.LanhDaoPD)
+  LanhDaoPD_BaoCaoKTDNs: [BaoCaoKTDN];
 
-  @OneToMany(() => BaoCaoKTDN, baocaoKTDN => baocaoKTDN.CBTongHop)
-  CBTongHop_BaoCaoKQGHs: [BaoCaoKTDN]
+  @OneToMany(() => BaoCaoKTDN, (baocaoKTDN) => baocaoKTDN.CBTongHop)
+  CBTongHop_BaoCaoKQGHs: [BaoCaoKTDN];
 
-  @OneToMany(() => BienBanRKN, bienbanRKN => bienbanRKN.ChuToa)
-  ChuToa_BienBanRKNs: [BienBanRKN]
+  @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ChuToa)
+  ChuToa_BienBanRKNs: [BienBanRKN];
 
-  @OneToMany(() => BienBanRKN, bienbanRKN => bienbanRKN.ThuKy)
-  ThuKy_BienBanRKNs: [BienBanRKN]
+  @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThuKy)
+  ThuKy_BienBanRKNs: [BienBanRKN];
 
-  @ManyToMany(() => BienBanRKN, bienbanRKN => bienbanRKN.LanhDaoTGs)
-  BienBanRKNs: [BienBanRKN]
+  @ManyToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.LanhDaoTGs)
+  BienBanRKNs: [BienBanRKN];
 
-  @ManyToMany(() => PhuongTienNV, phuongtienNV => phuongtienNV.TSThucHiens)
-  TSThucHien_PhuongTienNVs: [PhuongTienNV]
-
-
-
-
-
-
-
+  @ManyToMany(() => PhuongTienNV, (phuongtienNV) => phuongtienNV.TSThucHiens)
+  TSThucHien_PhuongTienNVs: [PhuongTienNV];
 
   @ManyToOne(() => QuocTich, (quoctich) => quoctich.CBCSs, {
     cascade: true,

@@ -8,4 +8,4 @@ import { BaoCaoKTDNsService } from './BaoCaoKTDNs.service';
   imports: [TypeOrmModule.forFeature([BaoCaoKTDN])],
   providers: [BaoCaoKTDNsResolver, BaoCaoKTDNsService],
 })
-export class BaoCaoKTDNsModule { }
+export class BaoCaoKTDNsModule {}

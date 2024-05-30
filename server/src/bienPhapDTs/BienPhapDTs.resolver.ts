@@ -4,7 +4,7 @@ import {
   Parent,
   Query,
   ResolveField,
-  Resolver
+  Resolver,
 } from '@nestjs/graphql';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -13,7 +13,7 @@ import { BienPhapDTsService } from './BienPhapDTs.service';
 
 @Resolver(() => BienPhapDT)
 export class BienPhapDTsResolver {
-  constructor(private bienPhapDTsService: BienPhapDTsService) { }
+  constructor(private bienPhapDTsService: BienPhapDTsService) {}
 
   @Query((returns) => [BienPhapDT])
   bienPhapDTs(
@@ -28,7 +28,9 @@ export class BienPhapDTsResolver {
   }
 
   @Mutation((returns) => BienPhapDT)
-  createBienPhapDT(@Args('bienPhapDT') bienPhapDT: string): Promise<BienPhapDT> {
+  createBienPhapDT(
+    @Args('bienPhapDT') bienPhapDT: string,
+  ): Promise<BienPhapDT> {
     return this.bienPhapDTsService.createBienPhapDT(bienPhapDT);
   }
 
@@ -48,6 +50,6 @@ export class BienPhapDTsResolver {
   //ResolveField
   @ResolveField(() => [DoiTuong])
   DoiTuongs(@Parent() bienPhapDT: BienPhapDT): Promise<DoiTuong[]> {
-    return this.bienPhapDTsService.DoiTuongs(bienPhapDT.MaBPDT)
+    return this.bienPhapDTsService.DoiTuongs(bienPhapDT.MaBPDT);
   }
 }

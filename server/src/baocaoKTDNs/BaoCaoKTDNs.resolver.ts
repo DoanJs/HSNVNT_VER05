@@ -1,9 +1,4 @@
-import {
-  Args,
-  Mutation,
-  Query,
-  Resolver
-} from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKTDN } from './BaoCaoKTDN.model';
 import { BaoCaoKTDNsService } from './BaoCaoKTDNs.service';
@@ -11,7 +6,7 @@ import { BaoCaoKTDNInput } from './type/BaoCaoKTDN.input';
 
 @Resolver(() => BaoCaoKTDN)
 export class BaoCaoKTDNsResolver {
-  constructor(private baocaoKTDNsService: BaoCaoKTDNsService) { }
+  constructor(private baocaoKTDNsService: BaoCaoKTDNsService) {}
 
   @Query((returns) => [BaoCaoKTDN])
   baoCaoKTDNs(
@@ -26,7 +21,9 @@ export class BaoCaoKTDNsResolver {
   }
 
   @Mutation((returns) => BaoCaoKTDN)
-  createBaoCaoKTDN(@Args('baocaoKTDNInput') baocaoKTDNInput: BaoCaoKTDNInput): Promise<BaoCaoKTDN> {
+  createBaoCaoKTDN(
+    @Args('baocaoKTDNInput') baocaoKTDNInput: BaoCaoKTDNInput,
+  ): Promise<BaoCaoKTDN> {
     return this.baocaoKTDNsService.createBaoCaoKTDN(baocaoKTDNInput);
   }
 
@@ -41,7 +38,8 @@ export class BaoCaoKTDNsResolver {
   @Mutation((returns) => BaoCaoKTDN)
   deleteBaoCaoKTDN(
     @Args('baocaoKTDNInput') baocaoKTDNInput: BaoCaoKTDNInput,
-    @Args('id') id: number): Promise<BaoCaoKTDN> {
+    @Args('id') id: number,
+  ): Promise<BaoCaoKTDN> {
     return this.baocaoKTDNsService.deleteBaoCaoKTDN(baocaoKTDNInput, id);
   }
 

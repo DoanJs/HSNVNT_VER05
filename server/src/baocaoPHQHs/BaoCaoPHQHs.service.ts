@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { BaoCaoPHQH } from './BaoCaoPHQH.model';
-import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { Doi } from 'src/dois/Doi.model';
+import { DoiTuong } from 'src/doituongs/DoiTuong.model';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
+import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import {
   SP_CHANGE_BAOCAOPHQH,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { CBCS } from 'src/cbcss/CBCS.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { Repository } from 'typeorm';
+import { BaoCaoPHQH } from './BaoCaoPHQH.model';
+import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
 
 @Injectable()
 export class BaoCaoPHQHsService {
@@ -23,7 +23,7 @@ export class BaoCaoPHQHsService {
     @InjectRepository(BaoCaoPHQH)
     private baocaoPHQHRepository: Repository<BaoCaoPHQH>,
     private dataloaderService: DataLoaderService,
-  ) { }
+  ) {}
   public readonly baocaoPHQH_DataInput = (
     Type: string,
     MaBCPHQH: number | null,
@@ -143,7 +143,12 @@ export class BaoCaoPHQHsService {
 
   async BaoCaoKQXMQuanHe(MaBCPHQH: number): Promise<BaoCaoKQXMQuanHe> {
     const result = await this.baocaoPHQHRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQXMQuanHes', `"MaBCPHQH = ${MaBCPHQH}"`, 0, 1),
+      SP_GET_DATA_DECRYPT(
+        'BaoCaoKQXMQuanHes',
+        `"MaBCPHQH = ${MaBCPHQH}"`,
+        0,
+        1,
+      ),
     );
     return result[0];
   }

@@ -1,4 +1,11 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -10,7 +17,7 @@ import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
 
 @Resolver(() => BaoCaoKQXMQuanHe)
 export class BaoCaoKQXMQuanHesResolver {
-  constructor(private baocaoKQXMQuanHesService: BaoCaoKQXMQuanHesService) { }
+  constructor(private baocaoKQXMQuanHesService: BaoCaoKQXMQuanHesService) {}
   @Query((returns) => [BaoCaoKQXMQuanHe])
   baocaoKQXMQuanHes(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -56,33 +63,35 @@ export class BaoCaoKQXMQuanHesResolver {
 
   // ResolveField
 
-  @ResolveField(returns => CAQHvaTD)
-  DonVi(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CAQHvaTD> {
-    return this.baocaoKQXMQuanHesService.DonVi(baocaoKQXMQuanHe)
+  @ResolveField((returns) => CAQHvaTD)
+  CAQHvaTD(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CAQHvaTD> {
+    return this.baocaoKQXMQuanHesService.CAQHvaTD(baocaoKQXMQuanHe);
   }
 
-  @ResolveField(returns => Doi)
+  @ResolveField((returns) => Doi)
   Doi(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<Doi> {
-    return this.baocaoKQXMQuanHesService.Doi(baocaoKQXMQuanHe)
+    return this.baocaoKQXMQuanHesService.Doi(baocaoKQXMQuanHe);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   TSXacMinh(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CBCS> {
-    return this.baocaoKQXMQuanHesService.TSXacMinh(baocaoKQXMQuanHe)
+    return this.baocaoKQXMQuanHesService.TSXacMinh(baocaoKQXMQuanHe);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   LanhDaoPD(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CBCS> {
-    return this.baocaoKQXMQuanHesService.LanhDaoPD(baocaoKQXMQuanHe)
+    return this.baocaoKQXMQuanHesService.LanhDaoPD(baocaoKQXMQuanHe);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   BanChiHuy(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CBCS> {
-    return this.baocaoKQXMQuanHesService.BanChiHuy(baocaoKQXMQuanHe)
+    return this.baocaoKQXMQuanHesService.BanChiHuy(baocaoKQXMQuanHe);
   }
 
-  @ResolveField(returns => BaoCaoPHQH)
-  BaoCaoPHQH(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<BaoCaoPHQH> {
-    return this.baocaoKQXMQuanHesService.BaoCaoPHQH(baocaoKQXMQuanHe)
+  @ResolveField((returns) => BaoCaoPHQH)
+  BaoCaoPHQH(
+    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
+  ): Promise<BaoCaoPHQH> {
+    return this.baocaoKQXMQuanHesService.BaoCaoPHQH(baocaoKQXMQuanHe);
   }
 }

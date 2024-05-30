@@ -92,7 +92,7 @@ export class DataLoaderService {
   public readonly loaderQuocTich = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.quoctichRepository.query(
-        `SELECT * FROM QuocTichs WHERE MaQT = ${id}`,
+        SP_GET_DATA('QuocTichs', `'MaQT = ${id}'`, 'MaQT', 0, 0)
       );
       return response[0];
     });
@@ -101,7 +101,7 @@ export class DataLoaderService {
   public readonly loaderDanToc = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.dantocRepository.query(
-        `SELECT * FROM DanTocs WHERE MaDT = ${id}`,
+        SP_GET_DATA('DanTocs', `'MaDT = ${id}'`, 'MaDT', 0, 0)
       );
       return response[0];
     });
@@ -110,7 +110,7 @@ export class DataLoaderService {
   public readonly loaderTonGiao = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tongiaoRepository.query(
-        `SELECT * FROM TonGiaos WHERE MaTG = ${id}`,
+        SP_GET_DATA('TonGiaos', `'MaTG = ${id}'`, 'MaTG', 0, 0)
       );
       return response[0];
     });
@@ -128,7 +128,7 @@ export class DataLoaderService {
   public readonly loaderCapBac = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.capbacRepository.query(
-        `SELECT * FROM CapBacs WHERE MaCB = ${id}`,
+        SP_GET_DATA('CapBacs', `'MaCB = ${id}'`, 'MaCB', 0, 0),
       );
       return response[0];
     });
@@ -137,7 +137,7 @@ export class DataLoaderService {
   public readonly loaderChucVu = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.chucvuRepository.query(
-        `SELECT * FROM ChucVus WHERE MaCV = ${id}`,
+        SP_GET_DATA('ChucVus', `'MaCV = ${id}'`, 'MaCV', 0, 0),
       );
       return response[0];
     });
