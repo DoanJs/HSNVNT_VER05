@@ -29,7 +29,7 @@ export class BaoCaoKQXMQuanHe {
   @Field({ nullable: true })
   HoTen: string;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 30, nullable: true })
   @Field({ nullable: true })
   TenKhac: string;
 
@@ -65,11 +65,11 @@ export class BaoCaoKQXMQuanHe {
   @Field({ nullable: true })
   NoiLamViec: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   QuanHeGDXH: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   BienPhapXM: string;
 
@@ -95,19 +95,26 @@ export class BaoCaoKQXMQuanHe {
   })
   Doi: Doi;
 
-  @ManyToOne(() => DoiTuong, doituong => doituong.BaoCaoKQXMQHs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaDoiTuong",
-    foreignKeyConstraintName: "FK_MaDoiTuong_BaoCaoKQXMQuanHe"
+  @ManyToOne(() => DoiTuong, (doituong) => doituong.BaoCaoKQXMQHs, {
+    cascade: true,
+    eager: true,
   })
-  DoiTuong: DoiTuong
+  @JoinColumn({
+    name: 'MaDoiTuong',
+    foreignKeyConstraintName: 'FK_MaDoiTuong_BaoCaoKQXMQuanHe',
+  })
+  DoiTuong: DoiTuong;
 
-  @ManyToOne(() => QuyetDinhTSNT, quyetdinhTSNT => quyetdinhTSNT.BaoCaoKQXMQuanHes, { cascade: true, eager: true })
+  @ManyToOne(
+    () => QuyetDinhTSNT,
+    (quyetdinhTSNT) => quyetdinhTSNT.BaoCaoKQXMQuanHes,
+    { cascade: true, eager: true },
+  )
   @JoinColumn({
-    name: "MaQD",
-    foreignKeyConstraintName: "FK_MaQD_BaoCaoKQXMQuanHe"
+    name: 'MaQD',
+    foreignKeyConstraintName: 'FK_MaQD_BaoCaoKQXMQuanHe',
   })
-  QuyetDinhTSNT: QuyetDinhTSNT
+  QuyetDinhTSNT: QuyetDinhTSNT;
 
   @OneToOne(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.BaoCaoKQXMQuanHe, {
     cascade: true,

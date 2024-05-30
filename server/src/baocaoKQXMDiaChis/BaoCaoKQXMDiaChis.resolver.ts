@@ -6,14 +6,14 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
+import { Doi } from 'src/dois/Doi.model';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQXMDiaChi } from './BaoCaoKQXMDiaChi.model';
 import BaoCaoKQXMDiaChisService from './BaoCaoKQXMDiaChis.service';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQXMDiaChiInput } from './type/BaoCaoKQXMDiaChi.input';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { Doi } from 'src/dois/Doi.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
 
 @Resolver(() => BaoCaoKQXMDiaChi)
 export class BaoCaoKQXMDiaChisResolver {
@@ -61,12 +61,12 @@ export class BaoCaoKQXMDiaChisResolver {
     );
   }
 
-  // ResolveField
+  // ResolveField----------------------
   @ResolveField((returns) => CAQHvaTD)
   CAQHvaTD(@Parent() baocaoKQXMDiaChi: BaoCaoKQXMDiaChi): Promise<CAQHvaTD> {
     return this.baocaoKQXMDiaChisService.CAQHvaTD(baocaoKQXMDiaChi);
   }
-  
+
   @ResolveField((returns) => Doi)
   Doi(@Parent() baocaoKQXMDiaChi: BaoCaoKQXMDiaChi): Promise<Doi> {
     return this.baocaoKQXMDiaChisService.Doi(baocaoKQXMDiaChi);

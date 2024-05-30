@@ -58,7 +58,7 @@ require('dotenv').config();
       port: 1433,
       username: process.env.USERNAME_MSSQL,
       password: process.env.PASSWORD_MSSQL,
-      database: 'HSNVNT_VER04',
+      database: 'HSNVNT_VER05',
       autoLoadEntities: true,
       logging: true,
       // synchronize: true, ///not use production env

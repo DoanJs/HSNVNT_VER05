@@ -138,7 +138,7 @@ export default class BaoCaoKQXMDiaChisService {
     return result[0];
   }
 
-  // ResolveField
+  // ResolveField ---------------------------
   async CAQHvaTD(baocaoKQXMDiaChi: any): Promise<CAQHvaTD> {
     return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQXMDiaChi.MaDonVi)
   }

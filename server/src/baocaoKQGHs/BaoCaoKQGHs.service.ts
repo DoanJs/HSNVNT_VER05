@@ -131,7 +131,7 @@ export class BaoCaoKQGHsService {
   async Doi(baocaoKQGH: any): Promise<Doi> {
     return this.dataloaderService.loaderDoi.load(baocaoKQGH.MaDoi);
   }
-  
+
   async TSThucHiens(MaBCKQGH: number): Promise<CBCS[]> {
     const result = (await this.baocaoKQGHRepository.query(
       SP_GET_DATA(
