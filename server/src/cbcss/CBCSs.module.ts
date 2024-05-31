@@ -5,10 +5,12 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { CBCS } from './CBCS.model';
 import { CBCSsResolver } from './CBCSs.resolver';
 import { CBCSsService } from './CBCSs.service';
+import { AccountModule } from 'src/accounts/Account.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CBCS]),
+    AccountModule,
     DataLoaderModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,

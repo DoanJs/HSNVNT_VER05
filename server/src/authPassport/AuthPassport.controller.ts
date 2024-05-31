@@ -26,9 +26,10 @@ export class AuthPassportController {
 
   @Get('/refresh_token')
   refreshToken(
-    @Req() req: Request
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
   ): Promise<AccessTokenType> {
-    return this.authPassportService.refresh_token(req);
+    return this.authPassportService.refresh_token(req, res);
   }
 
   @Post('/logout')

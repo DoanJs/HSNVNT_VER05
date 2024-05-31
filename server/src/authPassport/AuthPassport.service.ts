@@ -7,6 +7,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Account } from 'src/accounts/Account.model';
 import { Repository } from 'typeorm';
 import { AccessTokenType } from './type/accessToken.type';
+import { SP_GET_DATA } from 'src/utils/mssql/query';
 
 @Injectable()
 export class AuthPassportService {
@@ -86,7 +87,7 @@ export class AuthPassportService {
     return newAccount;
   }
 
-  async refresh_token(req: Request): Promise<AccessTokenType> {
+  async refresh_token(req: Request, res: Response): Promise<AccessTokenType> {
     const refreshToken = req.cookies[process.env.REFRESHTOKENCOOKIENAME];
     if (!refreshToken) {
       throw new UnauthorizedException('refresh token not exist!');
@@ -98,7 +99,7 @@ export class AuthPassportService {
       }) as JwtPayload
 
       const existingUser = await this.accountRepository.query(
-        `SELECT * FROM Accounts WHERE Username = '${decodeUser.Username}'`
+        SP_GET_DATA('Accounts', `'Username = N''${decodeUser.Username}'''`, 'AccountID', 0, 0)
       )
       if (!existingUser[0]) {
         throw new UnauthorizedException('Account not exist in Database !');
@@ -112,20 +113,20 @@ export class AuthPassportService {
       };
 
 
-      // const refresh_token = this.jwtService.sign(
-      //   { ...payload, Password: existingUser.Password },
-      //   {
-      //     expiresIn: process.env.expiresInRefreshToken as string,
-      //     secret: process.env.SECREREFRESHTOKEN as string,
-      //   },
-      // );
+      const refresh_token = this.jwtService.sign(
+        { ...payload, Password: existingUser.Password },
+        {
+          expiresIn: process.env.expiresInRefreshToken as string,
+          secret: process.env.SECREREFRESHTOKEN as string,
+        },
+      );
 
-      // res.cookie(process.env.REFRESHTOKENCOOKIENAME as string, refresh_token, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: 'lax',
-      //   path: '/refresh_token',
-      // });
+      res.cookie(process.env.REFRESHTOKENCOOKIENAME as string, refresh_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        path: '/refresh_token',
+      });
 
       return {
         access_token: this.jwtService.sign(payload, {
