@@ -6,65 +6,70 @@ import { Repository } from 'typeorm';
 import { Account } from './Account.model';
 import { AccountInput } from './type/Account.input';
 import { AccountExtendInput } from './type/AccountExtend.input';
+import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 
 @Injectable()
 export class AccountService {
   constructor(
     @InjectRepository(Account) private accountRepository: Repository<Account>,
-  ) { }
+  ) {}
 
-  public readonly account_DataInput = (
-    accountInput: AccountInput,
-  ) => {
+  public readonly account_DataInput = (accountInput: AccountInput) => {
     return {
-      Username: accountInput.Username ? `N'${accountInput.Username}'` : null,
+      Username: accountInput.Username ? `N''${accountInput.Username}''` : null,
       Password: accountInput.Password ? accountInput.Password : null,
-      Role: accountInput.Role ? `N'${accountInput.Role}'` : null,
-      Position: accountInput.Position ? `N'${accountInput.Position}'` : null,
+      Role: accountInput.Role ? `N''${accountInput.Role}''` : null,
+      Position: accountInput.Position ? `N''${accountInput.Position}''` : null,
     };
   };
 
   accounts(utilsParams: UtilsParamsInput): Promise<Account[]> {
     return this.accountRepository.query(
-      `DECLARE @lengthTable INT
-        SELECT @lengthTable = COUNT(*) FROM Accounts 
-        SELECT * FROM Accounts WHERE ${utilsParams.condition ? utilsParams.condition : 'AccountID != 0'
-      } 
-        ORDER BY AccountID OFFSET 
-        ${utilsParams.skip && utilsParams.skip > 0 ? utilsParams.skip : 0
-      } ROWS FETCH NEXT 
-        ${utilsParams.take && utilsParams.take > 0
-        ? utilsParams.take
-        : '@lengthTable'
-      } ROWS ONLY
-      `,
+      SP_GET_DATA(
+        'Accounts',
+        `'AccountID != 0'`,
+        'AccountID',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
     );
   }
 
   async account(accountID: number): Promise<Account> {
     const result = await this.accountRepository.query(
-      `SELECT * FROM Accounts WHERE AccountID = ${accountID}`,
+      SP_GET_DATA('Accounts', `'AccountID = ${accountID}'`, 'AccountID', 0, 1),
     );
     return result[0];
   }
 
   async createAccount(accountInput: AccountInput): Promise<Account> {
-    const { Username, Password, Role, Position } = this.account_DataInput(accountInput)
+    const { Username, Password, Role, Position } =
+      this.account_DataInput(accountInput);
     const accountExist = await this.accountRepository.query(
-      `SELECT * FROM Accounts WHERE Username = ${Username}`,
+      SP_GET_DATA('Accounts', `'Username = ${Username}'`, 'AccountID', 0, 0),
     );
 
     if (accountExist[0]) {
       throw new UnauthorizedException('Tài khoản này đã tồn tại!');
     }
-    const hashPassword = Crypto.SHA512(Password).toString();
+
+    if (!Password) {
+      throw new UnauthorizedException('Bạn chưa tạo mật khẩu!');
+    }
+
+    const hashPassword = `N''${Crypto.SHA512(Password).toString()}''`;
     const result = await this.accountRepository.query(
-      `INSERT INTO Accounts 
-        (Username, Password, Role, Position) 
-        VALUES 
-        (${Username}, '${hashPassword}', ${Role}, ${Position})
-        SELECT * FROM Accounts WHERE AccountID = SCOPE_IDENTITY()
-      `,
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'Accounts',
+        `'Username, Password, Role, Position'`,
+        `N' ${Username}, 
+            ${hashPassword}, 
+            ${Role}, 
+            ${Position}
+        '`,
+        `'AccountID = SCOPE_IDENTITY()'`,
+      ),
     );
     return result[0];
   }
@@ -75,16 +80,21 @@ export class AccountService {
   ): Promise<Account> {
     const { AccountInput, PasswordOld } = accountExtendInput;
     const hashPasswordOld = Crypto.SHA512(PasswordOld).toString();
-
     const data = await this.accountRepository.query(
-      `SELECT * FROM Accounts WHERE AccountID = ${id}`
+      SP_GET_DATA('Accounts', `'AccountID = ${id}'`, 'AccountID', 0, 0),
     );
-    const accountOld = data[0]
+    const accountOld = data[0];
 
     if (accountOld.Username !== AccountInput.Username) {
       const accountExist = await this.accountRepository.query(
-        `SELECT * FROM Accounts WHERE Username = '${AccountInput.Username}'`
-      )
+        SP_GET_DATA(
+          'Accounts',
+          `"Username = '${AccountInput.Username}'"`,
+          'AccountID',
+          0,
+          0,
+        ),
+      );
       if (accountExist[0]) {
         throw new UnauthorizedException('Tên tài khoản này đã tồn tại!');
       }
@@ -94,23 +104,39 @@ export class AccountService {
       throw new UnauthorizedException('Mật khẩu cũ không chính xác !');
     }
 
+    const usernameNew = `N''${AccountInput.Username}''`
     if (!AccountInput.Password) {
       await this.accountRepository.query(
-        `UPDATE Accounts SET Username = '${AccountInput.Username}' WHERE AccountID = ${id}`
-      )
+        SP_CHANGE_DATA(
+          "'EDIT'",
+          'Accounts',
+          null,
+          null,
+          null,
+          `N' Username = ${usernameNew}'`,
+          `'AccountID = ${id}'`,
+        ),
+      );
     } else {
-      const hashPasswordNew = Crypto.SHA512(AccountInput.Password).toString();
+      const hashPasswordNew = `N''${Crypto.SHA512(AccountInput.Password).toString()}''`;
       await this.accountRepository.query(
-        `UPDATE Accounts 
-        SET Username = '${AccountInput.Username}', 
-        Password = '${hashPasswordNew}' 
-        WHERE AccountID = ${id}`
-      )
+        SP_CHANGE_DATA(
+          "'EDIT'",
+          'Accounts',
+          null,
+          null,
+          null,
+          `N' Username = ${usernameNew},
+              Password = ${hashPasswordNew}
+          '`,
+          `'AccountID = ${id}'`,
+        ),
+      );
     }
 
     const account = await this.accountRepository.query(
-      `SELECT * FROM Accounts WHERE AccountID = ${id}`
-    )
+      SP_GET_DATA('Accounts', `'AccountID = ${id}'`, 'AccountID', 0, 0)
+    );
     return account[0];
   }
 }
