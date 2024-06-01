@@ -19,7 +19,7 @@ export class GraphQLGuard implements CanActivate {
     if (!req.headers.authorization) {
       return false;
     }
-
+    
     req.user = await this.validateToken(req.headers.authorization);
     return true;
   }

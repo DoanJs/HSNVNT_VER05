@@ -5,28 +5,34 @@ import * as Crypto from 'crypto-js';
 import { Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { Account } from 'src/accounts/Account.model';
+import { SP_GET_DATA } from 'src/utils/mssql/query';
 import { Repository } from 'typeorm';
 import { AccessTokenType } from './type/accessToken.type';
-import { SP_GET_DATA } from 'src/utils/mssql/query';
 
 @Injectable()
 export class AuthPassportService {
   constructor(
     @InjectRepository(Account) private accountRepository: Repository<Account>,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async validateLogin(username: string, password: string): Promise<any> {
-    const account = await this.accountRepository.findOne({
-      where: { Username: username },
-    });
-    if (!account) {
+    const account = await this.accountRepository.query(
+      SP_GET_DATA(
+        'Accounts',
+        `'Username = N''${username}'''`,
+        'AccountID',
+        0,
+        0,
+      ),
+    );
+    if (!account[0]) {
       throw new UnauthorizedException('Tài khoản không tồn tại!');
     }
-    if (Crypto.SHA512(password).toString() != account.Password) {
+    if (Crypto.SHA512(password).toString() != account[0].Password) {
       throw new UnauthorizedException('Mật khẩu không chính xác!');
     }
-    return account;
+    return account[0];
   }
 
   async validateRegister(username: string, password: string): Promise<any> {
@@ -73,15 +79,15 @@ export class AuthPassportService {
     };
   }
 
-  async register(req: Request,) {
-    const { username, password, role, position } = req.body
+  async register(req: Request) {
+    const { username, password, role, position } = req.body;
 
     const hashPassword = Crypto.SHA512(password).toString();
     const newAccount = this.accountRepository.create({
       Username: username,
       Password: hashPassword,
       Role: role,
-      Position: position
+      Position: position,
     });
     await this.accountRepository.save(newAccount);
     return newAccount;
@@ -96,11 +102,17 @@ export class AuthPassportService {
     try {
       const decodeUser = this.jwtService.verify(refreshToken, {
         secret: process.env.SECREREFRESHTOKEN as string,
-      }) as JwtPayload
+      }) as JwtPayload;
 
       const existingUser = await this.accountRepository.query(
-        SP_GET_DATA('Accounts', `'Username = N''${decodeUser.Username}'''`, 'AccountID', 0, 0)
-      )
+        SP_GET_DATA(
+          'Accounts',
+          `'Username = N''${decodeUser.Username}'''`,
+          'AccountID',
+          0,
+          0,
+        ),
+      );
       if (!existingUser[0]) {
         throw new UnauthorizedException('Account not exist in Database !');
       }
@@ -111,7 +123,6 @@ export class AuthPassportService {
         Role: existingUser[0].Role,
         Position: existingUser[0].Position,
       };
-
 
       const refresh_token = this.jwtService.sign(
         { ...payload, Password: existingUser.Password },
@@ -153,5 +164,31 @@ export class AuthPassportService {
       path: '/refresh_token',
     });
     return true;
+  }
+
+  async getAccountLogin(AccountID: number): Promise<Account> {
+    const account = await this.accountRepository.query(
+      SP_GET_DATA('Accounts', `'AccountID = ${AccountID}'`, 'AccountID', 0, 0),
+    );
+    return account;
+  }
+
+  roleGroup(key: string): String[] {
+    let result: any;
+    switch (key) {
+      case 'insert':
+        result = ['PTP_4', 'BCH_4', 'CBCS_4'];
+        break;
+      case 'update':
+        result = ['PTP_4', 'BCH_4', 'CBCS_4'];
+        break;
+      case 'delete':
+        result = ['PTP_4', 'BCH_4', 'CBCS_4'];
+        break;
+      default:
+        result = ['TP', 'PTP', 'PTP_4', 'BCH', 'BCH_4', 'CBCS', 'CBCS_4'];
+        break;
+    }
+    return result;
   }
 }

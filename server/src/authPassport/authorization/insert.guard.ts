@@ -8,7 +8,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthPassportService } from '../AuthPassport.service';
 
 @Injectable()
-export class ReadGuard implements CanActivate {
+export class InsertGuard implements CanActivate {
   constructor(private readonly authPassportService: AuthPassportService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
@@ -21,7 +21,7 @@ export class ReadGuard implements CanActivate {
     if (!account[0]) {
       throw new UnauthorizedException('Account not exist!');
     }
-    if (!this.authPassportService.roleGroup('read').includes(account[0].Role)) {
+    if (!this.authPassportService.roleGroup('insert').includes(account[0].Role)) {
       throw new UnauthorizedException('Do not Permission!');
     }
     return true;
