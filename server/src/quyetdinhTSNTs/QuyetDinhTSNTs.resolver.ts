@@ -21,11 +21,14 @@ import { QuyetDinhTSNTsService } from './QuyetDinhTSNTs.service';
 import { QuyetDinhTSNTInput } from './type/QuyetDinhTSNT.input';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => QuyetDinhTSNT)
 @UseGuards(GraphQLGuard)
 export class QuyetDinhTSNTsResolver {
-  constructor(private quyetdinhTSNTsService: QuyetDinhTSNTsService) { }
+  constructor(private quyetdinhTSNTsService: QuyetDinhTSNTsService) {}
   @Query((returns) => [QuyetDinhTSNT])
   quyetdinhTSNTs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -39,6 +42,7 @@ export class QuyetDinhTSNTsResolver {
   }
 
   @Mutation((returns) => QuyetDinhTSNT)
+  @UseGuards(InsertGuard)
   createQuyetDinhTSNT(
     @Args('quyetdinhTSNTInput') quyetdinhTSNTInput: QuyetDinhTSNTInput,
   ): Promise<QuyetDinhTSNT> {
@@ -46,6 +50,7 @@ export class QuyetDinhTSNTsResolver {
   }
 
   @Mutation((returns) => QuyetDinhTSNT)
+  @UseGuards(UpdateGuard)
   editQuyetDinhTSNT(
     @Args('id') id: number,
     @Args('quyetdinhTSNTInput') quyetdinhTSNTInput: QuyetDinhTSNTInput,
@@ -54,6 +59,7 @@ export class QuyetDinhTSNTsResolver {
   }
 
   @Mutation((returns) => QuyetDinhTSNT)
+  @UseGuards(DeleteGuard)
   deleteQuyetDinhTSNT(
     @Args('id') id: number,
     @Args('quyetdinhTSNTInput') quyetdinhTSNTInput: QuyetDinhTSNTInput,

@@ -15,6 +15,9 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DiaChiNV } from './DiaChiNV.model';
 import { DiaChiNVsService } from './DiaChiNVs.service';
 import { DiaChiNVInput } from './type/DiaChiNV.Input';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DiaChiNV)
 @UseGuards(GraphQLGuard)
@@ -33,6 +36,7 @@ export class DiaChiNVsResolver {
   }
 
   @Mutation((returns) => DiaChiNV)
+  @UseGuards(InsertGuard)
   createDiaChiNV(
     @Args('diachiNVInput') diachiNVInput: DiaChiNVInput,
   ): Promise<DiaChiNV> {
@@ -40,6 +44,7 @@ export class DiaChiNVsResolver {
   }
 
   @Mutation((returns) => DiaChiNV)
+  @UseGuards(UpdateGuard)
   editDiaChiNV(
     @Args('diachiNVInput') diachiNVInput: DiaChiNVInput,
     @Args('id') id: number,
@@ -48,6 +53,7 @@ export class DiaChiNVsResolver {
   }
 
   @Mutation((returns) => DiaChiNV)
+  @UseGuards(DeleteGuard)
   deleteDiaChiNV(
     @Args('diachiNVInput') diachiNVInput: DiaChiNVInput,
     @Args('id') id: number,

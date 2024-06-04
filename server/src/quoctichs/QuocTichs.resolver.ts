@@ -12,10 +12,16 @@ import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { QuocTich } from './QuocTich.model';
 import { QuocTichsService } from './QuocTichs.service';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => QuocTich)
+@UseGuards(GraphQLGuard)
 export class QuocTichsResolver {
-  constructor(private quoctichsService: QuocTichsService) { }
+  constructor(private quoctichsService: QuocTichsService) {}
   @Query((returns) => [QuocTich])
   quocTichs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -29,11 +35,13 @@ export class QuocTichsResolver {
   }
 
   @Mutation((returns) => QuocTich)
+  @UseGuards(InsertGuard)
   createQuocTich(@Args('tenQT') tenQT: string): Promise<QuocTich> {
     return this.quoctichsService.createQuocTich(tenQT);
   }
 
   @Mutation((returns) => QuocTich)
+  @UseGuards(UpdateGuard)
   editQuocTich(
     @Args('tenQT') tenQT: string,
     @Args('id') id: number,
@@ -42,6 +50,7 @@ export class QuocTichsResolver {
   }
 
   @Mutation((returns) => QuocTich)
+  @UseGuards(DeleteGuard)
   deleteQuocTich(@Args('id') id: number): Promise<QuocTich> {
     return this.quoctichsService.deleteQuocTich(id);
   }
@@ -52,10 +61,6 @@ export class QuocTichsResolver {
   DanTocs(@Parent() quoctich: QuocTich): Promise<DanToc[]> {
     return this.quoctichsService.DanTocs(quoctich.MaQT);
   }
-
-
-
-
 
   @ResolveField((returns) => [DoiTuong])
   DoiTuongs(@Parent() quoctich: QuocTich): Promise<DoiTuong[]> {

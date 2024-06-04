@@ -28,7 +28,7 @@ export class BaoCaoPHQH {
   @Field({ nullable: true })
   Ngay: Date;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   BiDanh: string;
 

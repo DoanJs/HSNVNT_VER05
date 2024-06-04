@@ -10,8 +10,14 @@ import { CBCS } from 'src/cbcss/CBCS.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { ChucVu } from './ChucVu.model';
 import { ChucVusService } from './ChucVus.service';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => ChucVu)
+@UseGuards(GraphQLGuard)
 export class ChucVusResolver {
   constructor(private chucvusService: ChucVusService) {}
 
@@ -28,11 +34,13 @@ export class ChucVusResolver {
   }
 
   @Mutation((returns) => ChucVu)
+  @UseGuards(InsertGuard)
   createChucVu(@Args('chucVu') chucVu: string): Promise<ChucVu> {
     return this.chucvusService.createChucVu(chucVu);
   }
 
   @Mutation((returns) => ChucVu)
+  @UseGuards(UpdateGuard)
   editChucVu(
     @Args('chucVu') chucVu: string,
     @Args('id') id: number,
@@ -41,6 +49,7 @@ export class ChucVusResolver {
   }
 
   @Mutation((returns) => ChucVu)
+  @UseGuards(DeleteGuard)
   deleteChucVu(@Args('id') id: number): Promise<ChucVu> {
     return this.chucvusService.deleteChucVu(id);
   }

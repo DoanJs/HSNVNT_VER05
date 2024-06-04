@@ -17,10 +17,16 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KetQuaXMQuanHe } from './KetQuaXMQuanHe.model';
 import { KetQuaXMQuanHesService } from './KetQuaXMQuanHes.service';
 import { KetQuaXMQuanHeInput } from './type/KetQuaXMQuanHe.input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => KetQuaXMQuanHe)
+@UseGuards(GraphQLGuard)
 export class KetQuaXMQuanHesResolver {
-  constructor(private ketQuaXMQuanHesService: KetQuaXMQuanHesService) { }
+  constructor(private ketQuaXMQuanHesService: KetQuaXMQuanHesService) {}
 
   @Query((returns) => [KetQuaXMQuanHe])
   ketQuaXMQuanHes(
@@ -35,57 +41,69 @@ export class KetQuaXMQuanHesResolver {
   }
 
   @Mutation((returns) => KetQuaXMQuanHe)
-  createKetQuaXMQuanHe(@Args('ketQuaXMQuanHeInput') ketQuaXMQuanHeInput: KetQuaXMQuanHeInput): Promise<KetQuaXMQuanHe> {
-    return this.ketQuaXMQuanHesService.createKetQuaXMQuanHe(ketQuaXMQuanHeInput);
+  @UseGuards(InsertGuard)
+  createKetQuaXMQuanHe(
+    @Args('ketQuaXMQuanHeInput') ketQuaXMQuanHeInput: KetQuaXMQuanHeInput,
+  ): Promise<KetQuaXMQuanHe> {
+    return this.ketQuaXMQuanHesService.createKetQuaXMQuanHe(
+      ketQuaXMQuanHeInput,
+    );
   }
 
   @Mutation((returns) => KetQuaXMQuanHe)
+  @UseGuards(UpdateGuard)
   editKetQuaXMQuanHe(
     @Args('ketQuaXMQuanHeInput') ketQuaXMQuanHeInput: KetQuaXMQuanHeInput,
     @Args('id') id: number,
   ): Promise<KetQuaXMQuanHe> {
-    return this.ketQuaXMQuanHesService.editKetQuaXMQuanHe(ketQuaXMQuanHeInput, id);
+    return this.ketQuaXMQuanHesService.editKetQuaXMQuanHe(
+      ketQuaXMQuanHeInput,
+      id,
+    );
   }
 
   @Mutation((returns) => KetQuaXMQuanHe)
+  @UseGuards(DeleteGuard)
   deleteKetQuaXMQuanHe(@Args('id') id: number): Promise<KetQuaXMQuanHe> {
     return this.ketQuaXMQuanHesService.deleteKetQuaXMQuanHe(id);
   }
 
   //ResolveField
 
-  @ResolveField(returns => BaoCaoPHQH)
+  @ResolveField((returns) => BaoCaoPHQH)
   BaoCaoPHQH(@Parent() ketquaXMDiaChi: BaoCaoPHQH): Promise<BaoCaoPHQH> {
-    return this.ketQuaXMQuanHesService.BaoCaoPHQH(ketquaXMDiaChi)
+    return this.ketQuaXMQuanHesService.BaoCaoPHQH(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => DeNghiTSNT)
+  @ResolveField((returns) => DeNghiTSNT)
   DeNghiTSNT(@Parent() ketquaXMDiaChi: DeNghiTSNT): Promise<DeNghiTSNT> {
-    return this.ketQuaXMQuanHesService.DeNghiTSNT(ketquaXMDiaChi)
+    return this.ketQuaXMQuanHesService.DeNghiTSNT(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => QuyetDinhTSNT)
-  QuyetDinhTSNT(@Parent() ketquaXMDiaChi: QuyetDinhTSNT): Promise<QuyetDinhTSNT> {
-    return this.ketQuaXMQuanHesService.QuyetDinhTSNT(ketquaXMDiaChi)
+  @ResolveField((returns) => QuyetDinhTSNT)
+  QuyetDinhTSNT(
+    @Parent() ketquaXMDiaChi: QuyetDinhTSNT,
+  ): Promise<QuyetDinhTSNT> {
+    return this.ketQuaXMQuanHesService.QuyetDinhTSNT(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => CATTPvaTD)
+  @ResolveField((returns) => CATTPvaTD)
   CATTPvaTD(@Parent() ketquaXMDiaChi: CATTPvaTD): Promise<CATTPvaTD> {
-    return this.ketQuaXMQuanHesService.CATTPvaTD(ketquaXMDiaChi)
+    return this.ketQuaXMQuanHesService.CATTPvaTD(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => CAQHvaTD)
+  @ResolveField((returns) => CAQHvaTD)
   CAQHvaTD(@Parent() ketquaXMDiaChi: CAQHvaTD): Promise<CAQHvaTD> {
-    return this.ketQuaXMQuanHesService.CAQHvaTD(ketquaXMDiaChi)
+    return this.ketQuaXMQuanHesService.CAQHvaTD(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => DoiTuong)
+  @ResolveField((returns) => DoiTuong)
   DoiTuong(@Parent() ketquaXMDiaChi: DoiTuong): Promise<DoiTuong> {
-    return this.ketQuaXMQuanHesService.DoiTuong(ketquaXMDiaChi)
+    return this.ketQuaXMQuanHesService.DoiTuong(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   LanhDaoPD(@Parent() ketquaXMDiaChi: CBCS): Promise<CBCS> {
-    return this.ketQuaXMQuanHesService.LanhDaoPD(ketquaXMDiaChi)
+    return this.ketQuaXMQuanHesService.LanhDaoPD(ketquaXMDiaChi);
   }
 }

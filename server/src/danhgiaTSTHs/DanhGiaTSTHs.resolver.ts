@@ -12,8 +12,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DanhGiaTSTH } from './DanhGiaTSTH.model';
 import { DanhGiaTSTHsService } from './DanhGiaTSTHs.service';
 import { DanhGiaTSTHInput } from './type/DanhGiaTSTH.input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DanhGiaTSTH)
+@UseGuards(GraphQLGuard)
 export class DanhGiaTSTHsResolver {
   constructor(private danhgiaTSTHsService: DanhGiaTSTHsService) {}
   @Query((returns) => [DanhGiaTSTH])
@@ -29,6 +35,7 @@ export class DanhGiaTSTHsResolver {
   }
 
   @Mutation((returns) => DanhGiaTSTH)
+  @UseGuards(InsertGuard)
   createDanhGiaTSTH(
     @Args('danhgiaTSTHInput') danhgiaTSTHInput: DanhGiaTSTHInput,
   ): Promise<DanhGiaTSTH> {
@@ -36,6 +43,7 @@ export class DanhGiaTSTHsResolver {
   }
 
   @Mutation((returns) => DanhGiaTSTH)
+  @UseGuards(UpdateGuard)
   editDanhGiaTSTH(
     @Args('danhgiaTSTHInput') danhgiaTSTHInput: DanhGiaTSTHInput,
     @Args('id') id: number,
@@ -44,6 +52,7 @@ export class DanhGiaTSTHsResolver {
   }
 
   @Mutation((returns) => DanhGiaTSTH)
+  @UseGuards(DeleteGuard)
   deleteDanhGiaTSTH(@Args('id') id: number): Promise<DanhGiaTSTH> {
     return this.danhgiaTSTHsService.deleteDanhGiaTSTH(id);
   }

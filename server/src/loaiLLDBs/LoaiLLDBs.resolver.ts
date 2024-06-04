@@ -4,8 +4,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { LoaiLLDB } from './LoaiLLDB.model';
 import { LoaiLLDBsService } from './LoaiLLDBs.service';
 import { LoaiLLDBInput } from './type/LoaiLLDB.Input';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { UseGuards } from '@nestjs/common';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => LoaiLLDB)
+@UseGuards(GraphQLGuard)
 export class LoaiLLDBsResolver {
   constructor(private loaiLLDBsService: LoaiLLDBsService) { }
   @Query((returns) => [LoaiLLDB])
@@ -21,6 +27,7 @@ export class LoaiLLDBsResolver {
   }
 
   @Mutation((returns) => LoaiLLDB)
+  @UseGuards(InsertGuard)
   createLoaiLLDB(
     @Args('loaiLLDBInput') loaiLLDBInput: LoaiLLDBInput,
   ): Promise<LoaiLLDB> {
@@ -28,6 +35,7 @@ export class LoaiLLDBsResolver {
   }
 
   @Mutation((returns) => LoaiLLDB)
+  @UseGuards(UpdateGuard)
   editLoaiLLDB(
     @Args('loaiLLDBInput') loaiLLDBInput: LoaiLLDBInput,
     @Args('id') id: number,
@@ -36,6 +44,7 @@ export class LoaiLLDBsResolver {
   }
 
   @Mutation((returns) => LoaiLLDB)
+  @UseGuards(DeleteGuard)
   deleteLoaiLLDB(@Args('id') id: number): Promise<LoaiLLDB> {
     return this.loaiLLDBsService.deleteLoaiLLDB(id);
   }

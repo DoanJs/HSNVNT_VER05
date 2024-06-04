@@ -20,10 +20,16 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KeHoachTSNT } from './KeHoachTSNT.model';
 import { KeHoachTSNTsService } from './KeHoachTSNTs.service';
 import { KeHoachTSNTInput } from './type/KeHoachTSNT.input';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { UseGuards } from '@nestjs/common';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => KeHoachTSNT)
+@UseGuards(GraphQLGuard)
 export class KeHoachTSNTsResolver {
-  constructor(private kehoachTSNTsService: KeHoachTSNTsService) { }
+  constructor(private kehoachTSNTsService: KeHoachTSNTsService) {}
   @Query((returns) => [KeHoachTSNT])
   kehoachTSNTs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -37,6 +43,7 @@ export class KeHoachTSNTsResolver {
   }
 
   @Mutation((returns) => KeHoachTSNT)
+  @UseGuards(InsertGuard)
   createKeHoachTSNT(
     @Args('kehoachTSNTInput') kehoachTSNTInput: KeHoachTSNTInput,
   ): Promise<KeHoachTSNT> {
@@ -44,6 +51,7 @@ export class KeHoachTSNTsResolver {
   }
 
   @Mutation((returns) => KeHoachTSNT)
+  @UseGuards(UpdateGuard)
   editKeHoachTSNT(
     @Args('id') id: number,
     @Args('kehoachTSNTInput') kehoachTSNTInput: KeHoachTSNTInput,
@@ -52,6 +60,7 @@ export class KeHoachTSNTsResolver {
   }
 
   @Mutation((returns) => KeHoachTSNT)
+  @UseGuards(DeleteGuard)
   deleteKeHoachTSNT(
     @Args('id') id: number,
     @Args('kehoachTSNTInput') kehoachTSNTInput: KeHoachTSNTInput,
@@ -92,7 +101,9 @@ export class KeHoachTSNTsResolver {
   }
 
   @ResolveField((returns) => [LucLuongThamGiaKH])
-  LLTGKeHoachs(@Parent() kehoachTSNT: KeHoachTSNT): Promise<LucLuongThamGiaKH[]> {
+  LLTGKeHoachs(
+    @Parent() kehoachTSNT: KeHoachTSNT,
+  ): Promise<LucLuongThamGiaKH[]> {
     return this.kehoachTSNTsService.LLTGKeHoachs(kehoachTSNT.MaKH);
   }
 
@@ -115,6 +126,4 @@ export class KeHoachTSNTsResolver {
   Doi(@Parent() kehoachTSNT: KeHoachTSNT): Promise<Doi> {
     return this.kehoachTSNTsService.Doi(kehoachTSNT);
   }
-
-
 }

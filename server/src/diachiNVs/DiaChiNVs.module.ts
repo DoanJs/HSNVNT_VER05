@@ -5,11 +5,13 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { DiaChiNV } from './DiaChiNV.model';
 import { DiaChiNVsResolver } from './DiaChiNVs.resolver';
 import { DiaChiNVsService } from './DiaChiNVs.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
   imports: [
-    DataLoaderModule,
     TypeOrmModule.forFeature([DiaChiNV]),
+    DataLoaderModule,
+    AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),

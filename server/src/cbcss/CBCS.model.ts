@@ -45,7 +45,7 @@ export class CBCS {
   @Field({ nullable: true })
   HoTen: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   TenKhac: string;
 
@@ -73,7 +73,7 @@ export class CBCS {
   @Field({ nullable: true })
   NoiO: string;
 
-  @Column({ type: 'nvarchar', length: 20, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   PhuongTien: string;
 

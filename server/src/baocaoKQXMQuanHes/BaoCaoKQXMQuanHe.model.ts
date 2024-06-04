@@ -29,7 +29,7 @@ export class BaoCaoKQXMQuanHe {
   @Field({ nullable: true })
   HoTen: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   TenKhac: string;
 
@@ -53,11 +53,11 @@ export class BaoCaoKQXMQuanHe {
   @Field({ nullable: true })
   NoiO: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   NgheNghiep: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   ChucVu: string;
 

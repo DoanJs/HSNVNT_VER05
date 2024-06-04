@@ -5,11 +5,13 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { DoiTuong } from './DoiTuong.model';
 import { DoiTuongsResolver } from './DoiTuongs.resolver';
 import { DoiTuongsService } from './DoiTuongs.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([DoiTuong]),
     DataLoaderModule,
+    AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),

@@ -14,6 +14,9 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnsService } from './ChuyenAns.service';
 import { ChuyenAnInput } from './type/ChuyenAn.input';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => ChuyenAn)
 @UseGuards(GraphQLGuard)
@@ -32,6 +35,7 @@ export class ChuyenAnsResolver {
   }
 
   @Mutation((returns) => ChuyenAn)
+  @UseGuards(InsertGuard)
   createChuyenAn(
     @Args('chuyenanInput') chuyenanInput: ChuyenAnInput,
   ): Promise<ChuyenAn> {
@@ -39,6 +43,7 @@ export class ChuyenAnsResolver {
   }
 
   @Mutation((returns) => ChuyenAn)
+  @UseGuards(UpdateGuard)
   editChuyenAn(
     @Args('chuyenanInput') chuyenanInput: ChuyenAnInput,
     @Args('id') id: number,
@@ -47,6 +52,7 @@ export class ChuyenAnsResolver {
   }
 
   @Mutation((returns) => ChuyenAn)
+  @UseGuards(DeleteGuard)
   deleteChuyenAn(
     @Args('chuyenanInput') chuyenanInput: ChuyenAnInput,
     @Args('id') id: number,

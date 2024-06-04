@@ -12,8 +12,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DoiTuongCA } from './DoiTuongCA.model';
 import { DoiTuongCAsService } from './DoiTuongCAs.service';
 import { DoiTuongCAInput } from './type/DoiTuongCA.input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DoiTuongCA)
+@UseGuards(GraphQLGuard)
 export class DoiTuongCAsResolver {
   constructor(private doituongCAsService: DoiTuongCAsService) { }
   @Query((returns) => [DoiTuongCA])
@@ -37,6 +43,7 @@ export class DoiTuongCAsResolver {
   }
 
   @Mutation((returns) => DoiTuongCA)
+  @UseGuards(InsertGuard)
   createDoiTuongCA(
     @Args('doituongCAInput') doituongCAInput: DoiTuongCAInput,
   ): Promise<DoiTuongCA> {
@@ -44,6 +51,7 @@ export class DoiTuongCAsResolver {
   }
 
   @Mutation((returns) => DoiTuongCA)
+  @UseGuards(UpdateGuard)
   editDoiTuongCA(
     @Args('doituongCAInput') doituongCAInput: DoiTuongCAInput,
     @Args('id') id: number,
@@ -52,6 +60,7 @@ export class DoiTuongCAsResolver {
   }
 
   @Mutation((returns) => DoiTuongCA)
+  @UseGuards(DeleteGuard)
   deleteDoiTuongCA(@Args('id') id: number): Promise<DoiTuongCA> {
     return this.doituongCAsService.deleteDoiTuongCA(id);
   }

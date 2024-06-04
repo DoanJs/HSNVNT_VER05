@@ -19,8 +19,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Doi } from './Doi.model';
 import { DoisService } from './Dois.service';
 import { DoiInput } from './type/Doi.Input';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { UseGuards } from '@nestjs/common';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => Doi)
+@UseGuards(GraphQLGuard)
 export class DoisResolver {
   constructor(private doisService: DoisService) {}
 
@@ -35,11 +41,13 @@ export class DoisResolver {
   }
 
   @Mutation((returns) => Doi)
+  @UseGuards(InsertGuard)
   createDoi(@Args('doiInput') doiInput: DoiInput): Promise<Doi> {
     return this.doisService.createDoi(doiInput);
   }
 
   @Mutation((returns) => Doi)
+  @UseGuards(UpdateGuard)
   editDoi(
     @Args('doiInput') doiInput: DoiInput,
     @Args('id') id: number,
@@ -48,6 +56,7 @@ export class DoisResolver {
   }
 
   @Mutation((returns) => Doi)
+  @UseGuards(DeleteGuard)
   deleteDoi(@Args('id') id: number): Promise<Doi> {
     return this.doisService.deleteDoi(id);
   }

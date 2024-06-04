@@ -5,11 +5,13 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { DeNghiTSNT } from './DeNghiTSNT.model';
 import { DeNghiTSNTsResolver } from './DeNghiTSNTs.resolver';
 import { DeNghiTSNTsService } from './DeNghiTSNTs.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([DeNghiTSNT]),
     DataLoaderModule,
+    AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),

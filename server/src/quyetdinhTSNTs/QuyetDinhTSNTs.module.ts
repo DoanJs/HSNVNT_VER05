@@ -5,11 +5,17 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { QuyetDinhTSNT } from './QuyetDinhTSNT.model';
 import { QuyetDinhTSNTsResolver } from './QuyetDinhTSNTs.resolver';
 import { QuyetDinhTSNTsService } from './QuyetDinhTSNTs.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([QuyetDinhTSNT]), DataLoaderModule, JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    TypeOrmModule.forFeature([QuyetDinhTSNT]),
+    DataLoaderModule,
+    AuthPassportModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [QuyetDinhTSNTsResolver, QuyetDinhTSNTsService],
 })
-export class QuyetDinhTSNTsModule { }
+export class QuyetDinhTSNTsModule {}

@@ -5,11 +5,13 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnsResolver } from './ChuyenAns.resolver';
 import { ChuyenAnsService } from './ChuyenAns.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ChuyenAn]),
     DataLoaderModule,
+    AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),

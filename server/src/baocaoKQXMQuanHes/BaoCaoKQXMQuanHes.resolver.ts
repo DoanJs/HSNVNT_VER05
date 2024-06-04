@@ -14,8 +14,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQXMQuanHe } from './BaoCaoKQXMQuanHe.model';
 import { BaoCaoKQXMQuanHesService } from './BaoCaoKQXMQuanHes.service';
 import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => BaoCaoKQXMQuanHe)
+@UseGuards(GraphQLGuard)
 export class BaoCaoKQXMQuanHesResolver {
   constructor(private baocaoKQXMQuanHesService: BaoCaoKQXMQuanHesService) {}
   @Query((returns) => [BaoCaoKQXMQuanHe])
@@ -31,6 +37,7 @@ export class BaoCaoKQXMQuanHesResolver {
   }
 
   @Mutation((returns) => BaoCaoKQXMQuanHe)
+  @UseGuards(InsertGuard)
   createBaoCaoKQXMQuanHe(
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
   ): Promise<BaoCaoKQXMQuanHe> {
@@ -40,6 +47,7 @@ export class BaoCaoKQXMQuanHesResolver {
   }
 
   @Mutation((returns) => BaoCaoKQXMQuanHe)
+  @UseGuards(UpdateGuard)
   editBaoCaoKQXMQuanHe(
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
     @Args('id') id: number,
@@ -51,6 +59,7 @@ export class BaoCaoKQXMQuanHesResolver {
   }
 
   @Mutation((retursn) => BaoCaoKQXMQuanHe)
+  @UseGuards(DeleteGuard)
   deleteBaoCaoKQXMQuanHe(
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
     @Args('id') id: number,

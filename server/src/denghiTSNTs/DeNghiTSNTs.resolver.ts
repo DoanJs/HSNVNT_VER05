@@ -20,6 +20,9 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DeNghiTSNT } from './DeNghiTSNT.model';
 import { DeNghiTSNTsService } from './DeNghiTSNTs.service';
 import { DeNghiTSNTInput } from './type/DeNghiTSNT.input';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DeNghiTSNT)
 @UseGuards(GraphQLGuard)
@@ -38,6 +41,7 @@ export class DeNghiTSNTsResolver {
   }
 
   @Mutation((returns) => DeNghiTSNT)
+  @UseGuards(InsertGuard)
   createDeNghiTSNT(
     @Args('denghiTSNTInput') denghiTSNTInput: DeNghiTSNTInput,
   ): Promise<DeNghiTSNT> {
@@ -45,6 +49,7 @@ export class DeNghiTSNTsResolver {
   }
 
   @Mutation((returns) => DeNghiTSNT)
+  @UseGuards(UpdateGuard)
   editDeNghiTSNT(
     @Args('id') id: number,
     @Args('denghiTSNTInput') denghiTSNTInput: DeNghiTSNTInput,
@@ -53,6 +58,7 @@ export class DeNghiTSNTsResolver {
   }
 
   @Mutation((returns) => DeNghiTSNT)
+  @UseGuards(DeleteGuard)
   deleteDeNghiTSNT(
     @Args('id') id: number,
     @Args('denghiTSNTInput') denghiTSNTInput: DeNghiTSNTInput,

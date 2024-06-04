@@ -12,6 +12,9 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoPHQH } from './BaoCaoPHQH.model';
 import { BaoCaoPHQHsService } from './BaoCaoPHQHs.service';
 import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => BaoCaoPHQH)
 @UseGuards(GraphQLGuard)
@@ -28,11 +31,13 @@ export class BaoCaoPHQHsResolver {
   }
 
   @Mutation((returns) => BaoCaoPHQH)
+  @UseGuards(InsertGuard)
   createBaoCaoPHQH(@Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput): Promise<BaoCaoPHQH> {
     return this.baocaoPHQHsService.createBaoCaoPHQH(baocaoPHQHInput);
   }
 
   @Mutation((returns) => BaoCaoPHQH)
+  @UseGuards(UpdateGuard)
   editBaoCaoPHQH(
     @Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput,
     @Args('id') id: number,
@@ -41,6 +46,7 @@ export class BaoCaoPHQHsResolver {
   }
 
   @Mutation((retursn) => BaoCaoPHQH)
+  @UseGuards(DeleteGuard)
   deleteBaoCaoPHQH(
     @Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput,
     @Args('id') id: number,

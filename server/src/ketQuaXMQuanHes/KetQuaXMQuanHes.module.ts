@@ -4,9 +4,18 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { KetQuaXMQuanHe } from './KetQuaXMQuanHe.model';
 import { KetQuaXMQuanHesResolver } from './KetQuaXMQuanHes.resolver';
 import { KetQuaXMQuanHesService } from './KetQuaXMQuanHes.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([KetQuaXMQuanHe]), DataLoaderModule],
+  imports: [
+    TypeOrmModule.forFeature([KetQuaXMQuanHe]),
+    DataLoaderModule,
+    AuthPassportModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [KetQuaXMQuanHesResolver, KetQuaXMQuanHesService],
 })
-export class KetQuaXMQuanHesModule { }
+export class KetQuaXMQuanHesModule {}

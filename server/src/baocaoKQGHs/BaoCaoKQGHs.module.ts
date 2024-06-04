@@ -5,11 +5,13 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { BaoCaoKQGH } from './BaoCaoKQGH.model';
 import { BaoCaoKQGHsResolver } from './BaoCaoKQGHs.resolver';
 import { BaoCaoKQGHsService } from './BaoCaoKQGHs.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([BaoCaoKQGH]),
     DataLoaderModule,
+    AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),

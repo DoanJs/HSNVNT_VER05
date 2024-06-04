@@ -12,10 +12,16 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { LucLuongThamGiaKH } from './LucLuongThamGiaKH.model';
 import { LucLuongThamGiaKHsService } from './LucLuongThamGiaKHs.service';
 import { LucLuongThamGiaKHInput } from './type/LucLuongThamGiaKH.input';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { UseGuards } from '@nestjs/common';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 
 @Resolver(() => LucLuongThamGiaKH)
+@UseGuards(GraphQLGuard)
 export class LucLuongThamGiaKHsResolver {
-  constructor(private lucluongthamgiaKHsService: LucLuongThamGiaKHsService) { }
+  constructor(private lucluongthamgiaKHsService: LucLuongThamGiaKHsService) {}
   @Query((returns) => [LucLuongThamGiaKH])
   lucluongThamGiaKHs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -29,6 +35,7 @@ export class LucLuongThamGiaKHsResolver {
   }
 
   @Mutation((returs) => LucLuongThamGiaKH)
+  @UseGuards(InsertGuard)
   createLucLuongThamGiaKH(
     @Args('lucluongThamGiaKHInput')
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
@@ -39,6 +46,7 @@ export class LucLuongThamGiaKHsResolver {
   }
 
   @Mutation((returns) => LucLuongThamGiaKH)
+  @UseGuards(UpdateGuard)
   editLucLuongThamGiaKH(
     @Args('lucluongThamGiaKHInput')
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
@@ -51,6 +59,7 @@ export class LucLuongThamGiaKHsResolver {
   }
 
   @Mutation((returns) => LucLuongThamGiaKH)
+  @UseGuards(DeleteGuard)
   deleteLucLuongThamGiaKH(@Args('id') id: number): Promise<LucLuongThamGiaKH> {
     return this.lucluongthamgiaKHsService.deleteLucLuongThamGiaKH(id);
   }
@@ -58,7 +67,9 @@ export class LucLuongThamGiaKHsResolver {
   // ResolveField
 
   @ResolveField((returns) => KeHoachTSNT)
-  KeHoachTSNT(@Parent() lucluongThamGiaKH: LucLuongThamGiaKH): Promise<KeHoachTSNT> {
+  KeHoachTSNT(
+    @Parent() lucluongThamGiaKH: LucLuongThamGiaKH,
+  ): Promise<KeHoachTSNT> {
     return this.lucluongthamgiaKHsService.KeHoachTSNT(lucluongThamGiaKH);
   }
 

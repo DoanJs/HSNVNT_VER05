@@ -5,7 +5,7 @@ import { AccountResolver } from './Account.resolver';
 import { AccountService } from './Account.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Account])],
-    providers: [AccountResolver, AccountService],
+  imports: [TypeOrmModule.forFeature([Account])],
+  providers: [AccountResolver, AccountService],
 })
-export class AccountModule { }
+export class AccountModule {}

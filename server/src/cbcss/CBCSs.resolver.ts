@@ -34,6 +34,8 @@ import { CBCSsService } from './CBCSs.service';
 import { CBCSInput } from './type/CBCS.Input';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { ReadGuard } from 'src/authPassport/authorization/read.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => CBCS)
 @UseGuards(GraphQLGuard)
@@ -41,7 +43,6 @@ export class CBCSsResolver {
   constructor(private cbcssService: CBCSsService) {}
 
   @Query((returns) => [CBCS])
-  @UseGuards(ReadGuard)
   cbcss(@Args('utilsParams') utilsParams: UtilsParamsInput): Promise<CBCS[]> {
     return this.cbcssService.cbcss(utilsParams);
   }
@@ -52,11 +53,13 @@ export class CBCSsResolver {
   }
 
   @Mutation((returns) => CBCS)
+  @UseGuards(InsertGuard)
   createCBCS(@Args('cbcsInput') cbcsInput: CBCSInput): Promise<CBCS> {
     return this.cbcssService.createCBCS(cbcsInput);
   }
 
   @Mutation((returns) => CBCS)
+  @UseGuards(UpdateGuard)
   editCBCS(
     @Args('cbcsInput') cbcsInput: CBCSInput,
     @Args('id') id: number,
@@ -65,6 +68,7 @@ export class CBCSsResolver {
   }
 
   @Mutation((retursn) => CBCS)
+  @UseGuards(DeleteGuard)
   deleteCBCS(
     @Args('cbcsInput') cbcsInput: CBCSInput,
     @Args('id') id: number,

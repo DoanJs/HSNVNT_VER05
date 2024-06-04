@@ -7,8 +7,14 @@ import { CATTPvaTDsService } from './CATTPvaTDs.service';
 import { CATTPvaTDInput } from './type/CATTPvaTD.input';
 import { CapCA } from 'src/capCAs/CapCA.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => CATTPvaTD)
+@UseGuards(GraphQLGuard)
 export class CATTPvaTDsResolver {
   constructor(private caTTPvaTDsService: CATTPvaTDsService) { }
   @Query((returns) => [CATTPvaTD])
@@ -26,11 +32,13 @@ export class CATTPvaTDsResolver {
   }
 
   @Mutation((returns) => CATTPvaTD)
+  @UseGuards(InsertGuard)
   createCATTPvaTD(@Args('caTTPvaTDInput') caTTPvaTDInput: CATTPvaTDInput): Promise<CATTPvaTD> {
     return this.caTTPvaTDsService.createCATTPvaTD(caTTPvaTDInput);
   }
 
   @Mutation((returns) => CATTPvaTD)
+  @UseGuards(UpdateGuard)
   editCATTPvaTD(
     @Args('caTTPvaTDInput') caTTPvaTDInput: CATTPvaTDInput,
     @Args('id') id: number,
@@ -39,6 +47,7 @@ export class CATTPvaTDsResolver {
   }
 
   @Mutation((returns) => CATTPvaTD)
+  @UseGuards(DeleteGuard)
   deleteCATTPvaTD(@Args('id') id: number): Promise<CATTPvaTD> {
     return this.caTTPvaTDsService.deleteCATTPvaTD(id);
   }
@@ -57,10 +66,7 @@ export class CATTPvaTDsResolver {
 
   //THE END!
 
-  
-
-
-  
+   
 
 
   @ResolveField(returns => [DeNghiTSNT])

@@ -12,8 +12,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DauMoiPH_DN } from './DauMoiPH_DN.model';
 import { DauMoiPH_DNsService } from './DauMoiPH_DNs.service';
 import { DauMoiPH_DNInput } from './type/DauMoiPH_DN.input';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { UseGuards } from '@nestjs/common';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DauMoiPH_DN)
+@UseGuards(GraphQLGuard)
 export class DauMoiPH_DNsResolver {
   constructor(private dauMoiPH_DNsService: DauMoiPH_DNsService) {}
 
@@ -30,6 +36,7 @@ export class DauMoiPH_DNsResolver {
   }
 
   @Mutation((returns) => DauMoiPH_DN)
+  @UseGuards(InsertGuard)
   createDauMoiPH_DN(
     @Args('dauMoiPH_DNInput') dauMoiPH_DNInput: DauMoiPH_DNInput,
   ): Promise<DauMoiPH_DN> {
@@ -37,6 +44,7 @@ export class DauMoiPH_DNsResolver {
   }
 
   @Mutation((returns) => DauMoiPH_DN)
+  @UseGuards(UpdateGuard)
   editDauMoiPH_DN(
     @Args('dauMoiPH_DNInput') dauMoiPH_DNInput: DauMoiPH_DNInput,
     @Args('id') id: number,
@@ -45,6 +53,7 @@ export class DauMoiPH_DNsResolver {
   }
 
   @Mutation((returns) => DauMoiPH_DN)
+  @UseGuards(DeleteGuard)
   deleteDauMoiPH_DN(@Args('id') id: number): Promise<DauMoiPH_DN> {
     return this.dauMoiPH_DNsService.deleteDauMoiPH_DN(id);
   }

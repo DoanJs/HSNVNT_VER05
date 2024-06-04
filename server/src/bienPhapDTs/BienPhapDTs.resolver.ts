@@ -10,8 +10,14 @@ import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BienPhapDT } from './BienPhapDT.model';
 import { BienPhapDTsService } from './BienPhapDTs.service';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => BienPhapDT)
+@UseGuards(GraphQLGuard)
 export class BienPhapDTsResolver {
   constructor(private bienPhapDTsService: BienPhapDTsService) {}
 
@@ -28,6 +34,7 @@ export class BienPhapDTsResolver {
   }
 
   @Mutation((returns) => BienPhapDT)
+  @UseGuards(InsertGuard)
   createBienPhapDT(
     @Args('bienPhapDT') bienPhapDT: string,
   ): Promise<BienPhapDT> {
@@ -35,6 +42,7 @@ export class BienPhapDTsResolver {
   }
 
   @Mutation((returns) => BienPhapDT)
+  @UseGuards(UpdateGuard)
   editBienPhapDT(
     @Args('bienPhapDT') bienPhapDT: string,
     @Args('id') id: number,
@@ -43,6 +51,7 @@ export class BienPhapDTsResolver {
   }
 
   @Mutation((returns) => BienPhapDT)
+  @UseGuards(DeleteGuard)
   deleteBienPhapDT(@Args('id') id: number): Promise<BienPhapDT> {
     return this.bienPhapDTsService.deleteBienPhapDT(id);
   }

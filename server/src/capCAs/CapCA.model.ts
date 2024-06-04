@@ -9,7 +9,7 @@ export class CapCA {
   @Field()
   MaCapCA: number;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
   CapCA: string;
 

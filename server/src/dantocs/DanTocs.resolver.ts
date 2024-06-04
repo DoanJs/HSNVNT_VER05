@@ -13,8 +13,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DanToc } from './DanToc.model';
 import { DanTocsService } from './DanTocs.service';
 import { DanTocInput } from './type/DanToc.Input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DanToc)
+@UseGuards(GraphQLGuard)
 export class DanTocsResolver {
   constructor(private dantocsService: DanTocsService) {}
   @Query((returns) => [DanToc])
@@ -30,11 +36,13 @@ export class DanTocsResolver {
   }
 
   @Mutation((returns) => DanToc)
+  @UseGuards(InsertGuard)
   createDanToc(@Args('danTocInput') danTocInput: DanTocInput): Promise<DanToc> {
     return this.dantocsService.createDanToc(danTocInput);
   }
 
   @Mutation((returns) => DanToc)
+  @UseGuards(UpdateGuard)
   editDanToc(
     @Args('danTocInput') danTocInput: DanTocInput,
     @Args('id') id: number,
@@ -43,6 +51,7 @@ export class DanTocsResolver {
   }
 
   @Mutation((returns) => DanToc)
+  @UseGuards(DeleteGuard)
   deleteDanToc(@Args('id') id: number): Promise<DanToc> {
     return this.dantocsService.deleteDanToc(id);
   }

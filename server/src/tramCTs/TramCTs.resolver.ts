@@ -1,4 +1,11 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { Doi } from 'src/dois/Doi.model';
@@ -7,10 +14,16 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { TramCT } from './TramCT.model';
 import { TramCTsService } from './TramCTs.service';
 import { TramCTInput } from './type/TramCT.input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 
 @Resolver(() => TramCT)
+@UseGuards(GraphQLGuard)
 export class TramCTsResolver {
-  constructor(private tramCTsService: TramCTsService) { }
+  constructor(private tramCTsService: TramCTsService) {}
 
   @Query((returns) => [TramCT])
   tramCTs(
@@ -25,13 +38,13 @@ export class TramCTsResolver {
   }
 
   @Mutation((returns) => TramCT)
-  createTramCT(
-    @Args('tramCTInput') tramCTInput: TramCTInput,
-  ): Promise<TramCT> {
+  @UseGuards(InsertGuard)
+  createTramCT(@Args('tramCTInput') tramCTInput: TramCTInput): Promise<TramCT> {
     return this.tramCTsService.createTramCT(tramCTInput);
   }
 
   @Mutation((returns) => TramCT)
+  @UseGuards(UpdateGuard)
   editTramCT(
     @Args('id') id: number,
     @Args('tramCTInput') tramCTInput: TramCTInput,
@@ -40,39 +53,37 @@ export class TramCTsResolver {
   }
 
   @Mutation((returns) => TramCT)
+  @UseGuards(DeleteGuard)
   deleteTramCT(
     @Args('id') id: number,
     @Args('tramCTInput') tramCTInput: TramCTInput,
   ): Promise<TramCT> {
-    return this.tramCTsService.deleteTramCT(
-      tramCTInput,
-      id,
-    );
+    return this.tramCTsService.deleteTramCT(tramCTInput, id);
   }
 
   // ResolveField
-  @ResolveField(returns => [KeHoachTSNT])
+  @ResolveField((returns) => [KeHoachTSNT])
   KeHoachTSNTs(@Parent() tramCT: TramCT): Promise<KeHoachTSNT[]> {
-    return this.tramCTsService.KeHoachTSNTs(tramCT.MaTramCT)
+    return this.tramCTsService.KeHoachTSNTs(tramCT.MaTramCT);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   TSXayDung(@Parent() tramCT: TramCT): Promise<CBCS> {
-    return this.tramCTsService.TSXayDung(tramCT)
+    return this.tramCTsService.TSXayDung(tramCT);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   LanhDaoPD(@Parent() tramCT: TramCT): Promise<CBCS> {
-    return this.tramCTsService.LanhDaoPD(tramCT)
+    return this.tramCTsService.LanhDaoPD(tramCT);
   }
 
-  @ResolveField(returns => CAQHvaTD)
+  @ResolveField((returns) => CAQHvaTD)
   CAQHvaTD(@Parent() tramCT: TramCT): Promise<CAQHvaTD> {
-    return this.tramCTsService.CAQHvaTD(tramCT)
+    return this.tramCTsService.CAQHvaTD(tramCT);
   }
 
-  @ResolveField(returns => Doi)
+  @ResolveField((returns) => Doi)
   Doi(@Parent() tramCT: TramCT): Promise<Doi> {
-    return this.tramCTsService.Doi(tramCT)
+    return this.tramCTsService.Doi(tramCT);
   }
 }

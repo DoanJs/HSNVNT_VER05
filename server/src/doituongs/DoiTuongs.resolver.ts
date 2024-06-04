@@ -23,6 +23,9 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DoiTuong } from './DoiTuong.model';
 import { DoiTuongsService } from './DoiTuongs.service';
 import { DoiTuongInput } from './type/DoiTuong.input';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DoiTuong)
 @UseGuards(GraphQLGuard)
@@ -42,6 +45,7 @@ export class DoiTuongsResolver {
   }
 
   @Mutation((returns) => DoiTuong)
+  @UseGuards(InsertGuard)
   createDoiTuong(
     @Args('doituongInput') doituongInput: DoiTuongInput,
   ): Promise<DoiTuong> {
@@ -49,6 +53,7 @@ export class DoiTuongsResolver {
   }
 
   @Mutation((returns) => DoiTuong)
+  @UseGuards(UpdateGuard)
   editDoiTuong(
     @Args('doituongInput') doituongInput: DoiTuongInput,
     @Args('id') id: number,
@@ -57,6 +62,7 @@ export class DoiTuongsResolver {
   }
 
   @Mutation((retursn) => DoiTuong)
+  @UseGuards(DeleteGuard)
   deleteDoiTuong(
     @Args('doituongInput') doituongInput: DoiTuongInput,
     @Args('id') id: number,

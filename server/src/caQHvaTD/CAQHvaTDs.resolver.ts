@@ -21,8 +21,14 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDsService } from './CAQHvaTDs.service';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => CAQHvaTD)
+@UseGuards(GraphQLGuard)
 export class CAQHvaTDsResolver {
   constructor(private caQHvaTDsService: CAQHvaTDsService) {}
   @Query((returns) => [CAQHvaTD])
@@ -38,6 +44,7 @@ export class CAQHvaTDsResolver {
   }
 
   @Mutation((returs) => CAQHvaTD)
+  @UseGuards(InsertGuard)
   createCAQHvaTD(
     @Args('caQHvaTDInput') caQHvaTDInput: CAQHvaTDInput,
   ): Promise<CAQHvaTD> {
@@ -45,6 +52,7 @@ export class CAQHvaTDsResolver {
   }
 
   @Mutation((returns) => CAQHvaTD)
+  @UseGuards(UpdateGuard)
   editCAQHvaTD(
     @Args('caQHvaTDInput') caQHvaTDInput: CAQHvaTDInput,
     @Args('id') id: number,
@@ -53,6 +61,7 @@ export class CAQHvaTDsResolver {
   }
 
   @Mutation((returns) => CAQHvaTD)
+  @UseGuards(DeleteGuard)
   deleteCAQHvaTD(@Args('id') id: number): Promise<CAQHvaTD> {
     return this.caQHvaTDsService.deleteCAQHvaTD(id);
   }

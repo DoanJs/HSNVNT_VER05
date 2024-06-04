@@ -3,8 +3,14 @@ import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { HinhThucHD } from './HinhThucHD.model';
 import { HinhThucHDsService } from './HinhThucHDs.service';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 
 @Resolver(() => HinhThucHD)
+@UseGuards(GraphQLGuard)
 export class HinhThucHDsResolver {
   constructor(private hinhthucHDsService: HinhThucHDsService) { }
 
@@ -21,6 +27,7 @@ export class HinhThucHDsResolver {
   }
 
   @Mutation((returs) => HinhThucHD)
+  @UseGuards(InsertGuard)
   createHinhThucHD(
     @Args('hinhthuc') hinhthuc: string
   ): Promise<HinhThucHD> {
@@ -28,6 +35,7 @@ export class HinhThucHDsResolver {
   }
 
   @Mutation((returns) => HinhThucHD)
+  @UseGuards(UpdateGuard)
   editHinhThucHD(
     @Args('hinhthuc') hinhthuc: string,
     @Args('id') id: number,
@@ -36,6 +44,7 @@ export class HinhThucHDsResolver {
   }
 
   @Mutation((returns) => HinhThucHD)
+  @UseGuards(DeleteGuard)
   deleteHinhThucHD(@Args('id') id: number): Promise<HinhThucHD> {
     return this.hinhthucHDsService.deleteHinhThucHD(id);
   }

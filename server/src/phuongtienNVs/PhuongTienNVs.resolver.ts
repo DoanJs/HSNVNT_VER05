@@ -14,11 +14,14 @@ import { PhuongTienNVInput } from './type/PhuongTienNV.input';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 
 @Resolver(() => PhuongTienNV)
 @UseGuards(GraphQLGuard)
 export class PhuongTienNVsResolver {
-  constructor(private phuongtienNVsService: PhuongTienNVsService) { }
+  constructor(private phuongtienNVsService: PhuongTienNVsService) {}
   @Query((returns) => [PhuongTienNV])
   phuongtienNVs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -32,6 +35,7 @@ export class PhuongTienNVsResolver {
   }
 
   @Mutation((returns) => PhuongTienNV)
+  @UseGuards(InsertGuard)
   createPhuongTienNV(
     @Args('phuongtienNVInput') phuongtienNVInput: PhuongTienNVInput,
   ): Promise<PhuongTienNV> {
@@ -39,6 +43,7 @@ export class PhuongTienNVsResolver {
   }
 
   @Mutation((returns) => PhuongTienNV)
+  @UseGuards(UpdateGuard)
   editPhuongTienNV(
     @Args('phuongtienNVInput') phuongtienNVInput: PhuongTienNVInput,
     @Args('id') id: number,
@@ -47,6 +52,7 @@ export class PhuongTienNVsResolver {
   }
 
   @Mutation((returns) => PhuongTienNV)
+  @UseGuards(DeleteGuard)
   deletePhuongTienNV(
     @Args('phuongtienNVInput') phuongtienNVInput: PhuongTienNVInput,
     @Args('id') id: number,
@@ -60,7 +66,7 @@ export class PhuongTienNVsResolver {
   KetQuaTSNT(@Parent() phuongtienNV: PhuongTienNV): Promise<KetQuaTSNT> {
     return this.phuongtienNVsService.KetQuaTSNT(phuongtienNV);
   }
-  
+
   @ResolveField((returns) => [CBCS])
   TSThucHiens(@Parent() phuongtienNV: PhuongTienNV): Promise<CBCS[]> {
     return this.phuongtienNVsService.TSThucHiens(phuongtienNV.MaPT);

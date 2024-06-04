@@ -17,6 +17,9 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQGH } from './BaoCaoKQGH.model';
 import { BaoCaoKQGHsService } from './BaoCaoKQGHs.service';
 import { BaoCaoKQGHInput } from './type/BaoCaoKQGH.input';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => BaoCaoKQGH)
 @UseGuards(GraphQLGuard)
@@ -35,6 +38,7 @@ export class BaoCaoKQGHsResolver {
   }
 
   @Mutation((returns) => BaoCaoKQGH)
+  @UseGuards(InsertGuard)
   createBaoCaoKQGH(
     @Args('baocaoKQGHInput') baocaoKQGHInput: BaoCaoKQGHInput,
   ): Promise<BaoCaoKQGH> {
@@ -42,6 +46,7 @@ export class BaoCaoKQGHsResolver {
   }
 
   @Mutation((returns) => BaoCaoKQGH)
+  @UseGuards(UpdateGuard)
   editBaoCaoKQGH(
     @Args('baocaoKQGHInput') baocaoKQGHInput: BaoCaoKQGHInput,
     @Args('id') id: number,
@@ -50,6 +55,7 @@ export class BaoCaoKQGHsResolver {
   }
 
   @Mutation((retursn) => BaoCaoKQGH)
+  @UseGuards(DeleteGuard)
   deleteBaoCaoKQGH(
     @Args('baocaoKQGHInput') baocaoKQGHInput: BaoCaoKQGHInput,
     @Args('id') id: number,

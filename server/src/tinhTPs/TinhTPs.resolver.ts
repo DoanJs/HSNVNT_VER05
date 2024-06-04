@@ -1,4 +1,11 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
@@ -6,10 +13,16 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { TinhTP } from './TinhTP.model';
 import { TinhTPsService } from './TinhTPs.service';
 import { TinhTPInput } from './type/TinhTP.Input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => TinhTP)
+@UseGuards(GraphQLGuard)
 export class TinhTPsResolver {
-  constructor(private tinhTPsService: TinhTPsService) { }
+  constructor(private tinhTPsService: TinhTPsService) {}
   @Query((returns) => [TinhTP])
   tinhTPs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -23,13 +36,13 @@ export class TinhTPsResolver {
   }
 
   @Mutation((returns) => TinhTP)
-  createTinhTP(
-    @Args('tinhTPInput') tinhTPInput: TinhTPInput,
-  ): Promise<TinhTP> {
+  @UseGuards(InsertGuard)
+  createTinhTP(@Args('tinhTPInput') tinhTPInput: TinhTPInput): Promise<TinhTP> {
     return this.tinhTPsService.createTinhTP(tinhTPInput);
   }
 
   @Mutation((returns) => TinhTP)
+  @UseGuards(UpdateGuard)
   editTinhTP(
     @Args('tinhTPInput') tinhTPInput: TinhTPInput,
     @Args('id') id: number,
@@ -38,24 +51,25 @@ export class TinhTPsResolver {
   }
 
   @Mutation((returns) => TinhTP)
+  @UseGuards(DeleteGuard)
   deleteTinhTP(@Args('id') id: number): Promise<TinhTP> {
     return this.tinhTPsService.deleteTinhTP(id);
   }
 
   //  ResolveField
 
-  @ResolveField(returns => [DeNghiTSNT])
+  @ResolveField((returns) => [DeNghiTSNT])
   DeNghiTSNTs(@Parent() tinhTP: TinhTP): Promise<DeNghiTSNT[]> {
-    return this.tinhTPsService.DeNghiTSNTs(tinhTP.MaTinhTP)
+    return this.tinhTPsService.DeNghiTSNTs(tinhTP.MaTinhTP);
   }
 
-  @ResolveField(returns => [QuyetDinhTSNT])
+  @ResolveField((returns) => [QuyetDinhTSNT])
   QuyetDinhTSNTs(@Parent() tinhTP: TinhTP): Promise<QuyetDinhTSNT[]> {
-    return this.tinhTPsService.QuyetDinhTSNTs(tinhTP.MaTinhTP)
+    return this.tinhTPsService.QuyetDinhTSNTs(tinhTP.MaTinhTP);
   }
 
-  @ResolveField(returns => [KetQuaTSNT])
+  @ResolveField((returns) => [KetQuaTSNT])
   KetQuaTSNTs(@Parent() tinhTP: TinhTP): Promise<KetQuaTSNT[]> {
-    return this.tinhTPsService.KetQuaTSNTs(tinhTP.MaTinhTP)
+    return this.tinhTPsService.KetQuaTSNTs(tinhTP.MaTinhTP);
   }
 }

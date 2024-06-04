@@ -4,7 +4,7 @@ import {
   Parent,
   Query,
   ResolveField,
-  Resolver
+  Resolver,
 } from '@nestjs/graphql';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KetQuaXMDiaChi } from './KetQuaXMDiaChi.model';
@@ -17,10 +17,16 @@ import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => KetQuaXMDiaChi)
+@UseGuards(GraphQLGuard)
 export class KetQuaXMDiaChisResolver {
-  constructor(private ketQuaXMDiaChisService: KetQuaXMDiaChisService) { }
+  constructor(private ketQuaXMDiaChisService: KetQuaXMDiaChisService) {}
 
   @Query((returns) => [KetQuaXMDiaChi])
   ketQuaXMDiaChis(
@@ -35,56 +41,68 @@ export class KetQuaXMDiaChisResolver {
   }
 
   @Mutation((returns) => KetQuaXMDiaChi)
-  createKetQuaXMDiaChi(@Args('ketQuaXMDiaChiInput') ketQuaXMDiaChiInput: KetQuaXMDiaChiInput): Promise<KetQuaXMDiaChi> {
-    return this.ketQuaXMDiaChisService.createKetQuaXMDiaChi(ketQuaXMDiaChiInput);
+  @UseGuards(InsertGuard)
+  createKetQuaXMDiaChi(
+    @Args('ketQuaXMDiaChiInput') ketQuaXMDiaChiInput: KetQuaXMDiaChiInput,
+  ): Promise<KetQuaXMDiaChi> {
+    return this.ketQuaXMDiaChisService.createKetQuaXMDiaChi(
+      ketQuaXMDiaChiInput,
+    );
   }
 
   @Mutation((returns) => KetQuaXMDiaChi)
+  @UseGuards(UpdateGuard)
   editKetQuaXMDiaChi(
     @Args('ketQuaXMDiaChiInput') ketQuaXMDiaChiInput: KetQuaXMDiaChiInput,
     @Args('id') id: number,
   ): Promise<KetQuaXMDiaChi> {
-    return this.ketQuaXMDiaChisService.editKetQuaXMDiaChi(ketQuaXMDiaChiInput, id);
+    return this.ketQuaXMDiaChisService.editKetQuaXMDiaChi(
+      ketQuaXMDiaChiInput,
+      id,
+    );
   }
 
   @Mutation((returns) => KetQuaXMDiaChi)
+  @UseGuards(DeleteGuard)
   deleteKetQuaXMDiaChi(@Args('id') id: number): Promise<KetQuaXMDiaChi> {
     return this.ketQuaXMDiaChisService.deleteKetQuaXMDiaChi(id);
   }
 
   //ResolveField
-  @ResolveField(returns => DiaChiNV)
+  @ResolveField((returns) => DiaChiNV)
   DiaChiNV(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<DiaChiNV> {
-    return this.ketQuaXMDiaChisService.DiaChiNV(ketquaXMDiaChi)
+    return this.ketQuaXMDiaChisService.DiaChiNV(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => DeNghiTSNT)
+  @ResolveField((returns) => DeNghiTSNT)
   DeNghiTSNT(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<DeNghiTSNT> {
-    return this.ketQuaXMDiaChisService.DeNghiTSNT(ketquaXMDiaChi)
+    return this.ketQuaXMDiaChisService.DeNghiTSNT(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => CATTPvaTD)
+  @ResolveField((returns) => CATTPvaTD)
   CATTPvaTD(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<CATTPvaTD> {
-    return this.ketQuaXMDiaChisService.CATTPvaTD(ketquaXMDiaChi)
+    return this.ketQuaXMDiaChisService.CATTPvaTD(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => QuyetDinhTSNT)
-  QuyetDinhTSNT(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<QuyetDinhTSNT> {
-    return this.ketQuaXMDiaChisService.QuyetDinhTSNT(ketquaXMDiaChi)
+  @ResolveField((returns) => QuyetDinhTSNT)
+  QuyetDinhTSNT(
+    @Parent() ketquaXMDiaChi: KetQuaXMDiaChi,
+  ): Promise<QuyetDinhTSNT> {
+    return this.ketQuaXMDiaChisService.QuyetDinhTSNT(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => CAQHvaTD)
+  @ResolveField((returns) => CAQHvaTD)
   CAQHvaTD(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<CAQHvaTD> {
-    return this.ketQuaXMDiaChisService.CAQHvaTD(ketquaXMDiaChi)
+    return this.ketQuaXMDiaChisService.CAQHvaTD(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => DoiTuong)
+  @ResolveField((returns) => DoiTuong)
   DoiTuong(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<DoiTuong> {
-    return this.ketQuaXMDiaChisService.DoiTuong(ketquaXMDiaChi)
+    return this.ketQuaXMDiaChisService.DoiTuong(ketquaXMDiaChi);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   LanhDaoPD(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<CBCS> {
-    return this.ketQuaXMDiaChisService.LanhDaoPD(ketquaXMDiaChi)
+    return this.ketQuaXMDiaChisService.LanhDaoPD(ketquaXMDiaChi);
   }
 }

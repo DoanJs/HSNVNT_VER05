@@ -5,11 +5,17 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import PhuongTienNV from './PhuongTienNV.model';
 import { PhuongTienNVsResolver } from './PhuongTienNVs.resolver';
 import { PhuongTienNVsService } from './PhuongTienNVs.service';
+import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PhuongTienNV]), DataLoaderModule, JwtModule.register({
-    secret: process.env.SECRETJWT as string
-  })],
+  imports: [
+    TypeOrmModule.forFeature([PhuongTienNV]),
+    DataLoaderModule,
+    AuthPassportModule,
+    JwtModule.register({
+      secret: process.env.SECRETJWT as string,
+    }),
+  ],
   providers: [PhuongTienNVsResolver, PhuongTienNVsService],
 })
-export class PhuongTienNVsModule { }
+export class PhuongTienNVsModule {}
