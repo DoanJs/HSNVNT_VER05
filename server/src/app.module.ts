@@ -48,6 +48,7 @@ import { TinhChatDTsModule } from './tinhchatDTs/TinhChatDTs.module';
 import { TonGiaosModule } from './tongiaos/TonGiaos.module';
 import { TramCTsModule } from './tramCTs/TramCTs.module';
 import { TKNhanhsModule } from './timkiemnhanhs/TKNhanhs.module';
+import { HistoriesModule } from './histories/Histories.module';
 require('dotenv').config();
 
 @Module({
@@ -112,6 +113,7 @@ require('dotenv').config();
     PhuongTienNVsModule,
     TKNhanhsModule,
     AccountModule,
+    HistoriesModule,
     AuthPassportModule,
     DataLoaderModule
   ],

@@ -30,8 +30,6 @@ export default function Profile() {
   });
   const account = Data_account?.account;
 
-  console.log(account)
-
   if (!account) return <Spinner />;
   return (
     <ProfileStyle>

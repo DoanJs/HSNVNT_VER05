@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import { SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
 import { Repository } from 'typeorm';
 import { TKNhanh } from './TKNhanh.model';
 
@@ -8,7 +8,7 @@ import { TKNhanh } from './TKNhanh.model';
 export class TKNhanhsService {
   constructor(
     @InjectRepository(TKNhanh) private tknhanhRepository: Repository<TKNhanh>,
-  ) { }
+  ) {}
 
   public readonly filterData_Fast = async (
     TenBang: string,
@@ -17,263 +17,199 @@ export class TKNhanhsService {
     keySearch: string,
     Link: string,
   ) => {
-    let result: any[] = []
+    let result: any[] = [];
 
-    const data_server = await this.tknhanhRepository.query(SP_GET_DATA_DECRYPT(
-      TenBang,
-      `"${MaID} != 0"`, 0, 0
-    )) || await this.tknhanhRepository.query(
-      `SELECT * FROM ${TenBang} WHERE ${MaID} != 0`
-    )
+    const data_server =
+      (await this.tknhanhRepository.query(
+        SP_GET_DATA_DECRYPT(TenBang, `"${MaID} != 0"`, 0, 0),
+      )) ||
+      (await this.tknhanhRepository.query(
+        SP_GET_DATA(TenBang, `'${MaID} != 0'`, MaID, 0, 0),
+      ));
 
     data_server.map((data: any) => {
       CotKiemTra.map((obj: any) => {
         if (data[obj]?.toLowerCase().includes(keySearch)) {
           result.push({
             TieuDe: data[obj],
-            LienKet: `${Link}/${data[MaID]}`
-          })
+            LienKet: `${Link}/${data[MaID]}`,
+          });
         }
-      })
-    })
+      });
+    });
 
-    return result
+    return result;
   };
 
   async getData_searchFast(keySearch: string): Promise<TKNhanh[]> {
-    let arrBegin: any[] = []
+    let arrBegin: any[] = [];
 
     const baocaoKQGHs_filter = await this.filterData_Fast(
-      "BaoCaoKQGHs",
-      "MaBCKQGH",
-      [
-        "PhuongTienSD",
-        "VaiNguyTrang",
-        "NoiDung",
-        "MucDich",
-        "DiaDiem",
-      ],
+      'BaoCaoKQGHs',
+      'MaBCKQGH',
+      ['PhuongTienSD', 'VaiNguyTrang', 'NoiDung', 'MucDich', 'DiaDiem'],
       keySearch,
-      "baocaokqgh"
-    )
+      'baocaokqgh',
+    );
     const baocaoKQXMDiaChis_filter = await this.filterData_Fast(
-      "BaoCaoKQXMDiaChis",
-      "MaBCKQXMDC",
+      'BaoCaoKQXMDiaChis',
+      'MaBCKQXMDC',
       [
-        "HoTenChuHo",
-        "TenKhac",
-        "QueQuan",
-        "HKTT",
-        "NoiO",
-        "NgheNghiep",
-        "NoiLamViec",
-        "QuanHeGiaDinh",
-        "HoKhacCungDC",
-        "BienPhapXM",
+        'HoTenChuHo',
+        'TenKhac',
+        'QueQuan',
+        'HKTT',
+        'NoiO',
+        'NgheNghiep',
+        'NoiLamViec',
+        'QuanHeGiaDinh',
+        'HoKhacCungDC',
+        'BienPhapXM',
       ],
       keySearch,
-      "baocaokqxmdiachi"
-    )
+      'baocaokqxmdiachi',
+    );
     const baocaoKQXMQuanHes_filter = await this.filterData_Fast(
-      "BaoCaoKQXMQuanHes",
-      "MaBCKQXMQH",
+      'BaoCaoKQXMQuanHes',
+      'MaBCKQXMQH',
       [
-        "HoTen",
-        "TenKhac",
-        "QueQuan",
-        "HKTT",
-        "NoiO",
-        "NgheNghiep",
-        "NoiLamViec",
-        "QuanHeGDXH",
-        "BienPhapXM",
+        'HoTen',
+        'TenKhac',
+        'QueQuan',
+        'HKTT',
+        'NoiO',
+        'NgheNghiep',
+        'NoiLamViec',
+        'QuanHeGDXH',
+        'BienPhapXM',
       ],
       keySearch,
-      "baocaokqxmquanhe"
-    )
+      'baocaokqxmquanhe',
+    );
     const baocaoKTDNs_filter = await this.filterData_Fast(
-      "BaoCaoKTDNs",
-      "MaBCKTDN",
-      [
-        "TinhHinhDT",
-        "VanDeRKN",
-      ],
+      'BaoCaoKTDNs',
+      'MaBCKTDN',
+      ['TinhHinhDT', 'VanDeRKN'],
       keySearch,
-      "baocaoktdn"
-    )
+      'baocaoktdn',
+    );
     const baocaoPHQHs_filter = await this.filterData_Fast(
-      "BaoCaoPHQHs",
-      "MaBCPHQH",
-      [
-        "DiaDiemPH",
-        "DDNhanDang",
-        "DiaChiCC",
-        "TSNhanXet",
-        "BiDanh",
-      ],
+      'BaoCaoPHQHs',
+      'MaBCPHQH',
+      ['DiaDiemPH', 'DDNhanDang', 'DiaChiCC', 'TSNhanXet', 'BiDanh'],
       keySearch,
-      "baocaophqh"
-    )
+      'baocaophqh',
+    );
     const bienbanRKNs_filter = await this.filterData_Fast(
-      "BienBanRKNs",
-      "MaBBRKN",
-      [
-        "KetLuan",
-        "DeXuat",
-        "DanhGiaLDP",
-        "DanhGiaTS",
-        "DanhGiaDT",
-      ],
+      'BienBanRKNs',
+      'MaBBRKN',
+      ['KetLuan', 'DeXuat', 'DanhGiaLDP', 'DanhGiaTS', 'DanhGiaDT'],
       keySearch,
-      "bienbanrkn"
-    )
+      'bienbanrkn',
+    );
     const cbcss_filter = await this.filterData_Fast(
-      "CBCSs",
-      "MaCBCS",
+      'CBCSs',
+      'MaCBCS',
       [
-        "HoTen",
-        "TenKhac",
-        "QueQuan",
-        "HKTT",
-        "NoiO",
-        "PhuongTien",
-        "SDT",
-        "CCCD",
-        "CMND",
-        "SHC",
-        "ThongTinChiTiet",
+        'HoTen',
+        'TenKhac',
+        'QueQuan',
+        'HKTT',
+        'NoiO',
+        'PhuongTien',
+        'SDT',
+        'CCCD',
+        'CMND',
+        'SHC',
+        'ThongTinChiTiet',
       ],
       keySearch,
-      "cbcs"
-    )
+      'cbcs',
+    );
     const chuyenans_filter = await this.filterData_Fast(
-      "ChuyenAns",
-      "MaCA",
-      [
-        "TenCA",
-        "BiSo",
-        "NoiDung",
-      ],
+      'ChuyenAns',
+      'MaCA',
+      ['TenCA', 'BiSo', 'NoiDung'],
       keySearch,
-      "chuyenan"
-    )
+      'chuyenan',
+    );
     const denghiTSNTs_filter = await this.filterData_Fast(
-      "DeNghiTSNTs",
-      "MaDN",
-      [
-        "NoiDungDN",
-        "NoiDungTN",
-        "So",
-      ],
+      'DeNghiTSNTs',
+      'MaDN',
+      ['NoiDungDN', 'NoiDungTN', 'So'],
       keySearch,
-      "denghitsnt"
-    )
+      'denghitsnt',
+    );
     const diachiNVs_filter = await this.filterData_Fast(
-      "DiaChiNVs",
-      "MaDC",
-      [
-        "DiaChi",
-      ],
+      'DiaChiNVs',
+      'MaDC',
+      ['DiaChi'],
       keySearch,
-      "diachinv"
-    )
+      'diachinv',
+    );
     const doituongCAs_filter = await this.filterData_Fast(
-      "DoiTuongCAs",
-      "MaDTCA",
-      [
-        "BiSo",
-      ],
+      'DoiTuongCAs',
+      'MaDTCA',
+      ['BiSo'],
       keySearch,
-      "doituongca"
-    )
-
+      'doituongca',
+    );
     const doituongs_filter = await this.filterData_Fast(
-      "DoiTuongs",
-      "MaDoiTuong",
-      [
-        "TenDT",
-        "TenKhac",
-        "NoiSinh",
-        "NoiO",
-        "QueQuan",
-        "HKTT",
-        "NoiLamViec"
-      ],
+      'DoiTuongs',
+      'MaDoiTuong',
+      ['TenDT', 'TenKhac', 'NoiSinh', 'NoiO', 'QueQuan', 'HKTT', 'NoiLamViec'],
       keySearch,
-      "doituong"
-    )
+      'doituong',
+    );
     const kehoachTSNTs_filter = await this.filterData_Fast(
-      "KeHoachTSNTs",
-      "MaKH",
-      [
-        "VanDeChuY",
-        "NoiDung",
-        "So"
-      ],
+      'KeHoachTSNTs',
+      'MaKH',
+      ['VanDeChuY', 'NoiDung', 'So'],
       keySearch,
-      "kehoachtsnt"
-    )
+      'kehoachtsnt',
+    );
     const ketquaXMDiaChis_filter = await this.filterData_Fast(
-      "KetQuaXMDiaChis",
-      "MaKQXMDC",
-      [
-        "So"
-      ],
+      'KetQuaXMDiaChis',
+      'MaKQXMDC',
+      ['So'],
       keySearch,
-      "ketquaxmdiachi"
-    )
+      'ketquaxmdiachi',
+    );
     const ketquaXMQuanHes_filter = await this.filterData_Fast(
-      "KetQuaXMQuanHes",
-      "MaKQXMQH",
-      [
-        "So"
-      ],
+      'KetQuaXMQuanHes',
+      'MaKQXMQH',
+      ['So'],
       keySearch,
-      "ketquaxmquanhe"
-    )
+      'ketquaxmquanhe',
+    );
     const lldbs_filter = await this.filterData_Fast(
-      "LLDBs",
-      "MaLLDB",
-      [
-        "BiDanh"
-      ],
+      'LLDBs',
+      'MaLLDB',
+      ['BiDanh'],
       keySearch,
-      "lldb"
-    )
+      'lldb',
+    );
     const phuongtienNVs_filter = await this.filterData_Fast(
-      "PhuongTienNVs",
-      "MaPT",
-      [
-        "BKS",
-        "DiaDiemPH",
-      ],
+      'PhuongTienNVs',
+      'MaPT',
+      ['BKS', 'DiaDiemPH'],
       keySearch,
-      "phuongtiennv"
-    )
+      'phuongtiennv',
+    );
     const quyetdinhTSNTs_filter = await this.filterData_Fast(
-      "QuyetDinhTSNTs",
-      "MaQD",
-      [
-        "BiDanh",
-        "NhiemVuCT",
-        "So",
-      ],
+      'QuyetDinhTSNTs',
+      'MaQD',
+      ['BiDanh', 'NhiemVuCT', 'So'],
       keySearch,
-      "quyetdinhtsnt"
-    )
+      'quyetdinhtsnt',
+    );
     const tramCTs_filter = await this.filterData_Fast(
-      "TramCTs",
-      "MaTramCT",
-      [
-        "TinhHinhDB",
-        "LyLichTram",
-        "VanDeChuY",
-        "QuyDinh",
-        "DiaDiem",
-      ],
+      'TramCTs',
+      'MaTramCT',
+      ['TinhHinhDB', 'LyLichTram', 'VanDeChuY', 'QuyDinh', 'DiaDiem'],
       keySearch,
-      "tramct"
-    )
+      'tramct',
+    );
 
     return arrBegin.concat(
       baocaoKQGHs_filter,
@@ -295,6 +231,6 @@ export class TKNhanhsService {
       phuongtienNVs_filter,
       quyetdinhTSNTs_filter,
       tramCTs_filter,
-    )
+    );
   }
 }

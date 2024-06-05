@@ -8,11 +8,11 @@ export class TKNhanh {
   @Field()
   MaTKN: number;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
   TieuDe: string;
 
-  @Column({ type: 'nvarchar', length: 100, nullable: true })
+  @Column({ type: 'nvarchar', length: 200, nullable: true })
   @Field({ nullable: true })
   LienKet: string;
 }
