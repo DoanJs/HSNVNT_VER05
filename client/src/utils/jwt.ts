@@ -20,7 +20,8 @@ const JWTManager = () => {
             AccountID: decode.AccountID,
             Username: decode.Username,
             Role: decode.Role,
-            Position: decode.Position
+            Position: decode.Position,
+            MaHistory: decode.MaHistory
         };
         accountLoginVar(account)
 

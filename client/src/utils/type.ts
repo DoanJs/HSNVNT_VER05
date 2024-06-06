@@ -7,4 +7,5 @@ export interface AccountType {
   Username?: string
   Role?: string
   Position?: string
+  MaHistory?: number
 }

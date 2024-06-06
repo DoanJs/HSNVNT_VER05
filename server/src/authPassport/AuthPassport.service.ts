@@ -48,7 +48,6 @@ export class AuthPassportService {
 
   async login(req: Request, res: Response): Promise<AccessTokenType> {
     const account = req.user as Account;
-
     const payload = {
       AccountID: account.AccountID,
       Username: account.Username,
@@ -56,13 +55,33 @@ export class AuthPassportService {
       Position: account.Position,
     };
 
-    const access_token = this.jwtService.sign(payload, {
-      expiresIn: process.env.expiresInToken as string,
-      secret: process.env.SECRETOKEN as string,
-    });
+    const historyCurrent = await this.accountRepository.query(
+      SP_CHANGE_DATA(
+        `'CREATE'`,
+        'Histories',
+        `'AccountID, TimeLogin, TimeLogout'`,
+        `N' ${payload.AccountID},
+            N''${moment().format()}'',
+            null
+        '`,
+        "'MaHistory = SCOPE_IDENTITY()'",
+      ),
+    );
+
+    const access_token = this.jwtService.sign(
+      { ...payload, MaHistory: historyCurrent[0]?.MaHistory },
+      {
+        expiresIn: process.env.expiresInToken as string,
+        secret: process.env.SECRETOKEN as string,
+      },
+    );
 
     const refresh_token = this.jwtService.sign(
-      { ...payload, Password: account.Password },
+      {
+        ...payload,
+        MaHistory: historyCurrent[0]?.MaHistory,
+        Password: account.Password,
+      },
       {
         expiresIn: process.env.expiresInRefreshToken as string,
         secret: process.env.SECREREFRESHTOKEN as string,
@@ -76,18 +95,6 @@ export class AuthPassportService {
       path: '/refresh_token',
     });
 
-    await this.accountRepository.query(
-      SP_CHANGE_DATA(
-        `'CREATE'`,
-        'Histories',
-        `'AccountID, TimeLogin, TimeLogout'`,
-        `N' ${payload.AccountID},
-            N''${moment().format()}'',
-            null
-        '`,
-        "'MaHistory = SCOPE_IDENTITY()'",
-      ),
-    );
     return {
       access_token,
     };
@@ -139,7 +146,11 @@ export class AuthPassportService {
       };
 
       const refresh_token = this.jwtService.sign(
-        { ...payload, Password: existingUser.Password },
+        {
+          ...payload,
+          MaHistory: decodeUser.MaHistory,
+          Password: existingUser.Password,
+        },
         {
           expiresIn: process.env.expiresInRefreshToken as string,
           secret: process.env.SECREREFRESHTOKEN as string,
@@ -154,10 +165,13 @@ export class AuthPassportService {
       });
 
       return {
-        access_token: this.jwtService.sign(payload, {
-          expiresIn: process.env.expiresInToken as string,
-          secret: process.env.SECRETOKEN as string,
-        }),
+        access_token: this.jwtService.sign(
+          { ...payload, MaHistory: decodeUser.MaHistory },
+          {
+            expiresIn: process.env.expiresInToken as string,
+            secret: process.env.SECRETOKEN as string,
+          },
+        ),
       };
     } catch (error) {
       throw new UnauthorizedException('Refresh token not valid!');
@@ -165,23 +179,12 @@ export class AuthPassportService {
   }
 
   async logout(req: any, res: Response): Promise<boolean> {
-
     res.clearCookie(process.env.REFRESHTOKENCOOKIENAME, {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
       path: '/refresh_token',
     });
-
-    const data = await this.accountRepository.query(
-      SP_GET_DATA(
-        'Histories',
-        `'AccountID = ${req.body?.AccountID}'`,
-        'MaHistory',
-        0,
-        0,
-      ),
-    );
 
     await this.accountRepository.query(
       SP_CHANGE_DATA(
@@ -192,7 +195,7 @@ export class AuthPassportService {
         null,
         `N' TimeLogout = N''${moment().format()}''
         '`,
-        `'MaHistory = ${data[data.length - 1]?.MaHistory}'`,
+        `'MaHistory = ${req.body?.MaHistory}'`,
       ),
     );
     return true;
