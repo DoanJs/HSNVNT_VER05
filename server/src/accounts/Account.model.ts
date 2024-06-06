@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { History } from 'src/histories/History.model';
 
 @Entity({ name: 'Accounts' })
 @ObjectType()
@@ -22,4 +23,8 @@ export class Account {
   @Column({ type: 'nvarchar', length: 20, nullable: true })
   @Field({ nullable: true })
   Position: string;
+
+  // relation
+  @OneToMany(() => History, history => history.Account)
+  Histories: [History]
 }

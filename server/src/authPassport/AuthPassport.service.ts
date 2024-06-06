@@ -4,8 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as Crypto from 'crypto-js';
 import { Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
+import * as moment from 'moment';
 import { Account } from 'src/accounts/Account.model';
-import { SP_GET_DATA } from 'src/utils/mssql/query';
+import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { Repository } from 'typeorm';
 import { AccessTokenType } from './type/accessToken.type';
 
@@ -47,6 +48,7 @@ export class AuthPassportService {
 
   async login(req: Request, res: Response): Promise<AccessTokenType> {
     const account = req.user as Account;
+
     const payload = {
       AccountID: account.AccountID,
       Username: account.Username,
@@ -73,6 +75,19 @@ export class AuthPassportService {
       sameSite: 'lax',
       path: '/refresh_token',
     });
+
+    await this.accountRepository.query(
+      SP_CHANGE_DATA(
+        `'CREATE'`,
+        'Histories',
+        `'AccountID, TimeLogin, TimeLogout'`,
+        `N' ${payload.AccountID},
+            N''${moment().format()}'',
+            null
+        '`,
+        "'MaHistory = SCOPE_IDENTITY()'",
+      ),
+    );
 
     return {
       access_token,

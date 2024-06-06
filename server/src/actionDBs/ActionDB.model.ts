@@ -1,5 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { History } from 'src/histories/History.model';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'ActionDBs' })
 @ObjectType()
@@ -7,10 +14,6 @@ export class ActionDB {
   @PrimaryGeneratedColumn({ primaryKeyConstraintName: 'PK_MaActionDB' })
   @Field()
   MaActionDB: number;
-
-  @Column({ type: 'int', nullable: true })
-  @Field({ nullable: true })
-  MaHistory: number;
 
   @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
@@ -29,4 +32,13 @@ export class ActionDB {
   Other: string;
 
   // relation
+  @ManyToOne(() => History, (history) => history.ActionDBs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaHistory',
+    foreignKeyConstraintName: 'FK_MaHistory_ActionDB',
+  })
+  History: History;
 }

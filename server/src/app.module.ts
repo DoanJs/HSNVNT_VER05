@@ -49,6 +49,7 @@ import { TonGiaosModule } from './tongiaos/TonGiaos.module';
 import { TramCTsModule } from './tramCTs/TramCTs.module';
 import { TKNhanhsModule } from './timkiemnhanhs/TKNhanhs.module';
 import { HistoriesModule } from './histories/Histories.module';
+import { ActionDBsModule } from './actionDBs/ActionDBs.module';
 require('dotenv').config();
 
 @Module({
@@ -62,7 +63,7 @@ require('dotenv').config();
       database: 'HSNVNT_VER05',
       autoLoadEntities: true,
       logging: true,
-      // synchronize: true, ///not use production env
+      synchronize: true, ///not use production env
       options: {
         trustServerCertificate: true,
       },
@@ -114,6 +115,7 @@ require('dotenv').config();
     TKNhanhsModule,
     AccountModule,
     HistoriesModule,
+    ActionDBsModule,
     AuthPassportModule,
     DataLoaderModule
   ],
