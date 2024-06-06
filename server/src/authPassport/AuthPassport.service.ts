@@ -88,7 +88,6 @@ export class AuthPassportService {
         "'MaHistory = SCOPE_IDENTITY()'",
       ),
     );
-
     return {
       access_token,
     };
@@ -166,18 +165,36 @@ export class AuthPassportService {
   }
 
   async logout(req: any, res: Response): Promise<boolean> {
-    // await this.historyService.createHistory({
-    //   accountId: req.body.id,
-    //   username: req.body.username,
-    //   role: req.body.role,
-    //   timeLogout: moment().format(),
-    // });
+
     res.clearCookie(process.env.REFRESHTOKENCOOKIENAME, {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
       path: '/refresh_token',
     });
+
+    const data = await this.accountRepository.query(
+      SP_GET_DATA(
+        'Histories',
+        `'AccountID = ${req.body?.AccountID}'`,
+        'MaHistory',
+        0,
+        0,
+      ),
+    );
+
+    await this.accountRepository.query(
+      SP_CHANGE_DATA(
+        `'EDIT'`,
+        'Histories',
+        null,
+        null,
+        null,
+        `N' TimeLogout = N''${moment().format()}''
+        '`,
+        `'MaHistory = ${data[data.length - 1]?.MaHistory}'`,
+      ),
+    );
     return true;
   }
 

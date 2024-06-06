@@ -34,7 +34,7 @@ export class AuthPassportController {
 
   @Post('/logout')
   logout(
-    @Req() req: any,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<boolean> {
     return this.authPassportService.logout(req, res);
