@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import {
   SP_CHANGE_DATA,
@@ -9,15 +10,17 @@ import {
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CapBac } from './CapBac.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class CapBacsService {
   constructor(
     @InjectRepository(CapBac) private capbacRepository: Repository<CapBac>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly capBac_DataInput = (capBac: string) => {
-    return capBac ? `N''${capBac}''` : null
+    return capBac ? `N''${capBac}''` : null;
   };
 
   async capbacs(utilsParams: UtilsParamsInput): Promise<CapBac[]> {
@@ -39,20 +42,27 @@ export class CapBacsService {
     return result[0];
   }
 
-  async createCapBac(capBac: string): Promise<CapBac> {
+  async createCapBac(capBac: string, user: any): Promise<CapBac> {
     const result = await this.capbacRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'", //string thuan
-        'CapBacs', 
+        'CapBacs',
         'CapBac',
         `N'${this.capBac_DataInput(capBac)}'`, //string thuan
         "'MaCB = SCOPE_IDENTITY()'", //string thuan
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCB = ${result[0].MaCB}`,
+      Time: `${moment().format()}`,
+      TableName: 'CapBacs'
+    });
     return result[0];
   }
 
-  async editCapBac(capBac: string, id: number): Promise<CapBac> {
+  async editCapBac(capBac: string, id: number, user: any): Promise<CapBac> {
     const result = await this.capbacRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -64,10 +74,17 @@ export class CapBacsService {
         `"MaCB = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCB: ${result[0].MaCB}; CapBac: ${capBac}`,
+      Time: `${moment().format()}`,
+      TableName: 'CapBacs'
+    });
     return result[0];
   }
 
-  async deleteCapBac(id: number): Promise<CapBac> {
+  async deleteCapBac(id: number, user: any): Promise<CapBac> {
     const result = await this.capbacRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -79,6 +96,13 @@ export class CapBacsService {
         `"MaCB = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCB: ${result[0].MaCB};`,
+      Time: `${moment().format()}`,
+      TableName: 'CapBacs'
+    });
     return result[0];
   }
 

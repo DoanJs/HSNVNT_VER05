@@ -8,6 +8,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => BaoCaoKTDN)
 @UseGuards(GraphQLGuard)
@@ -29,27 +30,30 @@ export class BaoCaoKTDNsResolver {
   @Mutation((returns) => BaoCaoKTDN)
   @UseGuards(InsertGuard)
   createBaoCaoKTDN(
+    @CurrentUser() user: any,
     @Args('baocaoKTDNInput') baocaoKTDNInput: BaoCaoKTDNInput,
   ): Promise<BaoCaoKTDN> {
-    return this.baocaoKTDNsService.createBaoCaoKTDN(baocaoKTDNInput);
+    return this.baocaoKTDNsService.createBaoCaoKTDN(baocaoKTDNInput, user);
   }
 
   @Mutation((returns) => BaoCaoKTDN)
   @UseGuards(UpdateGuard)
   editBaoCaoKTDN(
+    @CurrentUser() user: any,
     @Args('baocaoKTDNInput') baocaoKTDNInput: BaoCaoKTDNInput,
     @Args('id') id: number,
   ): Promise<BaoCaoKTDN> {
-    return this.baocaoKTDNsService.editBaoCaoKTDN(baocaoKTDNInput, id);
+    return this.baocaoKTDNsService.editBaoCaoKTDN(baocaoKTDNInput, id, user);
   }
 
   @Mutation((returns) => BaoCaoKTDN)
   @UseGuards(DeleteGuard)
   deleteBaoCaoKTDN(
+    @CurrentUser() user: any,
     @Args('baocaoKTDNInput') baocaoKTDNInput: BaoCaoKTDNInput,
     @Args('id') id: number,
   ): Promise<BaoCaoKTDN> {
-    return this.baocaoKTDNsService.deleteBaoCaoKTDN(baocaoKTDNInput, id);
+    return this.baocaoKTDNsService.deleteBaoCaoKTDN(baocaoKTDNInput, id, user);
   }
 
   //ResolveField

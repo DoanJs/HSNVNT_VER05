@@ -13,14 +13,17 @@ import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { Doi } from 'src/dois/Doi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import * as moment from 'moment';
 
 @Injectable()
 export default class BaoCaoKQXMDiaChisService {
   constructor(
     @InjectRepository(BaoCaoKQXMDiaChi)
     private baocaoKQXMDiaChiRepository: Repository<BaoCaoKQXMDiaChi>,
-    private dataloaderService: DataLoaderService
-  ) { }
+    private dataloaderService: DataLoaderService,
+    private actionDBsService: ActionDBsService,
+  ) {}
   public readonly baocaoKQXMDiaChi_DataInput = (
     Type: string,
     MaBCKQXMDC: number | null,
@@ -65,7 +68,9 @@ export default class BaoCaoKQXMDiaChisService {
           ? baocaoKQXMDiaChiInput.MaCAQHvaTD
           : null,
         MaDoi: baocaoKQXMDiaChiInput.MaDoi ? baocaoKQXMDiaChiInput.MaDoi : null,
-        MaDoiTuong: baocaoKQXMDiaChiInput.MaDoiTuong ? baocaoKQXMDiaChiInput.MaDoiTuong : null,
+        MaDoiTuong: baocaoKQXMDiaChiInput.MaDoiTuong
+          ? baocaoKQXMDiaChiInput.MaDoiTuong
+          : null,
         MaQD: baocaoKQXMDiaChiInput.MaQD ? baocaoKQXMDiaChiInput.MaQD : null,
         MaDiaChiNV: baocaoKQXMDiaChiInput.MaDiaChiNV
           ? baocaoKQXMDiaChiInput.MaDiaChiNV
@@ -105,46 +110,71 @@ export default class BaoCaoKQXMDiaChisService {
 
   async createBaoCaoKQXMDiaChi(
     baocaoKQXMDiaChiInput: BaoCaoKQXMDiaChiInput,
+    user: any,
   ): Promise<BaoCaoKQXMDiaChi> {
     const result = await this.baocaoKQXMDiaChiRepository.query(
       SP_CHANGE_BAOCAOKQXMDIACHI(
         this.baocaoKQXMDiaChi_DataInput('CREATE', null, baocaoKQXMDiaChiInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBCKQXMDC: ${result[0].MaBCKQXMDC};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQXMDiaChis',
+    });
     return result[0];
   }
 
   async editBaoCaoKQXMDiaChi(
     baocaoKQXMDiaChiInput: BaoCaoKQXMDiaChiInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoKQXMDiaChi> {
     const result = await this.baocaoKQXMDiaChiRepository.query(
       SP_CHANGE_BAOCAOKQXMDIACHI(
         this.baocaoKQXMDiaChi_DataInput('EDIT', id, baocaoKQXMDiaChiInput),
       ),
     );
+
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBCKQXMDC: ${result[0].MaBCKQXMDC};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQXMDiaChis',
+    });
     return result[0];
   }
 
   async deleteBaoCaoKQXMDiaChi(
     baocaoKQXMDiaChiInput: BaoCaoKQXMDiaChiInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoKQXMDiaChi> {
     const result = await this.baocaoKQXMDiaChiRepository.query(
       SP_CHANGE_BAOCAOKQXMDIACHI(
         this.baocaoKQXMDiaChi_DataInput('DELETE', id, baocaoKQXMDiaChiInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBCKQXMDC: ${result[0].MaBCKQXMDC};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQXMDiaChis',
+    });
     return result[0];
   }
 
   // ResolveField ---------------------------
   async CAQHvaTD(baocaoKQXMDiaChi: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQXMDiaChi.MaDonVi)
+    return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQXMDiaChi.MaDonVi);
   }
 
   async Doi(baocaoKQXMDiaChi: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(baocaoKQXMDiaChi.MaDoi)
+    return this.dataloaderService.loaderDoi.load(baocaoKQXMDiaChi.MaDoi);
   }
 
   //DoiTuong
@@ -161,16 +191,16 @@ export default class BaoCaoKQXMDiaChisService {
     );
     return result[0];
   }
- 
+
   async TSXacMinh(baocaoKQXMDiaChi: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQXMDiaChi.MaTSXacMinh)
+    return this.dataloaderService.loaderCBCS.load(baocaoKQXMDiaChi.MaTSXacMinh);
   }
 
   async LanhDaoPD(baocaoKQXMDiaChi: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQXMDiaChi.MaLanhDaoPD)
+    return this.dataloaderService.loaderCBCS.load(baocaoKQXMDiaChi.MaLanhDaoPD);
   }
 
   async BanChiHuy(baocaoKQXMDiaChi: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQXMDiaChi.MaBanChiHuy)
+    return this.dataloaderService.loaderCBCS.load(baocaoKQXMDiaChi.MaBanChiHuy);
   }
 }

@@ -6,16 +6,18 @@ import { BaoCaoKQXMDiaChisResolver } from './BaoCaoKQXMDiaChis.resolver';
 import BaoCaoKQXMDiaChisService from './BaoCaoKQXMDiaChis.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
+import { ActionDB } from 'src/actionDBs/ActionDB.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([BaoCaoKQXMDiaChi]),
+    TypeOrmModule.forFeature([BaoCaoKQXMDiaChi, ActionDB]),
     DataLoaderModule,
     AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),
   ],
-  providers: [BaoCaoKQXMDiaChisResolver, BaoCaoKQXMDiaChisService],
+  providers: [BaoCaoKQXMDiaChisResolver, BaoCaoKQXMDiaChisService, ActionDBsService],
 })
 export class BaoCaoKQXMDiaChisModule {}

@@ -13,6 +13,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQXMQuanHe } from './BaoCaoKQXMQuanHe.model';
 import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class BaoCaoKQXMQuanHesService {
@@ -20,7 +22,8 @@ export class BaoCaoKQXMQuanHesService {
     @InjectRepository(BaoCaoKQXMQuanHe)
     private baocaoKQXMQuanHeRepository: Repository<BaoCaoKQXMQuanHe>,
     private dataloaderService: DataLoaderService,
-  ) { }
+    private actionDBsService: ActionDBsService,
+  ) {}
   public readonly baocaoKQXMQuanHe_DataInput = (
     Type: string,
     MaBCKQXMQH: number | null,
@@ -30,9 +33,7 @@ export class BaoCaoKQXMQuanHesService {
       Type,
       MaBCKQXMQH,
       BaoCaoKQXMQuanHeInput: {
-        Ngay: baocaoKQXMQuanHeInput.Ngay
-          ? baocaoKQXMQuanHeInput.Ngay
-          : null,
+        Ngay: baocaoKQXMQuanHeInput.Ngay ? baocaoKQXMQuanHeInput.Ngay : null,
         HoTen: `N'${baocaoKQXMQuanHeInput.HoTen}'`, //crypto
         TenKhac: baocaoKQXMQuanHeInput.TenKhac
           ? `N'${baocaoKQXMQuanHeInput.TenKhac}'`
@@ -70,9 +71,13 @@ export class BaoCaoKQXMQuanHesService {
           ? baocaoKQXMQuanHeInput.MaCAQHvaTD
           : null,
         MaDoi: baocaoKQXMQuanHeInput.MaDoi ? baocaoKQXMQuanHeInput.MaDoi : null,
-        MaDoiTuong: baocaoKQXMQuanHeInput.MaDoiTuong ? baocaoKQXMQuanHeInput.MaDoiTuong : null,
+        MaDoiTuong: baocaoKQXMQuanHeInput.MaDoiTuong
+          ? baocaoKQXMQuanHeInput.MaDoiTuong
+          : null,
         MaQD: baocaoKQXMQuanHeInput.MaQD ? baocaoKQXMQuanHeInput.MaQD : null,
-        MaBCPHQH: baocaoKQXMQuanHeInput.MaBCPHQH ? baocaoKQXMQuanHeInput.MaBCPHQH : null,
+        MaBCPHQH: baocaoKQXMQuanHeInput.MaBCPHQH
+          ? baocaoKQXMQuanHeInput.MaBCPHQH
+          : null,
         MaLanhDaoPD: baocaoKQXMQuanHeInput.MaLanhDaoPD
           ? baocaoKQXMQuanHeInput.MaLanhDaoPD
           : null,
@@ -108,36 +113,60 @@ export class BaoCaoKQXMQuanHesService {
 
   async createBaoCaoKQXMQuanHe(
     baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
+    user: any,
   ): Promise<BaoCaoKQXMQuanHe> {
     const result = await this.baocaoKQXMQuanHeRepository.query(
       SP_CHANGE_BAOCAOKQXMQUANHE(
         this.baocaoKQXMQuanHe_DataInput('CREATE', null, baocaoKQXMQuanHeInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBCKQXMQH: ${result[0].MaBCKQXMQH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQXMQuanHes',
+    });
     return result[0];
   }
 
   async editBaoCaoKQXMQuanHe(
     baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoKQXMQuanHe> {
     const result = await this.baocaoKQXMQuanHeRepository.query(
       SP_CHANGE_BAOCAOKQXMQUANHE(
         this.baocaoKQXMQuanHe_DataInput('EDIT', id, baocaoKQXMQuanHeInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBCKQXMQH: ${result[0].MaBCKQXMQH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQXMQuanHes',
+    });
     return result[0];
   }
 
   async deleteBaoCaoKQXMQuanHe(
     baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoKQXMQuanHe> {
     const result = await this.baocaoKQXMQuanHeRepository.query(
       SP_CHANGE_BAOCAOKQXMQUANHE(
         this.baocaoKQXMQuanHe_DataInput('DELETE', id, baocaoKQXMQuanHeInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBCKQXMQH: ${result[0].MaBCKQXMQH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQXMQuanHes',
+    });
     return result[0];
   }
 

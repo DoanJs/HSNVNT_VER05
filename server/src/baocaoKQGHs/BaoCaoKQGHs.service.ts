@@ -15,6 +15,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQGH } from './BaoCaoKQGH.model';
 import { BaoCaoKQGHInput } from './type/BaoCaoKQGH.input';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class BaoCaoKQGHsService {
@@ -22,6 +24,7 @@ export class BaoCaoKQGHsService {
     @InjectRepository(BaoCaoKQGH)
     private baocaoKQGHRepository: Repository<BaoCaoKQGH>,
     private dataloaderService: DataLoaderService,
+    private actionDBsService: ActionDBsService,
   ) {}
   public readonly baocaoKQGH_DataInput = (
     Type: string,
@@ -86,36 +89,61 @@ export class BaoCaoKQGHsService {
 
   async createBaoCaoKQGH(
     baocaoKQGHInput: BaoCaoKQGHInput,
+    user: any
   ): Promise<BaoCaoKQGH> {
     const result = await this.baocaoKQGHRepository.query(
       SP_CHANGE_BAOCAOKQGH(
         this.baocaoKQGH_DataInput('CREATE', null, baocaoKQGHInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBCKQGH: ${result[0].MaBCKQGH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQGHs'
+    });
     return result[0];
   }
 
   async editBaoCaoKQGH(
     baocaoKQGHInput: BaoCaoKQGHInput,
     id: number,
+    user: any
   ): Promise<BaoCaoKQGH> {
-    const BaoCaoKQGHs = await this.baocaoKQGHRepository.query(
+    const result = await this.baocaoKQGHRepository.query(
       SP_CHANGE_BAOCAOKQGH(
         this.baocaoKQGH_DataInput('EDIT', id, baocaoKQGHInput),
       ),
     );
-    return BaoCaoKQGHs[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBCKQGH: ${result[0].MaBCKQGH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQGHs'
+    });
+    return result[0];
   }
 
   async deleteBaoCaoKQGH(
     baocaoKQGHInput: BaoCaoKQGHInput,
     id: number,
+    user: any
   ): Promise<BaoCaoKQGH> {
     const result = await this.baocaoKQGHRepository.query(
       SP_CHANGE_BAOCAOKQGH(
         this.baocaoKQGH_DataInput('DELETE', id, baocaoKQGHInput),
       ),
     );
+    
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBCKQGH: ${result[0].MaBCKQGH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKQGHs'
+    });
     return result[0];
   }
 

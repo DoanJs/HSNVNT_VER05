@@ -8,12 +8,15 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKTDN } from './BaoCaoKTDN.model';
 import { BaoCaoKTDNInput } from './type/BaoCaoKTDN.input';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class BaoCaoKTDNsService {
   constructor(
     @InjectRepository(BaoCaoKTDN)
     private baocaoKTDNRepository: Repository<BaoCaoKTDN>,
+    private actionDBsService: ActionDBsService,
   ) {}
 
   public readonly baocaoKTDN_DataInput = (
@@ -59,37 +62,61 @@ export class BaoCaoKTDNsService {
 
   async createBaoCaoKTDN(
     baocaoKTDNInput: BaoCaoKTDNInput,
+    user: any,
   ): Promise<BaoCaoKTDN> {
     const result = await this.baocaoKTDNRepository.query(
       SP_CHANGE_BAOCAOKTDN(
         this.baocaoKTDN_DataInput('CREATE', null, baocaoKTDNInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBCKTDN: ${result[0].MaBCKTDN};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKTDNs',
+    });
     return result[0];
   }
 
   async editBaoCaoKTDN(
     baocaoKTDNInput: BaoCaoKTDNInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoKTDN> {
-    const cbcss = await this.baocaoKTDNRepository.query(
+    const result = await this.baocaoKTDNRepository.query(
       SP_CHANGE_BAOCAOKTDN(
         this.baocaoKTDN_DataInput('EDIT', id, baocaoKTDNInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBCKTDN: ${result[0].MaBCKTDN};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKTDNs',
+    });
+    return result[0];
   }
 
   async deleteBaoCaoKTDN(
     baocaoKTDNInput: BaoCaoKTDNInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoKTDN> {
-    const cbcss = await this.baocaoKTDNRepository.query(
+    const result = await this.baocaoKTDNRepository.query(
       SP_CHANGE_BAOCAOKTDN(
         this.baocaoKTDN_DataInput('DELETE', id, baocaoKTDNInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBCKTDN: ${result[0].MaBCKTDN};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoKTDNs',
+    });
+    return result[0];
   }
 
   // ResolveField

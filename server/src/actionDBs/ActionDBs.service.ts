@@ -19,9 +19,9 @@ export class ActionDBsService {
       TableName: actionDBInput.TableName
         ? `N''${actionDBInput.TableName}''`
         : null,
-      Action: actionDBInput.Action ? `''${actionDBInput.Action}''` : null,
-      Time: actionDBInput.Time ? `''${actionDBInput.Time}''` : null,
-      Other: actionDBInput.Other ? `''${actionDBInput.Other}''` : null,
+      Action: actionDBInput.Action ? `N''${actionDBInput.Action}''` : null,
+      Time: actionDBInput.Time ? `N''${actionDBInput.Time}''` : null,
+      Other: actionDBInput.Other ? `N''${actionDBInput.Other}''` : null,
     };
   };
 

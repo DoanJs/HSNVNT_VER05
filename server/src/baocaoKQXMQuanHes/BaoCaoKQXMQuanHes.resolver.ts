@@ -19,6 +19,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => BaoCaoKQXMQuanHe)
 @UseGuards(GraphQLGuard)
@@ -39,34 +40,37 @@ export class BaoCaoKQXMQuanHesResolver {
   @Mutation((returns) => BaoCaoKQXMQuanHe)
   @UseGuards(InsertGuard)
   createBaoCaoKQXMQuanHe(
+    @CurrentUser() user: any,
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
   ): Promise<BaoCaoKQXMQuanHe> {
     return this.baocaoKQXMQuanHesService.createBaoCaoKQXMQuanHe(
-      baocaoKQXMQuanHeInput,
+      baocaoKQXMQuanHeInput,user
     );
   }
 
   @Mutation((returns) => BaoCaoKQXMQuanHe)
   @UseGuards(UpdateGuard)
   editBaoCaoKQXMQuanHe(
+    @CurrentUser() user: any,
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
     @Args('id') id: number,
   ): Promise<BaoCaoKQXMQuanHe> {
     return this.baocaoKQXMQuanHesService.editBaoCaoKQXMQuanHe(
       baocaoKQXMQuanHeInput,
-      id,
+      id,user
     );
   }
 
   @Mutation((retursn) => BaoCaoKQXMQuanHe)
   @UseGuards(DeleteGuard)
   deleteBaoCaoKQXMQuanHe(
+    @CurrentUser() user: any,
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
     @Args('id') id: number,
   ): Promise<BaoCaoKQXMQuanHe> {
     return this.baocaoKQXMQuanHesService.deleteBaoCaoKQXMQuanHe(
       baocaoKQXMQuanHeInput,
-      id,
+      id,user
     );
   }
 
