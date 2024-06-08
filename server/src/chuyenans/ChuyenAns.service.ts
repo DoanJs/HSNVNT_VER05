@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
-import { SP_CHANGE_CHUYENAN, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_CHUYENAN,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { ChuyenAn } from './ChuyenAn.model';
@@ -15,6 +21,7 @@ export class ChuyenAnsService {
     @InjectRepository(ChuyenAn)
     private chuyenanRepository: Repository<ChuyenAn>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly chuyenAn_DataInput = (
@@ -54,32 +61,58 @@ export class ChuyenAnsService {
     return cbcss[0];
   }
 
-  async createChuyenAn(chuyenanInput: ChuyenAnInput): Promise<ChuyenAn> {
+  async createChuyenAn(
+    chuyenanInput: ChuyenAnInput,
+    user: any,
+  ): Promise<ChuyenAn> {
     const result = await this.chuyenanRepository.query(
       SP_CHANGE_CHUYENAN(
         this.chuyenAn_DataInput('CREATE', null, chuyenanInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCA: ${result[0].MaCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'ChuyenAns',
+    });
     return result[0];
   }
 
   async editChuyenAn(
     chuyenanInput: ChuyenAnInput,
     id: number,
+    user: any,
   ): Promise<ChuyenAn> {
     const result = await this.chuyenanRepository.query(
       SP_CHANGE_CHUYENAN(this.chuyenAn_DataInput('EDIT', id, chuyenanInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCA: ${result[0].MaCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'ChuyenAns',
+    });
     return result[0];
   }
 
   async deleteChuyenAn(
     chuyenanInput: ChuyenAnInput,
     id: number,
+    user: any,
   ): Promise<ChuyenAn> {
     const result = await this.chuyenanRepository.query(
       SP_CHANGE_CHUYENAN(this.chuyenAn_DataInput('DELETE', id, chuyenanInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCA: ${result[0].MaCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'ChuyenAns',
+    });
     return result[0];
   }
 
@@ -91,7 +124,7 @@ export class ChuyenAnsService {
 
   async DoiTuongCAs(MaCA: number): Promise<DoiTuongCA[]> {
     return this.chuyenanRepository.query(
-      SP_GET_DATA('DoiTuongCAs', `'MaCA = ${MaCA}'`, 'MaDTCA', 0, 0)
+      SP_GET_DATA('DoiTuongCAs', `'MaCA = ${MaCA}'`, 'MaDTCA', 0, 0),
     );
   }
 }

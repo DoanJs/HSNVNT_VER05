@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -25,6 +27,7 @@ export class DeNghiTSNTsService {
     @InjectRepository(DeNghiTSNT)
     private denghiTSNTRepository: Repository<DeNghiTSNT>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
   public readonly denghiTSNT_DataInput = (
     Type: string,
@@ -79,36 +82,60 @@ export class DeNghiTSNTsService {
 
   async createDeNghiTSNT(
     denghiTSNTInput: DeNghiTSNTInput,
+    user: any,
   ): Promise<DeNghiTSNT> {
     const result = await this.denghiTSNTRepository.query(
       SP_CHANGE_DENGHITSNT(
         this.denghiTSNT_DataInput('CREATE', null, denghiTSNTInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDN: ${result[0].MaDN};`,
+      Time: `${moment().format()}`,
+      TableName: 'DeNghiTSNTs',
+    });
     return result[0];
   }
 
   async editDeNghiTSNT(
     id: number,
     denghiTSNTInput: DeNghiTSNTInput,
+    user: any,
   ): Promise<DeNghiTSNT> {
     const result = await this.denghiTSNTRepository.query(
       SP_CHANGE_DENGHITSNT(
         this.denghiTSNT_DataInput('EDIT', id, denghiTSNTInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDN: ${result[0].MaDN};`,
+      Time: `${moment().format()}`,
+      TableName: 'DeNghiTSNTs',
+    });
     return result[0];
   }
 
   async deleteDeNghiTSNT(
     id: number,
     denghiTSNTInput: DeNghiTSNTInput,
+    user: any,
   ): Promise<DeNghiTSNT> {
     const result = await this.denghiTSNTRepository.query(
       SP_CHANGE_DENGHITSNT(
         this.denghiTSNT_DataInput('DELETE', id, denghiTSNTInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDN: ${result[0].MaDN};`,
+      Time: `${moment().format()}`,
+      TableName: 'DeNghiTSNTs',
+    });
     return result[0];
   }
 
@@ -124,7 +151,7 @@ export class DeNghiTSNTsService {
 
   async DiaBanDNs(MaDN: number): Promise<TinhTP[]> {
     const result = (await this.denghiTSNTRepository.query(
-      SP_GET_DATA('DeNghiTSNTs_TinhTPs', `'MaDN = ${MaDN}'`, 'MaTinhTP', 0, 0)
+      SP_GET_DATA('DeNghiTSNTs_TinhTPs', `'MaDN = ${MaDN}'`, 'MaTinhTP', 0, 0),
     )) as [{ MaTinhTP: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderTinhTP.load(obj.MaTinhTP),

@@ -17,6 +17,7 @@ import { ChuyenAnInput } from './type/ChuyenAn.input';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => ChuyenAn)
 @UseGuards(GraphQLGuard)
@@ -37,27 +38,30 @@ export class ChuyenAnsResolver {
   @Mutation((returns) => ChuyenAn)
   @UseGuards(InsertGuard)
   createChuyenAn(
+    @CurrentUser() user: any,
     @Args('chuyenanInput') chuyenanInput: ChuyenAnInput,
   ): Promise<ChuyenAn> {
-    return this.chuyenansService.createChuyenAn(chuyenanInput);
+    return this.chuyenansService.createChuyenAn(chuyenanInput, user);
   }
 
   @Mutation((returns) => ChuyenAn)
   @UseGuards(UpdateGuard)
   editChuyenAn(
+    @CurrentUser() user: any,
     @Args('chuyenanInput') chuyenanInput: ChuyenAnInput,
     @Args('id') id: number,
   ): Promise<ChuyenAn> {
-    return this.chuyenansService.editChuyenAn(chuyenanInput, id);
+    return this.chuyenansService.editChuyenAn(chuyenanInput, id, user);
   }
 
   @Mutation((returns) => ChuyenAn)
   @UseGuards(DeleteGuard)
   deleteChuyenAn(
+    @CurrentUser() user: any,
     @Args('chuyenanInput') chuyenanInput: ChuyenAnInput,
     @Args('id') id: number,
   ): Promise<ChuyenAn> {
-    return this.chuyenansService.deleteChuyenAn(chuyenanInput, id);
+    return this.chuyenansService.deleteChuyenAn(chuyenanInput, id, user);
   }
 
   // ResolveField

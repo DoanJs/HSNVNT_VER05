@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SP_CHANGE_BIENBANRKN, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import {
+  SP_CHANGE_BIENBANRKN,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BienBanRKN } from './BienBanRKN.model';
@@ -9,8 +14,10 @@ import { BienBanRKNInput } from './type/BienBanRKN.Input';
 @Injectable()
 export class BienBanRKNsService {
   constructor(
-    @InjectRepository(BienBanRKN) private bienbanRKNRepository: Repository<BienBanRKN>,
-  ) { }
+    @InjectRepository(BienBanRKN)
+    private bienbanRKNRepository: Repository<BienBanRKN>,
+    private actionDBsService: ActionDBsService,
+  ) {}
 
   public readonly bienbanRKN_DataInput = (
     Type: string,
@@ -25,11 +32,13 @@ export class BienBanRKNsService {
         DanhGiaLDP: `N'${bienbanRKNInput.DanhGiaLDP}'`, //crypto
         DanhGiaTS: `N'${bienbanRKNInput.DanhGiaTS}'`, //crypto
         DanhGiaDT: `N'${bienbanRKNInput.DanhGiaDT}'`, //crypto
-        KetLuan: bienbanRKNInput.KetLuan ? `N'${bienbanRKNInput.KetLuan}'` : null,
+        KetLuan: bienbanRKNInput.KetLuan
+          ? `N'${bienbanRKNInput.KetLuan}'`
+          : null,
         DeXuat: bienbanRKNInput.DeXuat ? `N'${bienbanRKNInput.DeXuat}'` : null,
         MaKQ: bienbanRKNInput.MaKQ ? bienbanRKNInput.MaKQ : null,
         MaChuToa: bienbanRKNInput.MaChuToa ? bienbanRKNInput.MaChuToa : null,
-        MaThuKy: bienbanRKNInput.MaThuKy ? bienbanRKNInput.MaThuKy : null
+        MaThuKy: bienbanRKNInput.MaThuKy ? bienbanRKNInput.MaThuKy : null,
       },
     };
   };
@@ -52,30 +61,61 @@ export class BienBanRKNsService {
     return result[0];
   }
 
-  async createBienBanRKN(bienbanRKNInput: BienBanRKNInput): Promise<BienBanRKN> {
+  async createBienBanRKN(
+    bienbanRKNInput: BienBanRKNInput,
+    user: any,
+  ): Promise<BienBanRKN> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_BIENBANRKN(
         this.bienbanRKN_DataInput('CREATE', null, bienbanRKNInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBBRKN: ${result[0].MaBBRKN};`,
+      Time: `${moment().format()}`,
+      TableName: 'BienBanRKNs',
+    });
     return result[0];
   }
 
-  async editBienBanRKN(bienbanRKNInput: BienBanRKNInput, id: number): Promise<BienBanRKN> {
+  async editBienBanRKN(
+    bienbanRKNInput: BienBanRKNInput,
+    id: number,
+    user: any
+  ): Promise<BienBanRKN> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_BIENBANRKN(
         this.bienbanRKN_DataInput('EDIT', id, bienbanRKNInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBBRKN: ${result[0].MaBBRKN};`,
+      Time: `${moment().format()}`,
+      TableName: 'BienBanRKNs',
+    });
     return result[0];
   }
 
-  async deleteBienBanRKN(bienbanRKNInput: BienBanRKNInput, id: number): Promise<BienBanRKN> {
+  async deleteBienBanRKN(
+    bienbanRKNInput: BienBanRKNInput,
+    id: number,user: any
+  ): Promise<BienBanRKN> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_BIENBANRKN(
         this.bienbanRKN_DataInput('DELETE', id, bienbanRKNInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBBRKN: ${result[0].MaBBRKN};`,
+      Time: `${moment().format()}`,
+      TableName: 'BienBanRKNs',
+    });
     return result[0];
   }
 

@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
@@ -18,8 +20,8 @@ import { DanTocInput } from './type/DanToc.Input';
 export class DanTocsService {
   constructor(
     @InjectRepository(DanToc) private dantocRepository: Repository<DanToc>,
-    @InjectRepository(CBCS) private cbcsRepository: Repository<CBCS>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly dantoc_DataInput = (dantocInput: DanTocInput) => {
@@ -48,7 +50,7 @@ export class DanTocsService {
     return result[0];
   }
 
-  async createDanToc(danTocInput: DanTocInput): Promise<DanToc> {
+  async createDanToc(danTocInput: DanTocInput, user: any): Promise<DanToc> {
     const result = await this.dantocRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -60,10 +62,21 @@ export class DanTocsService {
         "'MaDT = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDT: ${result[0].MaDT};`,
+      Time: `${moment().format()}`,
+      TableName: 'DanTocs',
+    });
     return result[0];
   }
 
-  async editDanToc(danTocInput: DanTocInput, id: number): Promise<DanToc> {
+  async editDanToc(
+    danTocInput: DanTocInput,
+    id: number,
+    user: any,
+  ): Promise<DanToc> {
     const result = await this.dantocRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -77,10 +90,17 @@ export class DanTocsService {
         `'MaDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDT: ${result[0].MaDT};`,
+      Time: `${moment().format()}`,
+      TableName: 'DanTocs',
+    });
     return result[0];
   }
 
-  async deleteDanToc(id: number): Promise<DanToc> {
+  async deleteDanToc(id: number, user: any): Promise<DanToc> {
     const result = await this.dantocRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -92,6 +112,13 @@ export class DanTocsService {
         `'MaDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDT: ${result[0].MaDT};`,
+      Time: `${moment().format()}`,
+      TableName: 'DanTocs',
+    });
     return result[0];
   }
 
@@ -108,7 +135,7 @@ export class DanTocsService {
   }
 
   CBCSs(MaDT: number): Promise<CBCS[]> {
-    return this.cbcsRepository.query(
+    return this.dantocRepository.query(
       SP_GET_DATA_DECRYPT('CBCSs', `'MaDT = ${MaDT}'`, 0, 0),
     );
   }

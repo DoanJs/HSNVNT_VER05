@@ -24,6 +24,7 @@ import { UseGuards } from '@nestjs/common';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => Doi)
 @UseGuards(GraphQLGuard)
@@ -42,23 +43,27 @@ export class DoisResolver {
 
   @Mutation((returns) => Doi)
   @UseGuards(InsertGuard)
-  createDoi(@Args('doiInput') doiInput: DoiInput): Promise<Doi> {
-    return this.doisService.createDoi(doiInput);
+  createDoi(
+    @CurrentUser() user: any,
+    @Args('doiInput') doiInput: DoiInput,
+  ): Promise<Doi> {
+    return this.doisService.createDoi(doiInput, user);
   }
 
   @Mutation((returns) => Doi)
   @UseGuards(UpdateGuard)
   editDoi(
+    @CurrentUser() user: any,
     @Args('doiInput') doiInput: DoiInput,
     @Args('id') id: number,
   ): Promise<Doi> {
-    return this.doisService.editDoi(doiInput, id);
+    return this.doisService.editDoi(doiInput, id, user);
   }
 
   @Mutation((returns) => Doi)
   @UseGuards(DeleteGuard)
-  deleteDoi(@Args('id') id: number): Promise<Doi> {
-    return this.doisService.deleteDoi(id);
+  deleteDoi(@CurrentUser() user: any, @Args('id') id: number): Promise<Doi> {
+    return this.doisService.deleteDoi(id, user);
   }
 
   // ResolveField

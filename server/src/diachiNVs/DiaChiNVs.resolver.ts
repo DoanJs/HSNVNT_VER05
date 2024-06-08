@@ -8,6 +8,10 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
@@ -15,9 +19,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DiaChiNV } from './DiaChiNV.model';
 import { DiaChiNVsService } from './DiaChiNVs.service';
 import { DiaChiNVInput } from './type/DiaChiNV.Input';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DiaChiNV)
 @UseGuards(GraphQLGuard)
@@ -38,27 +39,30 @@ export class DiaChiNVsResolver {
   @Mutation((returns) => DiaChiNV)
   @UseGuards(InsertGuard)
   createDiaChiNV(
+    @CurrentUser() user: any,
     @Args('diachiNVInput') diachiNVInput: DiaChiNVInput,
   ): Promise<DiaChiNV> {
-    return this.diachiNVsService.createDiaChiNV(diachiNVInput);
+    return this.diachiNVsService.createDiaChiNV(diachiNVInput, user);
   }
 
   @Mutation((returns) => DiaChiNV)
   @UseGuards(UpdateGuard)
   editDiaChiNV(
+    @CurrentUser() user: any,
     @Args('diachiNVInput') diachiNVInput: DiaChiNVInput,
     @Args('id') id: number,
   ): Promise<DiaChiNV> {
-    return this.diachiNVsService.editDiaChiNV(diachiNVInput, id);
+    return this.diachiNVsService.editDiaChiNV(diachiNVInput, id, user);
   }
 
   @Mutation((returns) => DiaChiNV)
   @UseGuards(DeleteGuard)
   deleteDiaChiNV(
+    @CurrentUser() user: any,
     @Args('diachiNVInput') diachiNVInput: DiaChiNVInput,
     @Args('id') id: number,
   ): Promise<DiaChiNV> {
-    return this.diachiNVsService.deleteDiaChiNV(diachiNVInput, id);
+    return this.diachiNVsService.deleteDiaChiNV(diachiNVInput, id, user);
   }
 
   // ResolveField

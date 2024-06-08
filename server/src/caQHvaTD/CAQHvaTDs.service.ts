@@ -21,6 +21,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
+import moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class CAQHvaTDsService {
@@ -28,6 +30,7 @@ export class CAQHvaTDsService {
     @InjectRepository(CAQHvaTD)
     private caQHvaTDRepository: Repository<CAQHvaTD>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly caQHvaTD_DataInput = (caQHvaTDInput: CAQHvaTDInput) => {
@@ -57,7 +60,7 @@ export class CAQHvaTDsService {
     return result[0];
   }
 
-  async createCAQHvaTD(caQHvaTDInput: CAQHvaTDInput): Promise<CAQHvaTD> {
+  async createCAQHvaTD(caQHvaTDInput: CAQHvaTDInput, user: any): Promise<CAQHvaTD> {
     const result = await this.caQHvaTDRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -70,12 +73,20 @@ export class CAQHvaTDsService {
         "'MaCAQHvaTD = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCAQHvaTD: ${result[0].MaCAQHvaTD};`,
+      Time: `${moment().format()}`,
+      TableName: 'CAQHvaTDs',
+    });
     return result[0];
   }
 
   async editCAQHvaTD(
     caQHvaTDInput: CAQHvaTDInput,
     id: number,
+    user: any
   ): Promise<CAQHvaTD> {
     const result = await this.caQHvaTDRepository.query(
       SP_CHANGE_DATA(
@@ -91,10 +102,17 @@ export class CAQHvaTDsService {
         `"MaCAQHvaTD = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCAQHvaTD: ${result[0].MaCAQHvaTD};`,
+      Time: `${moment().format()}`,
+      TableName: 'CAQHvaTDs',
+    });
     return result[0];
   }
 
-  async deleteCAQHvaTD(id: number): Promise<CAQHvaTD> {
+  async deleteCAQHvaTD(id: number, user: any): Promise<CAQHvaTD> {
     const result = await this.caQHvaTDRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -106,6 +124,13 @@ export class CAQHvaTDsService {
         `"MaCAQHvaTD = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCAQHvaTD: ${result[0].MaCAQHvaTD};`,
+      Time: `${moment().format()}`,
+      TableName: 'CAQHvaTDs',
+    });
     return result[0];
   }
 

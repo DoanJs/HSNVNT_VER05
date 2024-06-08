@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
@@ -14,7 +16,8 @@ export class DanhGiaTSTHsService {
   constructor(
     @InjectRepository(DanhGiaTSTH)
     private danhgiaTSTHRepository: Repository<DanhGiaTSTH>,
-    private dataloaderService: DataLoaderService,
+    private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly danhgiaTSTH_DataInput = (
@@ -60,6 +63,7 @@ export class DanhGiaTSTHsService {
 
   async createDanhGiaTSTH(
     danhgiaTSTHInput: DanhGiaTSTHInput,
+    user: any,
   ): Promise<DanhGiaTSTH> {
     const result = await this.danhgiaTSTHRepository.query(
       SP_CHANGE_DATA(
@@ -75,12 +79,20 @@ export class DanhGiaTSTHsService {
         `'MaDanhGiaTSTH = SCOPE_IDENTITY()'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDanhGiaTSTH: ${result[0].MaDanhGiaTSTH};`,
+      Time: `${moment().format()}`,
+      TableName: 'DanhGiaTSTHs',
+    });
     return result[0];
   }
 
   async editDanhGiaTSTH(
     danhgiaTSTHInput: DanhGiaTSTHInput,
     id: number,
+    user: any,
   ): Promise<DanhGiaTSTH> {
     const result = await this.danhgiaTSTHRepository.query(
       SP_CHANGE_DATA(
@@ -99,10 +111,17 @@ export class DanhGiaTSTHsService {
         `'MaDanhGiaTSTH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDanhGiaTSTH: ${result[0].MaDanhGiaTSTH};`,
+      Time: `${moment().format()}`,
+      TableName: 'DanhGiaTSTHs',
+    });
     return result[0];
   }
 
-  async deleteDanhGiaTSTH(id: number): Promise<DanhGiaTSTH> {
+  async deleteDanhGiaTSTH(id: number, user: any): Promise<DanhGiaTSTH> {
     const result = await this.danhgiaTSTHRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -114,6 +133,13 @@ export class DanhGiaTSTHsService {
         `'MaDanhGiaTSTH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDanhGiaTSTH: ${result[0].MaDanhGiaTSTH};`,
+      Time: `${moment().format()}`,
+      TableName: 'DanhGiaTSTHs',
+    });
     return result[0];
   }
 

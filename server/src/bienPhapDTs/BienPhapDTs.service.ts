@@ -6,6 +6,8 @@ import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BienPhapDT } from './BienPhapDT.model';
+import moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class BienPhapDTsService {
@@ -13,6 +15,7 @@ export class BienPhapDTsService {
     @InjectRepository(BienPhapDT)
     private bienPhapDTRepository: Repository<BienPhapDT>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly bienPhapDT_DataInput = (bienphapDT: string) => {
@@ -40,7 +43,7 @@ export class BienPhapDTsService {
     return result[0];
   }
 
-  async createBienPhapDT(bienPhapDT: string): Promise<BienPhapDT> {
+  async createBienPhapDT(bienPhapDT: string, user: any): Promise<BienPhapDT> {
     const result = await this.bienPhapDTRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'", //string thuan
@@ -50,10 +53,17 @@ export class BienPhapDTsService {
         "'MaBPDT = SCOPE_IDENTITY()'", //string thuan
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBPDT: ${result[0].MaBPDT};`,
+      Time: `${moment().format()}`,
+      TableName: 'BienPhapDTs',
+    });
     return result[0];
   }
 
-  async editBienPhapDT(bienPhapDT: string, id: number): Promise<BienPhapDT> {
+  async editBienPhapDT(bienPhapDT: string, id: number, user: any): Promise<BienPhapDT> {
     const result = await this.bienPhapDTRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -65,10 +75,17 @@ export class BienPhapDTsService {
         `'MaBPDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBPDT: ${result[0].MaBPDT};`,
+      Time: `${moment().format()}`,
+      TableName: 'BienPhapDTs',
+    });
     return result[0];
   }
 
-  async deleteBienPhapDT(id: number): Promise<BienPhapDT> {
+  async deleteBienPhapDT(id: number, user: any): Promise<BienPhapDT> {
     const result = await this.bienPhapDTRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -80,6 +97,13 @@ export class BienPhapDTsService {
         `'MaBPDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBPDT: ${result[0].MaBPDT};`,
+      Time: `${moment().format()}`,
+      TableName: 'BienPhapDTs',
+    });
     return result[0];
   }
 

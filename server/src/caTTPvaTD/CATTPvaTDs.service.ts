@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CapCA } from 'src/capCAs/CapCA.model';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { CapCA } from 'src/capCAs/CapCA.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
@@ -21,6 +23,7 @@ export class CATTPvaTDsService {
     @InjectRepository(CATTPvaTD)
     private caTTPvaTDRepository: Repository<CATTPvaTD>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly caTTPvaTD_DataInput = (caTTPvaTDInput: CATTPvaTDInput) => {
@@ -51,7 +54,10 @@ export class CATTPvaTDsService {
     return result[0];
   }
 
-  async createCATTPvaTD(caTTPvaTDInput: CATTPvaTDInput): Promise<CATTPvaTD> {
+  async createCATTPvaTD(
+    caTTPvaTDInput: CATTPvaTDInput,
+    user: any,
+  ): Promise<CATTPvaTD> {
     const result = await this.caTTPvaTDRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -63,12 +69,20 @@ export class CATTPvaTDsService {
         "'MaCATTPvaTD = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCATTPvaTD: ${result[0].MaCATTPvaTD};`,
+      Time: `${moment().format()}`,
+      TableName: 'CATTPvaTDs',
+    });
     return result[0];
   }
 
   async editCATTPvaTD(
     caTTPvaTDInput: CATTPvaTDInput,
     id: number,
+    user: any,
   ): Promise<CATTPvaTD> {
     const result = await this.caTTPvaTDRepository.query(
       SP_CHANGE_DATA(
@@ -83,10 +97,17 @@ export class CATTPvaTDsService {
         `"MaCATTPvaTD = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCATTPvaTD: ${result[0].MaCATTPvaTD};`,
+      Time: `${moment().format()}`,
+      TableName: 'CATTPvaTDs',
+    });
     return result[0];
   }
 
-  async deleteCATTPvaTD(id: number): Promise<CATTPvaTD> {
+  async deleteCATTPvaTD(id: number, user: any): Promise<CATTPvaTD> {
     const result = await this.caTTPvaTDRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -98,6 +119,13 @@ export class CATTPvaTDsService {
         `"MaCATTPvaTD = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCATTPvaTD: ${result[0].MaCATTPvaTD};`,
+      Time: `${moment().format()}`,
+      TableName: 'CATTPvaTDs',
+    });
     return result[0];
   }
 

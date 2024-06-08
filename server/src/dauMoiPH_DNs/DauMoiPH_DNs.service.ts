@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
@@ -19,6 +21,7 @@ export class DauMoiPH_DNsService {
     @InjectRepository(DauMoiPH_DN)
     private dauMoiPH_DNRepository: Repository<DauMoiPH_DN>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly daumoiPH_DN_DataInput = (
@@ -56,6 +59,7 @@ export class DauMoiPH_DNsService {
 
   async createDauMoiPH_DN(
     dauMoiPH_DNInput: DauMoiPH_DNInput,
+    user: any,
   ): Promise<DauMoiPH_DN> {
     const result = await this.dauMoiPH_DNRepository.query(
       SP_CHANGE_DATA(
@@ -69,12 +73,20 @@ export class DauMoiPH_DNsService {
         "'MaDMPH = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDMPH: ${result[0].MaDMPH};`,
+      Time: `${moment().format()}`,
+      TableName: 'DauMoiPH_DNs',
+    });
     return result[0];
   }
 
   async editDauMoiPH_DN(
     dauMoiPH_DNInput: DauMoiPH_DNInput,
     id: number,
+    user: any,
   ): Promise<DauMoiPH_DN> {
     const result = await this.dauMoiPH_DNRepository.query(
       SP_CHANGE_DATA(
@@ -84,16 +96,27 @@ export class DauMoiPH_DNsService {
         null,
         null,
         `N' MaDN = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaDN},
-            MaLDDonViDN = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaLDDonViDN},
-            MaCBTrucTiepPH = ${this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaCBTrucTiepPH}
+            MaLDDonViDN = ${
+              this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaLDDonViDN
+            },
+            MaCBTrucTiepPH = ${
+              this.daumoiPH_DN_DataInput(dauMoiPH_DNInput).MaCBTrucTiepPH
+            }
         '`,
         `'MaDMPH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDMPH: ${result[0].MaDMPH};`,
+      Time: `${moment().format()}`,
+      TableName: 'DauMoiPH_DNs',
+    });
     return result[0];
   }
 
-  async deleteDauMoiPH_DN(id: number): Promise<DauMoiPH_DN> {
+  async deleteDauMoiPH_DN(id: number, user: any): Promise<DauMoiPH_DN> {
     const result = await this.dauMoiPH_DNRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -105,6 +128,13 @@ export class DauMoiPH_DNsService {
         `'MaDMPH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDMPH: ${result[0].MaDMPH};`,
+      Time: `${moment().format()}`,
+      TableName: 'DauMoiPH_DNs',
+    });
     return result[0];
   }
 

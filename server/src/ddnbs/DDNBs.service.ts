@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
@@ -12,6 +14,7 @@ export class DDNBsService {
   constructor(
     @InjectRepository(DDNB) private ddnbRepository: Repository<DDNB>,
     private dataloaderService: DataLoaderService,
+    private actionDBsService: ActionDBsService,
   ) {}
 
   public readonly ddnb_DataInput = (ddnb: string) => {
@@ -39,7 +42,7 @@ export class DDNBsService {
     return result[0];
   }
 
-  async createDDNB(ddnb: string): Promise<DDNB> {
+  async createDDNB(ddnb: string, user: any): Promise<DDNB> {
     const result = await this.ddnbRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -49,10 +52,17 @@ export class DDNBsService {
         "'MaDDNB = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDDNB: ${result[0].MaDDNB};`,
+      Time: `${moment().format()}`,
+      TableName: 'DDNBs',
+    });
     return result[0];
   }
 
-  async editDDNB(ddnb: string, id: number): Promise<DDNB> {
+  async editDDNB(ddnb: string, id: number, user: any): Promise<DDNB> {
     const result = await this.ddnbRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -64,10 +74,17 @@ export class DDNBsService {
         `'MaDDNB = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDDNB: ${result[0].MaDDNB};`,
+      Time: `${moment().format()}`,
+      TableName: 'DDNBs',
+    });
     return result[0];
   }
 
-  async deleteDDNB(id: number): Promise<DDNB> {
+  async deleteDDNB(id: number, user: any): Promise<DDNB> {
     const result = await this.ddnbRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -79,6 +96,13 @@ export class DDNBsService {
         `'MaDDNB = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDDNB: ${result[0].MaDDNB};`,
+      Time: `${moment().format()}`,
+      TableName: 'DDNBs',
+    });
     return result[0];
   }
 
@@ -86,7 +110,7 @@ export class DDNBsService {
 
   async KetQuaTSNTs(MaDDNB: number): Promise<KetQuaTSNT[]> {
     const result = (await this.ddnbRepository.query(
-      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaDDNB = ${MaDDNB}'`, 'MaKQ', 0, 0)
+      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaDDNB = ${MaDDNB}'`, 'MaKQ', 0, 0),
     )) as [{ MaKQ: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderKetQuaTSNT.load(obj.MaKQ),

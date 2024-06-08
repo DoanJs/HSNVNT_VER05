@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import {
   SP_CHANGE_DATA,
@@ -14,12 +16,13 @@ import { ChucVu } from './ChucVu.model';
 export class ChucVusService {
   constructor(
     @InjectRepository(ChucVu) private chucVuRepository: Repository<ChucVu>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly chucVu_DataInput = (chucVu: string) => {
     return {
-      ChucVu: chucVu ? `N''${chucVu}''` : null
-    }
+      ChucVu: chucVu ? `N''${chucVu}''` : null,
+    };
   };
 
   async chucVus(utilsParams: UtilsParamsInput): Promise<ChucVu[]> {
@@ -41,7 +44,7 @@ export class ChucVusService {
     return result[0];
   }
 
-  async createChucVu(chucVu: string): Promise<ChucVu> {
+  async createChucVu(chucVu: string, user: any): Promise<ChucVu> {
     const result = await this.chucVuRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'", //string thuan
@@ -51,10 +54,17 @@ export class ChucVusService {
         "'MaCV = SCOPE_IDENTITY()'", //string thuan
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCV: ${result[0].MaCV};`,
+      Time: `${moment().format()}`,
+      TableName: 'ChucVus',
+    });
     return result[0];
   }
 
-  async editChucVu(chucVu: string, id: number): Promise<ChucVu> {
+  async editChucVu(chucVu: string, id: number, user: any): Promise<ChucVu> {
     const result = await this.chucVuRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -66,21 +76,35 @@ export class ChucVusService {
         `'MaCV = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCV: ${result[0].MaCV};`,
+      Time: `${moment().format()}`,
+      TableName: 'ChucVus',
+    });
     return result[0];
   }
 
-  async deleteChucVu(id: number): Promise<ChucVu> {
+  async deleteChucVu(id: number, user: any): Promise<ChucVu> {
     const result = await this.chucVuRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
         'ChucVus',
         null,
-        null,
+        null, 
         null,
         null,
         `'MaCV = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCV: ${result[0].MaCV};`,
+      Time: `${moment().format()}`,
+      TableName: 'ChucVus',
+    });
     return result[0];
   }
 

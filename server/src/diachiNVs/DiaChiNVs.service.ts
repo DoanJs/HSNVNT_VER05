@@ -1,10 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { SP_CHANGE_DIACHINV, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_DIACHINV,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DiaChiNV } from './DiaChiNV.model';
@@ -16,6 +22,7 @@ export class DiaChiNVsService {
     @InjectRepository(DiaChiNV)
     private diachiNVRepository: Repository<DiaChiNV>,
     private dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
   public readonly diaChiNV_DataInput = (
     Type: string,
@@ -52,32 +59,58 @@ export class DiaChiNVsService {
     return result[0];
   }
 
-  async createDiaChiNV(diachiNVInput: DiaChiNVInput): Promise<DiaChiNV> {
+  async createDiaChiNV(
+    diachiNVInput: DiaChiNVInput,
+    user: any,
+  ): Promise<DiaChiNV> {
     const result = await this.diachiNVRepository.query(
       SP_CHANGE_DIACHINV(
         this.diaChiNV_DataInput('CREATE', null, diachiNVInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDC: ${result[0].MaDC};`,
+      Time: `${moment().format()}`,
+      TableName: 'DiaChiNVs',
+    });
     return result[0];
   }
 
   async editDiaChiNV(
     diachiNVInput: DiaChiNVInput,
     id: number,
+    user: any,
   ): Promise<DiaChiNV> {
     const result = await this.diachiNVRepository.query(
       SP_CHANGE_DIACHINV(this.diaChiNV_DataInput('EDIT', id, diachiNVInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDC: ${result[0].MaDC};`,
+      Time: `${moment().format()}`,
+      TableName: 'DiaChiNVs',
+    });
     return result[0];
   }
 
   async deleteDiaChiNV(
     diachiNVInput: DiaChiNVInput,
     id: number,
+    user: any,
   ): Promise<DiaChiNV> {
     const result = await this.diachiNVRepository.query(
       SP_CHANGE_DIACHINV(this.diaChiNV_DataInput('DELETE', id, diachiNVInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDC: ${result[0].MaDC};`,
+      Time: `${moment().format()}`,
+      TableName: 'DiaChiNVs',
+    });
     return result[0];
   }
 
@@ -88,7 +121,7 @@ export class DiaChiNVsService {
 
   async TSThucHiens(MaDC: number): Promise<CBCS[]> {
     const result = (await this.diachiNVRepository.query(
-      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaDC = ${MaDC}'`, 'MaCBCS', 0, 0)
+      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaDC = ${MaDC}'`, 'MaCBCS', 0, 0),
     )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),

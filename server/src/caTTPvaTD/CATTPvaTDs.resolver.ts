@@ -1,4 +1,11 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -12,11 +19,12 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => CATTPvaTD)
 @UseGuards(GraphQLGuard)
 export class CATTPvaTDsResolver {
-  constructor(private caTTPvaTDsService: CATTPvaTDsService) { }
+  constructor(private caTTPvaTDsService: CATTPvaTDsService) {}
   @Query((returns) => [CATTPvaTD])
   caTTPvaTDs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -25,57 +33,59 @@ export class CATTPvaTDsResolver {
   }
 
   @Query((returns) => CATTPvaTD)
-  caTTPvaTD(
-    @Args('id') id: number,
-  ): Promise<CATTPvaTD> {
+  caTTPvaTD(@Args('id') id: number): Promise<CATTPvaTD> {
     return this.caTTPvaTDsService.caTTPvaTD(id);
   }
 
   @Mutation((returns) => CATTPvaTD)
   @UseGuards(InsertGuard)
-  createCATTPvaTD(@Args('caTTPvaTDInput') caTTPvaTDInput: CATTPvaTDInput): Promise<CATTPvaTD> {
-    return this.caTTPvaTDsService.createCATTPvaTD(caTTPvaTDInput);
+  createCATTPvaTD(
+    @CurrentUser() user: any,
+    @Args('caTTPvaTDInput') caTTPvaTDInput: CATTPvaTDInput,
+  ): Promise<CATTPvaTD> {
+    return this.caTTPvaTDsService.createCATTPvaTD(caTTPvaTDInput, user);
   }
 
   @Mutation((returns) => CATTPvaTD)
   @UseGuards(UpdateGuard)
   editCATTPvaTD(
+    @CurrentUser() user: any,
     @Args('caTTPvaTDInput') caTTPvaTDInput: CATTPvaTDInput,
     @Args('id') id: number,
   ): Promise<CATTPvaTD> {
-    return this.caTTPvaTDsService.editCATTPvaTD(caTTPvaTDInput, id);
+    return this.caTTPvaTDsService.editCATTPvaTD(caTTPvaTDInput, id, user);
   }
 
   @Mutation((returns) => CATTPvaTD)
   @UseGuards(DeleteGuard)
-  deleteCATTPvaTD(@Args('id') id: number): Promise<CATTPvaTD> {
-    return this.caTTPvaTDsService.deleteCATTPvaTD(id);
+  deleteCATTPvaTD(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<CATTPvaTD> {
+    return this.caTTPvaTDsService.deleteCATTPvaTD(id, user);
   }
 
   // ResolveField
 
-  @ResolveField(returns => CapCA)
+  @ResolveField((returns) => CapCA)
   CapCA(@Parent() caTTPvaTD: CATTPvaTD): Promise<CapCA> {
-    return this.caTTPvaTDsService.CapCA(caTTPvaTD)
+    return this.caTTPvaTDsService.CapCA(caTTPvaTD);
   }
 
-  @ResolveField(returns => [CAQHvaTD])
+  @ResolveField((returns) => [CAQHvaTD])
   CAQHvaTDs(@Parent() caTTPvaTD: CATTPvaTD): Promise<CAQHvaTD[]> {
-    return this.caTTPvaTDsService.CAQHvaTDs(caTTPvaTD.MaCATTPvaTD)
+    return this.caTTPvaTDsService.CAQHvaTDs(caTTPvaTD.MaCATTPvaTD);
   }
 
   //THE END!
 
-   
-
-
-  @ResolveField(returns => [DeNghiTSNT])
+  @ResolveField((returns) => [DeNghiTSNT])
   DeNghiTSNTs(@Parent() caTTPvaTD: CATTPvaTD): Promise<DeNghiTSNT[]> {
-    return this.caTTPvaTDsService.DeNghiTSNTs(caTTPvaTD.MaCATTPvaTD)
+    return this.caTTPvaTDsService.DeNghiTSNTs(caTTPvaTD.MaCATTPvaTD);
   }
 
-  @ResolveField(returns => [QuyetDinhTSNT])
+  @ResolveField((returns) => [QuyetDinhTSNT])
   QuyetDinhTSNTs(@Parent() caTTPvaTD: CATTPvaTD): Promise<QuyetDinhTSNT[]> {
-    return this.caTTPvaTDsService.QuyetDinhTSNTs(caTTPvaTD.MaCATTPvaTD)
+    return this.caTTPvaTDsService.QuyetDinhTSNTs(caTTPvaTD.MaCATTPvaTD);
   }
 }

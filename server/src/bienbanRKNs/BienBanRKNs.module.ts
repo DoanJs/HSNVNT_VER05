@@ -5,15 +5,17 @@ import { BienBanRKNsResolver } from './BienBanRKNs.resolver';
 import { BienBanRKNsService } from './BienBanRKNs.service';
 import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ActionDB } from 'src/actionDBs/ActionDB.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([BienBanRKN]),
+    TypeOrmModule.forFeature([BienBanRKN, ActionDB]),
     AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),
   ],
-  providers: [BienBanRKNsResolver, BienBanRKNsService],
+  providers: [BienBanRKNsResolver, BienBanRKNsService, ActionDBsService],
 })
 export class BienBanRKNsModule {}

@@ -5,15 +5,18 @@ import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CapCA } from './CapCA.model';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class CapCAsService {
   constructor(
     @InjectRepository(CapCA) private capCARepository: Repository<CapCA>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly capCA_DataInput = (capCA: string) => {
-    return capCA ? `N''${capCA}''` : null
+    return capCA ? `N''${capCA}''` : null;
   };
 
   async capCAs(utilsParams: UtilsParamsInput): Promise<CapCA[]> {
@@ -35,7 +38,7 @@ export class CapCAsService {
     return result[0];
   }
 
-  async createCapCA(capCA: string): Promise<CapCA> {
+  async createCapCA(capCA: string, user: any): Promise<CapCA> {
     const result = await this.capCARepository.query(
       SP_CHANGE_DATA(
         "'CREATE'", //string thuan
@@ -45,10 +48,17 @@ export class CapCAsService {
         "'MaCapCA = SCOPE_IDENTITY()'", //string thuan
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCapCA: ${result[0].MaCapCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'CapCAs',
+    });
     return result[0];
   }
 
-  async editCapCA(capCA: string, id: number): Promise<CapCA> {
+  async editCapCA(capCA: string, id: number, user: any): Promise<CapCA> {
     const result = await this.capCARepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -60,10 +70,17 @@ export class CapCAsService {
         `'MaCapCA = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCapCA: ${result[0].MaCapCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'CapCAs',
+    });
     return result[0];
   }
 
-  async deleteCapCA(id: number): Promise<CapCA> {
+  async deleteCapCA(id: number, user: any): Promise<CapCA> {
     const result = await this.capCARepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -75,6 +92,13 @@ export class CapCAsService {
         `"MaCapCA = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCapCA: ${result[0].MaCapCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'CapCAs',
+    });
     return result[0];
   }
 

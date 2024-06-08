@@ -17,6 +17,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => DanhGiaTSTH)
 @UseGuards(GraphQLGuard)
@@ -37,24 +38,29 @@ export class DanhGiaTSTHsResolver {
   @Mutation((returns) => DanhGiaTSTH)
   @UseGuards(InsertGuard)
   createDanhGiaTSTH(
+    @CurrentUser() user: any,
     @Args('danhgiaTSTHInput') danhgiaTSTHInput: DanhGiaTSTHInput,
   ): Promise<DanhGiaTSTH> {
-    return this.danhgiaTSTHsService.createDanhGiaTSTH(danhgiaTSTHInput);
+    return this.danhgiaTSTHsService.createDanhGiaTSTH(danhgiaTSTHInput, user);
   }
 
   @Mutation((returns) => DanhGiaTSTH)
   @UseGuards(UpdateGuard)
   editDanhGiaTSTH(
+    @CurrentUser() user: any,
     @Args('danhgiaTSTHInput') danhgiaTSTHInput: DanhGiaTSTHInput,
     @Args('id') id: number,
   ): Promise<DanhGiaTSTH> {
-    return this.danhgiaTSTHsService.editDanhGiaTSTH(danhgiaTSTHInput, id);
+    return this.danhgiaTSTHsService.editDanhGiaTSTH(danhgiaTSTHInput, id, user);
   }
 
   @Mutation((returns) => DanhGiaTSTH)
   @UseGuards(DeleteGuard)
-  deleteDanhGiaTSTH(@Args('id') id: number): Promise<DanhGiaTSTH> {
-    return this.danhgiaTSTHsService.deleteDanhGiaTSTH(id);
+  deleteDanhGiaTSTH(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<DanhGiaTSTH> {
+    return this.danhgiaTSTHsService.deleteDanhGiaTSTH(id, user);
   }
 
   // ResolveField

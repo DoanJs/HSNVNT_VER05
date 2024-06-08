@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CapBac } from 'src/capbacs/CapBac.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { CapBac } from 'src/capbacs/CapBac.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
@@ -21,7 +23,11 @@ import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
-import { SP_CHANGE_CBCS, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_CBCS,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CBCS } from './CBCS.model';
@@ -32,6 +38,7 @@ export class CBCSsService {
   constructor(
     @InjectRepository(CBCS) private cbcsRepository: Repository<CBCS>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly CBCS_DataInput = (
@@ -88,24 +95,46 @@ export class CBCSsService {
     return result[0];
   }
 
-  async createCBCS(cbcsInput: CBCSInput): Promise<CBCS> {
+  async createCBCS(cbcsInput: CBCSInput, user: any): Promise<CBCS> {
     const result = await this.cbcsRepository.query(
       SP_CHANGE_CBCS(this.CBCS_DataInput('CREATE', null, cbcsInput)),
     );
+
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaCBCS: ${result[0].MaCBCS};`,
+      Time: `${moment().format()}`,
+      TableName: 'CBCSs',
+    });
     return result[0];
   }
 
-  async editCBCS(cbcsInput: CBCSInput, id: number): Promise<CBCS> {
+  async editCBCS(cbcsInput: CBCSInput, id: number, user: any): Promise<CBCS> {
     const result = await this.cbcsRepository.query(
       SP_CHANGE_CBCS(this.CBCS_DataInput('EDIT', id, cbcsInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaCBCS: ${result[0].MaCBCS};`,
+      Time: `${moment().format()}`,
+      TableName: 'CBCSs',
+    });
     return result[0];
   }
 
-  async deleteCBCS(cbcsInput: CBCSInput, id: number): Promise<CBCS> {
+  async deleteCBCS(cbcsInput: CBCSInput, id: number, user: any): Promise<CBCS> {
     const result = await this.cbcsRepository.query(
       SP_CHANGE_CBCS(this.CBCS_DataInput('DELETE', id, cbcsInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaCBCS: ${result[0].MaCBCS};`,
+      Time: `${moment().format()}`,
+      TableName: 'CBCSs',
+    });
     return result[0];
   }
 
@@ -193,19 +222,37 @@ export class CBCSsService {
 
   async LucLuongThamGiaKHs(MaCBCS: number): Promise<LucLuongThamGiaKH[]> {
     return this.cbcsRepository.query(
-      SP_GET_DATA('LucLuongThamGiaKHs', `'MaCBCS = ${MaCBCS}'`, 'MaLLTGKH', 0, 0)
+      SP_GET_DATA(
+        'LucLuongThamGiaKHs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaLLTGKH',
+        0,
+        0,
+      ),
     );
   }
 
   async DanhGiaTSTHs(MaCBCS: number): Promise<DanhGiaTSTH[]> {
     return this.cbcsRepository.query(
-      SP_GET_DATA('DanhGiaTSTHs', `'MaCBCS = ${MaCBCS}'`, 'MaDanhGiaTSTH', 0, 0)
+      SP_GET_DATA(
+        'DanhGiaTSTHs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaDanhGiaTSTH',
+        0,
+        0,
+      ),
     );
   }
 
   async TSThucHien_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('BaoCaoPHQHs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCPHQH', 0, 0)
+      SP_GET_DATA(
+        'BaoCaoPHQHs_CBCSs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaBCPHQH',
+        0,
+        0,
+      ),
     )) as [{ MaBCPHQH: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBaoCaoPHQH.load(obj.MaBCPHQH),
@@ -215,7 +262,7 @@ export class CBCSsService {
 
   async TSThucHien_PhuongTienNVs(MaCBCS: number): Promise<PhuongTienNV[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaPT', 0, 0)
+      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaPT', 0, 0),
     )) as [{ MaPT: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderPhuongTienNV.load(obj.MaPT),
@@ -225,7 +272,7 @@ export class CBCSsService {
 
   async TSThucHien_DiaChiNVs(MaCBCS: number): Promise<DiaChiNV[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaDC', 0, 0)
+      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaDC', 0, 0),
     )) as [{ MaDC: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderDiaChiNV.load(obj.MaDC),
@@ -247,7 +294,13 @@ export class CBCSsService {
 
   async TSThucHien_BaoCaoKQGHs(MaCBCS: number): Promise<BaoCaoKQGH[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('BaoCaoKQGHs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCKQGH', 0, 0)
+      SP_GET_DATA(
+        'BaoCaoKQGHs_CBCSs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaBCKQGH',
+        0,
+        0,
+      ),
     )) as [{ MaBCKQGH: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBaoCaoKQGH.load(obj.MaBCKQGH),
@@ -352,7 +405,7 @@ export class CBCSsService {
 
   async TSQuanLy_LLDBs(id: number): Promise<LLDB[]> {
     return this.cbcsRepository.query(
-      SP_GET_DATA('LLDBs', `'MaTSQuanLy = ${id}'`, 'MaLLDB', 0, 0)
+      SP_GET_DATA('LLDBs', `'MaTSQuanLy = ${id}'`, 'MaLLDB', 0, 0),
     );
   }
 }

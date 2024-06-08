@@ -36,6 +36,7 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { ReadGuard } from 'src/authPassport/authorization/read.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => CBCS)
 @UseGuards(GraphQLGuard)
@@ -54,26 +55,31 @@ export class CBCSsResolver {
 
   @Mutation((returns) => CBCS)
   @UseGuards(InsertGuard)
-  createCBCS(@Args('cbcsInput') cbcsInput: CBCSInput): Promise<CBCS> {
-    return this.cbcssService.createCBCS(cbcsInput);
+  createCBCS(
+    @CurrentUser() user: any,
+    @Args('cbcsInput') cbcsInput: CBCSInput,
+  ): Promise<CBCS> {
+    return this.cbcssService.createCBCS(cbcsInput, user);
   }
 
   @Mutation((returns) => CBCS)
   @UseGuards(UpdateGuard)
   editCBCS(
+    @CurrentUser() user: any,
     @Args('cbcsInput') cbcsInput: CBCSInput,
     @Args('id') id: number,
   ): Promise<CBCS> {
-    return this.cbcssService.editCBCS(cbcsInput, id);
+    return this.cbcssService.editCBCS(cbcsInput, id, user);
   }
 
   @Mutation((retursn) => CBCS)
   @UseGuards(DeleteGuard)
   deleteCBCS(
+    @CurrentUser() user: any,
     @Args('cbcsInput') cbcsInput: CBCSInput,
     @Args('id') id: number,
   ): Promise<CBCS> {
-    return this.cbcssService.deleteCBCS(cbcsInput, id);
+    return this.cbcssService.deleteCBCS(cbcsInput, id, user);
   }
 
   // ResolveField

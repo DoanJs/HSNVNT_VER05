@@ -1,5 +1,12 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
@@ -15,13 +22,16 @@ import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => BaoCaoPHQH)
 @UseGuards(GraphQLGuard)
 export class BaoCaoPHQHsResolver {
-  constructor(private baocaoPHQHsService: BaoCaoPHQHsService) { }
+  constructor(private baocaoPHQHsService: BaoCaoPHQHsService) {}
   @Query((returns) => [BaoCaoPHQH])
-  baocaoPHQHs(@Args('utilsParams') utilsParams: UtilsParamsInput): Promise<BaoCaoPHQH[]> {
+  baocaoPHQHs(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoPHQH[]> {
     return this.baocaoPHQHsService.baocaoPHQHs(utilsParams);
   }
 
@@ -32,71 +42,78 @@ export class BaoCaoPHQHsResolver {
 
   @Mutation((returns) => BaoCaoPHQH)
   @UseGuards(InsertGuard)
-  createBaoCaoPHQH(@Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput): Promise<BaoCaoPHQH> {
-    return this.baocaoPHQHsService.createBaoCaoPHQH(baocaoPHQHInput);
+  createBaoCaoPHQH(
+    @CurrentUser() user: any,
+    @Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput,
+  ): Promise<BaoCaoPHQH> {
+    return this.baocaoPHQHsService.createBaoCaoPHQH(baocaoPHQHInput, user);
   }
 
   @Mutation((returns) => BaoCaoPHQH)
   @UseGuards(UpdateGuard)
   editBaoCaoPHQH(
+    @CurrentUser() user: any,
     @Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput,
     @Args('id') id: number,
   ): Promise<BaoCaoPHQH> {
-    return this.baocaoPHQHsService.editBaoCaoPHQH(baocaoPHQHInput, id);
+    return this.baocaoPHQHsService.editBaoCaoPHQH(baocaoPHQHInput, id, user);
   }
 
   @Mutation((retursn) => BaoCaoPHQH)
   @UseGuards(DeleteGuard)
   deleteBaoCaoPHQH(
+    @CurrentUser() user: any,
     @Args('baocaoPHQHInput') baocaoPHQHInput: BaoCaoPHQHInput,
     @Args('id') id: number,
   ): Promise<BaoCaoPHQH> {
-    return this.baocaoPHQHsService.deleteBaoCaoPHQH(baocaoPHQHInput, id);
+    return this.baocaoPHQHsService.deleteBaoCaoPHQH(baocaoPHQHInput, id, user);
   }
 
   // ResolveField
-  @ResolveField(returns => KetQuaTSNT)
+  @ResolveField((returns) => KetQuaTSNT)
   KetQuaTSNT(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<KetQuaTSNT> {
-    return this.baocaoPHQHsService.KetQuaTSNT(baocaoPHQH)
+    return this.baocaoPHQHsService.KetQuaTSNT(baocaoPHQH);
   }
 
-  @ResolveField(returns => [CBCS])
+  @ResolveField((returns) => [CBCS])
   TSThucHiens(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS[]> {
-    return this.baocaoPHQHsService.TSThucHiens(baocaoPHQH.MaBCPHQH)
+    return this.baocaoPHQHsService.TSThucHiens(baocaoPHQH.MaBCPHQH);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   LanhDaoPD(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS> {
-    return this.baocaoPHQHsService.LanhDaoPD(baocaoPHQH)
+    return this.baocaoPHQHsService.LanhDaoPD(baocaoPHQH);
   }
 
-  @ResolveField(returns => CAQHvaTD)
+  @ResolveField((returns) => CAQHvaTD)
   DonVi(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CAQHvaTD> {
-    return this.baocaoPHQHsService.DonVi(baocaoPHQH)
+    return this.baocaoPHQHsService.DonVi(baocaoPHQH);
   }
 
-  @ResolveField(returns => Doi)
+  @ResolveField((returns) => Doi)
   Doi(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<Doi> {
-    return this.baocaoPHQHsService.Doi(baocaoPHQH)
+    return this.baocaoPHQHsService.Doi(baocaoPHQH);
   }
 
-  @ResolveField(returns => CBCS)
+  @ResolveField((returns) => CBCS)
   ToTruongTS(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS> {
-    return this.baocaoPHQHsService.ToTruongTS(baocaoPHQH)
+    return this.baocaoPHQHsService.ToTruongTS(baocaoPHQH);
   }
 
-  @ResolveField(returns => DoiTuong)
+  @ResolveField((returns) => DoiTuong)
   DoiTuong(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<DoiTuong> {
-    return this.baocaoPHQHsService.DoiTuong(baocaoPHQH)
+    return this.baocaoPHQHsService.DoiTuong(baocaoPHQH);
   }
 
-  @ResolveField(returns => BaoCaoKQXMQuanHe)
-  BaoCaoKQXMQuanHe(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<BaoCaoKQXMQuanHe> {
-    return this.baocaoPHQHsService.BaoCaoKQXMQuanHe(baocaoPHQH.MaBCPHQH)
+  @ResolveField((returns) => BaoCaoKQXMQuanHe)
+  BaoCaoKQXMQuanHe(
+    @Parent() baocaoPHQH: BaoCaoPHQH,
+  ): Promise<BaoCaoKQXMQuanHe> {
+    return this.baocaoPHQHsService.BaoCaoKQXMQuanHe(baocaoPHQH.MaBCPHQH);
   }
 
-  @ResolveField(returns => KetQuaXMQuanHe)
+  @ResolveField((returns) => KetQuaXMQuanHe)
   KetQuaXMQuanHe(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<KetQuaXMQuanHe> {
-    return this.baocaoPHQHsService.KetQuaXMQuanHe(baocaoPHQH.MaBCPHQH)
+    return this.baocaoPHQHsService.KetQuaXMQuanHe(baocaoPHQH.MaBCPHQH);
   }
 }

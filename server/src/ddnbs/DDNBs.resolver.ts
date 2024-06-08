@@ -15,6 +15,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => DDNB)
 @UseGuards(GraphQLGuard)
@@ -32,20 +33,27 @@ export class DDNBsResolver {
 
   @Mutation((returns) => DDNB)
   @UseGuards(InsertGuard)
-  createDDNB(@Args('ddnb') ddnb: string): Promise<DDNB> {
-    return this.ddnbsService.createDDNB(ddnb);
+  createDDNB(
+    @CurrentUser() user: any,
+    @Args('ddnb') ddnb: string,
+  ): Promise<DDNB> {
+    return this.ddnbsService.createDDNB(ddnb, user);
   }
 
   @Mutation((returns) => DDNB)
   @UseGuards(UpdateGuard)
-  editDDNB(@Args('ddnb') ddnb: string, @Args('id') id: number): Promise<DDNB> {
-    return this.ddnbsService.editDDNB(ddnb, id);
+  editDDNB(
+    @CurrentUser() user: any,
+    @Args('ddnb') ddnb: string,
+    @Args('id') id: number,
+  ): Promise<DDNB> {
+    return this.ddnbsService.editDDNB(ddnb, id, user);
   }
 
   @Mutation((returns) => DDNB)
   @UseGuards(DeleteGuard)
-  deleteDDNB(@Args('id') id: number): Promise<DDNB> {
-    return this.ddnbsService.deleteDDNB(id);
+  deleteDDNB(@CurrentUser() user: any, @Args('id') id: number): Promise<DDNB> {
+    return this.ddnbsService.deleteDDNB(id, user);
   }
 
   //ResolveField

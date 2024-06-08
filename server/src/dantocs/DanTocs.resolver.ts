@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { QuocTich } from 'src/quoctichs/QuocTich.model';
@@ -13,11 +19,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DanToc } from './DanToc.model';
 import { DanTocsService } from './DanTocs.service';
 import { DanTocInput } from './type/DanToc.Input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => DanToc)
 @UseGuards(GraphQLGuard)
@@ -37,23 +38,30 @@ export class DanTocsResolver {
 
   @Mutation((returns) => DanToc)
   @UseGuards(InsertGuard)
-  createDanToc(@Args('danTocInput') danTocInput: DanTocInput): Promise<DanToc> {
-    return this.dantocsService.createDanToc(danTocInput);
+  createDanToc(
+    @CurrentUser() user: any,
+    @Args('danTocInput') danTocInput: DanTocInput,
+  ): Promise<DanToc> {
+    return this.dantocsService.createDanToc(danTocInput, user);
   }
 
   @Mutation((returns) => DanToc)
   @UseGuards(UpdateGuard)
   editDanToc(
+    @CurrentUser() user: any,
     @Args('danTocInput') danTocInput: DanTocInput,
     @Args('id') id: number,
   ): Promise<DanToc> {
-    return this.dantocsService.editDanToc(danTocInput, id);
+    return this.dantocsService.editDanToc(danTocInput, id, user);
   }
 
   @Mutation((returns) => DanToc)
   @UseGuards(DeleteGuard)
-  deleteDanToc(@Args('id') id: number): Promise<DanToc> {
-    return this.dantocsService.deleteDanToc(id);
+  deleteDanToc(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<DanToc> {
+    return this.dantocsService.deleteDanToc(id, user);
   }
 
   //ResolveField

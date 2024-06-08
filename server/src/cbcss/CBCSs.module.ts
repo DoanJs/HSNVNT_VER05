@@ -7,10 +7,12 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { CBCS } from './CBCS.model';
 import { CBCSsResolver } from './CBCSs.resolver';
 import { CBCSsService } from './CBCSs.service';
+import { ActionDB } from 'src/actionDBs/ActionDB.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CBCS]),
+    TypeOrmModule.forFeature([CBCS, ActionDB]),
     AccountModule,
     AuthPassportModule,
     DataLoaderModule,
@@ -18,6 +20,6 @@ import { CBCSsService } from './CBCSs.service';
       secret: process.env.SECRETJWT as string,
     }),
   ],
-  providers: [CBCSsResolver, CBCSsService],
+  providers: [CBCSsResolver, CBCSsService, ActionDBsService],
 })
 export class CBCSsModule {}

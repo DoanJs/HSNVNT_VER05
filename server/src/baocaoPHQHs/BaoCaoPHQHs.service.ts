@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { Doi } from 'src/dois/Doi.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOPHQH,
   SP_GET_DATA_DECRYPT,
@@ -23,6 +25,7 @@ export class BaoCaoPHQHsService {
     @InjectRepository(BaoCaoPHQH)
     private baocaoPHQHRepository: Repository<BaoCaoPHQH>,
     private dataloaderService: DataLoaderService,
+    private actionDBsService: ActionDBsService,
   ) {}
   public readonly baocaoPHQH_DataInput = (
     Type: string,
@@ -73,36 +76,60 @@ export class BaoCaoPHQHsService {
 
   async createBaoCaoPHQH(
     baocaoPHQHInput: BaoCaoPHQHInput,
+    user: any,
   ): Promise<BaoCaoPHQH> {
     const result = await this.baocaoPHQHRepository.query(
       SP_CHANGE_BAOCAOPHQH(
         this.baocaoPHQH_DataInput('CREATE', null, baocaoPHQHInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoPHQHs',
+    });
     return result[0];
   }
 
   async editBaoCaoPHQH(
     baocaoPHQHInput: BaoCaoPHQHInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoPHQH> {
     const result = await this.baocaoPHQHRepository.query(
       SP_CHANGE_BAOCAOPHQH(
         this.baocaoPHQH_DataInput('EDIT', id, baocaoPHQHInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoPHQHs',
+    });
     return result[0];
   }
 
   async deleteBaoCaoPHQH(
     baocaoPHQHInput: BaoCaoPHQHInput,
     id: number,
+    user: any,
   ): Promise<BaoCaoPHQH> {
     const result = await this.baocaoPHQHRepository.query(
       SP_CHANGE_BAOCAOPHQH(
         this.baocaoPHQH_DataInput('DELETE', id, baocaoPHQHInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
+      Time: `${moment().format()}`,
+      TableName: 'BaoCaoPHQHs',
+    });
     return result[0];
   }
 

@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
@@ -10,7 +12,11 @@ import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
-import { SP_CHANGE_DATA, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_DATA,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { Doi } from './Doi.model';
@@ -21,6 +27,7 @@ export class DoisService {
   constructor(
     @InjectRepository(Doi) private doiRepository: Repository<Doi>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly doi_DataInput = (doiInput: DoiInput) => {
@@ -49,7 +56,7 @@ export class DoisService {
     return result[0];
   }
 
-  async createDoi(doiInput: DoiInput): Promise<Doi> {
+  async createDoi(doiInput: DoiInput, user: any): Promise<Doi> {
     const result = await this.doiRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -61,10 +68,17 @@ export class DoisService {
         "'MaDoi = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDoi: ${result[0].MaDoi};`,
+      Time: `${moment().format()}`,
+      TableName: 'Dois',
+    });
     return result[0];
   }
 
-  async editDoi(doiInput: DoiInput, id: number): Promise<Doi> {
+  async editDoi(doiInput: DoiInput, id: number, user: any): Promise<Doi> {
     const result = await this.doiRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -78,10 +92,17 @@ export class DoisService {
         `'MaDoi = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDoi: ${result[0].MaDoi};`,
+      Time: `${moment().format()}`,
+      TableName: 'Dois',
+    });
     return result[0];
   }
 
-  async deleteDoi(id: number): Promise<Doi> {
+  async deleteDoi(id: number, user: any): Promise<Doi> {
     const result = await this.doiRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -93,6 +114,13 @@ export class DoisService {
         `'MaDoi = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDoi: ${result[0].MaDoi};`,
+      Time: `${moment().format()}`,
+      TableName: 'Dois',
+    });
     return result[0];
   }
 

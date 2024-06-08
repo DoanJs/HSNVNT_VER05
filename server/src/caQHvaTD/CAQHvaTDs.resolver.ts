@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
@@ -21,11 +27,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDsService } from './CAQHvaTDs.service';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => CAQHvaTD)
 @UseGuards(GraphQLGuard)
@@ -46,24 +47,29 @@ export class CAQHvaTDsResolver {
   @Mutation((returs) => CAQHvaTD)
   @UseGuards(InsertGuard)
   createCAQHvaTD(
+    @CurrentUser() user: any,
     @Args('caQHvaTDInput') caQHvaTDInput: CAQHvaTDInput,
   ): Promise<CAQHvaTD> {
-    return this.caQHvaTDsService.createCAQHvaTD(caQHvaTDInput);
+    return this.caQHvaTDsService.createCAQHvaTD(caQHvaTDInput, user);
   }
 
   @Mutation((returns) => CAQHvaTD)
   @UseGuards(UpdateGuard)
   editCAQHvaTD(
+    @CurrentUser() user: any,
     @Args('caQHvaTDInput') caQHvaTDInput: CAQHvaTDInput,
     @Args('id') id: number,
   ): Promise<CAQHvaTD> {
-    return this.caQHvaTDsService.editCAQHvaTD(caQHvaTDInput, id);
+    return this.caQHvaTDsService.editCAQHvaTD(caQHvaTDInput, id, user);
   }
 
   @Mutation((returns) => CAQHvaTD)
   @UseGuards(DeleteGuard)
-  deleteCAQHvaTD(@Args('id') id: number): Promise<CAQHvaTD> {
-    return this.caQHvaTDsService.deleteCAQHvaTD(id);
+  deleteCAQHvaTD(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<CAQHvaTD> {
+    return this.caQHvaTDsService.deleteCAQHvaTD(id, user);
   }
 
   // ResolveField

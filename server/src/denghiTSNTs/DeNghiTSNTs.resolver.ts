@@ -23,6 +23,7 @@ import { DeNghiTSNTInput } from './type/DeNghiTSNT.input';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => DeNghiTSNT)
 @UseGuards(GraphQLGuard)
@@ -43,27 +44,30 @@ export class DeNghiTSNTsResolver {
   @Mutation((returns) => DeNghiTSNT)
   @UseGuards(InsertGuard)
   createDeNghiTSNT(
+    @CurrentUser() user: any,
     @Args('denghiTSNTInput') denghiTSNTInput: DeNghiTSNTInput,
   ): Promise<DeNghiTSNT> {
-    return this.denghiTSNTsService.createDeNghiTSNT(denghiTSNTInput);
+    return this.denghiTSNTsService.createDeNghiTSNT(denghiTSNTInput, user);
   }
 
   @Mutation((returns) => DeNghiTSNT)
   @UseGuards(UpdateGuard)
   editDeNghiTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('denghiTSNTInput') denghiTSNTInput: DeNghiTSNTInput,
   ): Promise<DeNghiTSNT> {
-    return this.denghiTSNTsService.editDeNghiTSNT(id, denghiTSNTInput);
+    return this.denghiTSNTsService.editDeNghiTSNT(id, denghiTSNTInput, user);
   }
 
   @Mutation((returns) => DeNghiTSNT)
   @UseGuards(DeleteGuard)
   deleteDeNghiTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('denghiTSNTInput') denghiTSNTInput: DeNghiTSNTInput,
   ): Promise<DeNghiTSNT> {
-    return this.denghiTSNTsService.deleteDeNghiTSNT(id, denghiTSNTInput);
+    return this.denghiTSNTsService.deleteDeNghiTSNT(id, denghiTSNTInput, user);
   }
 
   // ResolveField

@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { ChuyenAn } from 'src/chuyenans/ChuyenAn.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
@@ -15,6 +17,7 @@ export class DoiTuongCAsService {
     @InjectRepository(DoiTuongCA)
     private doituongCARepository: Repository<DoiTuongCA>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly doituongCA_DataInput = (doituongCAInput: DoiTuongCAInput) => {
@@ -58,6 +61,7 @@ export class DoiTuongCAsService {
 
   async createDoiTuongCA(
     doituongCAInput: DoiTuongCAInput,
+    user: any,
   ): Promise<DoiTuongCA> {
     const result = await this.doituongCARepository.query(
       SP_CHANGE_DATA(
@@ -72,12 +76,20 @@ export class DoiTuongCAsService {
         "'MaDTCA = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDTCA: ${result[0].MaDTCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'DoiTuongCAs',
+    });
     return result[0];
   }
 
   async editDoiTuongCA(
     doituongCAInput: DoiTuongCAInput,
     id: number,
+    user: any,
   ): Promise<DoiTuongCA> {
     const result = await this.doituongCARepository.query(
       SP_CHANGE_DATA(
@@ -96,10 +108,17 @@ export class DoiTuongCAsService {
         `'MaDTCA = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDTCA: ${result[0].MaDTCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'DoiTuongCAs',
+    });
     return result[0];
   }
 
-  async deleteDoiTuongCA(id: number): Promise<DoiTuongCA> {
+  async deleteDoiTuongCA(id: number, user: any): Promise<DoiTuongCA> {
     const result = await this.doituongCARepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -111,6 +130,13 @@ export class DoiTuongCAsService {
         `'MaDTCA = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDTCA: ${result[0].MaDTCA};`,
+      Time: `${moment().format()}`,
+      TableName: 'DoiTuongCAs',
+    });
     return result[0];
   }
 

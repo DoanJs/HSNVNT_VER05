@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,15 +7,15 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BienPhapDT } from './BienPhapDT.model';
 import { BienPhapDTsService } from './BienPhapDTs.service';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => BienPhapDT)
 @UseGuards(GraphQLGuard)
@@ -36,24 +37,29 @@ export class BienPhapDTsResolver {
   @Mutation((returns) => BienPhapDT)
   @UseGuards(InsertGuard)
   createBienPhapDT(
+    @CurrentUser() user: any,
     @Args('bienPhapDT') bienPhapDT: string,
   ): Promise<BienPhapDT> {
-    return this.bienPhapDTsService.createBienPhapDT(bienPhapDT);
+    return this.bienPhapDTsService.createBienPhapDT(bienPhapDT, user);
   }
 
   @Mutation((returns) => BienPhapDT)
   @UseGuards(UpdateGuard)
   editBienPhapDT(
+    @CurrentUser() user: any,
     @Args('bienPhapDT') bienPhapDT: string,
     @Args('id') id: number,
   ): Promise<BienPhapDT> {
-    return this.bienPhapDTsService.editBienPhapDT(bienPhapDT, id);
+    return this.bienPhapDTsService.editBienPhapDT(bienPhapDT, id, user);
   }
 
   @Mutation((returns) => BienPhapDT)
   @UseGuards(DeleteGuard)
-  deleteBienPhapDT(@Args('id') id: number): Promise<BienPhapDT> {
-    return this.bienPhapDTsService.deleteBienPhapDT(id);
+  deleteBienPhapDT(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<BienPhapDT> {
+    return this.bienPhapDTsService.deleteBienPhapDT(id, user);
   }
 
   //ResolveField

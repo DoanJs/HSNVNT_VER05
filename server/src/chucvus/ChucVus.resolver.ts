@@ -15,6 +15,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => ChucVu)
 @UseGuards(GraphQLGuard)
@@ -35,23 +36,30 @@ export class ChucVusResolver {
 
   @Mutation((returns) => ChucVu)
   @UseGuards(InsertGuard)
-  createChucVu(@Args('chucVu') chucVu: string): Promise<ChucVu> {
-    return this.chucvusService.createChucVu(chucVu);
+  createChucVu(
+    @CurrentUser() user: any,
+    @Args('chucVu') chucVu: string,
+  ): Promise<ChucVu> {
+    return this.chucvusService.createChucVu(chucVu, user);
   }
 
   @Mutation((returns) => ChucVu)
   @UseGuards(UpdateGuard)
   editChucVu(
+    @CurrentUser() user: any,
     @Args('chucVu') chucVu: string,
     @Args('id') id: number,
   ): Promise<ChucVu> {
-    return this.chucvusService.editChucVu(chucVu, id);
+    return this.chucvusService.editChucVu(chucVu, id, user);
   }
 
   @Mutation((returns) => ChucVu)
   @UseGuards(DeleteGuard)
-  deleteChucVu(@Args('id') id: number): Promise<ChucVu> {
-    return this.chucvusService.deleteChucVu(id);
+  deleteChucVu(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<ChucVu> {
+    return this.chucvusService.deleteChucVu(id, user);
   }
 
   //ResolveField
