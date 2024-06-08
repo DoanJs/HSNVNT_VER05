@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import {
   SP_CHANGE_BIENBANRKN,
@@ -74,7 +73,6 @@ export class BienBanRKNsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaBBRKN: ${result[0].MaBBRKN};`,
-      Time: `${moment().format()}`,
       TableName: 'BienBanRKNs',
     });
     return result[0];
@@ -83,7 +81,7 @@ export class BienBanRKNsService {
   async editBienBanRKN(
     bienbanRKNInput: BienBanRKNInput,
     id: number,
-    user: any
+    user: any,
   ): Promise<BienBanRKN> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_BIENBANRKN(
@@ -94,7 +92,6 @@ export class BienBanRKNsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaBBRKN: ${result[0].MaBBRKN};`,
-      Time: `${moment().format()}`,
       TableName: 'BienBanRKNs',
     });
     return result[0];
@@ -102,7 +99,8 @@ export class BienBanRKNsService {
 
   async deleteBienBanRKN(
     bienbanRKNInput: BienBanRKNInput,
-    id: number,user: any
+    id: number,
+    user: any,
   ): Promise<BienBanRKN> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_BIENBANRKN(
@@ -113,7 +111,6 @@ export class BienBanRKNsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaBBRKN: ${result[0].MaBBRKN};`,
-      Time: `${moment().format()}`,
       TableName: 'BienBanRKNs',
     });
     return result[0];

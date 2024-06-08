@@ -10,13 +10,15 @@ import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { Doi } from 'src/dois/Doi.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class TramCTsService {
   constructor(
     @InjectRepository(TramCT)
     private tramCTRepository: Repository<TramCT>,
-    private dataloaderService: DataLoaderService,
+    private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) { }
   public readonly tramCT_DataInput = (
     Type: string,
@@ -62,25 +64,43 @@ export class TramCTsService {
     return result[0];
   }
 
-  async createTramCT(tramCTInput: TramCTInput): Promise<TramCT> {
+  async createTramCT(tramCTInput: TramCTInput, user: any): Promise<TramCT> {
     const result = await this.tramCTRepository.query(
       SP_CHANGE_TRAMCT(this.tramCT_DataInput('CREATE', null, tramCTInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaTramCT: ${result[0].MaTramCT};`,
+      TableName: 'TramCTs',
+    });
     return result[0];
   }
 
-  async editTramCT(tramCTInput: TramCTInput, id: number): Promise<TramCT> {
+  async editTramCT(tramCTInput: TramCTInput, id: number, user: any): Promise<TramCT> {
     const result = await this.tramCTRepository.query(
       SP_CHANGE_TRAMCT(this.tramCT_DataInput('EDIT', id, tramCTInput)),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaTramCT: ${result[0].MaTramCT};`,
+      TableName: 'TramCTs',
+    });
     return result[0];
   }
 
-  async deleteTramCT(tramCTInput: TramCTInput, id: number): Promise<TramCT> {
-    const cbcss = await this.tramCTRepository.query(
+  async deleteTramCT(tramCTInput: TramCTInput, id: number, user: any): Promise<TramCT> {
+    const result = await this.tramCTRepository.query(
       SP_CHANGE_TRAMCT(this.tramCT_DataInput('DELETE', id, tramCTInput)),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaTramCT: ${result[0].MaTramCT};`,
+      TableName: 'TramCTs',
+    });
+    return result[0];
   }
 
   // ResolveField

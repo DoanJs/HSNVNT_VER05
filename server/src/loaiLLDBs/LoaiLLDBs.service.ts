@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -12,6 +13,7 @@ export class LoaiLLDBsService {
   constructor(
     @InjectRepository(LoaiLLDB)
     private loaiLLDBRepository: Repository<LoaiLLDB>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly loaiLLDB_DataInput = (loaiLLDBInput: LoaiLLDBInput) => {
@@ -40,7 +42,10 @@ export class LoaiLLDBsService {
     return result[0];
   }
 
-  async createLoaiLLDB(loaiLLDBInput: LoaiLLDBInput): Promise<LoaiLLDB> {
+  async createLoaiLLDB(
+    loaiLLDBInput: LoaiLLDBInput,
+    user: any,
+  ): Promise<LoaiLLDB> {
     const result = await this.loaiLLDBRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -52,12 +57,19 @@ export class LoaiLLDBsService {
         "'MaLoaiLLDB = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaLoaiLLDB: ${result[0].MaLoaiLLDB};`,
+      TableName: 'LoaiLLDBs',
+    });
     return result[0];
   }
 
   async editLoaiLLDB(
     loaiLLDBInput: LoaiLLDBInput,
     id: number,
+    user: any,
   ): Promise<LoaiLLDB> {
     const result = await this.loaiLLDBRepository.query(
       SP_CHANGE_DATA(
@@ -72,10 +84,16 @@ export class LoaiLLDBsService {
         `'MaLoaiLLDB = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaLoaiLLDB: ${result[0].MaLoaiLLDB};`,
+      TableName: 'LoaiLLDBs',
+    });
     return result[0];
   }
 
-  async deleteLoaiLLDB(id: number): Promise<LoaiLLDB> {
+  async deleteLoaiLLDB(id: number, user: any): Promise<LoaiLLDB> {
     const result = await this.loaiLLDBRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -87,6 +105,12 @@ export class LoaiLLDBsService {
         `'MaLoaiLLDB = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaLoaiLLDB: ${result[0].MaLoaiLLDB};`,
+      TableName: 'LoaiLLDBs',
+    });
     return result[0];
   }
 
@@ -94,7 +118,7 @@ export class LoaiLLDBsService {
 
   LLDBs(MaLoaiLLDB: number): Promise<LLDB[]> {
     return this.loaiLLDBRepository.query(
-      SP_GET_DATA('LLDBs', `'MaLoaiLLDB = ${MaLoaiLLDB}'`, 'MaLLDB', 0, 0)
+      SP_GET_DATA('LLDBs', `'MaLoaiLLDB = ${MaLoaiLLDB}'`, 'MaLLDB', 0, 0),
     );
   }
 }

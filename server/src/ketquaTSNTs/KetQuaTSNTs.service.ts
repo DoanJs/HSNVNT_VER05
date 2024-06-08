@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
+import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
@@ -8,6 +10,7 @@ import { DDNB } from 'src/ddnbs/DDNB.model';
 import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
+import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
   SP_CHANGE_DATA,
@@ -18,19 +21,16 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KetQuaTSNT } from './KetQuaTSNT.model';
 import { KetQuaTSNTInput } from './type/KetQuaTSNT.input';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 
 @Injectable()
 export class KetQuaTSNTsService {
   constructor(
     @InjectRepository(KetQuaTSNT)
     private ketquaTSNTRepository: Repository<KetQuaTSNT>,
-    private dataloaderService: DataLoaderService,
-  ) { }
-  public readonly ketquaTSNT_DataInput = (
-    ketquaTSNTInput: KetQuaTSNTInput,
-  ) => {
+    private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
+  ) {}
+  public readonly ketquaTSNT_DataInput = (ketquaTSNTInput: KetQuaTSNTInput) => {
     return {
       ThoiGianBD: ketquaTSNTInput.ThoiGianBD
         ? `N''${ketquaTSNTInput.ThoiGianBD}''`
@@ -40,10 +40,16 @@ export class KetQuaTSNTsService {
         : null,
       MaQD: ketquaTSNTInput.MaQD ? ketquaTSNTInput.MaQD : null,
       MaKH: ketquaTSNTInput.MaKH ? ketquaTSNTInput.MaKH : null,
-      MaCATTPvaTD: ketquaTSNTInput.MaCATTPvaTD ? ketquaTSNTInput.MaCATTPvaTD : null,
-      MaCAQHvaTD: ketquaTSNTInput.MaCAQHvaTD ? ketquaTSNTInput.MaCAQHvaTD : null,
+      MaCATTPvaTD: ketquaTSNTInput.MaCATTPvaTD
+        ? ketquaTSNTInput.MaCATTPvaTD
+        : null,
+      MaCAQHvaTD: ketquaTSNTInput.MaCAQHvaTD
+        ? ketquaTSNTInput.MaCAQHvaTD
+        : null,
       MaDoi: ketquaTSNTInput.MaDoi ? ketquaTSNTInput.MaDoi : null,
-      MaDoiTuong: ketquaTSNTInput.MaDoiTuong ? ketquaTSNTInput.MaDoiTuong : null,
+      MaDoiTuong: ketquaTSNTInput.MaDoiTuong
+        ? ketquaTSNTInput.MaDoiTuong
+        : null,
     };
   };
 
@@ -68,8 +74,8 @@ export class KetQuaTSNTsService {
 
   async createKetQuaTSNT(
     ketquaTSNTInput: KetQuaTSNTInput,
+    user: any,
   ): Promise<KetQuaTSNT> {
-    console.log(Date())
     const result = await this.ketquaTSNTRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -87,12 +93,19 @@ export class KetQuaTSNTsService {
         "'MaKQ = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaKQ: ${result[0].MaKQ};`,
+      TableName: 'KetQuaTSNTs',
+    });
     return result[0];
   }
 
   async editKetQuaTSNT(
     ketquaTSNTInput: KetQuaTSNTInput,
     id: number,
+    user: any,
   ): Promise<KetQuaTSNT> {
     const result = await this.ketquaTSNTRepository.query(
       SP_CHANGE_DATA(
@@ -101,24 +114,38 @@ export class KetQuaTSNTsService {
         null,
         null,
         null,
-        `N' ThoiGianBD = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).ThoiGianBD},
-            ThoiGianKT = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).ThoiGianKT},
+        `N' ThoiGianBD = ${
+          this.ketquaTSNT_DataInput(ketquaTSNTInput).ThoiGianBD
+        },
+            ThoiGianKT = ${
+              this.ketquaTSNT_DataInput(ketquaTSNTInput).ThoiGianKT
+            },
             MaKH = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).MaKH},
             MaQD = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).MaQD},
-            MaCATTPvaTD = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).MaCATTPvaTD},
-            MaCAQHvaTD = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).MaCAQHvaTD},
+            MaCATTPvaTD = ${
+              this.ketquaTSNT_DataInput(ketquaTSNTInput).MaCATTPvaTD
+            },
+            MaCAQHvaTD = ${
+              this.ketquaTSNT_DataInput(ketquaTSNTInput).MaCAQHvaTD
+            },
             MaDoi = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).MaDoi},
-            MaDoiTuong = ${this.ketquaTSNT_DataInput(ketquaTSNTInput).MaDoiTuong}
+            MaDoiTuong = ${
+              this.ketquaTSNT_DataInput(ketquaTSNTInput).MaDoiTuong
+            }
         '`,
         `'MaKQ = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaKQ: ${result[0].MaKQ};`,
+      TableName: 'KetQuaTSNTs',
+    });
     return result[0];
   }
 
-  async deleteKetQuaTSNT(
-    id: number,
-  ): Promise<KetQuaTSNT> {
+  async deleteKetQuaTSNT(id: number, user: any): Promise<KetQuaTSNT> {
     const result = await this.ketquaTSNTRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -130,6 +157,12 @@ export class KetQuaTSNTsService {
         `'MaKQ = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaKQ: ${result[0].MaKQ};`,
+      TableName: 'KetQuaTSNTs',
+    });
     return result[0];
   }
 
@@ -137,21 +170,26 @@ export class KetQuaTSNTsService {
 
   async KeHoachTSNT(ketquaTSNT: any): Promise<KeHoachTSNT> {
     const result = await this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaKH = ${ketquaTSNT.MaKH}'`, 0, 1)
-    )
-    return result[0]
+      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaKH = ${ketquaTSNT.MaKH}'`, 0, 1),
+    );
+    return result[0];
   }
 
   async QuyetDinhTSNT(ketquaTSNT: any): Promise<QuyetDinhTSNT> {
     const result = await this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaQD = ${ketquaTSNT.MaQD}'`, 0, 1)
-    )
-    return result[0]
+      SP_GET_DATA_DECRYPT(
+        'QuyetDinhTSNTs',
+        `'MaQD = ${ketquaTSNT.MaQD}'`,
+        0,
+        1,
+      ),
+    );
+    return result[0];
   }
 
   async DDNBs(MaKQ: number): Promise<DDNB[]> {
     const result = (await this.ketquaTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaKQ = ${MaKQ}'`, 'MaDDNB', 0, 0)
+      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaKQ = ${MaKQ}'`, 'MaDDNB', 0, 0),
     )) as [{ MaDDNB: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderDDNB.load(obj.MaDDNB),
@@ -161,7 +199,13 @@ export class KetQuaTSNTsService {
 
   async PhamViTSs(MaKQ: number): Promise<TinhTP[]> {
     const result = (await this.ketquaTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs_TinhTPs', `'MaKQTSNT = ${MaKQ}'`, 'MaTinhTP', 0, 0)
+      SP_GET_DATA(
+        'KetQuaTSNTs_TinhTPs',
+        `'MaKQTSNT = ${MaKQ}'`,
+        'MaTinhTP',
+        0,
+        0,
+      ),
     )) as [{ MaTinhTP: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderTinhTP.load(obj.MaTinhTP),
@@ -171,12 +215,12 @@ export class KetQuaTSNTsService {
 
   async DanhGiaTSTHs(MaKQ: number): Promise<DanhGiaTSTH[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA('DanhGiaTSTHs', `'MaKQ = ${MaKQ}'`, 'MaDanhGiaTSTH', 0, 0)
+      SP_GET_DATA('DanhGiaTSTHs', `'MaKQ = ${MaKQ}'`, 'MaDanhGiaTSTH', 0, 0),
     );
   }
 
   async BaoCaoKTDN(MaKQ: number): Promise<BaoCaoKTDN> {
-    console.log(MaKQ)
+    console.log(MaKQ);
     const result = await this.ketquaTSNTRepository.query(
       SP_GET_DATA_DECRYPT('BaoCaoKTDNs', `"MaKQ = ${MaKQ}"`, 0, 1),
     );
@@ -185,25 +229,25 @@ export class KetQuaTSNTsService {
 
   async BaoCaoPHQHs(MaKQ: number): Promise<BaoCaoPHQH[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaKQ = ${MaKQ}'`, 0, 0)
-    )
+      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaKQ = ${MaKQ}'`, 0, 0),
+    );
   }
 
   async BaoCaoKQGHs(MaKQ: number): Promise<BaoCaoKQGH[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaKQ = ${MaKQ}'`, 0, 0)
+      SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaKQ = ${MaKQ}'`, 0, 0),
     );
   }
 
   async DiaChiNVs(MaKQ: number): Promise<DiaChiNV[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('DiaChiNVs', `'MaKQ = ${MaKQ}'`, 0, 0)
+      SP_GET_DATA_DECRYPT('DiaChiNVs', `'MaKQ = ${MaKQ}'`, 0, 0),
     );
   }
 
   async PhuongTienNVs(MaKQ: number): Promise<PhuongTienNV[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('PhuongTienNVs', `'MaKQ = ${MaKQ}'`, 0, 0)
+      SP_GET_DATA_DECRYPT('PhuongTienNVs', `'MaKQ = ${MaKQ}'`, 0, 0),
     );
   }
 }

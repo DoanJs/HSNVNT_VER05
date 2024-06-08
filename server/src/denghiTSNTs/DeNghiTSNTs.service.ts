@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
@@ -93,7 +92,6 @@ export class DeNghiTSNTsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaDN: ${result[0].MaDN};`,
-      Time: `${moment().format()}`,
       TableName: 'DeNghiTSNTs',
     });
     return result[0];
@@ -113,7 +111,6 @@ export class DeNghiTSNTsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaDN: ${result[0].MaDN};`,
-      Time: `${moment().format()}`,
       TableName: 'DeNghiTSNTs',
     });
     return result[0];
@@ -133,7 +130,6 @@ export class DeNghiTSNTsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaDN: ${result[0].MaDN};`,
-      Time: `${moment().format()}`,
       TableName: 'DeNghiTSNTs',
     });
     return result[0];

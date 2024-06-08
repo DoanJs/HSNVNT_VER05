@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -7,6 +8,8 @@ import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
+import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
   SP_CHANGE_QUYETDINHTSNT,
@@ -17,8 +20,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { QuyetDinhTSNT } from './QuyetDinhTSNT.model';
 import { QuyetDinhTSNTInput } from './type/QuyetDinhTSNT.input';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 
 @Injectable()
 export class QuyetDinhTSNTsService {
@@ -26,7 +27,8 @@ export class QuyetDinhTSNTsService {
     @InjectRepository(QuyetDinhTSNT)
     private quyetdinhTSNTRepository: Repository<QuyetDinhTSNT>,
     private dataloaderService: DataLoaderService,
-  ) { }
+    private readonly actionDBsService: ActionDBsService,
+  ) {}
   public readonly quyetdinhTSNT_DataInput = (
     Type: string,
     MaQD: number | null,
@@ -86,37 +88,58 @@ export class QuyetDinhTSNTsService {
 
   async createQuyetDinhTSNT(
     quyetdinhTSNTInput: QuyetDinhTSNTInput,
+    user: any,
   ): Promise<QuyetDinhTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
       SP_CHANGE_QUYETDINHTSNT(
         this.quyetdinhTSNT_DataInput('CREATE', null, quyetdinhTSNTInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaQD: ${result[0].MaQD};`,
+      TableName: 'QuyetDinhTSNTs',
+    });
     return result[0];
   }
 
   async editQuyetDinhTSNT(
     quyetdinhTSNTInput: QuyetDinhTSNTInput,
     id: number,
+    user: any,
   ): Promise<QuyetDinhTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
       SP_CHANGE_QUYETDINHTSNT(
         this.quyetdinhTSNT_DataInput('EDIT', id, quyetdinhTSNTInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaQD: ${result[0].MaQD};`,
+      TableName: 'QuyetDinhTSNTs',
+    });
     return result[0];
   }
 
   async deleteQuyetDinhTSNT(
     quyetdinhTSNTInput: QuyetDinhTSNTInput,
     id: number,
+    user: any,
   ): Promise<QuyetDinhTSNT> {
-    const cbcss = await this.quyetdinhTSNTRepository.query(
+    const result = await this.quyetdinhTSNTRepository.query(
       SP_CHANGE_QUYETDINHTSNT(
         this.quyetdinhTSNT_DataInput('DELETE', id, quyetdinhTSNTInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaQD: ${result[0].MaQD};`,
+      TableName: 'QuyetDinhTSNTs',
+    });
+    return result[0];
   }
 
   // ResolveField
@@ -152,7 +175,9 @@ export class QuyetDinhTSNTsService {
   }
 
   async CATTPvaTD(quyetdinhTSNT: any): Promise<CATTPvaTD> {
-    return this.dataloaderService.loaderCATTPvaTD.load(quyetdinhTSNT.MaCATTPvaTD);
+    return this.dataloaderService.loaderCATTPvaTD.load(
+      quyetdinhTSNT.MaCATTPvaTD,
+    );
   }
 
   async CAQHvaTD(quyetdinhTSNT: any): Promise<CAQHvaTD> {
@@ -161,7 +186,13 @@ export class QuyetDinhTSNTsService {
 
   async PhamViTSs(MaQD: number): Promise<TinhTP[]> {
     const result = (await this.quyetdinhTSNTRepository.query(
-      SP_GET_DATA('QuyetDinhTSNTs_TinhTPs', `'MaQD = ${MaQD}'`, 'MaTinhTP', 0, 0)
+      SP_GET_DATA(
+        'QuyetDinhTSNTs_TinhTPs',
+        `'MaQD = ${MaQD}'`,
+        'MaTinhTP',
+        0,
+        0,
+      ),
     )) as [{ MaTinhTP: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderTinhTP.load(obj.MaTinhTP),
@@ -169,9 +200,9 @@ export class QuyetDinhTSNTsService {
     return await Promise.all(resultLoader);
   }
 
-  async KetQuaTSNT (MaQD: number):Promise<KetQuaTSNT> {
+  async KetQuaTSNT(MaQD: number): Promise<KetQuaTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs', `'MaQD = ${MaQD}'`, 'MaKQ', 0, 0)
+      SP_GET_DATA('KetQuaTSNTs', `'MaQD = ${MaQD}'`, 'MaKQ', 0, 0),
     );
     return result[0];
   }

@@ -12,8 +12,5 @@ export class ActionDBInput {
   Action: string;
 
   @Field({ nullable: true })
-  Time: string;
-
-  @Field({ nullable: true })
   Other: string;
 }

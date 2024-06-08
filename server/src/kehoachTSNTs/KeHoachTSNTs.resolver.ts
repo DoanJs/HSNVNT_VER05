@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
@@ -20,11 +26,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KeHoachTSNT } from './KeHoachTSNT.model';
 import { KeHoachTSNTsService } from './KeHoachTSNTs.service';
 import { KeHoachTSNTInput } from './type/KeHoachTSNT.input';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { UseGuards } from '@nestjs/common';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => KeHoachTSNT)
 @UseGuards(GraphQLGuard)
@@ -45,27 +46,34 @@ export class KeHoachTSNTsResolver {
   @Mutation((returns) => KeHoachTSNT)
   @UseGuards(InsertGuard)
   createKeHoachTSNT(
+    @CurrentUser() user: any,
     @Args('kehoachTSNTInput') kehoachTSNTInput: KeHoachTSNTInput,
   ): Promise<KeHoachTSNT> {
-    return this.kehoachTSNTsService.createKeHoachTSNT(kehoachTSNTInput);
+    return this.kehoachTSNTsService.createKeHoachTSNT(kehoachTSNTInput, user);
   }
 
   @Mutation((returns) => KeHoachTSNT)
   @UseGuards(UpdateGuard)
   editKeHoachTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('kehoachTSNTInput') kehoachTSNTInput: KeHoachTSNTInput,
   ): Promise<KeHoachTSNT> {
-    return this.kehoachTSNTsService.editKeHoachTSNT(kehoachTSNTInput, id);
+    return this.kehoachTSNTsService.editKeHoachTSNT(kehoachTSNTInput, id, user);
   }
 
   @Mutation((returns) => KeHoachTSNT)
   @UseGuards(DeleteGuard)
   deleteKeHoachTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('kehoachTSNTInput') kehoachTSNTInput: KeHoachTSNTInput,
   ): Promise<KeHoachTSNT> {
-    return this.kehoachTSNTsService.deleteKeHoachTSNT(kehoachTSNTInput, id);
+    return this.kehoachTSNTsService.deleteKeHoachTSNT(
+      kehoachTSNTInput,
+      id,
+      user,
+    );
   }
 
   // ResolveField

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -8,7 +9,11 @@ import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { SP_CHANGE_DATA, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_DATA,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KetQuaXMDiaChi } from './KetQuaXMDiaChi.model';
@@ -17,26 +22,34 @@ import { KetQuaXMDiaChiInput } from './type/KetQuaXMDiaChi.input';
 @Injectable()
 export class KetQuaXMDiaChisService {
   constructor(
-    @InjectRepository(KetQuaXMDiaChi) private ketQuaXMDiaChiRepository: Repository<KetQuaXMDiaChi>,
+    @InjectRepository(KetQuaXMDiaChi)
+    private ketQuaXMDiaChiRepository: Repository<KetQuaXMDiaChi>,
     private readonly dataloaderService: DataLoaderService,
-  ) { }
+    private readonly actionDBsService: ActionDBsService,
+  ) {}
 
   public readonly ketquaXMDiaChi_DataInput = (
     ketquaXMDiaChiInput: KetQuaXMDiaChiInput,
   ) => {
     return {
-      So: ketquaXMDiaChiInput.So
-        ? `N''${ketquaXMDiaChiInput.So}''`
-        : null,
+      So: ketquaXMDiaChiInput.So ? `N''${ketquaXMDiaChiInput.So}''` : null,
       Ngay: ketquaXMDiaChiInput.Ngay
         ? `N''${ketquaXMDiaChiInput.Ngay}''`
         : null,
       MaQD: ketquaXMDiaChiInput.MaQD ? ketquaXMDiaChiInput.MaQD : null,
       MaDN: ketquaXMDiaChiInput.MaDN ? ketquaXMDiaChiInput.MaDN : null,
-      MaCATTPvaTD: ketquaXMDiaChiInput.MaCATTPvaTD ? ketquaXMDiaChiInput.MaCATTPvaTD : null,
-      MaCAQHvaTD: ketquaXMDiaChiInput.MaCAQHvaTD ? ketquaXMDiaChiInput.MaCAQHvaTD : null,
-      MaDoiTuong: ketquaXMDiaChiInput.MaDoiTuong ? ketquaXMDiaChiInput.MaDoiTuong : null,
-      MaLanhDaoPD: ketquaXMDiaChiInput.MaLanhDaoPD ? ketquaXMDiaChiInput.MaLanhDaoPD : null,
+      MaCATTPvaTD: ketquaXMDiaChiInput.MaCATTPvaTD
+        ? ketquaXMDiaChiInput.MaCATTPvaTD
+        : null,
+      MaCAQHvaTD: ketquaXMDiaChiInput.MaCAQHvaTD
+        ? ketquaXMDiaChiInput.MaCAQHvaTD
+        : null,
+      MaDoiTuong: ketquaXMDiaChiInput.MaDoiTuong
+        ? ketquaXMDiaChiInput.MaDoiTuong
+        : null,
+      MaLanhDaoPD: ketquaXMDiaChiInput.MaLanhDaoPD
+        ? ketquaXMDiaChiInput.MaLanhDaoPD
+        : null,
       MaDC: ketquaXMDiaChiInput.MaDC ? ketquaXMDiaChiInput.MaDC : null,
     };
   };
@@ -60,7 +73,10 @@ export class KetQuaXMDiaChisService {
     return result[0];
   }
 
-  async createKetQuaXMDiaChi(ketQuaXMDiaChi: KetQuaXMDiaChiInput): Promise<KetQuaXMDiaChi> {
+  async createKetQuaXMDiaChi(
+    ketQuaXMDiaChi: KetQuaXMDiaChiInput,
+    user: any,
+  ): Promise<KetQuaXMDiaChi> {
     const result = await this.ketQuaXMDiaChiRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -79,10 +95,20 @@ export class KetQuaXMDiaChisService {
         "'MaKQXMDC = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaKQXMDC: ${result[0].MaKQXMDC};`,
+      TableName: 'KetQuaXMDiaChis',
+    });
     return result[0];
   }
 
-  async editKetQuaXMDiaChi(ketQuaXMDiaChi: KetQuaXMDiaChiInput, id: number): Promise<KetQuaXMDiaChi> {
+  async editKetQuaXMDiaChi(
+    ketQuaXMDiaChi: KetQuaXMDiaChiInput,
+    id: number,
+    user: any,
+  ): Promise<KetQuaXMDiaChi> {
     const result = await this.ketQuaXMDiaChiRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -92,21 +118,35 @@ export class KetQuaXMDiaChisService {
         null,
         `N' So = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).So},
             Ngay = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).Ngay},
-            MaCATTPvaTD = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCATTPvaTD},
-            MaCAQHvaTD = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCAQHvaTD},
-            MaDoiTuong = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDoiTuong},
+            MaCATTPvaTD = ${
+              this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCATTPvaTD
+            },
+            MaCAQHvaTD = ${
+              this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaCAQHvaTD
+            },
+            MaDoiTuong = ${
+              this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDoiTuong
+            },
             MaQD = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaQD},
             MaDN = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDN},
             MaDC = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaDC},
-            MaLanhDaoPD = ${this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaLanhDaoPD}
+            MaLanhDaoPD = ${
+              this.ketquaXMDiaChi_DataInput(ketQuaXMDiaChi).MaLanhDaoPD
+            }
         '`,
         `'MaKQXMDC = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaKQXMDC: ${result[0].MaKQXMDC};`,
+      TableName: 'KetQuaXMDiaChis',
+    });
     return result[0];
   }
 
-  async deleteKetQuaXMDiaChi(id: number): Promise<KetQuaXMDiaChi> {
+  async deleteKetQuaXMDiaChi(id: number, user: any): Promise<KetQuaXMDiaChi> {
     const result = await this.ketQuaXMDiaChiRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -118,6 +158,12 @@ export class KetQuaXMDiaChisService {
         `'MaKQXMDC = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaKQXMDC: ${result[0].MaKQXMDC};`,
+      TableName: 'KetQuaXMDiaChis',
+    });
     return result[0];
   }
 
@@ -125,7 +171,12 @@ export class KetQuaXMDiaChisService {
 
   async DiaChiNV(ketquaXMDiaChi: any): Promise<DiaChiNV> {
     const result = await this.ketQuaXMDiaChiRepository.query(
-      SP_GET_DATA_DECRYPT('DiaChiNVs', `'MaDC  = ${ketquaXMDiaChi.MaDC}'`, 0, 1),
+      SP_GET_DATA_DECRYPT(
+        'DiaChiNVs',
+        `'MaDC  = ${ketquaXMDiaChi.MaDC}'`,
+        0,
+        1,
+      ),
     );
     return result[0];
   }
@@ -139,15 +190,21 @@ export class KetQuaXMDiaChisService {
   }
 
   async CATTPvaTD(ketquaXMDiaChi: any): Promise<CATTPvaTD> {
-    return this.dataloaderService.loaderCATTPvaTD.load(ketquaXMDiaChi.MaCATTPvaTD);
+    return this.dataloaderService.loaderCATTPvaTD.load(
+      ketquaXMDiaChi.MaCATTPvaTD,
+    );
   }
 
   async CAQHvaTD(ketquaXMDiaChi: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(ketquaXMDiaChi.MaCAQHvaTD);
+    return this.dataloaderService.loaderCAQHvaTD.load(
+      ketquaXMDiaChi.MaCAQHvaTD,
+    );
   }
 
   async DoiTuong(ketquaXMDiaChi: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(ketquaXMDiaChi.MaDoiTuong);
+    return this.dataloaderService.loaderDoiTuong.load(
+      ketquaXMDiaChi.MaDoiTuong,
+    );
   }
 
   async LanhDaoPD(ketquaXMDiaChi: any): Promise<CBCS> {

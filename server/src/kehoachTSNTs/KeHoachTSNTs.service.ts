@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
@@ -27,7 +28,8 @@ export class KeHoachTSNTsService {
     @InjectRepository(KeHoachTSNT)
     private kehoachTSNTRepository: Repository<KeHoachTSNT>,
     private readonly dataloaderService: DataLoaderService,
-  ) { }
+    private readonly actionDBsService: ActionDBsService,
+  ) {}
   public readonly kehoachTSNT_DataInput = (
     Type: string,
     MaKH: number | null,
@@ -43,7 +45,9 @@ export class KeHoachTSNTsService {
         NoiDung: `N'${kehoachTSNTInput.NoiDung}'`, // crypto
         MaDN: kehoachTSNTInput.MaDN ? kehoachTSNTInput.MaDN : null,
         MaQD: kehoachTSNTInput.MaQD ? kehoachTSNTInput.MaQD : null,
-        MaCAQHvaTD: kehoachTSNTInput.MaCAQHvaTD ? kehoachTSNTInput.MaCAQHvaTD : null,
+        MaCAQHvaTD: kehoachTSNTInput.MaCAQHvaTD
+          ? kehoachTSNTInput.MaCAQHvaTD
+          : null,
         MaDoi: kehoachTSNTInput.MaDoi ? kehoachTSNTInput.MaDoi : null,
         MaDoiTuong: kehoachTSNTInput.MaDoiTuong
           ? kehoachTSNTInput.MaDoiTuong
@@ -79,44 +83,65 @@ export class KeHoachTSNTsService {
 
   async createKeHoachTSNT(
     kehoachTSNTInput: KeHoachTSNTInput,
+    user: any,
   ): Promise<KeHoachTSNT> {
     const result = await this.kehoachTSNTRepository.query(
       SP_CHANGE_KEHOACHTSNT(
         this.kehoachTSNT_DataInput('CREATE', null, kehoachTSNTInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaKH: ${result[0].MaKH};`,
+      TableName: 'KeHoachTSNTs',
+    });
     return result[0];
   }
 
   async editKeHoachTSNT(
     kehoachTSNTInput: KeHoachTSNTInput,
     id: number,
+    user: any,
   ): Promise<KeHoachTSNT> {
-    const cbcss = await this.kehoachTSNTRepository.query(
+    const result = await this.kehoachTSNTRepository.query(
       SP_CHANGE_KEHOACHTSNT(
         this.kehoachTSNT_DataInput('EDIT', id, kehoachTSNTInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaKH: ${result[0].MaKH};`,
+      TableName: 'KeHoachTSNTs',
+    });
+    return result[0];
   }
 
   async deleteKeHoachTSNT(
     kehoachTSNTInput: KeHoachTSNTInput,
     id: number,
+    user: any,
   ): Promise<KeHoachTSNT> {
-    const cbcss = await this.kehoachTSNTRepository.query(
+    const result = await this.kehoachTSNTRepository.query(
       SP_CHANGE_KEHOACHTSNT(
         this.kehoachTSNT_DataInput('DELETE', id, kehoachTSNTInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaKH: ${result[0].MaKH};`,
+      TableName: 'KeHoachTSNTs',
+    });
+    return result[0];
   }
 
   // ResolveField
 
   async KetQuaTSNT(MaKH: number): Promise<KetQuaTSNT> {
     const result = await this.kehoachTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs', `'MaKH = ${MaKH}'`, 'MaKQ', 0, 0)
+      SP_GET_DATA('KetQuaTSNTs', `'MaKH = ${MaKH}'`, 'MaKQ', 0, 0),
     );
     return result[0];
   }
@@ -127,7 +152,7 @@ export class KeHoachTSNTsService {
 
   async LLDBs(MaKH: number): Promise<LLDB[]> {
     const result = (await this.kehoachTSNTRepository.query(
-      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaLLBM', 0, 0)
+      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaLLBM', 0, 0),
     )) as [{ MaLLDB: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderLLDB.load(obj.MaLLDB),
@@ -149,7 +174,7 @@ export class KeHoachTSNTsService {
 
   async LLTGKeHoachs(MaKH: number): Promise<LucLuongThamGiaKH[]> {
     return this.kehoachTSNTRepository.query(
-      SP_GET_DATA('LucLuongThamGiaKHs', `'MaKH = ${MaKH}'`, 'MaLLTGKH', 0, 0)
+      SP_GET_DATA('LucLuongThamGiaKHs', `'MaKH = ${MaKH}'`, 'MaLLTGKH', 0, 0),
     );
   }
 

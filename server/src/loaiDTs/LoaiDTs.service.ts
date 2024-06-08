@@ -9,11 +9,13 @@ import {
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { LoaiDT } from './LoaiDT.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class LoaiDTsService {
   constructor(
     @InjectRepository(LoaiDT) private loaiDTRepository: Repository<LoaiDT>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly loaiDT_DataInput = (loaiDT: string) => {
@@ -41,7 +43,7 @@ export class LoaiDTsService {
     return result[0];
   }
 
-  async createLoaiDT(loaiDT: string): Promise<LoaiDT> {
+  async createLoaiDT(loaiDT: string, user: any): Promise<LoaiDT> {
     const result = await this.loaiDTRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -51,10 +53,16 @@ export class LoaiDTsService {
         "'MaLoaiDT = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaLoaiDT: ${result[0].MaLoaiDT};`,
+      TableName: 'LoaiDTs',
+    });
     return result[0];
   }
 
-  async editLoaiDT(loaiDT: string, id: number): Promise<LoaiDT> {
+  async editLoaiDT(loaiDT: string, id: number, user: any): Promise<LoaiDT> {
     const result = await this.loaiDTRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -66,10 +74,16 @@ export class LoaiDTsService {
         `'MaLoaiDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaLoaiDT: ${result[0].MaLoaiDT};`,
+      TableName: 'LoaiDTs',
+    });
     return result[0];
   }
 
-  async deleteLoaiDT(id: number): Promise<LoaiDT> {
+  async deleteLoaiDT(id: number, user: any): Promise<LoaiDT> {
     const result = await this.loaiDTRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -81,6 +95,12 @@ export class LoaiDTsService {
         `'MaLoaiDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaLoaiDT: ${result[0].MaLoaiDT};`,
+      TableName: 'LoaiDTs',
+    });
     return result[0];
   }
 

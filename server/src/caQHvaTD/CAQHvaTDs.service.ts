@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
@@ -21,8 +22,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
-import moment from 'moment';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class CAQHvaTDsService {
@@ -35,7 +34,9 @@ export class CAQHvaTDsService {
 
   public readonly caQHvaTD_DataInput = (caQHvaTDInput: CAQHvaTDInput) => {
     return {
-      CAQHvaTD: caQHvaTDInput.CAQHvaTD ? `N''${caQHvaTDInput.CAQHvaTD}''` : null,
+      CAQHvaTD: caQHvaTDInput.CAQHvaTD
+        ? `N''${caQHvaTDInput.CAQHvaTD}''`
+        : null,
       KyHieu: caQHvaTDInput.KyHieu ? `N''${caQHvaTDInput.KyHieu}''` : null,
       MaCATTPvaTD: caQHvaTDInput.MaCATTPvaTD ? caQHvaTDInput.MaCATTPvaTD : null,
     };
@@ -60,7 +61,10 @@ export class CAQHvaTDsService {
     return result[0];
   }
 
-  async createCAQHvaTD(caQHvaTDInput: CAQHvaTDInput, user: any): Promise<CAQHvaTD> {
+  async createCAQHvaTD(
+    caQHvaTDInput: CAQHvaTDInput,
+    user: any,
+  ): Promise<CAQHvaTD> {
     const result = await this.caQHvaTDRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -77,7 +81,6 @@ export class CAQHvaTDsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaCAQHvaTD: ${result[0].MaCAQHvaTD};`,
-      Time: `${moment().format()}`,
       TableName: 'CAQHvaTDs',
     });
     return result[0];
@@ -86,7 +89,7 @@ export class CAQHvaTDsService {
   async editCAQHvaTD(
     caQHvaTDInput: CAQHvaTDInput,
     id: number,
-    user: any
+    user: any,
   ): Promise<CAQHvaTD> {
     const result = await this.caQHvaTDRepository.query(
       SP_CHANGE_DATA(
@@ -106,7 +109,6 @@ export class CAQHvaTDsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaCAQHvaTD: ${result[0].MaCAQHvaTD};`,
-      Time: `${moment().format()}`,
       TableName: 'CAQHvaTDs',
     });
     return result[0];
@@ -128,7 +130,6 @@ export class CAQHvaTDsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaCAQHvaTD: ${result[0].MaCAQHvaTD};`,
-      Time: `${moment().format()}`,
       TableName: 'CAQHvaTDs',
     });
     return result[0];

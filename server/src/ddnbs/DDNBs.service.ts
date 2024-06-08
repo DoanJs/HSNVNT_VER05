@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
@@ -56,7 +55,6 @@ export class DDNBsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaDDNB: ${result[0].MaDDNB};`,
-      Time: `${moment().format()}`,
       TableName: 'DDNBs',
     });
     return result[0];
@@ -78,7 +76,6 @@ export class DDNBsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaDDNB: ${result[0].MaDDNB};`,
-      Time: `${moment().format()}`,
       TableName: 'DDNBs',
     });
     return result[0];
@@ -100,7 +97,6 @@ export class DDNBsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaDDNB: ${result[0].MaDDNB};`,
-      Time: `${moment().format()}`,
       TableName: 'DDNBs',
     });
     return result[0];

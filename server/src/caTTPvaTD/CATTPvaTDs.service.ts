@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CapCA } from 'src/capCAs/CapCA.model';
@@ -73,7 +72,6 @@ export class CATTPvaTDsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaCATTPvaTD: ${result[0].MaCATTPvaTD};`,
-      Time: `${moment().format()}`,
       TableName: 'CATTPvaTDs',
     });
     return result[0];
@@ -101,7 +99,6 @@ export class CATTPvaTDsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaCATTPvaTD: ${result[0].MaCATTPvaTD};`,
-      Time: `${moment().format()}`,
       TableName: 'CATTPvaTDs',
     });
     return result[0];
@@ -123,7 +120,6 @@ export class CATTPvaTDsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaCATTPvaTD: ${result[0].MaCATTPvaTD};`,
-      Time: `${moment().format()}`,
       TableName: 'CATTPvaTDs',
     });
     return result[0];

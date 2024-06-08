@@ -3,27 +3,38 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { SP_CHANGE_DATA, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_DATA,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KyDuyet_DN } from './KyDuyet_DN.model';
 import { KyDuyet_DNInput } from './type/KyDuyet_DN.Input';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class KyDuyet_DNsService {
   constructor(
-    @InjectRepository(KyDuyet_DN) private kyDuyet_DNRepository: Repository<KyDuyet_DN>,
+    @InjectRepository(KyDuyet_DN)
+    private kyDuyet_DNRepository: Repository<KyDuyet_DN>,
     private readonly dataloaderService: DataLoaderService,
-  ) { }
+    private readonly actionDBsService: ActionDBsService,
+  ) {}
 
-  public readonly kyduyet_DN_DataInput = (
-    kyduyet_DNInput: KyDuyet_DNInput,
-  ) => {
+  public readonly kyduyet_DN_DataInput = (kyduyet_DNInput: KyDuyet_DNInput) => {
     return {
       MaDN: kyduyet_DNInput.MaDN ? kyduyet_DNInput.MaDN : null,
-      MaDaiDienCATTPvaTD: kyduyet_DNInput.MaDaiDienCATTPvaTD ? kyduyet_DNInput.MaDaiDienCATTPvaTD : null,
-      MaDaiDienDonViDN: kyduyet_DNInput.MaDaiDienDonViDN ? kyduyet_DNInput.MaDaiDienDonViDN : null,
-      MaDaiDienDonViTSNT: kyduyet_DNInput.MaDaiDienDonViTSNT ? kyduyet_DNInput.MaDaiDienDonViTSNT : null,
+      MaDaiDienCATTPvaTD: kyduyet_DNInput.MaDaiDienCATTPvaTD
+        ? kyduyet_DNInput.MaDaiDienCATTPvaTD
+        : null,
+      MaDaiDienDonViDN: kyduyet_DNInput.MaDaiDienDonViDN
+        ? kyduyet_DNInput.MaDaiDienDonViDN
+        : null,
+      MaDaiDienDonViTSNT: kyduyet_DNInput.MaDaiDienDonViTSNT
+        ? kyduyet_DNInput.MaDaiDienDonViTSNT
+        : null,
     };
   };
 
@@ -46,7 +57,10 @@ export class KyDuyet_DNsService {
     return result[0];
   }
 
-  async createKyDuyet_DN(kyDuyet_DNInput: KyDuyet_DNInput): Promise<KyDuyet_DN> {
+  async createKyDuyet_DN(
+    kyDuyet_DNInput: KyDuyet_DNInput,
+    user: any,
+  ): Promise<KyDuyet_DN> {
     const result = await this.kyDuyet_DNRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -60,10 +74,20 @@ export class KyDuyet_DNsService {
         "'MaKDDN = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaKDDN: ${result[0].MaKDDN};`,
+      TableName: 'KyDuyet_DNs',
+    });
     return result[0];
   }
 
-  async editKyDuyet_DN(kyDuyet_DNInput: KyDuyet_DNInput, id: number): Promise<KyDuyet_DN> {
+  async editKyDuyet_DN(
+    kyDuyet_DNInput: KyDuyet_DNInput,
+    id: number,
+    user: any,
+  ): Promise<KyDuyet_DN> {
     const result = await this.kyDuyet_DNRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -72,17 +96,29 @@ export class KyDuyet_DNsService {
         null,
         null,
         `N' MaDN = ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDN},
-            MaDaiDienCATTPvaTD = ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienCATTPvaTD},
-            MaDaiDienDonViDN = ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViDN},
-            MaDaiDienDonViTSNT = ${this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViTSNT}
+            MaDaiDienCATTPvaTD = ${
+              this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienCATTPvaTD
+            },
+            MaDaiDienDonViDN = ${
+              this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViDN
+            },
+            MaDaiDienDonViTSNT = ${
+              this.kyduyet_DN_DataInput(kyDuyet_DNInput).MaDaiDienDonViTSNT
+            }
         '`,
         `'MaKDDN = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaKDDN: ${result[0].MaKDDN};`,
+      TableName: 'KyDuyet_DNs',
+    });
     return result[0];
   }
 
-  async deleteKyDuyet_DN(id: number): Promise<KyDuyet_DN> {
+  async deleteKyDuyet_DN(id: number, user: any): Promise<KyDuyet_DN> {
     const result = await this.kyDuyet_DNRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -94,26 +130,43 @@ export class KyDuyet_DNsService {
         `'MaKDDN = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaKDDN: ${result[0].MaKDDN};`,
+      TableName: 'KyDuyet_DNs',
+    });
     return result[0];
   }
 
   // ResolveField
   async DeNghiTSNT(kyduyet_DNInput: any): Promise<DeNghiTSNT> {
     const result = await this.kyDuyet_DNRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaDN  = ${kyduyet_DNInput.MaDN}'`, 0, 1),
+      SP_GET_DATA_DECRYPT(
+        'DeNghiTSNTs',
+        `'MaDN  = ${kyduyet_DNInput.MaDN}'`,
+        0,
+        1,
+      ),
     );
     return result[0];
   }
 
   async DaiDienCATTPvaTD(kyduyet_DNInput: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(kyduyet_DNInput.MaDaiDienCATTPvaTD);
+    return this.dataloaderService.loaderCBCS.load(
+      kyduyet_DNInput.MaDaiDienCATTPvaTD,
+    );
   }
 
   async DaiDienDonViDN(kyduyet_DNInput: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(kyduyet_DNInput.MaDaiDienDonViDN);
+    return this.dataloaderService.loaderCBCS.load(
+      kyduyet_DNInput.MaDaiDienDonViDN,
+    );
   }
 
   async DaiDienDonViTSNT(kyduyet_DNInput: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(kyduyet_DNInput.MaDaiDienDonViTSNT);
+    return this.dataloaderService.loaderCBCS.load(
+      kyduyet_DNInput.MaDaiDienDonViTSNT,
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import {
   SP_CHANGE_BAOCAOKTDN,
   SP_GET_DATA_DECRYPT,
@@ -8,8 +9,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKTDN } from './BaoCaoKTDN.model';
 import { BaoCaoKTDNInput } from './type/BaoCaoKTDN.input';
-import * as moment from 'moment';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class BaoCaoKTDNsService {
@@ -73,7 +72,6 @@ export class BaoCaoKTDNsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaBCKTDN: ${result[0].MaBCKTDN};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKTDNs',
     });
     return result[0];
@@ -93,7 +91,6 @@ export class BaoCaoKTDNsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaBCKTDN: ${result[0].MaBCKTDN};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKTDNs',
     });
     return result[0];
@@ -113,7 +110,6 @@ export class BaoCaoKTDNsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaBCKTDN: ${result[0].MaBCKTDN};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKTDNs',
     });
     return result[0];

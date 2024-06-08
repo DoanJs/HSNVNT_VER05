@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
@@ -12,7 +13,11 @@ import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
-import { SP_CHANGE_DOITUONG, SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
+import {
+  SP_CHANGE_DOITUONG,
+  SP_GET_DATA,
+  SP_GET_DATA_DECRYPT,
+} from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DoiTuong } from './DoiTuong.model';
@@ -24,6 +29,7 @@ export class DoiTuongsService {
     @InjectRepository(DoiTuong)
     private doituongRepository: Repository<DoiTuong>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly doituong_DataInput = (
@@ -88,40 +94,69 @@ export class DoiTuongsService {
     return result[0];
   }
 
-  async createDoiTuong(doituongInput: DoiTuongInput): Promise<DoiTuong> {
+  async createDoiTuong(
+    doituongInput: DoiTuongInput,
+    user: any,
+  ): Promise<DoiTuong> {
     const result = await this.doituongRepository.query(
       SP_CHANGE_DOITUONG(
         this.doituong_DataInput('CREATE', null, doituongInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaDoiTuong: ${result[0].MaDoiTuong};`,
+      TableName: 'DoiTuongs',
+    });
     return result[0];
   }
 
   async editDoiTuong(
     doituongInput: DoiTuongInput,
     id: number,
+    user: any,
   ): Promise<DoiTuong> {
-    const cbcss = await this.doituongRepository.query(
+    const result = await this.doituongRepository.query(
       SP_CHANGE_DOITUONG(this.doituong_DataInput('EDIT', id, doituongInput)),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaDoiTuong: ${result[0].MaDoiTuong};`,
+      TableName: 'DoiTuongs',
+    });
+    return result[0];
   }
 
   async deleteDoiTuong(
     doituongInput: DoiTuongInput,
     id: number,
+    user: any,
   ): Promise<DoiTuong> {
-    const cbcss = await this.doituongRepository.query(
+    const result = await this.doituongRepository.query(
       SP_CHANGE_DOITUONG(this.doituong_DataInput('DELETE', id, doituongInput)),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaDoiTuong: ${result[0].MaDoiTuong};`,
+      TableName: 'DoiTuongs',
+    });
+    return result[0];
   }
 
   // ResolveField
 
   async BienPhapDTs(MaDoiTuong: number): Promise<BienPhapDT[]> {
     const result = (await this.doituongRepository.query(
-      SP_GET_DATA('BienPhapDTs_DoiTuongs', `'MaDoiTuong = ${MaDoiTuong}'`, 'MaBPDT', 0, 0)
+      SP_GET_DATA(
+        'BienPhapDTs_DoiTuongs',
+        `'MaDoiTuong = ${MaDoiTuong}'`,
+        'MaBPDT',
+        0,
+        0,
+      ),
     )) as [{ MaBPDT: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBienPhapDT.load(obj.MaBPDT),
@@ -151,7 +186,13 @@ export class DoiTuongsService {
 
   async DoiTuongCAs(MaDoiTuong: number): Promise<DoiTuongCA[]> {
     return this.doituongRepository.query(
-      SP_GET_DATA('DoiTuongCAs', `'MaDoiTuong = ${MaDoiTuong}'`, 'MaDTCA', 0, 0)
+      SP_GET_DATA(
+        'DoiTuongCAs',
+        `'MaDoiTuong = ${MaDoiTuong}'`,
+        'MaDTCA',
+        0,
+        0,
+      ),
     );
   }
 

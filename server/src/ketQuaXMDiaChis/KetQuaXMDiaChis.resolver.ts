@@ -22,6 +22,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => KetQuaXMDiaChi)
 @UseGuards(GraphQLGuard)
@@ -43,29 +44,36 @@ export class KetQuaXMDiaChisResolver {
   @Mutation((returns) => KetQuaXMDiaChi)
   @UseGuards(InsertGuard)
   createKetQuaXMDiaChi(
+    @CurrentUser() user: any,
     @Args('ketQuaXMDiaChiInput') ketQuaXMDiaChiInput: KetQuaXMDiaChiInput,
   ): Promise<KetQuaXMDiaChi> {
     return this.ketQuaXMDiaChisService.createKetQuaXMDiaChi(
       ketQuaXMDiaChiInput,
+      user,
     );
   }
 
   @Mutation((returns) => KetQuaXMDiaChi)
   @UseGuards(UpdateGuard)
   editKetQuaXMDiaChi(
+    @CurrentUser() user: any,
     @Args('ketQuaXMDiaChiInput') ketQuaXMDiaChiInput: KetQuaXMDiaChiInput,
     @Args('id') id: number,
   ): Promise<KetQuaXMDiaChi> {
     return this.ketQuaXMDiaChisService.editKetQuaXMDiaChi(
       ketQuaXMDiaChiInput,
       id,
+      user,
     );
   }
 
   @Mutation((returns) => KetQuaXMDiaChi)
   @UseGuards(DeleteGuard)
-  deleteKetQuaXMDiaChi(@Args('id') id: number): Promise<KetQuaXMDiaChi> {
-    return this.ketQuaXMDiaChisService.deleteKetQuaXMDiaChi(id);
+  deleteKetQuaXMDiaChi(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<KetQuaXMDiaChi> {
+    return this.ketQuaXMDiaChisService.deleteKetQuaXMDiaChi(id, user);
   }
 
   //ResolveField

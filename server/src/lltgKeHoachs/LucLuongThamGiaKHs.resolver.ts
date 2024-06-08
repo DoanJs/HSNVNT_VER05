@@ -17,6 +17,7 @@ import { UseGuards } from '@nestjs/common';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => LucLuongThamGiaKH)
 @UseGuards(GraphQLGuard)
@@ -37,17 +38,20 @@ export class LucLuongThamGiaKHsResolver {
   @Mutation((returs) => LucLuongThamGiaKH)
   @UseGuards(InsertGuard)
   createLucLuongThamGiaKH(
+    @CurrentUser() user: any,
     @Args('lucluongThamGiaKHInput')
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
   ): Promise<LucLuongThamGiaKH> {
     return this.lucluongthamgiaKHsService.createLucLuongThamGiaKH(
       lucluongThamGiaKHInput,
+      user,
     );
   }
 
   @Mutation((returns) => LucLuongThamGiaKH)
   @UseGuards(UpdateGuard)
   editLucLuongThamGiaKH(
+    @CurrentUser() user: any,
     @Args('lucluongThamGiaKHInput')
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
     @Args('id') id: number,
@@ -55,13 +59,17 @@ export class LucLuongThamGiaKHsResolver {
     return this.lucluongthamgiaKHsService.editLucLuongThamGiaKH(
       lucluongThamGiaKHInput,
       id,
+      user,
     );
   }
 
   @Mutation((returns) => LucLuongThamGiaKH)
   @UseGuards(DeleteGuard)
-  deleteLucLuongThamGiaKH(@Args('id') id: number): Promise<LucLuongThamGiaKH> {
-    return this.lucluongthamgiaKHsService.deleteLucLuongThamGiaKH(id);
+  deleteLucLuongThamGiaKH(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<LucLuongThamGiaKH> {
+    return this.lucluongthamgiaKHsService.deleteLucLuongThamGiaKH(id, user);
   }
 
   // ResolveField

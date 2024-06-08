@@ -10,11 +10,13 @@ import {
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { TonGiao } from './TonGiao.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class TonGiaosService {
   constructor(
     @InjectRepository(TonGiao) private tongiaoRepository: Repository<TonGiao>,
+    private readonly actionDBsService: ActionDBsService
   ) {}
 
   public readonly tonGiao_DataInput = (tenTG: string) => {
@@ -42,7 +44,7 @@ export class TonGiaosService {
     return result[0];
   }
 
-  async createTonGiao(tenTG: string): Promise<TonGiao> {
+  async createTonGiao(tenTG: string, user: any): Promise<TonGiao> {
     const result = await this.tongiaoRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -52,10 +54,16 @@ export class TonGiaosService {
         "'MaTG = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaTG: ${result[0].MaTG};`,
+      TableName: 'TonGiaos',
+    });
     return result[0];
   }
 
-  async editTonGiao(tenTG: string, id: number): Promise<TonGiao> {
+  async editTonGiao(tenTG: string, id: number, user: any): Promise<TonGiao> {
     const result = await this.tongiaoRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -67,10 +75,16 @@ export class TonGiaosService {
         `'MaTG = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaTG: ${result[0].MaTG};`,
+      TableName: 'TonGiaos',
+    });
     return result[0];
   }
 
-  async deleteTonGiao(id: number): Promise<TonGiao> {
+  async deleteTonGiao(id: number, user: any): Promise<TonGiao> {
     const result = await this.tongiaoRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -82,6 +96,12 @@ export class TonGiaosService {
         `'MaTG = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaTG: ${result[0].MaTG};`,
+      TableName: 'TonGiaos',
+    });
     return result[0];
   }
 

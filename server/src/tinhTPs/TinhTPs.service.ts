@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
@@ -14,7 +15,8 @@ import { TinhTPInput } from './type/TinhTP.Input';
 export class TinhTPsService {
   constructor(
     @InjectRepository(TinhTP) private tinhTPRepository: Repository<TinhTP>,
-    private dataloaderService: DataLoaderService,
+    private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly tinhTP_DataInput = (tinhTPInput: TinhTPInput) => {
@@ -43,7 +45,7 @@ export class TinhTPsService {
     return result[0];
   }
 
-  async createTinhTP(tinhTPInput: TinhTPInput): Promise<TinhTP> {
+  async createTinhTP(tinhTPInput: TinhTPInput, user: any): Promise<TinhTP> {
     const result = await this.tinhTPRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -55,10 +57,20 @@ export class TinhTPsService {
         "'MaTinhTP = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaTinhTP: ${result[0].MaTinhTP};`,
+      TableName: 'TinhTPs',
+    });
     return result[0];
   }
 
-  async editTinhTP(tinhTPInput: TinhTPInput, id: number): Promise<TinhTP> {
+  async editTinhTP(
+    tinhTPInput: TinhTPInput,
+    id: number,
+    user: any,
+  ): Promise<TinhTP> {
     const result = await this.tinhTPRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -72,10 +84,16 @@ export class TinhTPsService {
         `'MaTinhTP = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaTinhTP: ${result[0].MaTinhTP};`,
+      TableName: 'TinhTPs',
+    });
     return result[0];
   }
 
-  async deleteTinhTP(id: number): Promise<TinhTP> {
+  async deleteTinhTP(id: number, user: any): Promise<TinhTP> {
     const result = await this.tinhTPRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -87,6 +105,12 @@ export class TinhTPsService {
         `'MaTinhTP = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaTinhTP: ${result[0].MaTinhTP};`,
+      TableName: 'TinhTPs',
+    });
     return result[0];
   }
 
@@ -94,7 +118,13 @@ export class TinhTPsService {
 
   async DeNghiTSNTs(MaTinhTP: number): Promise<DeNghiTSNT[]> {
     const result = (await this.tinhTPRepository.query(
-      SP_GET_DATA('DeNghiTSNTs_TinhTPs', `'MaTinhTP = ${MaTinhTP}'`, 'MaDN', 0, 0)
+      SP_GET_DATA(
+        'DeNghiTSNTs_TinhTPs',
+        `'MaTinhTP = ${MaTinhTP}'`,
+        'MaDN',
+        0,
+        0,
+      ),
     )) as [{ MaDN: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderDeNghiTSNT.load(obj.MaDN),
@@ -104,7 +134,13 @@ export class TinhTPsService {
 
   async QuyetDinhTSNTs(MaTinhTP: number): Promise<QuyetDinhTSNT[]> {
     const result = (await this.tinhTPRepository.query(
-      SP_GET_DATA('QuyetDinhTSNTs_TinhTPs', `'MaTinhTP = ${MaTinhTP}'`, 'MaQD', 0, 0)
+      SP_GET_DATA(
+        'QuyetDinhTSNTs_TinhTPs',
+        `'MaTinhTP = ${MaTinhTP}'`,
+        'MaQD',
+        0,
+        0,
+      ),
     )) as [{ MaQD: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderQuyetDinhTSNT.load(obj.MaQD),
@@ -114,7 +150,13 @@ export class TinhTPsService {
 
   async KetQuaTSNTs(MaTinhTP: number): Promise<KetQuaTSNT[]> {
     const result = (await this.tinhTPRepository.query(
-      SP_GET_DATA('KetQuaTSNTs_TinhTPs', `'MaTinhTP = ${MaTinhTP}'`, 'MaKQTSNT', 0, 0)
+      SP_GET_DATA(
+        'KetQuaTSNTs_TinhTPs',
+        `'MaTinhTP = ${MaTinhTP}'`,
+        'MaKQTSNT',
+        0,
+        0,
+      ),
     )) as [{ MaKQTSNT: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderKetQuaTSNT.load(obj.MaKQTSNT),

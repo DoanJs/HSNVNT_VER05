@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
@@ -87,7 +86,6 @@ export class BaoCaoPHQHsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoPHQHs',
     });
     return result[0];
@@ -107,7 +105,6 @@ export class BaoCaoPHQHsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoPHQHs',
     });
     return result[0];
@@ -127,7 +124,6 @@ export class BaoCaoPHQHsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoPHQHs',
     });
     return result[0];

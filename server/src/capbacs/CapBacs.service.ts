@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import {
   SP_CHANGE_DATA,
@@ -10,7 +10,6 @@ import {
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CapBac } from './CapBac.model';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class CapBacsService {
@@ -56,8 +55,7 @@ export class CapBacsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaCB = ${result[0].MaCB}`,
-      Time: `${moment().format()}`,
-      TableName: 'CapBacs'
+      TableName: 'CapBacs',
     });
     return result[0];
   }
@@ -78,8 +76,7 @@ export class CapBacsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaCB: ${result[0].MaCB}; CapBac: ${capBac}`,
-      Time: `${moment().format()}`,
-      TableName: 'CapBacs'
+      TableName: 'CapBacs',
     });
     return result[0];
   }
@@ -100,8 +97,7 @@ export class CapBacsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaCB: ${result[0].MaCB};`,
-      Time: `${moment().format()}`,
-      TableName: 'CapBacs'
+      TableName: 'CapBacs',
     });
     return result[0];
   }

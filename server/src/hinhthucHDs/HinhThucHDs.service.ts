@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import {
   SP_CHANGE_DATA,
@@ -15,6 +16,7 @@ export class HinhThucHDsService {
   constructor(
     @InjectRepository(HinhThucHD)
     private hinhthucHDRepository: Repository<HinhThucHD>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly hinhthuc_DataInput = (hinhthuc: string) => {
@@ -42,7 +44,7 @@ export class HinhThucHDsService {
     return result[0];
   }
 
-  async createHinhThucHD(hinhthuc: string): Promise<HinhThucHD> {
+  async createHinhThucHD(hinhthuc: string, user: any): Promise<HinhThucHD> {
     const result = await this.hinhthucHDRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -52,10 +54,20 @@ export class HinhThucHDsService {
         "'MaHTHD = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaHTHD: ${result[0].MaHTHD};`,
+      TableName: 'HinhThucHDs',
+    });
     return result[0];
-  } 
+  }
 
-  async editHinhThucHD(hinhthuc: string, id: number): Promise<HinhThucHD> {
+  async editHinhThucHD(
+    hinhthuc: string,
+    id: number,
+    user: any,
+  ): Promise<HinhThucHD> {
     const result = await this.hinhthucHDRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -67,10 +79,16 @@ export class HinhThucHDsService {
         `'MaHTHD = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaHTHD: ${result[0].MaHTHD};`,
+      TableName: 'HinhThucHDs',
+    });
     return result[0];
   }
 
-  async deleteHinhThucHD(id: number): Promise<HinhThucHD> {
+  async deleteHinhThucHD(id: number, user: any): Promise<HinhThucHD> {
     const result = await this.hinhthucHDRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -82,6 +100,12 @@ export class HinhThucHDsService {
         `'MaHTHD = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaHTHD: ${result[0].MaHTHD};`,
+      TableName: 'HinhThucHDs',
+    });
     return result[0];
   }
 

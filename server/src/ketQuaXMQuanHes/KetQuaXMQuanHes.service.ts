@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
@@ -24,6 +25,7 @@ export class KetQuaXMQuanHesService {
     @InjectRepository(KetQuaXMQuanHe)
     private ketQuaXMQuanHeRepository: Repository<KetQuaXMQuanHe>,
     private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly ketquaXMQuanHe_DataInput = (
@@ -31,7 +33,9 @@ export class KetQuaXMQuanHesService {
   ) => {
     return {
       So: ketquaXMQuanHeInput.So ? `N''${ketquaXMQuanHeInput.So}''` : null,
-      Ngay: ketquaXMQuanHeInput.Ngay ? `N''${ketquaXMQuanHeInput.Ngay}''` : null,
+      Ngay: ketquaXMQuanHeInput.Ngay
+        ? `N''${ketquaXMQuanHeInput.Ngay}''`
+        : null,
       MaQD: ketquaXMQuanHeInput.MaQD ? ketquaXMQuanHeInput.MaQD : null,
       MaDN: ketquaXMQuanHeInput.MaDN ? ketquaXMQuanHeInput.MaDN : null,
       MaCATTPvaTD: ketquaXMQuanHeInput.MaCATTPvaTD
@@ -73,6 +77,7 @@ export class KetQuaXMQuanHesService {
 
   async createKetQuaXMQuanHe(
     ketQuaXMQuanHe: KetQuaXMQuanHeInput,
+    user: any,
   ): Promise<KetQuaXMQuanHe> {
     const result = await this.ketQuaXMQuanHeRepository.query(
       SP_CHANGE_DATA(
@@ -92,12 +97,19 @@ export class KetQuaXMQuanHesService {
         "'MaKQXMQH = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaKQXMQH: ${result[0].MaKQXMQH};`,
+      TableName: 'KetQuaXMQuanHes',
+    });
     return result[0];
   }
 
   async editKetQuaXMQuanHe(
     ketQuaXMQuanHe: KetQuaXMQuanHeInput,
     id: number,
+    user: any,
   ): Promise<KetQuaXMQuanHe> {
     const result = await this.ketQuaXMQuanHeRepository.query(
       SP_CHANGE_DATA(
@@ -127,10 +139,16 @@ export class KetQuaXMQuanHesService {
         `'MaKQXMQH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaKQXMQH: ${result[0].MaKQXMQH};`,
+      TableName: 'KetQuaXMQuanHes',
+    });
     return result[0];
   }
 
-  async deleteKetQuaXMQuanHe(id: number): Promise<KetQuaXMQuanHe> {
+  async deleteKetQuaXMQuanHe(id: number, user: any): Promise<KetQuaXMQuanHe> {
     const result = await this.ketQuaXMQuanHeRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -142,6 +160,12 @@ export class KetQuaXMQuanHesService {
         `'MaKQXMQH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaKQXMQH: ${result[0].MaKQXMQH};`,
+      TableName: 'KetQuaXMQuanHes',
+    });
     return result[0];
   }
 

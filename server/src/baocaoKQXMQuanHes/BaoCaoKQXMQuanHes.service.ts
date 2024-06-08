@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -13,8 +14,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQXMQuanHe } from './BaoCaoKQXMQuanHe.model';
 import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import * as moment from 'moment';
 
 @Injectable()
 export class BaoCaoKQXMQuanHesService {
@@ -124,7 +123,6 @@ export class BaoCaoKQXMQuanHesService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaBCKQXMQH: ${result[0].MaBCKQXMQH};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKQXMQuanHes',
     });
     return result[0];
@@ -144,7 +142,6 @@ export class BaoCaoKQXMQuanHesService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaBCKQXMQH: ${result[0].MaBCKQXMQH};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKQXMQuanHes',
     });
     return result[0];
@@ -164,7 +161,6 @@ export class BaoCaoKQXMQuanHesService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaBCKQXMQH: ${result[0].MaBCKQXMQH};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKQXMQuanHes',
     });
     return result[0];

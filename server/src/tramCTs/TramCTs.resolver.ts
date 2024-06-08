@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { Doi } from 'src/dois/Doi.model';
@@ -14,11 +20,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { TramCT } from './TramCT.model';
 import { TramCTsService } from './TramCTs.service';
 import { TramCTInput } from './type/TramCT.input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 
 @Resolver(() => TramCT)
 @UseGuards(GraphQLGuard)
@@ -39,26 +40,31 @@ export class TramCTsResolver {
 
   @Mutation((returns) => TramCT)
   @UseGuards(InsertGuard)
-  createTramCT(@Args('tramCTInput') tramCTInput: TramCTInput): Promise<TramCT> {
-    return this.tramCTsService.createTramCT(tramCTInput);
+  createTramCT(
+    @CurrentUser() user: any,
+    @Args('tramCTInput') tramCTInput: TramCTInput,
+  ): Promise<TramCT> {
+    return this.tramCTsService.createTramCT(tramCTInput, user);
   }
 
   @Mutation((returns) => TramCT)
   @UseGuards(UpdateGuard)
   editTramCT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('tramCTInput') tramCTInput: TramCTInput,
   ): Promise<TramCT> {
-    return this.tramCTsService.editTramCT(tramCTInput, id);
+    return this.tramCTsService.editTramCT(tramCTInput, id, user);
   }
 
   @Mutation((returns) => TramCT)
   @UseGuards(DeleteGuard)
   deleteTramCT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('tramCTInput') tramCTInput: TramCTInput,
   ): Promise<TramCT> {
-    return this.tramCTsService.deleteTramCT(tramCTInput, id);
+    return this.tramCTsService.deleteTramCT(tramCTInput, id, user);
   }
 
   // ResolveField

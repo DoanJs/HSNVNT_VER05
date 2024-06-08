@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { ChuyenAn } from 'src/chuyenans/ChuyenAn.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
@@ -80,7 +79,6 @@ export class DoiTuongCAsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaDTCA: ${result[0].MaDTCA};`,
-      Time: `${moment().format()}`,
       TableName: 'DoiTuongCAs',
     });
     return result[0];
@@ -112,7 +110,6 @@ export class DoiTuongCAsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaDTCA: ${result[0].MaDTCA};`,
-      Time: `${moment().format()}`,
       TableName: 'DoiTuongCAs',
     });
     return result[0];
@@ -134,7 +131,6 @@ export class DoiTuongCAsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaDTCA: ${result[0].MaDTCA};`,
-      Time: `${moment().format()}`,
       TableName: 'DoiTuongCAs',
     });
     return result[0];

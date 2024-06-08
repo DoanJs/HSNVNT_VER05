@@ -25,6 +25,7 @@ import { UseGuards } from '@nestjs/common';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => KetQuaTSNT)
 @UseGuards(GraphQLGuard)
@@ -45,24 +46,29 @@ export class KetQuaTSNTsResolver {
   @Mutation((returns) => KetQuaTSNT)
   @UseGuards(InsertGuard)
   createKetQuaTSNT(
+    @CurrentUser() user: any,
     @Args('ketquaTSNTInput') ketquaTSNTInput: KetQuaTSNTInput,
   ): Promise<KetQuaTSNT> {
-    return this.ketquaTSNTsService.createKetQuaTSNT(ketquaTSNTInput);
+    return this.ketquaTSNTsService.createKetQuaTSNT(ketquaTSNTInput, user);
   }
 
   @Mutation((returns) => KetQuaTSNT)
   @UseGuards(UpdateGuard)
   editKetQuaTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('ketquaTSNTInput') ketquaTSNTInput: KetQuaTSNTInput,
   ): Promise<KetQuaTSNT> {
-    return this.ketquaTSNTsService.editKetQuaTSNT(ketquaTSNTInput, id);
+    return this.ketquaTSNTsService.editKetQuaTSNT(ketquaTSNTInput, id, user);
   }
 
   @Mutation((returns) => KetQuaTSNT)
   @UseGuards(DeleteGuard)
-  deleteKetQuaTSNT(@Args('id') id: number): Promise<KetQuaTSNT> {
-    return this.ketquaTSNTsService.deleteKetQuaTSNT(id);
+  deleteKetQuaTSNT(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<KetQuaTSNT> {
+    return this.ketquaTSNTsService.deleteKetQuaTSNT(id, user);
   }
 
   // ResolveField

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -72,7 +71,6 @@ export class DiaChiNVsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaDC: ${result[0].MaDC};`,
-      Time: `${moment().format()}`,
       TableName: 'DiaChiNVs',
     });
     return result[0];
@@ -90,7 +88,6 @@ export class DiaChiNVsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaDC: ${result[0].MaDC};`,
-      Time: `${moment().format()}`,
       TableName: 'DiaChiNVs',
     });
     return result[0];
@@ -108,7 +105,6 @@ export class DiaChiNVsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaDC: ${result[0].MaDC};`,
-      Time: `${moment().format()}`,
       TableName: 'DiaChiNVs',
     });
     return result[0];

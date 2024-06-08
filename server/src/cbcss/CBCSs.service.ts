@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
@@ -104,7 +103,6 @@ export class CBCSsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaCBCS: ${result[0].MaCBCS};`,
-      Time: `${moment().format()}`,
       TableName: 'CBCSs',
     });
     return result[0];
@@ -118,7 +116,6 @@ export class CBCSsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaCBCS: ${result[0].MaCBCS};`,
-      Time: `${moment().format()}`,
       TableName: 'CBCSs',
     });
     return result[0];
@@ -132,7 +129,6 @@ export class CBCSsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaCBCS: ${result[0].MaCBCS};`,
-      Time: `${moment().format()}`,
       TableName: 'CBCSs',
     });
     return result[0];

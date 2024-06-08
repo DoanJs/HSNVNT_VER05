@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as CryptoJS from 'crypto-js';
+import * as moment from 'moment';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class UtilsService {
-    
+  constructor(private readonly actionDBsService: ActionDBsService) {}
+
   EncryptText(text: string): string | null {
     return text
       ? CryptoJS.AES.encrypt(text, process.env.KEY_CRYPTO_JS_TEXT).toString()

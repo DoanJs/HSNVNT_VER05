@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
@@ -17,6 +18,7 @@ export class QuocTichsService {
   constructor(
     @InjectRepository(QuocTich)
     private quoctichRepository: Repository<QuocTich>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly quocTich_DataInput = (tenQT: string) => {
@@ -44,7 +46,7 @@ export class QuocTichsService {
     return result[0];
   }
 
-  async createQuocTich(tenQT: string): Promise<QuocTich> {
+  async createQuocTich(tenQT: string, user: any): Promise<QuocTich> {
     const result = await this.quoctichRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -54,10 +56,16 @@ export class QuocTichsService {
         "'MaQT = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaQT: ${result[0].MaQT};`,
+      TableName: 'QuocTichs',
+    });
     return result[0];
   }
 
-  async editQuocTich(tenQT: string, id: number): Promise<QuocTich> {
+  async editQuocTich(tenQT: string, id: number, user: any): Promise<QuocTich> {
     const result = await this.quoctichRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -69,10 +77,16 @@ export class QuocTichsService {
         `'MaQT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaQT: ${result[0].MaQT};`,
+      TableName: 'QuocTichs',
+    });
     return result[0];
   }
 
-  async deleteQuocTich(id: number): Promise<QuocTich> {
+  async deleteQuocTich(id: number, user: any): Promise<QuocTich> {
     const result = await this.quoctichRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -84,6 +98,12 @@ export class QuocTichsService {
         `"MaQT = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaQT: ${result[0].MaQT};`,
+      TableName: 'QuocTichs',
+    });
     return result[0];
   }
 
@@ -91,7 +111,7 @@ export class QuocTichsService {
 
   async DanTocs(MaQT: number): Promise<DanToc[]> {
     return await this.quoctichRepository.query(
-      SP_GET_DATA('DanTocs', `'MaQT = ${MaQT}'`, 'MaDT', 0, 0)
+      SP_GET_DATA('DanTocs', `'MaQT = ${MaQT}'`, 'MaDT', 0, 0),
     );
   }
 

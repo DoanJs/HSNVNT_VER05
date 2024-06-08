@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
@@ -77,7 +76,6 @@ export class DauMoiPH_DNsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaDMPH: ${result[0].MaDMPH};`,
-      Time: `${moment().format()}`,
       TableName: 'DauMoiPH_DNs',
     });
     return result[0];
@@ -110,7 +108,6 @@ export class DauMoiPH_DNsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaDMPH: ${result[0].MaDMPH};`,
-      Time: `${moment().format()}`,
       TableName: 'DauMoiPH_DNs',
     });
     return result[0];
@@ -132,7 +129,6 @@ export class DauMoiPH_DNsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaDMPH: ${result[0].MaDMPH};`,
-      Time: `${moment().format()}`,
       TableName: 'DauMoiPH_DNs',
     });
     return result[0];

@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { LucLuongThamGiaKH } from './LucLuongThamGiaKH.model';
-import { LucLuongThamGiaKHInput } from './type/LucLuongThamGiaKH.input';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { Repository } from 'typeorm';
+import { LucLuongThamGiaKH } from './LucLuongThamGiaKH.model';
+import { LucLuongThamGiaKHInput } from './type/LucLuongThamGiaKH.input';
 
 @Injectable()
 export class LucLuongThamGiaKHsService {
@@ -15,15 +16,16 @@ export class LucLuongThamGiaKHsService {
     @InjectRepository(LucLuongThamGiaKH)
     private lucluongthamgiaKHRepository: Repository<LucLuongThamGiaKH>,
     private dataloaderService: DataLoaderService,
+    private actionDBsService: ActionDBsService,
   ) {}
   public readonly lucluongThamGiaKH_DataInput = (
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
   ) => {
     return {
-      ViTri: lucluongThamGiaKHInput.ViTri ? `N''${lucluongThamGiaKHInput.ViTri}''` : null,
-      MaKH: lucluongThamGiaKHInput.MaKH
-        ? lucluongThamGiaKHInput.MaKH
+      ViTri: lucluongThamGiaKHInput.ViTri
+        ? `N''${lucluongThamGiaKHInput.ViTri}''`
         : null,
+      MaKH: lucluongThamGiaKHInput.MaKH ? lucluongThamGiaKHInput.MaKH : null,
       MaCBCS: lucluongThamGiaKHInput.MaCBCS
         ? lucluongThamGiaKHInput.MaCBCS
         : null,
@@ -53,10 +55,8 @@ export class LucLuongThamGiaKHsService {
 
   async createLucLuongThamGiaKH(
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
+    user: any,
   ): Promise<LucLuongThamGiaKH> {
-    const { ViTri, MaKH, MaCBCS } = this.lucluongThamGiaKH_DataInput(
-      lucluongThamGiaKHInput,
-    );
     const result = await this.lucluongthamgiaKHRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -69,12 +69,19 @@ export class LucLuongThamGiaKHsService {
         "'MaLLTGKH = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaLLTGKH: ${result[0].MaLLTGKH};`,
+      TableName: 'LucLuongThamGiaKHs',
+    });
     return result[0];
   }
 
   async editLucLuongThamGiaKH(
     lucluongThamGiaKHInput: LucLuongThamGiaKHInput,
     id: number,
+    user: any,
   ): Promise<LucLuongThamGiaKH> {
     const result = await this.lucluongthamgiaKHRepository.query(
       SP_CHANGE_DATA(
@@ -83,17 +90,32 @@ export class LucLuongThamGiaKHsService {
         null,
         null,
         null,
-        `N' ViTri = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).ViTri},
-            MaKH = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaKH},
-            MaCBCS = ${this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaCBCS}
+        `N' ViTri = ${
+          this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).ViTri
+        },
+            MaKH = ${
+              this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaKH
+            },
+            MaCBCS = ${
+              this.lucluongThamGiaKH_DataInput(lucluongThamGiaKHInput).MaCBCS
+            }
         '`,
         `'MaLLTGKH = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaLLTGKH: ${result[0].MaLLTGKH};`,
+      TableName: 'LucLuongThamGiaKHs',
+    });
     return result[0];
   }
 
-  async deleteLucLuongThamGiaKH(id: number): Promise<LucLuongThamGiaKH> {
+  async deleteLucLuongThamGiaKH(
+    id: number,
+    user: any,
+  ): Promise<LucLuongThamGiaKH> {
     const result = await this.lucluongthamgiaKHRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -105,6 +127,12 @@ export class LucLuongThamGiaKHsService {
         `"MaLLTGKH = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaLLTGKH: ${result[0].MaLLTGKH};`,
+      TableName: 'LucLuongThamGiaKHs',
+    });
     return result[0];
   }
 

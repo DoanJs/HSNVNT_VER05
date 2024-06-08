@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { LoaiLLDB } from 'src/loaiLLDBs/LoaiLLDB.model';
+import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { LLDB } from './LLDB.model';
 import { LLDBInput } from './type/LLDB.Input';
-import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 
 @Injectable()
 export class LLDBsService {
   constructor(
     @InjectRepository(LLDB) private lldbRepository: Repository<LLDB>,
     private dataloaderService: DataLoaderService,
-  ) { }
+    private readonly actionDBsService: ActionDBsService,
+  ) {}
   public readonly lldb_DataInput = (lldbInput: LLDBInput) => {
     return {
       BiDanh: lldbInput.BiDanh ? `N''${lldbInput.BiDanh}''` : null,
@@ -43,8 +45,7 @@ export class LLDBsService {
     return result[0];
   }
 
-  async createLLDB(lldbInput: LLDBInput): Promise<LLDB> {
-    const { BiDanh, MaTSQuanLy, MaLoaiLLDB } = this.lldb_DataInput(lldbInput);
+  async createLLDB(lldbInput: LLDBInput, user: any): Promise<LLDB> {
     const result = await this.lldbRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -57,10 +58,16 @@ export class LLDBsService {
         "'MaLLDB = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaLLDB: ${result[0].MaLLDB};`,
+      TableName: 'LLDBs',
+    });
     return result[0];
   }
 
-  async editLLDB(lldbInput: LLDBInput, id: number): Promise<LLDB> {
+  async editLLDB(lldbInput: LLDBInput, id: number, user: any): Promise<LLDB> {
     const result = await this.lldbRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -75,10 +82,16 @@ export class LLDBsService {
         `'MaLLDB = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaLLDB: ${result[0].MaLLDB};`,
+      TableName: 'LLDBs',
+    });
     return result[0];
   }
 
-  async deleteLLDB(id: number): Promise<LLDB> {
+  async deleteLLDB(id: number, user: any): Promise<LLDB> {
     const result = await this.lldbRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -90,6 +103,12 @@ export class LLDBsService {
         `"MaLLDB = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaLLDB: ${result[0].MaLLDB};`,
+      TableName: 'LLDBs',
+    });
     return result[0];
   }
 
@@ -101,7 +120,7 @@ export class LLDBsService {
 
   async KeHoachTSNTs(MaLLDB: number): Promise<KeHoachTSNT[]> {
     const result = (await this.lldbRepository.query(
-      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaLLDB = ${MaLLDB}'`, 'MaKH', 0, 0)
+      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaLLDB = ${MaLLDB}'`, 'MaKH', 0, 0),
     )) as [{ MaKH: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderKeHoachTSNT.load(obj.MaKH),

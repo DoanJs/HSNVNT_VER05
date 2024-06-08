@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,15 +7,15 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { LoaiDT } from './LoaiDT.model';
 import { LoaiDTsService } from './LoaiDTs.service';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => LoaiDT)
 @UseGuards(GraphQLGuard)
@@ -34,23 +35,30 @@ export class LoaiDTsResolver {
 
   @Mutation((returns) => LoaiDT)
   @UseGuards(InsertGuard)
-  createLoaiDT(@Args('loaiDT') loaiDT: string): Promise<LoaiDT> {
-    return this.loaiDTsService.createLoaiDT(loaiDT);
+  createLoaiDT(
+    @CurrentUser() user: any,
+    @Args('loaiDT') loaiDT: string,
+  ): Promise<LoaiDT> {
+    return this.loaiDTsService.createLoaiDT(loaiDT, user);
   }
 
   @Mutation((returns) => LoaiDT)
   @UseGuards(UpdateGuard)
   editLoaiDT(
+    @CurrentUser() user: any,
     @Args('loaiDT') loaiDT: string,
     @Args('id') id: number,
   ): Promise<LoaiDT> {
-    return this.loaiDTsService.editLoaiDT(loaiDT, id);
+    return this.loaiDTsService.editLoaiDT(loaiDT, id, user);
   }
 
   @Mutation((returns) => LoaiDT)
   @UseGuards(DeleteGuard)
-  deleteLoaiDT(@Args('id') id: number): Promise<LoaiDT> {
-    return this.loaiDTsService.deleteLoaiDT(id);
+  deleteLoaiDT(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<LoaiDT> {
+    return this.loaiDTsService.deleteLoaiDT(id, user);
   }
 
   // ResolveField

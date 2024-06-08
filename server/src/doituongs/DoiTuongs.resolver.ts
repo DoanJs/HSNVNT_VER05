@@ -26,6 +26,7 @@ import { DoiTuongInput } from './type/DoiTuong.input';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => DoiTuong)
 @UseGuards(GraphQLGuard)
@@ -47,27 +48,30 @@ export class DoiTuongsResolver {
   @Mutation((returns) => DoiTuong)
   @UseGuards(InsertGuard)
   createDoiTuong(
+    @CurrentUser() user: any,
     @Args('doituongInput') doituongInput: DoiTuongInput,
   ): Promise<DoiTuong> {
-    return this.doituongsService.createDoiTuong(doituongInput);
+    return this.doituongsService.createDoiTuong(doituongInput, user);
   }
 
   @Mutation((returns) => DoiTuong)
   @UseGuards(UpdateGuard)
   editDoiTuong(
+    @CurrentUser() user: any,
     @Args('doituongInput') doituongInput: DoiTuongInput,
     @Args('id') id: number,
   ): Promise<DoiTuong> {
-    return this.doituongsService.editDoiTuong(doituongInput, id);
+    return this.doituongsService.editDoiTuong(doituongInput, id, user);
   }
 
   @Mutation((retursn) => DoiTuong)
   @UseGuards(DeleteGuard)
   deleteDoiTuong(
+    @CurrentUser() user: any,
     @Args('doituongInput') doituongInput: DoiTuongInput,
     @Args('id') id: number,
   ): Promise<DoiTuong> {
-    return this.doituongsService.deleteDoiTuong(doituongInput, id);
+    return this.doituongsService.deleteDoiTuong(doituongInput, id, user);
   }
 
   // ResolveField

@@ -5,6 +5,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { ActionDB } from './ActionDB.model';
 import { ActionDBInput } from './type/ActionDB.input';
+import * as moment from 'moment';
 
 @Injectable()
 export class ActionDBsService {
@@ -20,7 +21,7 @@ export class ActionDBsService {
         ? `N''${actionDBInput.TableName}''`
         : null,
       Action: actionDBInput.Action ? `N''${actionDBInput.Action}''` : null,
-      Time: actionDBInput.Time ? `N''${actionDBInput.Time}''` : null,
+      Time: `N''${moment().format()}''`,
       Other: actionDBInput.Other ? `N''${actionDBInput.Other}''` : null,
     };
   };

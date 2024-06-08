@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,17 +7,17 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import PhuongTienNV from './PhuongTienNV.model';
 import { PhuongTienNVsService } from './PhuongTienNVs.service';
 import { PhuongTienNVInput } from './type/PhuongTienNV.input';
-import { CBCS } from 'src/cbcss/CBCS.model';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 
 @Resolver(() => PhuongTienNV)
 @UseGuards(GraphQLGuard)
@@ -37,27 +38,41 @@ export class PhuongTienNVsResolver {
   @Mutation((returns) => PhuongTienNV)
   @UseGuards(InsertGuard)
   createPhuongTienNV(
+    @CurrentUser() user: any,
     @Args('phuongtienNVInput') phuongtienNVInput: PhuongTienNVInput,
   ): Promise<PhuongTienNV> {
-    return this.phuongtienNVsService.createPhuongTienNV(phuongtienNVInput);
+    return this.phuongtienNVsService.createPhuongTienNV(
+      phuongtienNVInput,
+      user,
+    );
   }
 
   @Mutation((returns) => PhuongTienNV)
   @UseGuards(UpdateGuard)
   editPhuongTienNV(
+    @CurrentUser() user: any,
     @Args('phuongtienNVInput') phuongtienNVInput: PhuongTienNVInput,
     @Args('id') id: number,
   ): Promise<PhuongTienNV> {
-    return this.phuongtienNVsService.editPhuongTienNV(phuongtienNVInput, id);
+    return this.phuongtienNVsService.editPhuongTienNV(
+      phuongtienNVInput,
+      id,
+      user,
+    );
   }
 
   @Mutation((returns) => PhuongTienNV)
   @UseGuards(DeleteGuard)
   deletePhuongTienNV(
+    @CurrentUser() user: any,
     @Args('phuongtienNVInput') phuongtienNVInput: PhuongTienNVInput,
     @Args('id') id: number,
   ): Promise<PhuongTienNV> {
-    return this.phuongtienNVsService.deletePhuongTienNV(phuongtienNVInput, id);
+    return this.phuongtienNVsService.deletePhuongTienNV(
+      phuongtienNVInput,
+      id,
+      user,
+    );
   }
 
   // ResolveField

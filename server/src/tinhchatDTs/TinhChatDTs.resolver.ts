@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,16 +7,16 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { ChuyenAn } from 'src/chuyenans/ChuyenAn.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { TinhChatDT } from './TinhChatDT.model';
 import { TinhChatDTsService } from './TinhChatDTs.service';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => TinhChatDT)
 @UseGuards(GraphQLGuard)
@@ -35,23 +36,30 @@ export class TinhChatDTsResolver {
 
   @Mutation((returns) => TinhChatDT)
   @UseGuards(InsertGuard)
-  createTinhChatDT(@Args('tinhchat') tinhchat: string): Promise<TinhChatDT> {
-    return this.tinhchatDTsService.createTinhChatDT(tinhchat);
+  createTinhChatDT(
+    @CurrentUser() user: any,
+    @Args('tinhchat') tinhchat: string,
+  ): Promise<TinhChatDT> {
+    return this.tinhchatDTsService.createTinhChatDT(tinhchat, user);
   }
 
   @Mutation((returns) => TinhChatDT)
   @UseGuards(UpdateGuard)
   editTinhChatDT(
+    @CurrentUser() user: any,
     @Args('tinhchat') tinhchat: string,
     @Args('id') id: number,
   ): Promise<TinhChatDT> {
-    return this.tinhchatDTsService.editTinhChatDT(tinhchat, id);
+    return this.tinhchatDTsService.editTinhChatDT(tinhchat, id, user);
   }
 
   @Mutation((returns) => TinhChatDT)
   @UseGuards(DeleteGuard)
-  deleteTinhChatDT(@Args('id') id: number): Promise<TinhChatDT> {
-    return this.tinhchatDTsService.deleteTinhChatDT(id);
+  deleteTinhChatDT(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<TinhChatDT> {
+    return this.tinhchatDTsService.deleteTinhChatDT(id, user);
   }
 
   // ResolveField

@@ -10,12 +10,14 @@ import {
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { TinhChatDT } from './TinhChatDT.model';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class TinhChatDTsService {
   constructor(
     @InjectRepository(TinhChatDT)
     private tinhchatDTRepository: Repository<TinhChatDT>,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
 
   public readonly tinhChatDT_DataInput = (tinhChat: string) => {
@@ -43,7 +45,7 @@ export class TinhChatDTsService {
     return result[0];
   }
 
-  async createTinhChatDT(tinhchat: string): Promise<TinhChatDT> {
+  async createTinhChatDT(tinhchat: string, user: any): Promise<TinhChatDT> {
     const result = await this.tinhchatDTRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
@@ -53,10 +55,20 @@ export class TinhChatDTsService {
         "'MaTCDT = SCOPE_IDENTITY()'",
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaTCDT: ${result[0].MaTCDT};`,
+      TableName: 'TinhChatDTs',
+    });
     return result[0];
   }
 
-  async editTinhChatDT(tinhchat: string, id: number): Promise<TinhChatDT> {
+  async editTinhChatDT(
+    tinhchat: string,
+    id: number,
+    user: any,
+  ): Promise<TinhChatDT> {
     const result = await this.tinhchatDTRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
@@ -68,10 +80,16 @@ export class TinhChatDTsService {
         `'MaTCDT = ${id}'`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaTCDT: ${result[0].MaTCDT};`,
+      TableName: 'TinhChatDTs',
+    });
     return result[0];
   }
 
-  async deleteTinhChatDT(id: number): Promise<TinhChatDT> {
+  async deleteTinhChatDT(id: number, user: any): Promise<TinhChatDT> {
     const result = await this.tinhchatDTRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
@@ -83,6 +101,12 @@ export class TinhChatDTsService {
         `"MaTCDT = ${id}"`,
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaTCDT: ${result[0].MaTCDT};`,
+      TableName: 'TinhChatDTs',
+    });
     return result[0];
   }
 

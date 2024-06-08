@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CapCA } from './CapCA.model';
-import * as moment from 'moment';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class CapCAsService {
@@ -52,7 +51,6 @@ export class CapCAsService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaCapCA: ${result[0].MaCapCA};`,
-      Time: `${moment().format()}`,
       TableName: 'CapCAs',
     });
     return result[0];
@@ -74,7 +72,6 @@ export class CapCAsService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaCapCA: ${result[0].MaCapCA};`,
-      Time: `${moment().format()}`,
       TableName: 'CapCAs',
     });
     return result[0];
@@ -96,7 +93,6 @@ export class CapCAsService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaCapCA: ${result[0].MaCapCA};`,
-      Time: `${moment().format()}`,
       TableName: 'CapCAs',
     });
     return result[0];

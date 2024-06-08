@@ -1,24 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import PhuongTienNV from './PhuongTienNV.model';
-import { PhuongTienNVInput } from './type/PhuongTienNV.input';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_PHUONGTIENNV,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { CBCS } from 'src/cbcss/CBCS.model';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { Repository } from 'typeorm';
+import PhuongTienNV from './PhuongTienNV.model';
+import { PhuongTienNVInput } from './type/PhuongTienNV.input';
 
 @Injectable()
 export class PhuongTienNVsService {
   constructor(
     @InjectRepository(PhuongTienNV)
     private phuongtienNVRepository: Repository<PhuongTienNV>,
-    private dataloaderService: DataLoaderService,
+    private readonly dataloaderService: DataLoaderService,
+    private readonly actionDBsService: ActionDBsService,
   ) {}
   public readonly phuongtienNV_DataInput = (
     Type: string,
@@ -62,48 +64,69 @@ export class PhuongTienNVsService {
 
   async createPhuongTienNV(
     phuongtienNVInput: PhuongTienNVInput,
+    user: any,
   ): Promise<PhuongTienNV> {
     const result = await this.phuongtienNVRepository.query(
       SP_CHANGE_PHUONGTIENNV(
         this.phuongtienNV_DataInput('CREATE', null, phuongtienNVInput),
       ),
     );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `MaPT: ${result[0].MaPT};`,
+      TableName: 'PhuongTienNVs',
+    });
     return result[0];
   }
 
   async editPhuongTienNV(
     phuongtienNVInput: PhuongTienNVInput,
     id: number,
+    user: any,
   ): Promise<PhuongTienNV> {
-    const cbcss = await this.phuongtienNVRepository.query(
+    const result = await this.phuongtienNVRepository.query(
       SP_CHANGE_PHUONGTIENNV(
         this.phuongtienNV_DataInput('EDIT', id, phuongtienNVInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `MaPT: ${result[0].MaPT};`,
+      TableName: 'PhuongTienNVs',
+    });
+    return result[0];
   }
 
   async deletePhuongTienNV(
     phuongtienNVInput: PhuongTienNVInput,
     id: number,
+    user: any,
   ): Promise<PhuongTienNV> {
-    const cbcss = await this.phuongtienNVRepository.query(
+    const result = await this.phuongtienNVRepository.query(
       SP_CHANGE_PHUONGTIENNV(
         this.phuongtienNV_DataInput('DELETE', id, phuongtienNVInput),
       ),
     );
-    return cbcss[0];
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `MaPT: ${result[0].MaPT};`,
+      TableName: 'PhuongTienNVs',
+    });
+    return result[0];
   }
 
   // ResolveField
 
   async KetQuaTSNT(phuongtienNV: any): Promise<KetQuaTSNT> {
-    return this.dataloaderService.loaderKetQuaTSNT.load(phuongtienNV.MaKQ)
+    return this.dataloaderService.loaderKetQuaTSNT.load(phuongtienNV.MaKQ);
   }
 
   async TSThucHiens(MaPT: number): Promise<CBCS[]> {
     const result = (await this.phuongtienNVRepository.query(
-      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaPT = ${MaPT}'`, 'MaCBCS', 0, 0)
+      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaPT = ${MaPT}'`, 'MaCBCS', 0, 0),
     )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),

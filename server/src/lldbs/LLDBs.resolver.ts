@@ -18,6 +18,7 @@ import { UseGuards } from '@nestjs/common';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => LLDB)
 @UseGuards(GraphQLGuard)
@@ -36,23 +37,27 @@ export class LLDBsResolver {
 
   @Mutation((returs) => LLDB)
   @UseGuards(InsertGuard)
-  createLLDB(@Args('lldbInput') lldbInput: LLDBInput): Promise<LLDB> {
-    return this.lldbsService.createLLDB(lldbInput);
+  createLLDB(
+    @CurrentUser() user: any,
+    @Args('lldbInput') lldbInput: LLDBInput,
+  ): Promise<LLDB> {
+    return this.lldbsService.createLLDB(lldbInput, user);
   }
 
   @Mutation((returns) => LLDB)
   @UseGuards(UpdateGuard)
   editLLDB(
+    @CurrentUser() user: any,
     @Args('lldbInput') lldbInput: LLDBInput,
     @Args('id') id: number,
   ): Promise<LLDB> {
-    return this.lldbsService.editLLDB(lldbInput, id);
+    return this.lldbsService.editLLDB(lldbInput, id, user);
   }
 
   @Mutation((returns) => LLDB)
   @UseGuards(DeleteGuard)
-  deleteLLDB(@Args('id') id: number): Promise<LLDB> {
-    return this.lldbsService.deleteLLDB(id);
+  deleteLLDB(@CurrentUser() user: any, @Args('id') id: number): Promise<LLDB> {
+    return this.lldbsService.deleteLLDB(id, user);
   }
 
   // ResolveField

@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -19,11 +25,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { QuyetDinhTSNT } from './QuyetDinhTSNT.model';
 import { QuyetDinhTSNTsService } from './QuyetDinhTSNTs.service';
 import { QuyetDinhTSNTInput } from './type/QuyetDinhTSNT.input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 
 @Resolver(() => QuyetDinhTSNT)
 @UseGuards(GraphQLGuard)
@@ -44,29 +45,40 @@ export class QuyetDinhTSNTsResolver {
   @Mutation((returns) => QuyetDinhTSNT)
   @UseGuards(InsertGuard)
   createQuyetDinhTSNT(
+    @CurrentUser() user: any,
     @Args('quyetdinhTSNTInput') quyetdinhTSNTInput: QuyetDinhTSNTInput,
   ): Promise<QuyetDinhTSNT> {
-    return this.quyetdinhTSNTsService.createQuyetDinhTSNT(quyetdinhTSNTInput);
+    return this.quyetdinhTSNTsService.createQuyetDinhTSNT(
+      quyetdinhTSNTInput,
+      user,
+    );
   }
 
   @Mutation((returns) => QuyetDinhTSNT)
   @UseGuards(UpdateGuard)
   editQuyetDinhTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('quyetdinhTSNTInput') quyetdinhTSNTInput: QuyetDinhTSNTInput,
   ): Promise<QuyetDinhTSNT> {
-    return this.quyetdinhTSNTsService.editQuyetDinhTSNT(quyetdinhTSNTInput, id);
+    return this.quyetdinhTSNTsService.editQuyetDinhTSNT(
+      quyetdinhTSNTInput,
+      id,
+      user,
+    );
   }
 
   @Mutation((returns) => QuyetDinhTSNT)
   @UseGuards(DeleteGuard)
   deleteQuyetDinhTSNT(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('quyetdinhTSNTInput') quyetdinhTSNTInput: QuyetDinhTSNTInput,
   ): Promise<QuyetDinhTSNT> {
     return this.quyetdinhTSNTsService.deleteQuyetDinhTSNT(
       quyetdinhTSNTInput,
       id,
+      user,
     );
   }
 

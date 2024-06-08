@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { BaoCaoKQXMDiaChi } from './BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMDiaChiInput } from './type/BaoCaoKQXMDiaChi.input';
-import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
+import { Doi } from 'src/dois/Doi.model';
 import {
   SP_CHANGE_BAOCAOKQXMDIACHI,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { Doi } from 'src/dois/Doi.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import * as moment from 'moment';
+import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
+import { Repository } from 'typeorm';
+import { BaoCaoKQXMDiaChi } from './BaoCaoKQXMDiaChi.model';
+import { BaoCaoKQXMDiaChiInput } from './type/BaoCaoKQXMDiaChi.input';
 
 @Injectable()
 export default class BaoCaoKQXMDiaChisService {
@@ -121,7 +120,6 @@ export default class BaoCaoKQXMDiaChisService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaBCKQXMDC: ${result[0].MaBCKQXMDC};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKQXMDiaChis',
     });
     return result[0];
@@ -142,7 +140,6 @@ export default class BaoCaoKQXMDiaChisService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaBCKQXMDC: ${result[0].MaBCKQXMDC};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKQXMDiaChis',
     });
     return result[0];
@@ -162,7 +159,6 @@ export default class BaoCaoKQXMDiaChisService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaBCKQXMDC: ${result[0].MaBCKQXMDC};`,
-      Time: `${moment().format()}`,
       TableName: 'BaoCaoKQXMDiaChis',
     });
     return result[0];

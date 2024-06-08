@@ -17,6 +17,7 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => QuocTich)
 @UseGuards(GraphQLGuard)
@@ -36,23 +37,30 @@ export class QuocTichsResolver {
 
   @Mutation((returns) => QuocTich)
   @UseGuards(InsertGuard)
-  createQuocTich(@Args('tenQT') tenQT: string): Promise<QuocTich> {
-    return this.quoctichsService.createQuocTich(tenQT);
+  createQuocTich(
+    @CurrentUser() user: any,
+    @Args('tenQT') tenQT: string,
+  ): Promise<QuocTich> {
+    return this.quoctichsService.createQuocTich(tenQT, user);
   }
 
   @Mutation((returns) => QuocTich)
   @UseGuards(UpdateGuard)
   editQuocTich(
+    @CurrentUser() user: any,
     @Args('tenQT') tenQT: string,
     @Args('id') id: number,
   ): Promise<QuocTich> {
-    return this.quoctichsService.editQuocTich(tenQT, id);
+    return this.quoctichsService.editQuocTich(tenQT, id, user);
   }
 
   @Mutation((returns) => QuocTich)
   @UseGuards(DeleteGuard)
-  deleteQuocTich(@Args('id') id: number): Promise<QuocTich> {
-    return this.quoctichsService.deleteQuocTich(id);
+  deleteQuocTich(
+    @CurrentUser() user: any,
+    @Args('id') id: number,
+  ): Promise<QuocTich> {
+    return this.quoctichsService.deleteQuocTich(id, user);
   }
 
   // ResolveField

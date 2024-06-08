@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
@@ -72,7 +71,6 @@ export class DoisService {
       MaHistory: user.MaHistory,
       Action: 'CREATE',
       Other: `MaDoi: ${result[0].MaDoi};`,
-      Time: `${moment().format()}`,
       TableName: 'Dois',
     });
     return result[0];
@@ -96,7 +94,6 @@ export class DoisService {
       MaHistory: user.MaHistory,
       Action: 'EDIT',
       Other: `MaDoi: ${result[0].MaDoi};`,
-      Time: `${moment().format()}`,
       TableName: 'Dois',
     });
     return result[0];
@@ -118,7 +115,6 @@ export class DoisService {
       MaHistory: user.MaHistory,
       Action: 'DELETE',
       Other: `MaDoi: ${result[0].MaDoi};`,
-      Time: `${moment().format()}`,
       TableName: 'Dois',
     });
     return result[0];
