@@ -16,11 +16,11 @@ export default function InputButton({
           (obj: any, ind: number) =>
             obj.cap === cap && (
               <Link
-                key={ind}
-                to={obj.to}
-                target="_blank"
                 type="button"
                 className="btn btn-success"
+                target="_blank"
+                key={ind}
+                to={obj.to}
               >
                 {obj.label}
               </Link>

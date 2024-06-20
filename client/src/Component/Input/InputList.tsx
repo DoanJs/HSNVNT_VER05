@@ -73,6 +73,7 @@ export default function InputList() {
   const onHandleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setDataInput(handleSearch("nhaplieu", CSDLInput, e.target.value));
   };
+  
 
   if (!Data_cbcss) return <Spinner />;
   return (

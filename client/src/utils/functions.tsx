@@ -245,6 +245,11 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         obj.label.toLowerCase().includes(keysearch)
       );
       break;
+    case "caTTPvaTDs":
+      arr = array.filter((obj: any) =>
+        obj.CATTPvaTD?.toLowerCase().includes(keysearch)
+      );
+      break;
     default:
   }
 

@@ -581,6 +581,24 @@ export const QUERY_cbcs = gql`
     }
   }
 `
+export const QUERY_caTTPvaTDs = gql`
+  query QUERY_caTTPvaTDs($utilsParams: UtilsParamsInput!){
+    caTTPvaTDs(utilsParams: $utilsParams) {
+      MaCATTPvaTD
+      CATTPvaTD
+    }
+  }
+`
+export const QUERY_capCAs = gql`
+  query QUERY_capCAs($utilsParams: UtilsParamsInput!){
+    capCAs(utilsParams: $utilsParams) {
+      MaCapCA
+      CapCA
+    }
+  }
+`
+
+
 // 
 export const MUTATION_getData_searchFast = gql`
   mutation MUTATION_getData_searchFast($keySearch: String!){

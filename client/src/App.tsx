@@ -9,6 +9,7 @@ import {
   FileList,
   Home,
   InputCapbac,
+  InputCATTPvaTP,
   InputList,
   Login,
   Navbar,
@@ -63,8 +64,15 @@ export default function App() {
           <Route path="/diachinv" element={<PlaceList />} />
           <Route path="/diachinv/:id" element={<PlaceDetail />} />
           <Route path="/taikhoan/:id" element={<Profile />} />
-
           <Route path="/nhaplieu" element={<InputList />} />
+          <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTP />} />
+
+
+
+
+
+
+
           <Route path="/nhaplieu/capbac" element={<InputCapbac />} />
           <Route
             path="/nhaplieu/chuyenan"

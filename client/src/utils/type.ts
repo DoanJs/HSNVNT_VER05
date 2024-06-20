@@ -3,9 +3,9 @@ export interface MenuLinkParamsType {
   to: string;
 }
 export interface AccountType {
-  AccountID?: number
-  Username?: string
-  Role?: string
-  Position?: string
-  MaHistory?: number
+  AccountID?: number;
+  Username?: string;
+  Role?: string;
+  Position?: string;
+  MaHistory?: number;
 }
