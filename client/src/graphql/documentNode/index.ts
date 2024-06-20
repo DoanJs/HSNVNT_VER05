@@ -586,6 +586,10 @@ export const QUERY_caTTPvaTDs = gql`
     caTTPvaTDs(utilsParams: $utilsParams) {
       MaCATTPvaTD
       CATTPvaTD
+      CapCA {
+        MaCapCA
+        CapCA
+      }
     }
   }
 `
@@ -599,7 +603,7 @@ export const QUERY_capCAs = gql`
 `
 
 
-// 
+// ---------------
 export const MUTATION_getData_searchFast = gql`
   mutation MUTATION_getData_searchFast($keySearch: String!){
     getData_searchFast(keySearch: $keySearch) {
@@ -615,9 +619,14 @@ export const MUTATION_editAccount = gql`
     }
   }
 `
-
-
-
+export const MUTATION_createCATTPvaTD = gql`
+  mutation MUTATION_createCATTPvaTD( $caTTPvaTDInput: CATTPvaTDInput!){
+    createCATTPvaTD(caTTPvaTDInput: $caTTPvaTDInput) {
+       MaCATTPvaTD
+       CATTPvaTD
+    }
+  }
+`
 
 
 

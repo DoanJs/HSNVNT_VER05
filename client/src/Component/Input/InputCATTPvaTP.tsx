@@ -1,20 +1,37 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
-import { QUERY_capCAs, QUERY_caTTPvaTDs } from "../../graphql/documentNode";
+import {
+  MUTATION_createCATTPvaTD,
+  QUERY_capCAs,
+  QUERY_caTTPvaTDs,
+} from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
 const InputCATTPvaTPStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
+    b {
+      color: red;
+    }
     form {
       margin: 16px 0;
     }
     .ip-ls-old-content {
       max-height: 450px;
       overflow-y: scroll;
+      .ip-ls-action {
+        i {
+          margin: 0 10px;
+          cursor: pointer;
+          color: red;
+        }
+        i:first-child {
+          color: green;
+        }
+      }
       ::-webkit-scrollbar {
         background-color: #e4e6eb;
         width: 4px;
@@ -29,6 +46,9 @@ const InputCATTPvaTPStyled = styled.div`
 
 export default function InputCATTPvaTP() {
   const navigate = useNavigate();
+  const [createCATTPvaTD, { data }] = useMutation(MUTATION_createCATTPvaTD);
+  console.log(data);
+
   const { data: Data_caTTPvaTDs, error } = useQuery(QUERY_caTTPvaTDs, {
     variables: { utilsParams: {} },
   });
@@ -38,7 +58,7 @@ export default function InputCATTPvaTP() {
   const [caTTPvaTDs, set_caTTPvaTDs] = useState([]);
   const [form, setForm] = useState({
     CATTPvaTD: "",
-    MaCapCA: "",
+    MaCapCA: 0,
   });
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,12 +68,31 @@ export default function InputCATTPvaTP() {
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]:
+        e.target.name === "MaCapCA" ? Number(e.target.value) : e.target.value,
+    });
   };
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form);
+    if (form.CATTPvaTD.trim() !== "" && form.MaCapCA !== 0) {
+      createCATTPvaTD({
+        variables: {
+          caTTPvaTDInput: form,
+        },
+        onCompleted: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          showNotification("Lỗi!", error.message, "danger");
+          navigate("/dangnhap");
+        },
+      });
+    } else {
+      showNotification("Cảnh báo", "Vui lòng nhập đầy đủ giá trị!", "warning");
+    }
   };
 
   useEffect(() => {
@@ -79,7 +118,9 @@ export default function InputCATTPvaTP() {
     <InputCATTPvaTPStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
-          <h5>Danh sách CATTPvaTD hiện có:</h5>
+          <h5>
+            Danh sách CATTPvaTD hiện có <b>({caTTPvaTDs.length})</b>:
+          </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
@@ -93,19 +134,22 @@ export default function InputCATTPvaTP() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">STT</th>
                   <th scope="col">MaCATTPvaTD</th>
-                  <th scope="col">MaCapCA</th>
                   <th scope="col">CATTPvaTD</th>
+                  <th scope="col">CapCA</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {caTTPvaTDs.map((caTTPvaTD: any, ind: number) => (
                   <tr key={ind}>
-                    <th scope="row">{ind + 1}</th>
                     <td>{caTTPvaTD.MaCATTPvaTD}</td>
-                    <td>{caTTPvaTD.MaCapCA}</td>
                     <td>{caTTPvaTD.CATTPvaTD}</td>
+                    <td>{caTTPvaTD.CapCA.CapCA}</td>
+                    <td className="ip-ls-action">
+                      <i className="fa-solid fa-pen" title="Sửa"></i>
+                      <i className="fa-solid fa-trash" title="Xóa"></i>
+                    </td>
                   </tr>
                 ))}
               </tbody>

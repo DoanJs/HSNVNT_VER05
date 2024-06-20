@@ -60,16 +60,6 @@ export const CSDLInput = [
     cap: 1,
     to: "/nhaplieu/tinhtp",
     label: "Tỉnh/TP",
-    data: [
-      {
-        nameColumn: 'TinhTP',
-        type: 'string'
-      },
-      {
-        nameColumn: 'Cap',
-        type: 'string'
-      },
-    ]
   },
   {
     cap: 1,

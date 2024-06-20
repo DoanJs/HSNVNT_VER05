@@ -1,0 +1,6 @@
+mutation CreateCATTPvaTD {
+    createCATTPvaTD(caTTPvaTDInput: null) {
+        MaCATTPvaTD
+        CATTPvaTD
+    }
+}
