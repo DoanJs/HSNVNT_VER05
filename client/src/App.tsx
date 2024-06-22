@@ -9,7 +9,7 @@ import {
   FileList,
   Home,
   InputCapbac,
-  InputCATTPvaTP,
+  InputCATTPvaTD,
   InputList,
   Login,
   Navbar,
@@ -25,8 +25,9 @@ import {
   RelationList,
   SuggestList,
   VehicleDetail,
-  VehicleList,
+  VehicleList
 } from "./Component";
+import InputCAQHvaTD from "./Component/Input/InputCAQHvaTD";
 
 export default function App() {
   return (
@@ -65,7 +66,8 @@ export default function App() {
           <Route path="/diachinv/:id" element={<PlaceDetail />} />
           <Route path="/taikhoan/:id" element={<Profile />} />
           <Route path="/nhaplieu" element={<InputList />} />
-          <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTP />} />
+          <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTD />} />
+          <Route path="/nhaplieu/conganqhvatd" element={<InputCAQHvaTD />} />
 
 
 

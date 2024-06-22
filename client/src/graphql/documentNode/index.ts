@@ -593,6 +593,14 @@ export const QUERY_caTTPvaTDs = gql`
     }
   }
 `
+export const QUERY_caQHvaTDs = gql`
+  query QUERY_caQHvaTDs($utilsParams: UtilsParamsInput!){
+    caQHvaTDs(utilsParams: $utilsParams) {
+      MaCAQHvaTD
+      CAQHvaTD
+    }
+  }
+`
 export const QUERY_capCAs = gql`
   query QUERY_capCAs($utilsParams: UtilsParamsInput!){
     capCAs(utilsParams: $utilsParams) {
@@ -624,6 +632,46 @@ export const MUTATION_createCATTPvaTD = gql`
     createCATTPvaTD(caTTPvaTDInput: $caTTPvaTDInput) {
        MaCATTPvaTD
        CATTPvaTD
+    }
+  }
+`
+export const MUTATION_editCATTPvaTD = gql`
+  mutation MUTATION_editCATTPvaTD( $caTTPvaTDInput: CATTPvaTDInput!, $id: Float!){
+    editCATTPvaTD(caTTPvaTDInput: $caTTPvaTDInput, id: $id) {
+       MaCATTPvaTD
+       CATTPvaTD
+    }
+  }
+`
+export const MUTATION_deleteCATTPvaTD = gql`
+  mutation MUTATION_deleteCATTPvaTD($id: Float!){
+    deleteCATTPvaTD(id: $id) {
+       MaCATTPvaTD
+       CATTPvaTD
+    }
+  }
+`
+export const MUTATION_createCAQHvaTD = gql`
+  mutation MUTATION_createCAQHvaTD( $CAQHvaTDInput: CAQHvaTDInput!){
+    createCAQHvaTD(CAQHvaTDInput: $CAQHvaTDInput) {
+       MaCAQHvaTD
+       CAQHvaTD
+    }
+  }
+`
+export const MUTATION_editCAQHvaTD = gql`
+  mutation MUTATION_editCAQHvaTD( $CAQHvaTDInput: CAQHvaTDInput!, $id: Float!){
+    editCAQHvaTD(CAQHvaTDInput: $CAQHvaTDInput, id: $id) {
+       MaCAQHvaTD
+       CAQHvaTD
+    }
+  }
+`
+export const MUTATION_deleteCAQHvaTD = gql`
+  mutation MUTATION_deleteCAQHvaTD($id: Float!){
+    deleteCAQHvaTD(id: $id) {
+       MaCAQHvaTD
+       CAQHvaTD
     }
   }
 `

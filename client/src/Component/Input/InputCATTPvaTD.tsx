@@ -1,16 +1,18 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Spinner } from "..";
+import { ModalDeleteData, Spinner } from "..";
 import {
   MUTATION_createCATTPvaTD,
+  MUTATION_editCATTPvaTD,
   QUERY_capCAs,
   QUERY_caTTPvaTDs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { infoDeleteDataVar } from "../../graphql/client/cache";
 
-const InputCATTPvaTPStyled = styled.div`
+const InputCATTPvaTDStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -44,22 +46,34 @@ const InputCATTPvaTPStyled = styled.div`
   }
 `;
 
-export default function InputCATTPvaTP() {
+export default function InputCATTPvaTD() {
   const navigate = useNavigate();
-  const [createCATTPvaTD, { data }] = useMutation(MUTATION_createCATTPvaTD);
-  console.log(data);
-
   const { data: Data_caTTPvaTDs, error } = useQuery(QUERY_caTTPvaTDs, {
     variables: { utilsParams: {} },
   });
   const { data: Data_capCAs } = useQuery(QUERY_capCAs, {
     variables: { utilsParams: {} },
   });
+  const [createCATTPvaTD] = useMutation(MUTATION_createCATTPvaTD, {
+    refetchQueries: [
+      { query: QUERY_caTTPvaTDs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [editCATTPvaTD] = useMutation(MUTATION_editCATTPvaTD, {
+    refetchQueries: [
+      { query: QUERY_caTTPvaTDs, variables: { utilsParams: {} } },
+    ],
+  });
+  const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [caTTPvaTDs, set_caTTPvaTDs] = useState([]);
+  const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
+    MaCATTPvaTD: 0,
     CATTPvaTD: "",
     MaCapCA: 0,
   });
+
+  // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
     set_caTTPvaTDs(
@@ -78,22 +92,72 @@ export default function InputCATTPvaTP() {
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (form.CATTPvaTD.trim() !== "" && form.MaCapCA !== 0) {
-      createCATTPvaTD({
-        variables: {
-          caTTPvaTDInput: form,
-        },
-        onCompleted: (data) => {
-          console.log(data);
-        },
-        onError: (error) => {
-          showNotification("Lỗi!", error.message, "danger");
-          navigate("/dangnhap");
-        },
-      });
+      if (statusEdit) {
+        editCATTPvaTD({
+          variables: {
+            caTTPvaTDInput: {
+              CATTPvaTD: form.CATTPvaTD,
+              MaCapCA: form.MaCapCA,
+            },
+            id: form.MaCATTPvaTD,
+          },
+          onCompleted: (data) => {
+            showNotification(
+              "Chúc mừng",
+              `Cập nhật "${data.editCATTPvaTD.CATTPvaTD}" thành công`,
+              "success"
+            );
+            setStatusEdit(false);
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+      } else {
+        console.log(form);
+        createCATTPvaTD({
+          variables: {
+            caTTPvaTDInput: {
+              CATTPvaTD: form.CATTPvaTD,
+              MaCapCA: form.MaCapCA,
+            },
+          },
+          onCompleted: (data) => {
+            showNotification(
+              "Chúc mừng",
+              `Thêm mới "${data.createCATTPvaTD.CATTPvaTD}" thành công`,
+              "success"
+            );
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+      }
     } else {
       showNotification("Cảnh báo", "Vui lòng nhập đầy đủ giá trị!", "warning");
     }
   };
+
+  const onEditData = (caTTPvaTD: any) => {
+    setStatusEdit(true);
+    setForm({
+      ...form,
+      CATTPvaTD: caTTPvaTD.CATTPvaTD,
+      MaCapCA: caTTPvaTD.CapCA.MaCapCA,
+      MaCATTPvaTD: caTTPvaTD.MaCATTPvaTD,
+    });
+  };
+
+  const onDeleteData = (caTTPvaTD: any) =>
+    infoDeleteDataVar({
+      ...infoDeleteData,
+      Title: caTTPvaTD.CATTPvaTD,
+      Table: "CATTPvaTDs",
+      ID: caTTPvaTD.MaCATTPvaTD,
+    });
 
   useEffect(() => {
     if (Data_caTTPvaTDs) {
@@ -115,11 +179,12 @@ export default function InputCATTPvaTP() {
 
   if (!Data_caTTPvaTDs) return <Spinner />;
   return (
-    <InputCATTPvaTPStyled className="container">
+    <InputCATTPvaTDStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách CATTPvaTD hiện có <b>({caTTPvaTDs.length})</b>:
+            Danh sách Công an Tỉnh/Thành phố và tương đương hiện có{" "}
+            <b>({caTTPvaTDs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
@@ -141,29 +206,46 @@ export default function InputCATTPvaTP() {
                 </tr>
               </thead>
               <tbody>
-                {caTTPvaTDs.map((caTTPvaTD: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{caTTPvaTD.MaCATTPvaTD}</td>
-                    <td>{caTTPvaTD.CATTPvaTD}</td>
-                    <td>{caTTPvaTD.CapCA.CapCA}</td>
-                    <td className="ip-ls-action">
-                      <i className="fa-solid fa-pen" title="Sửa"></i>
-                      <i className="fa-solid fa-trash" title="Xóa"></i>
-                    </td>
-                  </tr>
-                ))}
+                {[...caTTPvaTDs]
+                  .reverse()
+                  .map((caTTPvaTD: any, ind: number) => (
+                    <tr key={ind}>
+                      <td>{caTTPvaTD.MaCATTPvaTD}</td>
+                      <td>{caTTPvaTD.CATTPvaTD}</td>
+                      <td>{caTTPvaTD.CapCA.CapCA}</td>
+                      <td className="ip-ls-action">
+                        <i
+                          className="fa-solid fa-pen"
+                          onClick={() => onEditData(caTTPvaTD)}
+                          title="Sửa"
+                        ></i>
+                        <i
+                          className="fa-solid fa-trash"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalDeleteData"
+                          onClick={() => onDeleteData(caTTPvaTD)}
+                          title="Xóa"
+                        ></i>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </div>
         <div className="col-6">
-          <h5>Thêm mới CATTPvaTD:</h5>
+          <h5>
+            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} Công an Tỉnh/Thành phố và
+            tương đương:
+          </h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
               <label className="form-label">
-                Công an Tỉnh/Thành phố (CATTPvaTD):
+                Công an Tỉnh/Thành phố và tương đương (CATTPvaTD):
               </label>
               <input
+                required
+                value={form.CATTPvaTD}
                 name="CATTPvaTD"
                 onChange={changeForm}
                 type="text"
@@ -174,6 +256,8 @@ export default function InputCATTPvaTP() {
             <div className="mb-3">
               <label className="form-label">Mã cấp Công an (MaCapCA):</label>
               <select
+                required
+                value={form.MaCapCA}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}
@@ -188,12 +272,17 @@ export default function InputCATTPvaTP() {
                   ))}
               </select>
             </div>
-            <button type="submit" className="btn btn-success">
-              Thêm mới
+            <button
+              type="submit"
+              className={statusEdit ? "btn btn-primary" : "btn btn-success"}
+            >
+              {statusEdit ? "Cập nhật" : "Thêm mới"}
             </button>
           </form>
         </div>
       </div>
-    </InputCATTPvaTPStyled>
+
+      <ModalDeleteData />
+    </InputCATTPvaTDStyled>
   );
 }
