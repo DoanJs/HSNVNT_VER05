@@ -252,6 +252,13 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.CapCA?.CapCA.toLowerCase().includes(keysearch)
       );
       break;
+    case "CAQHvaTDs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.CAQHvaTD?.toLowerCase().includes(keysearch) ||
+          obj.CATTPvaTD?.CATTPvaTD.toLowerCase().includes(keysearch)
+      );
+      break;
     default:
   }
 

@@ -2,7 +2,9 @@ import { useMutation, useReactiveVar } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
+  MUTATION_deleteCAQHvaTD,
     MUTATION_deleteCATTPvaTD,
+    QUERY_caQHvaTDs,
     QUERY_caTTPvaTDs,
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
@@ -15,12 +17,35 @@ export default function ModalDeleteData() {
       { query: QUERY_caTTPvaTDs, variables: { utilsParams: {} } },
     ],
   });
+  const [deleteCAQHvaTD] = useMutation(MUTATION_deleteCAQHvaTD, {
+    refetchQueries: [
+      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
+    ],
+  });
 
   const onDeleteData = () => {
     console.log(infoDeleteData);
     switch (infoDeleteData.Table) {
       case "CATTPvaTDs":
         deleteCATTPvaTD({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => {
+            showNotification(
+              "Chúc mừng",
+              `Xóa "${infoDeleteData.Title}" thành công`,
+              "success"
+            );
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+        break;
+      case "CAQHvaTDs":
+        deleteCAQHvaTD({
           variables: {
             id: infoDeleteData.ID,
           },
