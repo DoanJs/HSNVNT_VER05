@@ -259,6 +259,37 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.CATTPvaTD?.CATTPvaTD.toLowerCase().includes(keysearch)
       );
       break;
+    case "ChucVus":
+      arr = array.filter(
+        (obj: any) =>
+          obj.ChucVu?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "BienPhapDTs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.BienPhapDT?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "CapBacs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.CapBac?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "CapCAs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.CapCA?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "DanTocs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.TenDT?.toLowerCase().includes(keysearch) ||
+          obj.QuocTich?.TenQT?.toLowerCase().includes(keysearch) 
+      );
+      break;
     default:
   }
 

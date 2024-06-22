@@ -5,13 +5,13 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCapBac,
-  MUTATION_editCapBac,
-  QUERY_capbacs,
+  MUTATION_createBienPhapDT,
+  MUTATION_editBienPhapDT,
+  QUERY_bienPhapDTs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
-const InputCapBacStyled = styled.div`
+const InputBienPhapDTStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -33,7 +33,7 @@ const InputCapBacStyled = styled.div`
           color: green;
         }
       }
-    }
+    };
     .ip-ls-old-content::-webkit-scrollbar {
       background-color: #e4e6eb;
       width: 4px;
@@ -45,29 +45,35 @@ const InputCapBacStyled = styled.div`
   }
 `;
 
-export default function InputCapBac() {
+export default function InputBienPhapDT() {
   const navigate = useNavigate();
-  const { data: Data_capbacs, error } = useQuery(QUERY_capbacs, {
+  const { data: Data_bienPhapDTs, error } = useQuery(QUERY_bienPhapDTs, {
     variables: { utilsParams: {} },
   });
-  const [createCapBac] = useMutation(MUTATION_createCapBac, {
-    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  const [createBienPhapDT] = useMutation(MUTATION_createBienPhapDT, {
+    refetchQueries: [
+      { query: QUERY_bienPhapDTs, variables: { utilsParams: {} } },
+    ],
   });
-  const [editCapBac] = useMutation(MUTATION_editCapBac, {
-    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  const [editBienPhapDT] = useMutation(MUTATION_editBienPhapDT, {
+    refetchQueries: [
+      { query: QUERY_bienPhapDTs, variables: { utilsParams: {} } },
+    ],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [capbacs, set_capbacs] = useState([]);
+  const [bienPhapDTs, set_bienPhapDTs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
-    MaCB: 0,
-    CapBac: "",
+    MaBPDT: 0,
+    BienPhapDT: "",
   });
 
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_capbacs(handleSearch("CapBacs", Data_capbacs.capbacs, e.target.value));
+    set_bienPhapDTs(
+      handleSearch("BienPhapDTs", Data_bienPhapDTs.bienPhapDTs, e.target.value)
+    );
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,17 +85,17 @@ export default function InputCapBac() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CapBac.trim() !== "") {
+    if (form.BienPhapDT.trim() !== "") {
       if (statusEdit) {
-        editCapBac({
+        editBienPhapDT({
           variables: {
-            capBac: form.CapBac,
-            id: form.MaCB,
+            bienPhapDT: form.BienPhapDT,
+            id: form.MaBPDT,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCapBac.CapBac}" thành công`,
+              `Cập nhật "${data.editBienPhapDT.BienPhapDT}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -100,14 +106,14 @@ export default function InputCapBac() {
           },
         });
       } else {
-        createCapBac({
+        createBienPhapDT({
           variables: {
-            capBac: form.CapBac,
+            bienPhapDT: form.BienPhapDT,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCapBac.CapBac}" thành công`,
+              `Thêm mới "${data.createBienPhapDT.BienPhapDT}" thành công`,
               "success"
             );
           },
@@ -126,28 +132,28 @@ export default function InputCapBac() {
     }
   };
 
-  const onEditData = (capbac: any) => {
+  const onEditData = (BienPhapDT: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaCB: capbac.MaCB,
-      CapBac: capbac.CapBac,
+      MaBPDT: BienPhapDT.MaBPDT,
+      BienPhapDT: BienPhapDT.BienPhapDT,
     });
   };
 
-  const onDeleteData = (capbac: any) =>
+  const onDeleteData = (BienPhapDT: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: capbac.CapBac,
-      Table: "CapBacs",
-      ID: capbac.MaCB,
+      Title: BienPhapDT.BienPhapDT,
+      Table: "BienPhapDTs",
+      ID: BienPhapDT.MaBPDT,
     });
 
   useEffect(() => {
-    if (Data_capbacs) {
-      set_capbacs(Data_capbacs.capbacs);
+    if (Data_bienPhapDTs) {
+      set_bienPhapDTs(Data_bienPhapDTs.bienPhapDTs);
     }
-  }, [Data_capbacs]);
+  }, [Data_bienPhapDTs]);
 
   useEffect(() => {
     if (error) {
@@ -161,19 +167,19 @@ export default function InputCapBac() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_capbacs) return <Spinner />;
+  if (!Data_bienPhapDTs) return <Spinner />;
   return (
-    <InputCapBacStyled className="container">
+    <InputBienPhapDTStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách cấp bậc hiện có <b>({capbacs.length})</b>:
+            Danh sách biện pháp điều tra hiện có <b>({bienPhapDTs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CapBac..."
+              placeholder="Tìm kiếm nhanh BienPhapDT..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -182,45 +188,49 @@ export default function InputCapBac() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCB</th>
-                  <th scope="col">CapBac</th>
+                  <th scope="col">MaBPDT</th>
+                  <th scope="col">BienPhapDT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...capbacs].reverse().map((capbac: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{capbac.MaCB}</td>
-                    <td>{capbac.CapBac}</td>
-                    <td className="ip-ls-action">
-                      <i
-                        className="fa-solid fa-pen"
-                        onClick={() => onEditData(capbac)}
-                        title="Sửa"
-                      ></i>
-                      <i
-                        className="fa-solid fa-trash"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(capbac)}
-                        title="Xóa"
-                      ></i>
-                    </td>
-                  </tr>
-                ))}
+                {[...bienPhapDTs]
+                  .reverse()
+                  .map((bienPhapDT: any, ind: number) => (
+                    <tr key={ind}>
+                      <td>{bienPhapDT.MaBPDT}</td>
+                      <td>{bienPhapDT.BienPhapDT}</td>
+                      <td className="ip-ls-action">
+                        <i
+                          className="fa-solid fa-pen"
+                          onClick={() => onEditData(bienPhapDT)}
+                          title="Sửa"
+                        ></i>
+                        <i
+                          className="fa-solid fa-trash"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalDeleteData"
+                          onClick={() => onDeleteData(bienPhapDT)}
+                          title="Xóa"
+                        ></i>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </div>
         <div className="col-6">
-          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} cấp bậc:</h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} biện pháp điều tra:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">Cấp bậc (CapBac):</label>
+              <label className="form-label">
+                Biện pháp điều tra (BienPhapDT):
+              </label>
               <input
                 required
-                value={form.CapBac}
-                name="CapBac"
+                value={form.BienPhapDT}
+                name="BienPhapDT"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
@@ -238,6 +248,6 @@ export default function InputCapBac() {
       </div>
 
       <ModalDeleteData />
-    </InputCapBacStyled>
+    </InputBienPhapDTStyled>
   );
 }

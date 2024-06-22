@@ -25,9 +25,13 @@ import {
   RelationList,
   SuggestList,
   VehicleDetail,
-  VehicleList
+  VehicleList,
+  InputCAQHvaTD,
+  InputChucVu,
+  InputBienPhapDT,
+  InputCapCA,
+  InputDanToc
 } from "./Component";
-import InputCAQHvaTD from "./Component/Input/InputCAQHvaTD";
 
 export default function App() {
   return (
@@ -68,6 +72,10 @@ export default function App() {
           <Route path="/nhaplieu" element={<InputList />} />
           <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTD />} />
           <Route path="/nhaplieu/conganqhvatd" element={<InputCAQHvaTD />} />
+          <Route path="/nhaplieu/chucvu" element={<InputChucVu />} />
+          <Route path="/nhaplieu/bienphapdt" element={<InputBienPhapDT />} />
+          <Route path="/nhaplieu/capca" element={<InputCapCA />} />
+          <Route path="/nhaplieu/dantoc" element={<InputDanToc />} />
 
 
 

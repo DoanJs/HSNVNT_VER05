@@ -5,13 +5,13 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCapBac,
-  MUTATION_editCapBac,
-  QUERY_capbacs,
+  MUTATION_createChucVu,
+  MUTATION_editChucVu,
+  QUERY_chucvus,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
-const InputCapBacStyled = styled.div`
+const InputChucVuStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -33,7 +33,7 @@ const InputCapBacStyled = styled.div`
           color: green;
         }
       }
-    }
+    };
     .ip-ls-old-content::-webkit-scrollbar {
       background-color: #e4e6eb;
       width: 4px;
@@ -45,29 +45,29 @@ const InputCapBacStyled = styled.div`
   }
 `;
 
-export default function InputCapBac() {
+export default function InputChucVu() {
   const navigate = useNavigate();
-  const { data: Data_capbacs, error } = useQuery(QUERY_capbacs, {
+  const { data: Data_chucvus, error } = useQuery(QUERY_chucvus, {
     variables: { utilsParams: {} },
   });
-  const [createCapBac] = useMutation(MUTATION_createCapBac, {
-    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  const [createChucVu] = useMutation(MUTATION_createChucVu, {
+    refetchQueries: [{ query: QUERY_chucvus, variables: { utilsParams: {} } }],
   });
-  const [editCapBac] = useMutation(MUTATION_editCapBac, {
-    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  const [editChucVu] = useMutation(MUTATION_editChucVu, {
+    refetchQueries: [{ query: QUERY_chucvus, variables: { utilsParams: {} } }],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [capbacs, set_capbacs] = useState([]);
+  const [chucvus, set_chucvus] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
-    MaCB: 0,
-    CapBac: "",
+    MaCV: 0,
+    ChucVu: "",
   });
 
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_capbacs(handleSearch("CapBacs", Data_capbacs.capbacs, e.target.value));
+    set_chucvus(handleSearch("ChucVus", Data_chucvus.chucvus, e.target.value));
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,17 +79,17 @@ export default function InputCapBac() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CapBac.trim() !== "") {
+    if (form.ChucVu.trim() !== "") {
       if (statusEdit) {
-        editCapBac({
+        editChucVu({
           variables: {
-            capBac: form.CapBac,
-            id: form.MaCB,
+            chucVu: form.ChucVu,
+            id: form.MaCV,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCapBac.CapBac}" thành công`,
+              `Cập nhật "${data.editChucVu.ChucVu}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -100,14 +100,14 @@ export default function InputCapBac() {
           },
         });
       } else {
-        createCapBac({
+        createChucVu({
           variables: {
-            capBac: form.CapBac,
+            chucVu: form.ChucVu,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCapBac.CapBac}" thành công`,
+              `Thêm mới "${data.createChucVu.ChucVu}" thành công`,
               "success"
             );
           },
@@ -126,28 +126,28 @@ export default function InputCapBac() {
     }
   };
 
-  const onEditData = (capbac: any) => {
+  const onEditData = (chucvu: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaCB: capbac.MaCB,
-      CapBac: capbac.CapBac,
+      MaCV: chucvu.MaCV,
+      ChucVu: chucvu.ChucVu,
     });
   };
 
-  const onDeleteData = (capbac: any) =>
+  const onDeleteData = (chucvu: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: capbac.CapBac,
-      Table: "CapBacs",
-      ID: capbac.MaCB,
+      Title: chucvu.ChucVu,
+      Table: "ChucVus",
+      ID: chucvu.MaCV,
     });
 
   useEffect(() => {
-    if (Data_capbacs) {
-      set_capbacs(Data_capbacs.capbacs);
+    if (Data_chucvus) {
+      set_chucvus(Data_chucvus.chucvus);
     }
-  }, [Data_capbacs]);
+  }, [Data_chucvus]);
 
   useEffect(() => {
     if (error) {
@@ -161,19 +161,19 @@ export default function InputCapBac() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_capbacs) return <Spinner />;
+  if (!Data_chucvus) return <Spinner />;
   return (
-    <InputCapBacStyled className="container">
+    <InputChucVuStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách cấp bậc hiện có <b>({capbacs.length})</b>:
+            Danh sách chức vụ hiện có <b>({chucvus.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CapBac..."
+              placeholder="Tìm kiếm nhanh ChucVu..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -182,27 +182,27 @@ export default function InputCapBac() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCB</th>
-                  <th scope="col">CapBac</th>
+                  <th scope="col">MaChucVu</th>
+                  <th scope="col">ChucVu</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...capbacs].reverse().map((capbac: any, ind: number) => (
+                {[...chucvus].reverse().map((chucvu: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{capbac.MaCB}</td>
-                    <td>{capbac.CapBac}</td>
+                    <td>{chucvu.MaCV}</td>
+                    <td>{chucvu.ChucVu}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
-                        onClick={() => onEditData(capbac)}
+                        onClick={() => onEditData(chucvu)}
                         title="Sửa"
                       ></i>
                       <i
                         className="fa-solid fa-trash"
                         data-bs-toggle="modal"
                         data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(capbac)}
+                        onClick={() => onDeleteData(chucvu)}
                         title="Xóa"
                       ></i>
                     </td>
@@ -213,14 +213,14 @@ export default function InputCapBac() {
           </div>
         </div>
         <div className="col-6">
-          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} cấp bậc:</h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} chức vụ:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">Cấp bậc (CapBac):</label>
+              <label className="form-label">Chức vụ (ChucVu):</label>
               <input
                 required
-                value={form.CapBac}
-                name="CapBac"
+                value={form.ChucVu}
+                name="ChucVu"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
@@ -238,6 +238,6 @@ export default function InputCapBac() {
       </div>
 
       <ModalDeleteData />
-    </InputCapBacStyled>
+    </InputChucVuStyled>
   );
 }

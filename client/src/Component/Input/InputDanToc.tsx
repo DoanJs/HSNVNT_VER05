@@ -5,13 +5,14 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCapBac,
-  MUTATION_editCapBac,
-  QUERY_capbacs,
+  MUTATION_createDanToc,
+  MUTATION_editDanToc,
+  QUERY_dantocs,
+  QUERY_quocTichs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
-const InputCapBacStyled = styled.div`
+const InputDanTocStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -45,51 +46,59 @@ const InputCapBacStyled = styled.div`
   }
 `;
 
-export default function InputCapBac() {
+export default function InputDanToc() {
   const navigate = useNavigate();
-  const { data: Data_capbacs, error } = useQuery(QUERY_capbacs, {
+  const { data: Data_dantocs, error } = useQuery(QUERY_dantocs, {
     variables: { utilsParams: {} },
   });
-  const [createCapBac] = useMutation(MUTATION_createCapBac, {
-    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  const { data: Data_quocTichs } = useQuery(QUERY_quocTichs, {
+    variables: { utilsParams: {} },
   });
-  const [editCapBac] = useMutation(MUTATION_editCapBac, {
-    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  const [createDanToc] = useMutation(MUTATION_createDanToc, {
+    refetchQueries: [{ query: QUERY_dantocs, variables: { utilsParams: {} } }],
+  });
+  const [editDanToc] = useMutation(MUTATION_editDanToc, {
+    refetchQueries: [{ query: QUERY_dantocs, variables: { utilsParams: {} } }],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [capbacs, set_capbacs] = useState([]);
+  const [dantocs, set_dantocs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
-    MaCB: 0,
-    CapBac: "",
+    MaDT: 0,
+    TenDT: "",
+    MaQT: 0,
   });
 
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_capbacs(handleSearch("CapBacs", Data_capbacs.capbacs, e.target.value));
+    set_dantocs(handleSearch("DanTocs", Data_dantocs.dantocs, e.target.value));
   };
 
-  const changeForm = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.name === "MaQT" ? Number(e.target.value) : e.target.value,
     });
   };
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CapBac.trim() !== "") {
+    if (form.TenDT.trim() !== "" && form.MaQT !== 0) {
       if (statusEdit) {
-        editCapBac({
+        editDanToc({
           variables: {
-            capBac: form.CapBac,
-            id: form.MaCB,
+            danTocInput: {
+              TenDT: form.TenDT,
+              MaQT: form.MaQT,
+            },
+            id: form.MaDT,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCapBac.CapBac}" thành công`,
+              `Cập nhật "${data.editDanToc.TenDT}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -100,14 +109,17 @@ export default function InputCapBac() {
           },
         });
       } else {
-        createCapBac({
+        createDanToc({
           variables: {
-            capBac: form.CapBac,
+            danTocInput: {
+              TenDT: form.TenDT,
+              MaQT: form.MaQT,
+            },
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCapBac.CapBac}" thành công`,
+              `Thêm mới "${data.createDanToc.TenDT}" thành công`,
               "success"
             );
           },
@@ -118,36 +130,33 @@ export default function InputCapBac() {
         });
       }
     } else {
-      showNotification(
-        "Cảnh báo",
-        "Vui lòng nhập đúng và đầy đủ giá trị!",
-        "warning"
-      );
+      showNotification("Cảnh báo", "Vui lòng nhập đầy đủ giá trị!", "warning");
     }
   };
 
-  const onEditData = (capbac: any) => {
+  const onEditData = (dantoc: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaCB: capbac.MaCB,
-      CapBac: capbac.CapBac,
+      TenDT: dantoc.TenDT,
+      MaQT: dantoc.QuocTich.MaQT,
+      MaDT: dantoc.MaDT,
     });
   };
 
-  const onDeleteData = (capbac: any) =>
+  const onDeleteData = (dantoc: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: capbac.CapBac,
-      Table: "CapBacs",
-      ID: capbac.MaCB,
+      Title: dantoc.TenDT,
+      Table: "DanTocs",
+      ID: dantoc.MaDT,
     });
 
   useEffect(() => {
-    if (Data_capbacs) {
-      set_capbacs(Data_capbacs.capbacs);
+    if (Data_dantocs) {
+      set_dantocs(Data_dantocs.dantocs);
     }
-  }, [Data_capbacs]);
+  }, [Data_dantocs]);
 
   useEffect(() => {
     if (error) {
@@ -161,19 +170,20 @@ export default function InputCapBac() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_capbacs) return <Spinner />;
+  if (!Data_dantocs) return <Spinner />;
   return (
-    <InputCapBacStyled className="container">
+    <InputDanTocStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách cấp bậc hiện có <b>({capbacs.length})</b>:
+            Danh sách dân tộc hiện có{" "}
+            <b>({dantocs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CapBac..."
+              placeholder="Tìm kiếm nhanh TenDT..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -182,27 +192,29 @@ export default function InputCapBac() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCB</th>
-                  <th scope="col">CapBac</th>
+                  <th scope="col">MaDT</th>
+                  <th scope="col">TenDT</th>
+                  <th scope="col">QuocTich</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...capbacs].reverse().map((capbac: any, ind: number) => (
+                {[...dantocs].reverse().map((dantoc: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{capbac.MaCB}</td>
-                    <td>{capbac.CapBac}</td>
+                    <td>{dantoc.MaDT}</td>
+                    <td>{dantoc.TenDT}</td>
+                    <td>{dantoc.QuocTich.TenQT}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
-                        onClick={() => onEditData(capbac)}
+                        onClick={() => onEditData(dantoc)}
                         title="Sửa"
                       ></i>
                       <i
                         className="fa-solid fa-trash"
                         data-bs-toggle="modal"
                         data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(capbac)}
+                        onClick={() => onDeleteData(dantoc)}
                         title="Xóa"
                       ></i>
                     </td>
@@ -213,19 +225,42 @@ export default function InputCapBac() {
           </div>
         </div>
         <div className="col-6">
-          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} cấp bậc:</h5>
+          <h5>
+            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} dân tộc:
+          </h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">Cấp bậc (CapBac):</label>
+              <label className="form-label">
+                Dân tộc (TenDT):
+              </label>
               <input
                 required
-                value={form.CapBac}
-                name="CapBac"
+                value={form.TenDT}
+                name="TenDT"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
                 aria-describedby="emailHelp"
               />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Mã quốc tịch (MaQT):</label>
+              <select
+                required
+                value={form.MaQT}
+                className="form-select"
+                aria-label="Default select example"
+                onChange={changeForm}
+                name="MaQT"
+              >
+                <option defaultValue={""}>Chọn quốc tịch</option>
+                {Data_quocTichs &&
+                  Data_quocTichs.quocTichs.map((quoctich: any, ind: number) => (
+                    <option key={ind} value={quoctich.MaQT}>
+                      {quoctich.TenQT}
+                    </option>
+                  ))}
+              </select>
             </div>
             <button
               type="submit"
@@ -238,6 +273,6 @@ export default function InputCapBac() {
       </div>
 
       <ModalDeleteData />
-    </InputCapBacStyled>
+    </InputDanTocStyled>
   );
 }

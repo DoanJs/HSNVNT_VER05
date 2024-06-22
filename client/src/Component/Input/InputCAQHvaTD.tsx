@@ -34,14 +34,14 @@ const InputCAQHvaTDStyled = styled.div`
           color: green;
         }
       }
-      ::-webkit-scrollbar {
-        background-color: #e4e6eb;
-        width: 4px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: #007bff;
-        border-radius: 10px;
-      }
+    }
+    .ip-ls-old-content::-webkit-scrollbar {
+      background-color: #e4e6eb;
+      width: 4px;
+    }
+    .ip-ls-old-content::-webkit-scrollbar-thumb {
+      background-color: #007bff;
+      border-radius: 10px;
     }
   }
 `;

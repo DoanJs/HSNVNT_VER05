@@ -2,10 +2,18 @@ import { useMutation, useReactiveVar } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
+  MUTATION_deleteBienPhapDT,
+  MUTATION_deleteCapBac,
+  MUTATION_deleteCapCA,
   MUTATION_deleteCAQHvaTD,
-    MUTATION_deleteCATTPvaTD,
-    QUERY_caQHvaTDs,
-    QUERY_caTTPvaTDs,
+  MUTATION_deleteCATTPvaTD,
+  MUTATION_deleteChucVu,
+  QUERY_bienPhapDTs,
+  QUERY_capbacs,
+  QUERY_capCAs,
+  QUERY_caQHvaTDs,
+  QUERY_caTTPvaTDs,
+  QUERY_chucvus,
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
 
@@ -22,9 +30,22 @@ export default function ModalDeleteData() {
       { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
     ],
   });
+  const [deleteChucVu] = useMutation(MUTATION_deleteChucVu, {
+    refetchQueries: [{ query: QUERY_chucvus, variables: { utilsParams: {} } }],
+  });
+  const [deleteBienPhapDT] = useMutation(MUTATION_deleteBienPhapDT, {
+    refetchQueries: [
+      { query: QUERY_bienPhapDTs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteCapBac] = useMutation(MUTATION_deleteCapBac, {
+    refetchQueries: [{ query: QUERY_capbacs, variables: { utilsParams: {} } }],
+  });
+  const [deleteCapCA] = useMutation(MUTATION_deleteCapCA, {
+    refetchQueries: [{ query: QUERY_capCAs, variables: { utilsParams: {} } }],
+  });
 
   const onDeleteData = () => {
-    console.log(infoDeleteData);
     switch (infoDeleteData.Table) {
       case "CATTPvaTDs":
         deleteCATTPvaTD({
@@ -46,6 +67,78 @@ export default function ModalDeleteData() {
         break;
       case "CAQHvaTDs":
         deleteCAQHvaTD({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => {
+            showNotification(
+              "Chúc mừng",
+              `Xóa "${infoDeleteData.Title}" thành công`,
+              "success"
+            );
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+        break;
+      case "ChucVus":
+        deleteChucVu({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => {
+            showNotification(
+              "Chúc mừng",
+              `Xóa "${infoDeleteData.Title}" thành công`,
+              "success"
+            );
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+        break;
+      case "BienPhapDTs":
+        deleteBienPhapDT({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => {
+            showNotification(
+              "Chúc mừng",
+              `Xóa "${infoDeleteData.Title}" thành công`,
+              "success"
+            );
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+        break;
+      case "CapBacs":
+        deleteCapBac({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => {
+            showNotification(
+              "Chúc mừng",
+              `Xóa "${infoDeleteData.Title}" thành công`,
+              "success"
+            );
+          },
+          onError: (error) => {
+            showNotification("Lỗi!", error.message, "danger");
+            navigate("/dangnhap");
+          },
+        });
+        break;
+      case "CapCAs":
+        deleteCapCA({
           variables: {
             id: infoDeleteData.ID,
           },
@@ -92,9 +185,8 @@ export default function ModalDeleteData() {
           </div>
           <div className="modal-body">
             <h6>
-              Hành động này không thể hoàn tác. Bạn chắc chắn muốn xóa
-              <b> {infoDeleteData?.Title} </b>
-              khỏi hệ thống cơ sở dữ liệu ?
+              Hành động này không thể hoàn tác. Bạn chắc chắn muốn xóa dữ liệu "
+              <b> {infoDeleteData?.Title} </b>" khỏi hệ thống cơ sở dữ liệu ?
             </h6>
           </div>
           <div className="modal-footer">
