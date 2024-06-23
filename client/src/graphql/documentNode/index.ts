@@ -658,6 +658,92 @@ export const QUERY_quocTichs = gql`
     }
   }
 `;
+export const QUERY_hinhthucHDs = gql`
+  query QUERY_hinhthucHDs($utilsParams: UtilsParamsInput!) {
+    hinhthucHDs(utilsParams: $utilsParams) {
+      MaHTHD
+      HinhThuc
+    }
+  }
+`;
+export const QUERY_loaiLLDBs = gql`
+  query QUERY_loaiLLDBs($utilsParams: UtilsParamsInput!) {
+    loaiLLDBs(utilsParams: $utilsParams) {
+      MaLoaiLLDB
+      TenLLDB
+      KyHieu
+    }
+  }
+`;
+export const QUERY_loaiDTs = gql`
+  query QUERY_loaiDTs($utilsParams: UtilsParamsInput!) {
+    loaiDTs(utilsParams: $utilsParams) {
+      MaLoaiDT
+      LoaiDT
+    }
+  }
+`;
+export const QUERY_lldbs = gql`
+  query QUERY_lldbs($utilsParams: UtilsParamsInput!) {
+    lldbs(utilsParams: $utilsParams) {
+      MaLLDB
+      BiDanh
+      LoaiLLDB {
+        MaLoaiLLDB
+        TenLLDB
+      }
+      TSQuanLy {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const QUERY_tinhChatDTs = gql`
+  query QUERY_tinhChatDTs($utilsParams: UtilsParamsInput!) {
+    tinhChatDTs(utilsParams: $utilsParams) {
+      MaTCDT
+      TinhChat
+    }
+  }
+`;
+export const QUERY_tonGiaos = gql`
+  query QUERY_tonGiaos($utilsParams: UtilsParamsInput!) {
+    tonGiaos(utilsParams: $utilsParams) {
+      MaTG
+      TenTG
+    }
+  }
+`;
+export const QUERY_tinhTPs = gql`
+  query QUERY_tinhTPs($utilsParams: UtilsParamsInput!) {
+    tinhTPs(utilsParams: $utilsParams) {
+      MaTinhTP
+      TinhTP
+      Cap
+    }
+  }
+`;
+export const QUERY_ddnbs = gql`
+  query QUERY_ddnbs($utilsParams: UtilsParamsInput!) {
+    ddnbs(utilsParams: $utilsParams) {
+      MaDDNB
+      DacDiem
+    }
+  }
+`;
+export const QUERY_dois = gql`
+  query QUERY_dois($utilsParams: UtilsParamsInput!) {
+    dois(utilsParams: $utilsParams) {
+      MaDoi
+      TenDoi
+      CAQHvaTD {
+        MaCAQHvaTD
+        CAQHvaTD
+      }
+    }
+  }
+`;
 
 // ---------------
 export const MUTATION_getData_searchFast = gql`
@@ -849,6 +935,253 @@ export const MUTATION_deleteDanToc = gql`
     }
   }
 `;
+export const MUTATION_createHinhThucHD = gql`
+  mutation MUTATION_createHinhThucHD($hinhthuc: String!) {
+    createHinhThucHD(hinhthuc: $hinhthuc) {
+      MaHTHD
+      HinhThuc
+    }
+  }
+`;
+export const MUTATION_editHinhThucHD = gql`
+  mutation MUTATION_editHinhThucHD($hinhthuc: String!, $id: Float!) {
+    editHinhThucHD(hinhthuc: $hinhthuc, id: $id) {
+      MaHTHD
+      HinhThuc
+    }
+  }
+`;
+export const MUTATION_deleteHinhThucHD = gql`
+  mutation MUTATION_deleteHinhThucHD($id: Float!) {
+    deleteHinhThucHD(id: $id) {
+      MaHTHD
+      HinhThuc
+    }
+  }
+`;
+export const MUTATION_createLoaiLLDB = gql`
+  mutation MUTATION_createLoaiLLDB($loaiLLDBInput: LoaiLLDBInput!) {
+    createLoaiLLDB(loaiLLDBInput: $loaiLLDBInput) {
+      MaLoaiLLDB
+      TenLLDB
+      KyHieu
+    }
+  }
+`;
+export const MUTATION_editLoaiLLDB = gql`
+  mutation MUTATION_editLoaiLLDB($loaiLLDBInput: LoaiLLDBInput!, $id: Float!) {
+    editLoaiLLDB(loaiLLDBInput: $loaiLLDBInput, id: $id) {
+      MaLoaiLLDB
+      TenLLDB
+      KyHieu
+    }
+  }
+`;
+export const MUTATION_deleteLoaiLLDB = gql`
+  mutation MUTATION_deleteLoaiLLDB($id: Float!) {
+    deleteLoaiLLDB(id: $id) {
+      MaLoaiLLDB
+      TenLLDB
+      KyHieu
+    }
+  }
+`;
+export const MUTATION_createLoaiDT = gql`
+  mutation MUTATION_createLoaiDT($loaiDT: String!) {
+    createLoaiDT(loaiDT: $loaiDT) {
+      MaLoaiDT
+      LoaiDT
+    }
+  }
+`;
+export const MUTATION_editLoaiDT = gql`
+  mutation MUTATION_editLoaiDT($loaiDT: String!, $id: Float!) {
+    editLoaiDT(loaiDT: $loaiDT, id: $id) {
+      MaLoaiDT
+      LoaiDT
+    }
+  }
+`;
+export const MUTATION_deleteLoaiDT = gql`
+  mutation MUTATION_deleteLoaiDT($id: Float!) {
+    deleteLoaiDT(id: $id) {
+      MaLoaiDT
+      LoaiDT
+    }
+  }
+`;
+export const MUTATION_createLLDB = gql`
+  mutation MUTATION_createLLDB($lldbInput: LLDBInput!) {
+    createLLDB(lldbInput: $lldbInput) {
+      MaLLDB
+      BiDanh
+    }
+  }
+`;
+export const MUTATION_editLLDB = gql`
+  mutation MUTATION_editLLDB($lldbInput: LLDBInput!, $id: Float!) {
+    editLLDB(lldbInput: $lldbInput, id: $id) {
+      MaLLDB
+      BiDanh
+    }
+  }
+`;
+export const MUTATION_deleteLLDB = gql`
+  mutation MUTATION_deleteLLDB($id: Float!) {
+    deleteLLDB(id: $id) {
+      MaLLDB
+      BiDanh
+    }
+  }
+`;
+export const MUTATION_createQuocTich = gql`
+  mutation MUTATION_createQuocTich($tenQT: String!) {
+    createQuocTich(tenQT: $tenQT) {
+      MaQT
+      TenQT
+    }
+  }
+`;
+export const MUTATION_editQuocTich = gql`
+  mutation MUTATION_editQuocTich($tenQT: String!, $id: Float!) {
+    editQuocTich(tenQT: $tenQT, id: $id) {
+      MaQT
+      TenQT
+    }
+  }
+`;
+export const MUTATION_deleteQuocTich = gql`
+  mutation MUTATION_deleteQuocTich($id: Float!) {
+    deleteQuocTich(id: $id) {
+      MaQT
+      TenQT
+    }
+  }
+`;
+export const MUTATION_createTinhChatDT = gql`
+  mutation MUTATION_createTinhChatDT($tinhchat: String!) {
+    createTinhChatDT(tinhchat: $tinhchat) {
+      MaTCDT
+      TinhChat
+    }
+  }
+`;
+export const MUTATION_editTinhChatDT = gql`
+  mutation MUTATION_editTinhChatDT($tinhchat: String!, $id: Float!) {
+    editTinhChatDT(tinhchat: $tinhchat, id: $id) {
+      MaTCDT
+      TinhChat
+    }
+  }
+`;
+export const MUTATION_deleteTinhChatDT = gql`
+  mutation MUTATION_deleteTinhChatDT($id: Float!) {
+    deleteTinhChatDT(id: $id) {
+      MaTCDT
+      TinhChat
+    }
+  }
+`;
+export const MUTATION_createTonGiao = gql`
+  mutation MUTATION_createTonGiao($tenTG: String!) {
+    createTonGiao(tenTG: $tenTG) {
+      MaTG
+      TenTG
+    }
+  }
+`;
+export const MUTATION_editTonGiao = gql`
+  mutation MUTATION_editTonGiao($tenTG: String!, $id: Float!) {
+    editTonGiao(tenTG: $tenTG, id: $id) {
+      MaTG
+      TenTG
+    }
+  }
+`;
+export const MUTATION_deleteTonGiao = gql`
+  mutation MUTATION_deleteTonGiao($id: Float!) {
+    deleteTonGiao(id: $id) {
+      MaTG
+      TenTG
+    }
+  }
+`;
+export const MUTATION_createTinhTP = gql`
+  mutation MUTATION_createTinhTP($tinhTPInput: TinhTPInput!) {
+    createTinhTP(tinhTPInput: $tinhTPInput) {
+      MaTinhTP
+      TinhTP
+    }
+  }
+`;
+export const MUTATION_editTinhTP = gql`
+  mutation MUTATION_editTinhTP($tinhTPInput: TinhTPInput!, $id: Float!) {
+    editTinhTP(tinhTPInput: $tinhTPInput, id: $id) {
+      MaTinhTP
+      TinhTP
+    }
+  }
+`;
+export const MUTATION_deleteTinhTP = gql`
+  mutation MUTATION_deleteTinhTP($id: Float!) {
+    deleteTinhTP(id: $id) {
+      MaTinhTP
+      TinhTP
+    }
+  }
+`;
+export const MUTATION_createDDNB = gql`
+  mutation MUTATION_createDDNB($ddnb: String!) {
+    createDDNB(ddnb: $ddnb) {
+      MaDDNB
+      DacDiem
+    }
+  }
+`;
+export const MUTATION_editDDNB = gql`
+  mutation MUTATION_editDDNB($ddnb: String!, $id: Float!) {
+    editDDNB(ddnb: $ddnb, id: $id) {
+      MaDDNB
+      DacDiem
+    }
+  }
+`;
+export const MUTATION_deleteDDNB = gql`
+  mutation MUTATION_deleteDDNB($id: Float!) {
+    deleteDDNB(id: $id) {
+      MaDDNB
+      DacDiem
+    }
+  }
+`;
+export const MUTATION_createDoi = gql`
+  mutation MUTATION_createDoi($doiInput: DoiInput!) {
+    createDoi(doiInput: $doiInput) {
+      MaDoi
+      TenDoi
+    }
+  }
+`;
+export const MUTATION_editDoi = gql`
+  mutation MUTATION_editDoi($doiInput: DoiInput!, $id: Float!) {
+    editDoi(doiInput: $doiInput, id: $id) {
+      MaDoi
+      TenDoi
+    }
+  }
+`;
+export const MUTATION_deleteDoi = gql`
+  mutation MUTATION_deleteDoi($id: Float!) {
+    deleteDoi(id: $id) {
+      MaDoi
+      TenDoi
+    }
+  }
+`;
+
+
+
+
 
 export const QUERY_doituongCAsOpen = gql`
   query QUERY_doituongCAsOpen($conditionCol: String!, $value: String!) {

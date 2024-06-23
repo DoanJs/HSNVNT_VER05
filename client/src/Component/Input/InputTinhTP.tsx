@@ -5,14 +5,13 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCAQHvaTD,
-  MUTATION_editCAQHvaTD,
-  QUERY_caQHvaTDs,
-  QUERY_caTTPvaTDs,
+  MUTATION_createTinhTP,
+  MUTATION_editTinhTP,
+  QUERY_tinhTPs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
-const InputCAQHvaTDStyled = styled.div`
+const InputTinhTPStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -46,69 +45,55 @@ const InputCAQHvaTDStyled = styled.div`
   }
 `;
 
-export default function InputCAQHvaTD() {
+export default function InputTinhTP() {
   const navigate = useNavigate();
-  const { data: Data_caQHvaTDs, error } = useQuery(QUERY_caQHvaTDs, {
+  const { data: Data_tinhTPs, error } = useQuery(QUERY_tinhTPs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
-    variables: { utilsParams: {} },
+  const [createTinhTP] = useMutation(MUTATION_createTinhTP, {
+    refetchQueries: [{ query: QUERY_tinhTPs, variables: { utilsParams: {} } }],
   });
-  const [createCAQHvaTD] = useMutation(MUTATION_createCAQHvaTD, {
-    refetchQueries: [
-      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
-    ],
-  });
-  const [editCAQHvaTD] = useMutation(MUTATION_editCAQHvaTD, {
-    refetchQueries: [
-      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
-    ],
+  const [editTinhTP] = useMutation(MUTATION_editTinhTP, {
+    refetchQueries: [{ query: QUERY_tinhTPs, variables: { utilsParams: {} } }],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [caQHvaTDs, set_caQHvaTDs] = useState([]);
+  const [tinhTPs, set_tinhTPs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
-    MaCAQHvaTD: 0,
-    MaCATTPvaTD: 0,
-    CAQHvaTD: "",
-    KyHieu: "",
+    MaTinhTP: 0,
+    TinhTP: "",
+    Cap: "",
   });
 
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_caQHvaTDs(
-      handleSearch("CAQHvaTDs", Data_caQHvaTDs.caQHvaTDs, e.target.value)
-    );
+    set_tinhTPs(handleSearch("TinhTPs", Data_tinhTPs.tinhTPs, e.target.value));
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({
       ...form,
-      [e.target.name]:
-        e.target.name === "MaCATTPvaTD"
-          ? Number(e.target.value)
-          : e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CAQHvaTD.trim() !== "" && form.KyHieu.trim() !== "" && form.MaCATTPvaTD !== 0) {
+    if (form.TinhTP.trim() !== "" && form.Cap.trim() !== "") {
       if (statusEdit) {
-        editCAQHvaTD({
+        editTinhTP({
           variables: {
-            caQHvaTDInput: {
-              CAQHvaTD: form.CAQHvaTD,
-              KyHieu: form.KyHieu,
-              MaCATTPvaTD: form.MaCATTPvaTD,
+            tinhTPInput: {
+              TinhTP: form.TinhTP,
+              Cap: form.Cap,
             },
-            id: form.MaCAQHvaTD,
+            id: form.MaTinhTP,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCAQHvaTD.CAQHvaTD}" thành công`,
+              `Cập nhật "${data.editTinhTP.TinhTP}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -119,18 +104,17 @@ export default function InputCAQHvaTD() {
           },
         });
       } else {
-        createCAQHvaTD({
+        createTinhTP({
           variables: {
-            caQHvaTDInput: {
-              CAQHvaTD: form.CAQHvaTD,
-              MaCATTPvaTD: form.MaCATTPvaTD,
-              KyHieu: form.KyHieu,
+            tinhTPInput: {
+              TinhTP: form.TinhTP,
+              Cap: form.Cap,
             },
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCAQHvaTD.CAQHvaTD}" thành công`,
+              `Thêm mới "${data.createTinhTP.TinhTP}" thành công`,
               "success"
             );
           },
@@ -141,34 +125,33 @@ export default function InputCAQHvaTD() {
         });
       }
     } else {
-      showNotification("Cảnh báo", "Vui lòng nhập đầy đủ giá trị!", "warning");
+      showNotification("Cảnh báo", "Vui lòng nhập đúng, đầy đủ giá trị!", "warning");
     }
   };
 
-  const onEditData = (caQHvaTD: any) => {
+  const onEditData = (tinhTP: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaCAQHvaTD: caQHvaTD.MaCAQHvaTD,
-      CAQHvaTD: caQHvaTD.CAQHvaTD,
-      KyHieu: caQHvaTD.KyHieu,
-      MaCATTPvaTD: caQHvaTD.CATTPvaTD.MaCATTPvaTD,
+      MaTinhTP: tinhTP.MaTinhTP,
+      TinhTP: tinhTP.TinhTP,
+      Cap: tinhTP.Cap,
     });
   };
 
-  const onDeleteData = (caQHvaTD: any) =>
+  const onDeleteData = (tinhTP: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: caQHvaTD.CAQHvaTD,
-      Table: "CAQHvaTDs",
-      ID: caQHvaTD.MaCAQHvaTD,
+      Title: tinhTP.TinhTP,
+      Table: "TinhTPs",
+      ID: tinhTP.MaTinhTP,
     });
 
   useEffect(() => {
-    if (Data_caQHvaTDs) {
-      set_caQHvaTDs(Data_caQHvaTDs.caQHvaTDs);
+    if (Data_tinhTPs) {
+      set_tinhTPs(Data_tinhTPs.tinhTPs);
     }
-  }, [Data_caQHvaTDs]);
+  }, [Data_tinhTPs]);
 
   useEffect(() => {
     if (error) {
@@ -182,20 +165,19 @@ export default function InputCAQHvaTD() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_caQHvaTDs) return <Spinner />;
+  if (!Data_tinhTPs) return <Spinner />;
   return (
-    <InputCAQHvaTDStyled className="container">
+    <InputTinhTPStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách Công an Quận/Huyện và tương đương hiện có{" "}
-            <b>({caQHvaTDs.length})</b>:
+            Danh sách tỉnh, thành phố hiện có <b>({tinhTPs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CAQHvaTD..."
+              placeholder="Tìm kiếm nhanh TinhTP..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -204,31 +186,29 @@ export default function InputCAQHvaTD() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCAQHvaTD</th>
-                  <th scope="col">CAQHvaTD</th>
-                  <th scope="col">KyHieu</th>
-                  <th scope="col">CATTPvaTD</th>
+                  <th scope="col">MaTinhTP</th>
+                  <th scope="col">TinhTP</th>
+                  <th scope="col">Cap</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...caQHvaTDs].reverse().map((caQHvaTD: any, ind: number) => (
+                {[...tinhTPs].reverse().map((tinhTP: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{caQHvaTD.MaCAQHvaTD}</td>
-                    <td>{caQHvaTD.CAQHvaTD}</td>
-                    <td>{caQHvaTD.KyHieu}</td>
-                    <td>{caQHvaTD.CATTPvaTD.CATTPvaTD}</td>
+                    <td>{tinhTP.MaTinhTP}</td>
+                    <td>{tinhTP.TinhTP}</td>
+                    <td>{tinhTP.Cap}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
-                        onClick={() => onEditData(caQHvaTD)}
+                        onClick={() => onEditData(tinhTP)}
                         title="Sửa"
                       ></i>
                       <i
                         className="fa-solid fa-trash"
                         data-bs-toggle="modal"
                         data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(caQHvaTD)}
+                        onClick={() => onDeleteData(tinhTP)}
                         title="Xóa"
                       ></i>
                     </td>
@@ -239,19 +219,14 @@ export default function InputCAQHvaTD() {
           </div>
         </div>
         <div className="col-6">
-          <h5>
-            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} Công an Quận/Huyện và tương
-            đương:
-          </h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} tỉnh, thành phố:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">
-                Công an Quận/Huyện và tương đương (CAQHvaTD):
-              </label>
+              <label className="form-label">Tỉnh, thành phố (TinhTP):</label>
               <input
                 required
-                value={form.CAQHvaTD}
-                name="CAQHvaTD"
+                value={form.TinhTP}
+                name="TinhTP"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
@@ -259,41 +234,16 @@ export default function InputCAQHvaTD() {
               />
             </div>
             <div className="mb-3">
-              <label className="form-label">Ký hiệu:</label>
+              <label className="form-label">Cấp:</label>
               <input
                 required
-                value={form.KyHieu}
-                name="KyHieu"
+                value={form.Cap}
+                name="Cap"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
                 aria-describedby="emailHelp"
               />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">
-                Mã Công an Tỉnh/Thành phố và tương đương (MaCATTPvaTD):
-              </label>
-              <select
-                required
-                value={form.MaCATTPvaTD}
-                className="form-select"
-                aria-label="Default select example"
-                onChange={changeForm}
-                name="MaCATTPvaTD"
-              >
-                <option defaultValue={""}>
-                  Chọn Công an Tỉnh/Thành phố và tương đương
-                </option>
-                {Data_caTTPvaTDs &&
-                  Data_caTTPvaTDs.caTTPvaTDs.map(
-                    (caTTPvaTD: any, ind: number) => (
-                      <option key={ind} value={caTTPvaTD.MaCATTPvaTD}>
-                        {caTTPvaTD.CATTPvaTD}
-                      </option>
-                    )
-                  )}
-              </select>
             </div>
             <button
               type="submit"
@@ -306,6 +256,6 @@ export default function InputCAQHvaTD() {
       </div>
 
       <ModalDeleteData />
-    </InputCAQHvaTDStyled>
+    </InputTinhTPStyled>
   );
 }

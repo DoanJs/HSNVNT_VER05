@@ -260,34 +260,86 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
       );
       break;
     case "ChucVus":
-      arr = array.filter(
-        (obj: any) =>
-          obj.ChucVu?.toLowerCase().includes(keysearch)
+      arr = array.filter((obj: any) =>
+        obj.ChucVu?.toLowerCase().includes(keysearch)
       );
       break;
     case "BienPhapDTs":
-      arr = array.filter(
-        (obj: any) =>
-          obj.BienPhapDT?.toLowerCase().includes(keysearch)
+      arr = array.filter((obj: any) =>
+        obj.BienPhapDT?.toLowerCase().includes(keysearch)
       );
       break;
     case "CapBacs":
-      arr = array.filter(
-        (obj: any) =>
-          obj.CapBac?.toLowerCase().includes(keysearch)
+      arr = array.filter((obj: any) =>
+        obj.CapBac?.toLowerCase().includes(keysearch)
       );
       break;
     case "CapCAs":
-      arr = array.filter(
-        (obj: any) =>
-          obj.CapCA?.toLowerCase().includes(keysearch)
+      arr = array.filter((obj: any) =>
+        obj.CapCA?.toLowerCase().includes(keysearch)
       );
       break;
     case "DanTocs":
       arr = array.filter(
         (obj: any) =>
           obj.TenDT?.toLowerCase().includes(keysearch) ||
-          obj.QuocTich?.TenQT?.toLowerCase().includes(keysearch) 
+          obj.QuocTich?.TenQT?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "HinhThucHDs":
+      arr = array.filter((obj: any) =>
+        obj.HinhThuc?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "LoaiLLDBs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.TenLLDB?.toLowerCase().includes(keysearch) ||
+          obj.KyHieu?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "LoaiDTs":
+      arr = array.filter((obj: any) =>
+        obj.LoaiDT?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "LLDBs":
+      arr = array.filter((obj: any) =>
+        obj.BiDanh?.toLowerCase().includes(keysearch) ||
+        obj.LoaiLLDB?.TenLLDB?.toLowerCase().includes(keysearch) ||
+        obj.TSQuanLy?.HoTen?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "QuocTichs":
+      arr = array.filter((obj: any) =>
+        obj.TenQT?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "TinhChatDTs":
+      arr = array.filter((obj: any) =>
+        obj.TinhChat?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "TonGiaos":
+      arr = array.filter((obj: any) =>
+        obj.TenTG?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "TinhTPs":
+      arr = array.filter((obj: any) =>
+        obj.TinhTP?.toLowerCase().includes(keysearch) ||
+        obj.Cap?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "DDNBs":
+      arr = array.filter((obj: any) =>
+        obj.DacDiem?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "Dois":
+      arr = array.filter((obj: any) =>
+        obj.TenDoi?.toLowerCase().includes(keysearch) ||
+        obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch)
       );
       break;
     default:

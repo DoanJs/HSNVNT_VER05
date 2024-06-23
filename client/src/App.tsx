@@ -8,9 +8,24 @@ import {
   File,
   FileList,
   Home,
+  InputBienPhapDT,
   InputCapbac,
+  InputCapCA,
+  InputCAQHvaTD,
   InputCATTPvaTD,
+  InputChucVu,
+  InputDanToc,
+  InputDDNB,
+  InputDoi,
+  InputHinhThucHD,
   InputList,
+  InputLLDB,
+  InputLoaiDT,
+  InputLoaiLLDB,
+  InputQuocTich,
+  InputTinhChatDT,
+  InputTinhTP,
+  InputTonGiao,
   Login,
   Navbar,
   PlaceDetail,
@@ -26,11 +41,6 @@ import {
   SuggestList,
   VehicleDetail,
   VehicleList,
-  InputCAQHvaTD,
-  InputChucVu,
-  InputBienPhapDT,
-  InputCapCA,
-  InputDanToc
 } from "./Component";
 
 export default function App() {
@@ -76,6 +86,19 @@ export default function App() {
           <Route path="/nhaplieu/bienphapdt" element={<InputBienPhapDT />} />
           <Route path="/nhaplieu/capca" element={<InputCapCA />} />
           <Route path="/nhaplieu/dantoc" element={<InputDanToc />} />
+          <Route path="/nhaplieu/hinhthuchd" element={<InputHinhThucHD />} />
+          <Route path="/nhaplieu/loailldb" element={<InputLoaiLLDB />} />
+          <Route path="/nhaplieu/loaidt" element={<InputLoaiDT />} />
+          <Route path="/nhaplieu/lldb" element={<InputLLDB />} />
+          <Route path="/nhaplieu/quoctich" element={<InputQuocTich />} />
+          <Route path="/nhaplieu/tinhchatdt" element={<InputTinhChatDT />} />
+          <Route path="/nhaplieu/tongiao" element={<InputTonGiao />} />
+          <Route path="/nhaplieu/tinhTP" element={<InputTinhTP />} />
+          <Route path="/nhaplieu/ddnb" element={<InputDDNB />} />
+          <Route path="/nhaplieu/doi" element={<InputDoi />} />
+
+
+
 
 
 

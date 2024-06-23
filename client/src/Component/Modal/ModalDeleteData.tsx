@@ -8,12 +8,34 @@ import {
   MUTATION_deleteCAQHvaTD,
   MUTATION_deleteCATTPvaTD,
   MUTATION_deleteChucVu,
+  MUTATION_deleteDanToc,
+  MUTATION_deleteDDNB,
+  MUTATION_deleteDoi,
+  MUTATION_deleteHinhThucHD,
+  MUTATION_deleteLLDB,
+  MUTATION_deleteLoaiDT,
+  MUTATION_deleteLoaiLLDB,
+  MUTATION_deleteQuocTich,
+  MUTATION_deleteTinhChatDT,
+  MUTATION_deleteTinhTP,
+  MUTATION_deleteTonGiao,
   QUERY_bienPhapDTs,
   QUERY_capbacs,
   QUERY_capCAs,
   QUERY_caQHvaTDs,
   QUERY_caTTPvaTDs,
   QUERY_chucvus,
+  QUERY_dantocs,
+  QUERY_ddnbs,
+  QUERY_dois,
+  QUERY_hinhthucHDs,
+  QUERY_lldbs,
+  QUERY_loaiDTs,
+  QUERY_loaiLLDBs,
+  QUERY_quocTichs,
+  QUERY_tinhChatDTs,
+  QUERY_tinhTPs,
+  QUERY_tonGiaos,
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
 
@@ -44,6 +66,62 @@ export default function ModalDeleteData() {
   const [deleteCapCA] = useMutation(MUTATION_deleteCapCA, {
     refetchQueries: [{ query: QUERY_capCAs, variables: { utilsParams: {} } }],
   });
+  const [deleteDanToc] = useMutation(MUTATION_deleteDanToc, {
+    refetchQueries: [{ query: QUERY_dantocs, variables: { utilsParams: {} } }],
+  });
+  const [deleteHinhThucHD] = useMutation(MUTATION_deleteHinhThucHD, {
+    refetchQueries: [
+      { query: QUERY_hinhthucHDs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteLoaiLLDB] = useMutation(MUTATION_deleteLoaiLLDB, {
+    refetchQueries: [
+      { query: QUERY_loaiLLDBs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteLoaiDT] = useMutation(MUTATION_deleteLoaiDT, {
+    refetchQueries: [{ query: QUERY_loaiDTs, variables: { utilsParams: {} } }],
+  });
+  const [deleteLLDB] = useMutation(MUTATION_deleteLLDB, {
+    refetchQueries: [{ query: QUERY_lldbs, variables: { utilsParams: {} } }],
+  });
+  const [deleteQuocTich] = useMutation(MUTATION_deleteQuocTich, {
+    refetchQueries: [
+      { query: QUERY_quocTichs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteTinhChatDT] = useMutation(MUTATION_deleteTinhChatDT, {
+    refetchQueries: [
+      { query: QUERY_tinhChatDTs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteTonGiao] = useMutation(MUTATION_deleteTonGiao, {
+    refetchQueries: [{ query: QUERY_tonGiaos, variables: { utilsParams: {} } }],
+  });
+  const [deleteTinhTP] = useMutation(MUTATION_deleteTinhTP, {
+    refetchQueries: [{ query: QUERY_tinhTPs, variables: { utilsParams: {} } }],
+  });
+  const [deleteDDNB] = useMutation(MUTATION_deleteDDNB, {
+    refetchQueries: [{ query: QUERY_ddnbs, variables: { utilsParams: {} } }],
+  });
+  const [deleteDoi] = useMutation(MUTATION_deleteDoi, {
+    refetchQueries: [{ query: QUERY_dois, variables: { utilsParams: {} } }],
+  });
+
+  const onMutationSuccess = () =>
+    showNotification(
+      "Chúc mừng",
+      `Xóa "${infoDeleteData.Title}" thành công`,
+      "success"
+    );
+  const onMutationError = () => {
+    showNotification(
+      "Lỗi!",
+      "Dữ liệu có liên kết đến bảng khác. Hành động xóa bị lỗi, vui lòng kiểm tra lại!",
+      "danger"
+    );
+    navigate("/dangnhap");
+  };
 
   const onDeleteData = () => {
     switch (infoDeleteData.Table) {
@@ -52,17 +130,8 @@ export default function ModalDeleteData() {
           variables: {
             id: infoDeleteData.ID,
           },
-          onCompleted: () => {
-            showNotification(
-              "Chúc mừng",
-              `Xóa "${infoDeleteData.Title}" thành công`,
-              "success"
-            );
-          },
-          onError: (error) => {
-            showNotification("Lỗi!", error.message, "danger");
-            navigate("/dangnhap");
-          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
         });
         break;
       case "CAQHvaTDs":
@@ -70,17 +139,8 @@ export default function ModalDeleteData() {
           variables: {
             id: infoDeleteData.ID,
           },
-          onCompleted: () => {
-            showNotification(
-              "Chúc mừng",
-              `Xóa "${infoDeleteData.Title}" thành công`,
-              "success"
-            );
-          },
-          onError: (error) => {
-            showNotification("Lỗi!", error.message, "danger");
-            navigate("/dangnhap");
-          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
         });
         break;
       case "ChucVus":
@@ -88,17 +148,8 @@ export default function ModalDeleteData() {
           variables: {
             id: infoDeleteData.ID,
           },
-          onCompleted: () => {
-            showNotification(
-              "Chúc mừng",
-              `Xóa "${infoDeleteData.Title}" thành công`,
-              "success"
-            );
-          },
-          onError: (error) => {
-            showNotification("Lỗi!", error.message, "danger");
-            navigate("/dangnhap");
-          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
         });
         break;
       case "BienPhapDTs":
@@ -106,17 +157,8 @@ export default function ModalDeleteData() {
           variables: {
             id: infoDeleteData.ID,
           },
-          onCompleted: () => {
-            showNotification(
-              "Chúc mừng",
-              `Xóa "${infoDeleteData.Title}" thành công`,
-              "success"
-            );
-          },
-          onError: (error) => {
-            showNotification("Lỗi!", error.message, "danger");
-            navigate("/dangnhap");
-          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
         });
         break;
       case "CapBacs":
@@ -124,17 +166,8 @@ export default function ModalDeleteData() {
           variables: {
             id: infoDeleteData.ID,
           },
-          onCompleted: () => {
-            showNotification(
-              "Chúc mừng",
-              `Xóa "${infoDeleteData.Title}" thành công`,
-              "success"
-            );
-          },
-          onError: (error) => {
-            showNotification("Lỗi!", error.message, "danger");
-            navigate("/dangnhap");
-          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
         });
         break;
       case "CapCAs":
@@ -142,17 +175,107 @@ export default function ModalDeleteData() {
           variables: {
             id: infoDeleteData.ID,
           },
-          onCompleted: () => {
-            showNotification(
-              "Chúc mừng",
-              `Xóa "${infoDeleteData.Title}" thành công`,
-              "success"
-            );
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "DanTocs":
+        deleteDanToc({
+          variables: {
+            id: infoDeleteData.ID,
           },
-          onError: (error) => {
-            showNotification("Lỗi!", error.message, "danger");
-            navigate("/dangnhap");
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "HinhThucHDs":
+        deleteHinhThucHD({
+          variables: {
+            id: infoDeleteData.ID,
           },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "LoaiLLDBs":
+        deleteLoaiLLDB({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "LoaiDTs":
+        deleteLoaiDT({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "LLDBs":
+        deleteLLDB({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "QuocTichs":
+        deleteQuocTich({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "TinhChatDTs":
+        deleteTinhChatDT({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "TonGiaos":
+        deleteTonGiao({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "TinhTPs":
+        deleteTinhTP({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "DDNBs":
+        deleteDDNB({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "Dois":
+        deleteDoi({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
         });
         break;
 

@@ -5,14 +5,14 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCAQHvaTD,
-  MUTATION_editCAQHvaTD,
+  MUTATION_createDoi,
+  MUTATION_editDoi,
   QUERY_caQHvaTDs,
-  QUERY_caTTPvaTDs,
+  QUERY_dois
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
-const InputCAQHvaTDStyled = styled.div`
+const InputDoiStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -46,47 +46,40 @@ const InputCAQHvaTDStyled = styled.div`
   }
 `;
 
-export default function InputCAQHvaTD() {
+export default function InputDoi() {
   const navigate = useNavigate();
-  const { data: Data_caQHvaTDs, error } = useQuery(QUERY_caQHvaTDs, {
+  const { data: Data_dois, error } = useQuery(QUERY_dois, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
+  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
     variables: { utilsParams: {} },
   });
-  const [createCAQHvaTD] = useMutation(MUTATION_createCAQHvaTD, {
-    refetchQueries: [
-      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
-    ],
+  const [createDoi] = useMutation(MUTATION_createDoi, {
+    refetchQueries: [{ query: QUERY_dois, variables: { utilsParams: {} } }],
   });
-  const [editCAQHvaTD] = useMutation(MUTATION_editCAQHvaTD, {
-    refetchQueries: [
-      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
-    ],
+  const [editDoi] = useMutation(MUTATION_editDoi, {
+    refetchQueries: [{ query: QUERY_dois, variables: { utilsParams: {} } }],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [caQHvaTDs, set_caQHvaTDs] = useState([]);
+  const [dois, set_dois] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
+    MaDoi: 0,
+    TenDoi: "",
     MaCAQHvaTD: 0,
-    MaCATTPvaTD: 0,
-    CAQHvaTD: "",
-    KyHieu: "",
   });
 
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_caQHvaTDs(
-      handleSearch("CAQHvaTDs", Data_caQHvaTDs.caQHvaTDs, e.target.value)
-    );
+    set_dois(handleSearch("Dois", Data_dois.dois, e.target.value));
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({
       ...form,
       [e.target.name]:
-        e.target.name === "MaCATTPvaTD"
+        e.target.name === "MaCAQHvaTD"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -94,21 +87,20 @@ export default function InputCAQHvaTD() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CAQHvaTD.trim() !== "" && form.KyHieu.trim() !== "" && form.MaCATTPvaTD !== 0) {
+    if (form.TenDoi.trim() !== "" && form.MaCAQHvaTD !== 0) {
       if (statusEdit) {
-        editCAQHvaTD({
+        editDoi({
           variables: {
-            caQHvaTDInput: {
-              CAQHvaTD: form.CAQHvaTD,
-              KyHieu: form.KyHieu,
-              MaCATTPvaTD: form.MaCATTPvaTD,
+            doiInput: {
+              TenDoi: form.TenDoi,
+              MaCAQHvaTD: form.MaCAQHvaTD,
             },
-            id: form.MaCAQHvaTD,
+            id: form.MaDoi,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCAQHvaTD.CAQHvaTD}" thành công`,
+              `Cập nhật "${data.editDoi.TenDoi}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -119,18 +111,17 @@ export default function InputCAQHvaTD() {
           },
         });
       } else {
-        createCAQHvaTD({
+        createDoi({
           variables: {
-            caQHvaTDInput: {
-              CAQHvaTD: form.CAQHvaTD,
-              MaCATTPvaTD: form.MaCATTPvaTD,
-              KyHieu: form.KyHieu,
+            doiInput: {
+              TenDoi: form.TenDoi,
+              MaCAQHvaTD: form.MaCAQHvaTD,
             },
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCAQHvaTD.CAQHvaTD}" thành công`,
+              `Thêm mới "${data.createDoi.TenDoi}" thành công`,
               "success"
             );
           },
@@ -141,34 +132,37 @@ export default function InputCAQHvaTD() {
         });
       }
     } else {
-      showNotification("Cảnh báo", "Vui lòng nhập đầy đủ giá trị!", "warning");
+      showNotification(
+        "Cảnh báo",
+        "Vui lòng nhập đúng và đầy đủ giá trị!",
+        "warning"
+      );
     }
   };
 
-  const onEditData = (caQHvaTD: any) => {
+  const onEditData = (doi: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaCAQHvaTD: caQHvaTD.MaCAQHvaTD,
-      CAQHvaTD: caQHvaTD.CAQHvaTD,
-      KyHieu: caQHvaTD.KyHieu,
-      MaCATTPvaTD: caQHvaTD.CATTPvaTD.MaCATTPvaTD,
+      TenDoi: doi.TenDoi,
+      MaCAQHvaTD: doi.CAQHvaTD.MaCAQHvaTD,
+      MaDoi: doi.MaDoi,
     });
   };
 
-  const onDeleteData = (caQHvaTD: any) =>
+  const onDeleteData = (doi: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: caQHvaTD.CAQHvaTD,
-      Table: "CAQHvaTDs",
-      ID: caQHvaTD.MaCAQHvaTD,
+      Title: doi.TenDoi,
+      Table: "Dois",
+      ID: doi.MaDoi,
     });
 
   useEffect(() => {
-    if (Data_caQHvaTDs) {
-      set_caQHvaTDs(Data_caQHvaTDs.caQHvaTDs);
+    if (Data_dois) {
+      set_dois(Data_dois.dois);
     }
-  }, [Data_caQHvaTDs]);
+  }, [Data_dois]);
 
   useEffect(() => {
     if (error) {
@@ -182,20 +176,19 @@ export default function InputCAQHvaTD() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_caQHvaTDs) return <Spinner />;
+  if (!Data_dois) return <Spinner />;
   return (
-    <InputCAQHvaTDStyled className="container">
+    <InputDoiStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách Công an Quận/Huyện và tương đương hiện có{" "}
-            <b>({caQHvaTDs.length})</b>:
+            Danh sách đội hiện có <b>({dois.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CAQHvaTD..."
+              placeholder="Tìm kiếm nhanh Doi..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -204,31 +197,29 @@ export default function InputCAQHvaTD() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCAQHvaTD</th>
+                  <th scope="col">MaDoi</th>
+                  <th scope="col">TenDoi</th>
                   <th scope="col">CAQHvaTD</th>
-                  <th scope="col">KyHieu</th>
-                  <th scope="col">CATTPvaTD</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...caQHvaTDs].reverse().map((caQHvaTD: any, ind: number) => (
+                {[...dois].reverse().map((doi: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{caQHvaTD.MaCAQHvaTD}</td>
-                    <td>{caQHvaTD.CAQHvaTD}</td>
-                    <td>{caQHvaTD.KyHieu}</td>
-                    <td>{caQHvaTD.CATTPvaTD.CATTPvaTD}</td>
+                    <td>{doi.MaDoi}</td>
+                    <td>{doi.TenDoi}</td>
+                    <td>{doi.CAQHvaTD.CAQHvaTD}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
-                        onClick={() => onEditData(caQHvaTD)}
+                        onClick={() => onEditData(doi)}
                         title="Sửa"
                       ></i>
                       <i
                         className="fa-solid fa-trash"
                         data-bs-toggle="modal"
                         data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(caQHvaTD)}
+                        onClick={() => onDeleteData(doi)}
                         title="Xóa"
                       ></i>
                     </td>
@@ -239,31 +230,16 @@ export default function InputCAQHvaTD() {
           </div>
         </div>
         <div className="col-6">
-          <h5>
-            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} Công an Quận/Huyện và tương
-            đương:
-          </h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} đội:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
               <label className="form-label">
-                Công an Quận/Huyện và tương đương (CAQHvaTD):
+                Đội (Doi):
               </label>
               <input
                 required
-                value={form.CAQHvaTD}
-                name="CAQHvaTD"
-                onChange={changeForm}
-                type="text"
-                className="form-control"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Ký hiệu:</label>
-              <input
-                required
-                value={form.KyHieu}
-                name="KyHieu"
+                value={form.TenDoi}
+                name="TenDoi"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
@@ -272,27 +248,25 @@ export default function InputCAQHvaTD() {
             </div>
             <div className="mb-3">
               <label className="form-label">
-                Mã Công an Tỉnh/Thành phố và tương đương (MaCATTPvaTD):
+                Mã công an quận huyện và tương đương (MaCAQHvaTD):
               </label>
               <select
                 required
-                value={form.MaCATTPvaTD}
+                value={form.MaCAQHvaTD}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}
-                name="MaCATTPvaTD"
+                name="MaCAQHvaTD"
               >
                 <option defaultValue={""}>
-                  Chọn Công an Tỉnh/Thành phố và tương đương
+                  Chọn công an quận huyện và tương đương
                 </option>
-                {Data_caTTPvaTDs &&
-                  Data_caTTPvaTDs.caTTPvaTDs.map(
-                    (caTTPvaTD: any, ind: number) => (
-                      <option key={ind} value={caTTPvaTD.MaCATTPvaTD}>
-                        {caTTPvaTD.CATTPvaTD}
-                      </option>
-                    )
-                  )}
+                {Data_caQHvaTDs &&
+                  Data_caQHvaTDs.caQHvaTDs.map((caqhvatd: any, ind: number) => (
+                    <option key={ind} value={caqhvatd.MaCAQHvaTD}>
+                      {caqhvatd.CAQHvaTD}
+                    </option>
+                  ))}
               </select>
             </div>
             <button
@@ -306,6 +280,6 @@ export default function InputCAQHvaTD() {
       </div>
 
       <ModalDeleteData />
-    </InputCAQHvaTDStyled>
+    </InputDoiStyled>
   );
 }

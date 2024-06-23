@@ -5,14 +5,13 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCAQHvaTD,
-  MUTATION_editCAQHvaTD,
-  QUERY_caQHvaTDs,
-  QUERY_caTTPvaTDs,
+  MUTATION_createLoaiLLDB,
+  MUTATION_editLoaiLLDB,
+  QUERY_loaiLLDBs
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
-const InputCAQHvaTDStyled = styled.div`
+const InputLoaiLLDBStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -46,69 +45,61 @@ const InputCAQHvaTDStyled = styled.div`
   }
 `;
 
-export default function InputCAQHvaTD() {
+export default function InputLoaiLLDB() {
   const navigate = useNavigate();
-  const { data: Data_caQHvaTDs, error } = useQuery(QUERY_caQHvaTDs, {
+  const { data: Data_loaiLLDBs, error } = useQuery(QUERY_loaiLLDBs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
-    variables: { utilsParams: {} },
-  });
-  const [createCAQHvaTD] = useMutation(MUTATION_createCAQHvaTD, {
+  const [createLoaiLLDB] = useMutation(MUTATION_createLoaiLLDB, {
     refetchQueries: [
-      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
+      { query: QUERY_loaiLLDBs, variables: { utilsParams: {} } },
     ],
   });
-  const [editCAQHvaTD] = useMutation(MUTATION_editCAQHvaTD, {
+  const [editLoaiLLDB] = useMutation(MUTATION_editLoaiLLDB, {
     refetchQueries: [
-      { query: QUERY_caQHvaTDs, variables: { utilsParams: {} } },
+      { query: QUERY_loaiLLDBs, variables: { utilsParams: {} } },
     ],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [caQHvaTDs, set_caQHvaTDs] = useState([]);
+  const [loaiLLDBs, set_loaiLLDBs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
-    MaCAQHvaTD: 0,
-    MaCATTPvaTD: 0,
-    CAQHvaTD: "",
+    MaLoaiLLDB: 0,
+    TenLLDB: "",
     KyHieu: "",
   });
 
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_caQHvaTDs(
-      handleSearch("CAQHvaTDs", Data_caQHvaTDs.caQHvaTDs, e.target.value)
+    set_loaiLLDBs(
+      handleSearch("LoaiLLDBs", Data_loaiLLDBs.loaiLLDBs, e.target.value)
     );
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({
       ...form,
-      [e.target.name]:
-        e.target.name === "MaCATTPvaTD"
-          ? Number(e.target.value)
-          : e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CAQHvaTD.trim() !== "" && form.KyHieu.trim() !== "" && form.MaCATTPvaTD !== 0) {
+    if (form.TenLLDB.trim() !== "" && form.KyHieu.trim() !==  "") {
       if (statusEdit) {
-        editCAQHvaTD({
+        editLoaiLLDB({
           variables: {
-            caQHvaTDInput: {
-              CAQHvaTD: form.CAQHvaTD,
+            loaiLLDBInput: {
+              TenLLDB: form.TenLLDB,
               KyHieu: form.KyHieu,
-              MaCATTPvaTD: form.MaCATTPvaTD,
             },
-            id: form.MaCAQHvaTD,
+            id: form.MaLoaiLLDB,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCAQHvaTD.CAQHvaTD}" thành công`,
+              `Cập nhật "${data.editLoaiLLDB.TenLLDB}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -119,18 +110,17 @@ export default function InputCAQHvaTD() {
           },
         });
       } else {
-        createCAQHvaTD({
+        createLoaiLLDB({
           variables: {
-            caQHvaTDInput: {
-              CAQHvaTD: form.CAQHvaTD,
-              MaCATTPvaTD: form.MaCATTPvaTD,
+            loaiLLDBInput: {
+              TenLLDB: form.TenLLDB,
               KyHieu: form.KyHieu,
             },
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCAQHvaTD.CAQHvaTD}" thành công`,
+              `Thêm mới "${data.createLoaiLLDB.TenLLDB}" thành công`,
               "success"
             );
           },
@@ -145,30 +135,29 @@ export default function InputCAQHvaTD() {
     }
   };
 
-  const onEditData = (caQHvaTD: any) => {
+  const onEditData = (loaiLLDB: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaCAQHvaTD: caQHvaTD.MaCAQHvaTD,
-      CAQHvaTD: caQHvaTD.CAQHvaTD,
-      KyHieu: caQHvaTD.KyHieu,
-      MaCATTPvaTD: caQHvaTD.CATTPvaTD.MaCATTPvaTD,
+      MaLoaiLLDB: loaiLLDB.MaLoaiLLDB,
+      TenLLDB: loaiLLDB.TenLLDB,
+      KyHieu: loaiLLDB.KyHieu,
     });
   };
 
-  const onDeleteData = (caQHvaTD: any) =>
+  const onDeleteData = (loaiLLDB: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: caQHvaTD.CAQHvaTD,
-      Table: "CAQHvaTDs",
-      ID: caQHvaTD.MaCAQHvaTD,
+      Title: loaiLLDB.TenLLDB,
+      Table: "LoaiLLDBs",
+      ID: loaiLLDB.MaLoaiLLDB,
     });
 
   useEffect(() => {
-    if (Data_caQHvaTDs) {
-      set_caQHvaTDs(Data_caQHvaTDs.caQHvaTDs);
+    if (Data_loaiLLDBs) {
+      set_loaiLLDBs(Data_loaiLLDBs.loaiLLDBs);
     }
-  }, [Data_caQHvaTDs]);
+  }, [Data_loaiLLDBs]);
 
   useEffect(() => {
     if (error) {
@@ -182,20 +171,20 @@ export default function InputCAQHvaTD() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_caQHvaTDs) return <Spinner />;
+  if (!Data_loaiLLDBs) return <Spinner />;
   return (
-    <InputCAQHvaTDStyled className="container">
+    <InputLoaiLLDBStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách Công an Quận/Huyện và tương đương hiện có{" "}
-            <b>({caQHvaTDs.length})</b>:
+            Danh sách loại lực lượng đặc biệt hiện có{" "}
+            <b>({loaiLLDBs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CAQHvaTD..."
+              placeholder="Tìm kiếm nhanh TenLLDB..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -204,31 +193,29 @@ export default function InputCAQHvaTD() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCAQHvaTD</th>
-                  <th scope="col">CAQHvaTD</th>
+                  <th scope="col">MaLoaiLLDB</th>
+                  <th scope="col">TenLLDB</th>
                   <th scope="col">KyHieu</th>
-                  <th scope="col">CATTPvaTD</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...caQHvaTDs].reverse().map((caQHvaTD: any, ind: number) => (
+                {[...loaiLLDBs].reverse().map((loaiLLDB: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{caQHvaTD.MaCAQHvaTD}</td>
-                    <td>{caQHvaTD.CAQHvaTD}</td>
-                    <td>{caQHvaTD.KyHieu}</td>
-                    <td>{caQHvaTD.CATTPvaTD.CATTPvaTD}</td>
+                    <td>{loaiLLDB.MaLoaiLLDB}</td>
+                    <td>{loaiLLDB.TenLLDB}</td>
+                    <td>{loaiLLDB.KyHieu}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
-                        onClick={() => onEditData(caQHvaTD)}
+                        onClick={() => onEditData(loaiLLDB)}
                         title="Sửa"
                       ></i>
                       <i
                         className="fa-solid fa-trash"
                         data-bs-toggle="modal"
                         data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(caQHvaTD)}
+                        onClick={() => onDeleteData(loaiLLDB)}
                         title="Xóa"
                       ></i>
                     </td>
@@ -240,18 +227,17 @@ export default function InputCAQHvaTD() {
         </div>
         <div className="col-6">
           <h5>
-            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} Công an Quận/Huyện và tương
-            đương:
+            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} loại lực lượng đặc biệt:
           </h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
               <label className="form-label">
-                Công an Quận/Huyện và tương đương (CAQHvaTD):
+                Loại lực lượng đặc biệt (TenLLDB):
               </label>
               <input
                 required
-                value={form.CAQHvaTD}
-                name="CAQHvaTD"
+                value={form.TenLLDB}
+                name="TenLLDB"
                 onChange={changeForm}
                 type="text"
                 className="form-control"
@@ -270,31 +256,6 @@ export default function InputCAQHvaTD() {
                 aria-describedby="emailHelp"
               />
             </div>
-            <div className="mb-3">
-              <label className="form-label">
-                Mã Công an Tỉnh/Thành phố và tương đương (MaCATTPvaTD):
-              </label>
-              <select
-                required
-                value={form.MaCATTPvaTD}
-                className="form-select"
-                aria-label="Default select example"
-                onChange={changeForm}
-                name="MaCATTPvaTD"
-              >
-                <option defaultValue={""}>
-                  Chọn Công an Tỉnh/Thành phố và tương đương
-                </option>
-                {Data_caTTPvaTDs &&
-                  Data_caTTPvaTDs.caTTPvaTDs.map(
-                    (caTTPvaTD: any, ind: number) => (
-                      <option key={ind} value={caTTPvaTD.MaCATTPvaTD}>
-                        {caTTPvaTD.CATTPvaTD}
-                      </option>
-                    )
-                  )}
-              </select>
-            </div>
             <button
               type="submit"
               className={statusEdit ? "btn btn-primary" : "btn btn-success"}
@@ -306,6 +267,6 @@ export default function InputCAQHvaTD() {
       </div>
 
       <ModalDeleteData />
-    </InputCAQHvaTDStyled>
+    </InputLoaiLLDBStyled>
   );
 }
