@@ -6,16 +6,15 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createCBCS,
-  MUTATION_editCBCS,
-  QUERY_caQHvaTDs,
-  QUERY_capbacs,
-  QUERY_cbcss,
-  QUERY_chucvus,
+  MUTATION_createDoiTuong,
+  MUTATION_editDoiTuong,
   QUERY_dantocs,
-  QUERY_dois,
+  QUERY_doituongs,
+  QUERY_loaiDTs,
   QUERY_quocTichs,
+  QUERY_tinhChatDTs,
   QUERY_tonGiaos,
+  QUERY_tramCTs,
 } from "../../graphql/documentNode";
 import {
   handleSearch,
@@ -23,7 +22,7 @@ import {
   showNotification,
 } from "../../utils/functions";
 
-const InputCBCSStyled = styled.div`
+const InputDoiTuongStyled = styled.div`
   .ip-ls-old {
     border-bottom: 1px solid green;
     margin-bottom: 16px;
@@ -58,9 +57,9 @@ const InputCBCSStyled = styled.div`
   }
 `;
 
-export default function InputCBCS() {
+export default function InputDoiTuong() {
   const navigate = useNavigate();
-  const { data: Data_cbcss, error } = useQuery(QUERY_cbcss, {
+  const { data: Data_doituongs, error } = useQuery(QUERY_doituongs, {
     variables: { utilsParams: {} },
   });
   const { data: Data_quocTichs } = useQuery(QUERY_quocTichs, {
@@ -72,88 +71,97 @@ export default function InputCBCS() {
   const { data: Data_tonGiaos } = useQuery(QUERY_tonGiaos, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_dois } = useQuery(QUERY_dois, {
+  const { data: Data_tinhChatDTs } = useQuery(QUERY_tinhChatDTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
+  const { data: Data_loaiDTs } = useQuery(QUERY_loaiDTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_capbacs } = useQuery(QUERY_capbacs, {
+  const { data: Data_tramCTs } = useQuery(QUERY_tramCTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_chucvus } = useQuery(QUERY_chucvus, {
-    variables: { utilsParams: {} },
+
+  // ----------------------------------------------------
+  const [createDoiTuong] = useMutation(MUTATION_createDoiTuong, {
+    refetchQueries: [
+      { query: QUERY_doituongs, variables: { utilsParams: {} } },
+    ],
   });
-  const [createCBCS] = useMutation(MUTATION_createCBCS, {
-    refetchQueries: [{ query: QUERY_cbcss, variables: { utilsParams: {} } }],
-  });
-  const [editCBCS] = useMutation(MUTATION_editCBCS, {
-    refetchQueries: [{ query: QUERY_cbcss, variables: { utilsParams: {} } }],
+  const [editDoiTuong] = useMutation(MUTATION_editDoiTuong, {
+    refetchQueries: [
+      { query: QUERY_doituongs, variables: { utilsParams: {} } },
+    ],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [cbcss, set_cbcss] = useState([]);
+  const [doituongs, set_doituongs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
-    MaCBCS: 0,
-    HoTen: "",
+    MaDoiTuong: 0,
+    TenDT: "",
     TenKhac: "",
-    AnhDD: "",
-    NgaySinh: "",
     GioiTinh: 0,
-    QueQuan: "",
-    HKTT: "",
-    NoiO: "",
-    SDT: "",
+    NgaySinh: "",
+    NoiSinh: "",
     CCCD: "",
     CMND: "",
     SHC: "",
+    AnhDD: "",
+    QueQuan: "",
+    HKTT: "",
+    NoiO: "",
+    NgheNghiep: "",
+    ChucVu: "",
+    NoiLamViec: "",
     PhuongTien: "",
-    ThongTinChiTiet: "",
+    SDT: "",
+    ThongTinKhac: "",
+
     MaQT: 0,
     MaDT: 0,
     MaTG: 0,
-    MaCAQHvaTD: 0,
-    MaDoi: 0,
-    MaCB: 0,
-    MaCV: 0,
+    MaTC: 0,
+    MaLoai: 0,
+    MaTramCT: 0,
   });
 
   // --------------------------------------------------------------------------------------------
-
   const convertForm = (obj: any) => {
     let day = moment(obj.NgaySinh).date();
     let month = moment(obj.NgaySinh).month();
     let year = moment(obj.NgaySinh).year();
     return {
-      MaCBCS: obj.MaCBCS,
-      HoTen: obj.HoTen,
+      MaDoiTuong: obj.MaDoiTuong,
+      TenDT: obj.TenDT,
       TenKhac: obj.TenKhac,
-      AnhDD: obj.AnhDD,
+      GioiTinh: obj.GioiTinh,
       NgaySinh: obj.NgaySinh
         ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${day}`
         : "",
-      GioiTinh: obj.GioiTinh,
-      QueQuan: obj.QueQuan,
-      HKTT: obj.HKTT,
-      NoiO: obj.NoiO,
-      SDT: obj.SDT,
       CCCD: obj.CCCD,
       CMND: obj.CMND,
       SHC: obj.SHC,
+      AnhDD: obj.AnhDD,
+      QueQuan: obj.QueQuan,
+      HKTT: obj.HKTT,
+      NoiO: obj.NoiO,
+      NgheNghiep: obj.NgheNghiep,
+      NoiLamViec: obj.NoiLamViec,
       PhuongTien: obj.PhuongTien,
-      ThongTinChiTiet: obj.ThongTinChiTiet,
+      SDT: obj.SDT,
+      ThongTinKhac: obj.ThongTinKhac,
       MaQT: obj.QuocTich?.MaQT,
       MaDT: obj.DanToc?.MaDT,
       MaTG: obj.TonGiao?.MaTG,
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
-      MaDoi: obj.Doi?.MaDoi,
-      MaCB: obj.CapBac?.MaCB,
-      MaCV: obj.ChucVu?.MaCV,
+      MaTC: obj.TinhChatDT?.MaTCDT,
+      MaLoai: obj.LoaiDT?.MaLoaiDT,
+      MaTramCT: obj.TramCT?.MaTramCT,
     };
   };
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_cbcss(handleSearch("CBCSs", Data_cbcss.cbcss, e.target.value));
+    set_doituongs(
+      handleSearch("DoiTuongs", Data_doituongs.doituongs, e.target.value)
+    );
   };
 
   const changeForm = (
@@ -166,10 +174,9 @@ export default function InputCBCS() {
         e.target.name === "MaQT" ||
         e.target.name === "MaDT" ||
         e.target.name === "MaTG" ||
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaDoi" ||
-        e.target.name === "MaCB" ||
-        e.target.name === "MaCV"
+        e.target.name === "MaTC" ||
+        e.target.name === "MaLoai" ||
+        e.target.name === "MaTramCT"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -178,26 +185,25 @@ export default function InputCBCS() {
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
-      form.HoTen.trim() !== "" &&
+      form.TenDT.trim() !== "" &&
       form.MaQT !== 0 &&
       form.MaDT !== 0 &&
       form.MaTG !== 0 &&
-      form.MaCAQHvaTD !== 0 &&
-      form.MaDoi !== 0 &&
-      form.MaCB !== 0 &&
-      form.MaCV !== 0
+      form.MaTC !== 0 &&
+      form.MaLoai !== 0 &&
+      form.MaTramCT !== 0
     ) {
       if (statusEdit) {
-        const { MaCBCS, ...cbcsInput } = form;
-        editCBCS({
+        const { MaDoiTuong, ...doituongInput } = form;
+        editDoiTuong({
           variables: {
-            cbcsInput,
-            id: MaCBCS,
+            doituongInput,
+            id: MaDoiTuong,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCBCS.HoTen}" thành công`,
+              `Cập nhật "${data.editDoiTuong.TenDT}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -208,15 +214,15 @@ export default function InputCBCS() {
           },
         });
       } else {
-        const { MaCBCS, ...cbcsInput } = form;
-        createCBCS({
+        const { MaDoiTuong, ...doituongInput } = form;
+        createDoiTuong({
           variables: {
-            cbcsInput,
+            doituongInput,
           },
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCBCS.HoTen}" thành công`,
+              `Thêm mới "${data.createDoiTuong.TenDT}" thành công`,
               "success"
             );
           },
@@ -235,27 +241,28 @@ export default function InputCBCS() {
     }
   };
 
-  const onEditData = (cbcs: any) => {
+  const onEditData = (doituong: any) => {
     setStatusEdit(true);
-    setForm(convertForm(cbcs));
+    // setForm(convertForm(doituong));
+    console.log(doituong)
   };
 
-  const onDeleteData = (cbcs: any) => {
-    const { MaCBCS, ...inputCBCS } = convertForm(cbcs);
+  const onDeleteData = (doituong: any) => {
+    const { MaDoiTuong, ...inputDoiTuong } = convertForm(doituong);
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: cbcs.HoTen,
-      Table: "CBCSs",
-      ID: cbcs.MaCBCS,
-      Form: inputCBCS,
+      Title: doituong.TenDT,
+      Table: "DoiTuongs",
+      ID: doituong.MaDoiTuong,
+      Form: inputDoiTuong,
     });
   };
 
   useEffect(() => {
-    if (Data_cbcss) {
-      set_cbcss(Data_cbcss.cbcss);
+    if (Data_doituongs) {
+      set_doituongs(Data_doituongs.doituongs);
     }
-  }, [Data_cbcss]);
+  }, [Data_doituongs]);
 
   useEffect(() => {
     if (error) {
@@ -269,19 +276,19 @@ export default function InputCBCS() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_cbcss) return <Spinner />;
+  if (!Data_doituongs) return <Spinner />;
   return (
-    <InputCBCSStyled>
+    <InputDoiTuongStyled>
       <div className="row justify-content-center">
         <div className="col-12 ip-ls-old">
           <h5>
-            Danh sách cán bộ chiến sĩ hiện có <b>({cbcss.length})</b>:
+            Danh sách đối tượng hiện có <b>({doituongs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh CBCS..."
+              placeholder="Tìm kiếm nhanh DoiTuong..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -290,39 +297,39 @@ export default function InputCBCS() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCBCS</th>
-                  <th scope="col">HoTen/TenKhac</th>
+                  <th scope="col">MaDoiTuong</th>
+                  <th scope="col">TenDT/TenKhac</th>
                   <th scope="col">NgaySinh/GioiTinh</th>
-                  <th scope="col">CapBac/ChucVu</th>
-                  <th scope="col">Doi</th>
-                  <th scope="col">CAQHvaTD</th>
+                  <th scope="col">NoiO</th>
+                  <th scope="col">NgheNghiep/ChucVu</th>
+                  <th scope="col">TinhChatDT</th>
+                  <th scope="col">LoaiDT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...cbcss].reverse().map((cbcs: any, ind: number) => (
+                {[...doituongs].reverse().map((doituong: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{cbcs.MaCBCS}</td>
-                    <td title={cbcs.TenKhac}>{cbcs.HoTen}</td>
-                    <td title={Number(cbcs.GioiTinh) === 0 ? "Nam" : "Nữ"}>
-                      {cbcs.NgaySinh && handleTime(cbcs.NgaySinh)}
+                    <td>{doituong.MaDoiTuong}</td>
+                    <td title={doituong.TenKhac}>{doituong.TenDT}</td>
+                    <td title={Number(doituong.GioiTinh) === 0 ? "Nam" : "Nữ"}>
+                      {doituong.NgaySinh && handleTime(doituong.NgaySinh)}
                     </td>
-                    <td title={cbcs.CapBac?.CapBac}>{cbcs.ChucVu?.ChucVu}</td>
-                    <td>{cbcs.Doi?.TenDoi}</td>
-                    <td title={cbcs.CATTPvaTD?.CATTPvaTD}>
-                      {cbcs.CAQHvaTD?.CAQHvaTD}
-                    </td>
+                    <td>{doituong.NoiO}</td>
+                    <td title={doituong.ChucVu}>{doituong.NgheNghiep}</td>
+                    <td>{doituong.TinhChatDT?.TinhChat}</td>
+                    <td>{doituong.LoaiDT?.LoaiDT}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
-                        onClick={() => onEditData(cbcs)}
+                        onClick={() => onEditData(doituong)}
                         title="Sửa"
                       ></i>
                       <i
                         className="fa-solid fa-trash"
                         data-bs-toggle="modal"
                         data-bs-target="#modalDeleteData"
-                        onClick={() => onDeleteData(cbcs)}
+                        onClick={() => onDeleteData(doituong)}
                         title="Xóa"
                       ></i>
                     </td>
@@ -333,15 +340,15 @@ export default function InputCBCS() {
           </div>
         </div>
         <div className="col-12">
-          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} cán bộ chiến sĩ:</h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} đối tượng:</h5>
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Họ và tên (HoTen):</label>
+                <label className="form-label">Tên đối tượng (TenDT):</label>
                 <input
                   required
-                  value={form.HoTen ? form.HoTen : ""}
-                  name="HoTen"
+                  value={form.TenDT ? form.TenDT : ""}
+                  name="TenDT"
                   onChange={changeForm}
                   type="text"
                   className="form-control"
@@ -377,6 +384,17 @@ export default function InputCBCS() {
                   name="NgaySinh"
                   onChange={changeForm}
                   type="date"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div className="col-2 mb-3">
+                <label className="form-label">Nơi sinh:</label>
+                <input
+                  value={form.NoiSinh ? form.NoiSinh : ""}
+                  name="NoiSinh"
+                  onChange={changeForm}
+                  type="text"
                   className="form-control"
                   aria-describedby="emailHelp"
                 />
@@ -473,6 +491,39 @@ export default function InputCBCS() {
                 />
               </div>
               <div className="col-2 mb-3">
+                <label className="form-label">Nghề nghiệp:</label>
+                <input
+                  value={form.NgheNghiep ? form.NgheNghiep : ""}
+                  name="NgheNghiep"
+                  onChange={changeForm}
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div className="col-2 mb-3">
+                <label className="form-label">Chức vụ:</label>
+                <input
+                  value={form.ChucVu ? form.ChucVu : ""}
+                  name="ChucVu"
+                  onChange={changeForm}
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div className="col-2 mb-3">
+                <label className="form-label">Nơi làm việc:</label>
+                <input
+                  value={form.NoiLamViec ? form.NoiLamViec : ""}
+                  name="NoiLamViec"
+                  onChange={changeForm}
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div className="col-2 mb-3">
                 <label className="form-label">Phương tiện:</label>
                 <input
                   value={form.PhuongTien ? form.PhuongTien : ""}
@@ -544,89 +595,70 @@ export default function InputCBCS() {
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mã đội (MaDoi):</label>
+                <label className="form-label">Mã tính chất đối tượng (MaTC):</label>
                 <select
                   required
-                  value={form.MaDoi}
+                  value={form.MaTC}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaDoi"
+                  name="MaTC"
                 >
-                  <option defaultValue={""}>Chọn đội</option>
-                  {Data_dois &&
-                    Data_dois.dois.map((doi: any, ind: number) => (
-                      <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
+                  <option defaultValue={""}>Chọn tính chất đối tượng</option>
+                  {Data_tinhChatDTs &&
+                    Data_tinhChatDTs.tinhChatDTs.map((tinhchat: any, ind: number) => (
+                      <option key={ind} value={tinhchat.MaTCDT}>
+                        {tinhchat.TinhChat}
                       </option>
                     ))}
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
+                <label className="form-label">Mã loại đối tượng (MaLoai):</label>
                 <select
                   required
-                  value={form.MaCAQHvaTD}
+                  value={form.MaLoai}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaCAQHvaTD"
+                  name="MaLoai"
                 >
-                  <option defaultValue={""}>Chọn CAQHvaTD</option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
+                  <option defaultValue={""}>Chọn loại đối tượng</option>
+                  {Data_loaiDTs &&
+                    Data_loaiDTs.loaiDTs.map(
+                      (loaiDT: any, ind: number) => (
+                        <option key={ind} value={loaiDT.MaLoaiDT}>
+                          {loaiDT.LoaiDT}
                         </option>
                       )
                     )}
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mã cấp bậc (MaCB):</label>
+                <label className="form-label">Mã trạm công tác (MaTramCT):</label>
                 <select
                   required
-                  value={form.MaCB}
+                  value={form.MaTramCT}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaCB"
+                  name="MaTramCT"
                 >
-                  <option defaultValue={""}>Chọn cấp bậc</option>
-                  {Data_capbacs &&
-                    Data_capbacs.capbacs.map((capbac: any, ind: number) => (
-                      <option key={ind} value={capbac.MaCB}>
-                        {capbac.CapBac}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã chức vụ (MaCV):</label>
-                <select
-                  required
-                  value={form.MaCV}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCV"
-                >
-                  <option defaultValue={""}>Chọn chức vụ</option>
-                  {Data_chucvus &&
-                    Data_chucvus.chucvus.map((chucvu: any, ind: number) => (
-                      <option key={ind} value={chucvu.MaCV}>
-                        {chucvu.ChucVu}
+                  <option defaultValue={""}>Chọn trạm công tác</option>
+                  {Data_tramCTs &&
+                    Data_tramCTs.tramCTs.map((tramCT: any, ind: number) => (
+                      <option key={ind} value={tramCT.MaTramCT}>
+                        {tramCT.DiaDiem}
                       </option>
                     ))}
                 </select>
               </div>
             </div>
             <div className="col-12 mb-3">
-              <label className="form-label">Thông tin chi tiết:</label>
+              <label className="form-label">Thông tin khác:</label>
               <textarea
-                value={form.ThongTinChiTiet ? form.ThongTinChiTiet : ""}
-                name="ThongTinChiTiet"
+                value={form.ThongTinKhac ? form.ThongTinKhac : ""}
+                name="ThongTinKhac"
                 onChange={changeForm}
                 className="form-control"
                 aria-describedby="emailHelp"
@@ -644,6 +676,6 @@ export default function InputCBCS() {
       </div>
 
       <ModalDeleteData />
-    </InputCBCSStyled>
+    </InputDoiTuongStyled>
   );
 }

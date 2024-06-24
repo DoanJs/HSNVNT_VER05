@@ -18,6 +18,7 @@ import {
   InputDanToc,
   InputDDNB,
   InputDoi,
+  InputDoiTuong,
   InputHinhThucHD,
   InputList,
   InputLLDB,
@@ -98,6 +99,7 @@ export default function App() {
           <Route path="/nhaplieu/ddnb" element={<InputDDNB />} />
           <Route path="/nhaplieu/doi" element={<InputDoi />} />
           <Route path="/nhaplieu/cbcs" element={<InputCBCS />} />
+          <Route path="/nhaplieu/doituong" element={<InputDoiTuong />} />
 
 
 

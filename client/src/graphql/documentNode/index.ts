@@ -31,10 +31,16 @@ export const QUERY_doituongs = gql`
     doituongs(utilsParams: $utilsParams) {
       MaDoiTuong
       TenDT
+      TenKhac
       NgaySinh
       NoiO
       TinhChatDT {
+        MaTCDT
         TinhChat
+      }
+      LoaiDT {
+        MaLoaiDT
+        LoaiDT
       }
       GioiTinh
       QuyetDinhTSNTs {
@@ -76,9 +82,11 @@ export const QUERY_doituong = gql`
         BienPhapDT
       }
       LoaiDT {
+        MaLoaiDT
         LoaiDT
       }
       TinhChatDT {
+        MaTCDT
         TinhChat
       }
       QuyetDinhTSNTs {
@@ -780,6 +788,14 @@ export const QUERY_dois = gql`
     }
   }
 `;
+export const QUERY_tramCTs = gql`
+  query QUERY_tramCTs($utilsParams: UtilsParamsInput!) {
+    tramCTs(utilsParams: $utilsParams) {
+      MaTramCT
+      DiaDiem
+    }
+  }
+`;
 
 // ---------------
 export const MUTATION_getData_searchFast = gql`
@@ -1235,6 +1251,30 @@ export const MUTATION_deleteCBCS = gql`
     deleteCBCS(cbcsInput: $cbcsInput, id: $id) {
       MaCBCS
       HoTen
+    }
+  }
+`;
+export const MUTATION_createDoiTuong = gql`
+  mutation MUTATION_createDoiTuong($doituongInput: DoiTuongInput!) {
+    createDoiTuong(doituongInput: $doituongInput) {
+      MaDoiTuong
+      TenDT
+    }
+  }
+`;
+export const MUTATION_editDoiTuong = gql`
+  mutation MUTATION_editDoiTuong($doituongInput: DoiTuongInput!, $id: Float!) {
+    editDoiTuong(doituongInput: $doituongInput, id: $id) {
+      MaDoiTuong
+      TenDT
+    }
+  }
+`;
+export const MUTATION_deleteDoiTuong = gql`
+  mutation MUTATION_deleteDoiTuong($doituongInput: DoiTuongInput!, $id: Float!) {
+    deleteDoiTuong(doituongInput: $doituongInput, id: $id) {
+      MaDoiTuong
+      TenDT
     }
   }
 `;

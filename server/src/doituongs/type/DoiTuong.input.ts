@@ -71,4 +71,7 @@ export class DoiTuongInput {
 
   @Field({ nullable: true })
   MaLoai?: number;
+
+  @Field({ nullable: true })
+  MaTramCT?: number;
 }

@@ -50,7 +50,7 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         obj.BiDanh.toLowerCase().includes(keysearch)
       );
       break;
-    case "doituongs":
+    case "DoiTuongs":
       arr = array.filter(
         (obj: any) =>
           obj.TenDT.toLowerCase().includes(keysearch) ||
