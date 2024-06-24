@@ -51,7 +51,7 @@ export class CBCSsService {
       CBCSInput: {
         HoTen: `N'${cbcsInput.HoTen}'`, //crypto
         TenKhac: cbcsInput.TenKhac ? `N'${cbcsInput.TenKhac}'` : null,
-        NgaySinh: cbcsInput.NgaySinh ? cbcsInput.NgaySinh : null,
+        NgaySinh: cbcsInput.NgaySinh ? `N'${cbcsInput.NgaySinh}'` : null,
         QueQuan: cbcsInput.QueQuan ? `N'${cbcsInput.QueQuan}'` : null,
         HKTT: cbcsInput.HKTT ? `N'${cbcsInput.HKTT}'` : null,
         PhuongTien: cbcsInput.PhuongTien ? `N'${cbcsInput.PhuongTien}'` : null,

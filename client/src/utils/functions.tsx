@@ -76,18 +76,6 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
             .includes(keysearch)
       );
       break;
-    case "cbcss":
-      arr = array.filter(
-        (obj: any) =>
-          obj.HoTen?.toLowerCase().includes(keysearch) ||
-          obj.TenKhac?.toLowerCase().includes(keysearch) ||
-          moment(obj.NgaySinh)
-            .year()
-            .toString()
-            .toLowerCase()
-            .includes(keysearch)
-      );
-      break;
     case "denghiTSNTs":
       arr = array.filter(
         (obj: any) =>
@@ -304,10 +292,11 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
       );
       break;
     case "LLDBs":
-      arr = array.filter((obj: any) =>
-        obj.BiDanh?.toLowerCase().includes(keysearch) ||
-        obj.LoaiLLDB?.TenLLDB?.toLowerCase().includes(keysearch) ||
-        obj.TSQuanLy?.HoTen?.toLowerCase().includes(keysearch)
+      arr = array.filter(
+        (obj: any) =>
+          obj.BiDanh?.toLowerCase().includes(keysearch) ||
+          obj.LoaiLLDB?.TenLLDB?.toLowerCase().includes(keysearch) ||
+          obj.TSQuanLy?.HoTen?.toLowerCase().includes(keysearch)
       );
       break;
     case "QuocTichs":
@@ -326,9 +315,10 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
       );
       break;
     case "TinhTPs":
-      arr = array.filter((obj: any) =>
-        obj.TinhTP?.toLowerCase().includes(keysearch) ||
-        obj.Cap?.toLowerCase().includes(keysearch)
+      arr = array.filter(
+        (obj: any) =>
+          obj.TinhTP?.toLowerCase().includes(keysearch) ||
+          obj.Cap?.toLowerCase().includes(keysearch)
       );
       break;
     case "DDNBs":
@@ -337,9 +327,25 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
       );
       break;
     case "Dois":
-      arr = array.filter((obj: any) =>
-        obj.TenDoi?.toLowerCase().includes(keysearch) ||
-        obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch)
+      arr = array.filter(
+        (obj: any) =>
+          obj.TenDoi?.toLowerCase().includes(keysearch) ||
+          obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "CBCSs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.HoTen?.toLowerCase().includes(keysearch) ||
+          obj.TenKhac?.toLowerCase().includes(keysearch) ||
+          obj.ChucVu?.ChucVu?.toLowerCase().includes(keysearch) ||
+          obj.Doi?.TenDoi?.toLowerCase().includes(keysearch) ||
+          obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch) ||
+          moment(obj.NgaySinh)
+            .year()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch)
       );
       break;
     default:

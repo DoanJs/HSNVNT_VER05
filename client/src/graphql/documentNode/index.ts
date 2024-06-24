@@ -184,9 +184,45 @@ export const QUERY_cbcss = gql`
       HoTen
       TenKhac
       NgaySinh
+      GioiTinh
+      NoiO
+      QueQuan
+      HKTT
+      SDT
+      CMND
+      CCCD
+      SHC
+      QuocTich {
+        MaQT
+        TenQT
+      }
+      DanToc {
+        MaDT
+        TenDT
+      }
+      TonGiao {
+        MaTG
+        TenTG
+      }
+      CapBac {
+        MaCB
+        CapBac
+      }
+      ChucVu {
+        MaCV
+        ChucVu
+      }
       Doi {
         MaDoi
         TenDoi
+      }
+      CAQHvaTD {
+        MaCAQHvaTD
+        CAQHvaTD
+        CATTPvaTD {
+          MaCATTPvaTD
+          CATTPvaTD
+        }
       }
       DanhGiaTSTHs {
         MaDanhGiaTSTH
@@ -1175,6 +1211,30 @@ export const MUTATION_deleteDoi = gql`
     deleteDoi(id: $id) {
       MaDoi
       TenDoi
+    }
+  }
+`;
+export const MUTATION_createCBCS = gql`
+  mutation MUTATION_createCBCS($cbcsInput: CBCSInput!) {
+    createCBCS(cbcsInput: $cbcsInput) {
+      MaCBCS
+      HoTen
+    }
+  }
+`;
+export const MUTATION_editCBCS = gql`
+  mutation MUTATION_editCBCS($cbcsInput: CBCSInput!, $id: Float!) {
+    editCBCS(cbcsInput: $cbcsInput, id: $id) {
+      MaCBCS
+      HoTen
+    }
+  }
+`;
+export const MUTATION_deleteCBCS = gql`
+  mutation MUTATION_deleteCBCS($cbcsInput: CBCSInput!, $id: Float!) {
+    deleteCBCS(cbcsInput: $cbcsInput, id: $id) {
+      MaCBCS
+      HoTen
     }
   }
 `;

@@ -13,6 +13,7 @@ import {
   InputCapCA,
   InputCAQHvaTD,
   InputCATTPvaTD,
+  InputCBCS,
   InputChucVu,
   InputDanToc,
   InputDDNB,
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="/nhaplieu/tinhTP" element={<InputTinhTP />} />
           <Route path="/nhaplieu/ddnb" element={<InputDDNB />} />
           <Route path="/nhaplieu/doi" element={<InputDoi />} />
+          <Route path="/nhaplieu/cbcs" element={<InputCBCS />} />
 
 
 

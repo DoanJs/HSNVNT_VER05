@@ -120,7 +120,7 @@ export default function CBCSList() {
   }, [Data_cbcss]);
 
   const onFilterCBCS = (e: ChangeEvent<HTMLInputElement>) => {
-    setCbcss(handleSearch("cbcss", Data_cbcss.cbcss, e.target.value));
+    setCbcss(handleSearch("CBCSs", Data_cbcss.cbcss, e.target.value));
   };
 
   const onChangeFilterDetails = (e: ChangeEvent<HTMLInputElement>) => {

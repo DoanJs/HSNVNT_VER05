@@ -7,6 +7,7 @@ import {
   MUTATION_deleteCapCA,
   MUTATION_deleteCAQHvaTD,
   MUTATION_deleteCATTPvaTD,
+  MUTATION_deleteCBCS,
   MUTATION_deleteChucVu,
   MUTATION_deleteDanToc,
   MUTATION_deleteDDNB,
@@ -24,6 +25,7 @@ import {
   QUERY_capCAs,
   QUERY_caQHvaTDs,
   QUERY_caTTPvaTDs,
+  QUERY_cbcss,
   QUERY_chucvus,
   QUERY_dantocs,
   QUERY_ddnbs,
@@ -35,7 +37,7 @@ import {
   QUERY_quocTichs,
   QUERY_tinhChatDTs,
   QUERY_tinhTPs,
-  QUERY_tonGiaos,
+  QUERY_tonGiaos
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
 
@@ -106,6 +108,9 @@ export default function ModalDeleteData() {
   });
   const [deleteDoi] = useMutation(MUTATION_deleteDoi, {
     refetchQueries: [{ query: QUERY_dois, variables: { utilsParams: {} } }],
+  });
+  const [deleteCBCS] = useMutation(MUTATION_deleteCBCS, {
+    refetchQueries: [{ query: QUERY_cbcss, variables: { utilsParams: {} } }],
   });
 
   const onMutationSuccess = () =>
@@ -272,6 +277,16 @@ export default function ModalDeleteData() {
       case "Dois":
         deleteDoi({
           variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "CBCSs":
+        deleteCBCS({
+          variables: {
+            cbcsInput: infoDeleteData.Form,
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),

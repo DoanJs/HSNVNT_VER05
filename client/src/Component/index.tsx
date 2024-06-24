@@ -33,6 +33,7 @@ export { default as InputTonGiao } from "./Input/InputTonGiao";
 export { default as InputTinhTP } from "./Input/InputTinhTP";
 export { default as InputDDNB } from "./Input/InputDDNB";
 export { default as InputDoi } from "./Input/InputDoi";
+export { default as InputCBCS } from "./Input/InputCBCS";
 export { default as ModalEditProfile } from "./Modal/ModalEditProfile";
 export { default as ModalLogout } from "./Modal/ModalLogout";
 export { default as ModalDeleteData } from "./Modal/ModalDeleteData";
