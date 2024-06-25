@@ -32,8 +32,34 @@ export const QUERY_doituongs = gql`
       MaDoiTuong
       TenDT
       TenKhac
+      GioiTinh
       NgaySinh
+      NoiSinh
+      CCCD
+      CMND
+      SHC
+      AnhDD
+      QueQuan
+      HKTT
       NoiO
+      NgheNghiep
+      ChucVu
+      NoiLamViec
+      PhuongTien
+      SDT
+      ThongTinKhac
+      QuocTich {
+        MaQT
+        TenQT
+      }
+      DanToc {
+        MaDT
+        TenDT
+      }
+      TonGiao {
+        MaTG
+        TenTG
+      }
       TinhChatDT {
         MaTCDT
         TinhChat
@@ -42,7 +68,9 @@ export const QUERY_doituongs = gql`
         MaLoaiDT
         LoaiDT
       }
-      GioiTinh
+      TramCT {
+        MaTramCT
+      }
       QuyetDinhTSNTs {
         MaQD
       }
@@ -697,7 +725,7 @@ export const QUERY_dantocs = gql`
 export const QUERY_quocTichs = gql`
   query QUERY_quocTichs($utilsParams: UtilsParamsInput!) {
     quocTichs(utilsParams: $utilsParams) {
-      MaQT  
+      MaQT
       TenQT
     }
   }
@@ -1271,17 +1299,16 @@ export const MUTATION_editDoiTuong = gql`
   }
 `;
 export const MUTATION_deleteDoiTuong = gql`
-  mutation MUTATION_deleteDoiTuong($doituongInput: DoiTuongInput!, $id: Float!) {
+  mutation MUTATION_deleteDoiTuong(
+    $doituongInput: DoiTuongInput!
+    $id: Float!
+  ) {
     deleteDoiTuong(doituongInput: $doituongInput, id: $id) {
       MaDoiTuong
       TenDT
     }
   }
 `;
-
-
-
-
 
 export const QUERY_doituongCAsOpen = gql`
   query QUERY_doituongCAsOpen($conditionCol: String!, $value: String!) {

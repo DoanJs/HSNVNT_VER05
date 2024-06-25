@@ -9,7 +9,7 @@ export class DoiTuongInput {
   TenKhac?: string;
 
   @Field({ nullable: true })
-  GioiTinh?: string;
+  GioiTinh?: number;
 
   @Field({ nullable: true })
   NgaySinh?: string;

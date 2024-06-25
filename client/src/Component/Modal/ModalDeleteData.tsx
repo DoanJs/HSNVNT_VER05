@@ -12,6 +12,7 @@ import {
   MUTATION_deleteDanToc,
   MUTATION_deleteDDNB,
   MUTATION_deleteDoi,
+  MUTATION_deleteDoiTuong,
   MUTATION_deleteHinhThucHD,
   MUTATION_deleteLLDB,
   MUTATION_deleteLoaiDT,
@@ -30,6 +31,7 @@ import {
   QUERY_dantocs,
   QUERY_ddnbs,
   QUERY_dois,
+  QUERY_doituongs,
   QUERY_hinhthucHDs,
   QUERY_lldbs,
   QUERY_loaiDTs,
@@ -111,6 +113,9 @@ export default function ModalDeleteData() {
   });
   const [deleteCBCS] = useMutation(MUTATION_deleteCBCS, {
     refetchQueries: [{ query: QUERY_cbcss, variables: { utilsParams: {} } }],
+  });
+  const [deleteDoiTuong] = useMutation(MUTATION_deleteDoiTuong, {
+    refetchQueries: [{ query: QUERY_doituongs, variables: { utilsParams: {} } }],
   });
 
   const onMutationSuccess = () =>
@@ -291,6 +296,16 @@ export default function ModalDeleteData() {
           },
           onCompleted: () => onMutationSuccess(),
           onError: () => onMutationError(),
+        });
+        break;
+      case "DoiTuongs":
+        deleteDoiTuong({
+          variables: {
+            doituongInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: (error) => console.log(error.message),
         });
         break;
 

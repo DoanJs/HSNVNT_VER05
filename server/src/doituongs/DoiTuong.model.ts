@@ -118,6 +118,7 @@ export class DoiTuong {
     eager: true,
   })
   @JoinColumn({ name: 'MaQT', foreignKeyConstraintName: 'FK_MaQT_DoiTuong' })
+  @Field({ nullable: true })
   QuocTich: QuocTich;
 
   @ManyToOne(() => DanToc, (dantoc) => dantoc.DoiTuongs, {
@@ -125,6 +126,7 @@ export class DoiTuong {
     eager: true,
   })
   @JoinColumn({ name: 'MaDT', foreignKeyConstraintName: 'FK_MaDT_DoiTuong' })
+  @Field({ nullable: true })
   DanToc: DanToc;
 
   @ManyToOne(() => TonGiao, (tongiao) => tongiao.DoiTuongs, {
@@ -132,6 +134,7 @@ export class DoiTuong {
     eager: true,
   })
   @JoinColumn({ name: 'MaTG', foreignKeyConstraintName: 'FK_MaTG_DoiTuong' })
+  @Field({ nullable: true })
   TonGiao: TonGiao;
 
   @ManyToOne(() => TinhChatDT, (tinhchatDT) => tinhchatDT.DoiTuongs, {
@@ -139,6 +142,7 @@ export class DoiTuong {
     eager: true,
   })
   @JoinColumn({ name: 'MaTC', foreignKeyConstraintName: 'FK_MaTC_DoiTuong' })
+  @Field({ nullable: true })
   TinhChatDT: TinhChatDT;
 
   @ManyToOne(() => LoaiDT, (loaiDT) => loaiDT.DoiTuongs, {
@@ -149,6 +153,7 @@ export class DoiTuong {
     name: 'MaLoai',
     foreignKeyConstraintName: 'FK_MaLoai_DoiTuong',
   })
+  @Field({ nullable: true })
   LoaiDT: LoaiDT;
 
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DoiTuong)
@@ -168,6 +173,7 @@ export class DoiTuong {
     name: 'MaTramCT',
     foreignKeyConstraintName: 'FK_MaTramCT_DoiTuong',
   })
+  @Field({ nullable: true })
   TramCT: TramCT;
 
   @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.DoiTuong)

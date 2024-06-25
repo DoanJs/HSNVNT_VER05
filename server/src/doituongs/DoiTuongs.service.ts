@@ -22,6 +22,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DoiTuong } from './DoiTuong.model';
 import { DoiTuongInput } from './type/DoiTuong.input';
+import { TramCT } from 'src/tramCTs/TramCT.model';
 
 @Injectable()
 export class DoiTuongsService {
@@ -43,7 +44,7 @@ export class DoiTuongsService {
       DoiTuongInput: {
         TenKhac: doituongInput.TenKhac ? `N'${doituongInput.TenKhac}'` : null,
         GioiTinh: doituongInput.GioiTinh ? doituongInput.GioiTinh : null,
-        NgaySinh: doituongInput.NgaySinh ? doituongInput.NgaySinh : null,
+        NgaySinh: doituongInput.NgaySinh ? `N'${doituongInput.NgaySinh}'` : null,
         NoiSinh: doituongInput.NoiSinh ? `N'${doituongInput.NoiSinh}'` : null,
         QueQuan: doituongInput.QueQuan ? `N'${doituongInput.QueQuan}'` : null,
         HKTT: doituongInput.HKTT ? `N'${doituongInput.HKTT}'` : null,
@@ -65,6 +66,7 @@ export class DoiTuongsService {
         MaTG: doituongInput.MaTG ? doituongInput.MaTG : null,
         MaTC: doituongInput.MaTC ? doituongInput.MaTC : null,
         MaLoai: doituongInput.MaLoai ? doituongInput.MaLoai : null,
+        MaTramCT: doituongInput.MaTramCT ? doituongInput.MaTramCT : null,
         TenDT: `N'${doituongInput.TenDT}'`, // crypto
         CCCD: `N'${doituongInput.CCCD}'`, // crypto
         CMND: `N'${doituongInput.CMND}'`, // crypto
@@ -165,23 +167,33 @@ export class DoiTuongsService {
   }
 
   async QuocTich(doituong: any): Promise<QuocTich> {
-    return this.dataloaderService.loaderQuocTich.load(doituong.MaQT);
+    if (doituong.MaQT) {
+      return this.dataloaderService.loaderQuocTich.load(doituong.MaQT);
+    }
   }
 
   async DanToc(doituong: any): Promise<DanToc> {
-    return this.dataloaderService.loaderDanToc.load(doituong.MaDT);
+    if (doituong.MaDT) {
+      return this.dataloaderService.loaderDanToc.load(doituong.MaDT);
+    }
   }
 
   async TonGiao(doituong: any): Promise<TonGiao> {
-    return this.dataloaderService.loaderTonGiao.load(doituong.MaTG);
+    if (doituong.MaTG) {
+      return this.dataloaderService.loaderTonGiao.load(doituong.MaTG);
+    }
   }
 
   async TinhChatDT(doituong: any): Promise<TinhChatDT> {
-    return this.dataloaderService.loaderTinhChat.load(doituong.MaTC);
+    if (doituong.MaTC) {
+      return this.dataloaderService.loaderTinhChat.load(doituong.MaTC);
+    }
   }
 
   async LoaiDT(doituong: any): Promise<LoaiDT> {
-    return this.dataloaderService.loaderLoaiDT.load(doituong.MaLoai);
+    if (doituong.MaLoai) {
+      return this.dataloaderService.loaderLoaiDT.load(doituong.MaLoai);
+    }
   }
 
   async DoiTuongCAs(MaDoiTuong: number): Promise<DoiTuongCA[]> {
@@ -223,5 +235,11 @@ export class DoiTuongsService {
     return this.doituongRepository.query(
       SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaDoiTuong = ${MaDoiTuong}'`, 0, 0),
     );
+  }
+
+  async TramCT(doituong: any): Promise<TramCT> {
+    if (doituong.MaTramCT) {
+      return this.dataloaderService.loaderTramCT.load(doituong.MaTramCT);
+    }
   }
 }

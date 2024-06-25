@@ -27,6 +27,7 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { TramCT } from 'src/tramCTs/TramCT.model';
 
 @Resolver(() => DoiTuong)
 @UseGuards(GraphQLGuard)
@@ -129,5 +130,10 @@ export class DoiTuongsResolver {
   @ResolveField((returns) => [BaoCaoKQGH])
   BaoCaoKQGHs(@Parent() doituong: DoiTuong): Promise<BaoCaoKQGH[]> {
     return this.doituongsService.BaoCaoKQGHs(doituong.MaDoiTuong);
+  }
+
+  @ResolveField((returns) => TramCT)
+  TramCT(@Parent() doituong: DoiTuong): Promise<TramCT> {
+    return this.doituongsService.TramCT(doituong);
   }
 }

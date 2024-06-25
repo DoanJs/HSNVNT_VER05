@@ -53,14 +53,17 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
     case "DoiTuongs":
       arr = array.filter(
         (obj: any) =>
-          obj.TenDT.toLowerCase().includes(keysearch) ||
+          obj.TenDT?.toLowerCase().includes(keysearch) ||
           moment(obj.NgaySinh)
             .year()
             .toString()
             .toLowerCase()
             .includes(keysearch) ||
-          obj.TinhChatDT.TinhChat.toLowerCase().includes(keysearch) ||
-          obj.NoiO.toLowerCase().includes(keysearch)
+          obj.NoiO?.toLowerCase().includes(keysearch) ||
+          obj.NgheNghiep?.toLowerCase().includes(keysearch) ||
+          obj.NoiLamViec?.toLowerCase().includes(keysearch) ||
+          obj.TinhChatDT?.TinhChat.toLowerCase().includes(keysearch) ||
+          obj.LoaiDT?.LoaiDT.toLowerCase().includes(keysearch)
       );
       break;
     case "chuyenans":
@@ -358,9 +361,10 @@ export const handleTime = (time: any) => {
   let day = moment(time).date();
   let month = moment(time).month();
   let year = moment(time).year();
-  return `${day}/${Number(month) + 1}/${year}`;
+  return `${day}/${
+    Number(month) < 9 ? "0" + (Number(month) + 1) : Number(month) + 1
+  }/${year}`;
 };
-
 export const handleDanhGiaTSTH = (arr: any[]) => {
   const arrBD = arr.filter((obj: any) => obj.DanhGia === "Biểu dương");
   const arrRKN = arr.filter((obj: any) => obj.DanhGia === "RKN");
