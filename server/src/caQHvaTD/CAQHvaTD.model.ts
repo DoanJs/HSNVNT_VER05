@@ -47,6 +47,7 @@ export class CAQHvaTD {
     name: 'MaCATTPvaTD',
     foreignKeyConstraintName: 'FK_MaCATTPvaTD_CAQHvaTD',
   })
+  @Field({ nullable: true })
   CATTPvaTD: CATTPvaTD;
 
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.CAQHvaTD)

@@ -109,13 +109,13 @@ export default function InputCBCS() {
     SHC: "",
     PhuongTien: "",
     ThongTinChiTiet: "",
-    MaQT: 0,
-    MaDT: 0,
-    MaTG: 0,
-    MaCAQHvaTD: 0,
-    MaDoi: 0,
-    MaCB: 0,
-    MaCV: 0,
+    MaQT: null,
+    MaDT: null,
+    MaTG: null,
+    MaCAQHvaTD: null,
+    MaDoi: null,
+    MaCB: null,
+    MaCV: null,
   });
 
   // --------------------------------------------------------------------------------------------
@@ -130,7 +130,9 @@ export default function InputCBCS() {
       TenKhac: obj.TenKhac,
       AnhDD: obj.AnhDD,
       NgaySinh: obj.NgaySinh
-        ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${day}`
+        ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${
+            day < 10 ? "0" + day : day
+          }`
         : "",
       GioiTinh: obj.GioiTinh,
       QueQuan: obj.QueQuan,
@@ -177,16 +179,7 @@ export default function InputCBCS() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      form.HoTen.trim() !== "" &&
-      form.MaQT !== 0 &&
-      form.MaDT !== 0 &&
-      form.MaTG !== 0 &&
-      form.MaCAQHvaTD !== 0 &&
-      form.MaDoi !== 0 &&
-      form.MaCB !== 0 &&
-      form.MaCV !== 0
-    ) {
+    if (form.HoTen.trim() !== "") {
       if (statusEdit) {
         const { MaCBCS, ...cbcsInput } = form;
         editCBCS({
@@ -290,7 +283,6 @@ export default function InputCBCS() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCBCS</th>
                   <th scope="col">HoTen/TenKhac</th>
                   <th scope="col">NgaySinh/GioiTinh</th>
                   <th scope="col">CapBac/ChucVu</th>
@@ -302,9 +294,16 @@ export default function InputCBCS() {
               <tbody>
                 {[...cbcss].reverse().map((cbcs: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{cbcs.MaCBCS}</td>
                     <td title={cbcs.TenKhac}>{cbcs.HoTen}</td>
-                    <td title={Number(cbcs.GioiTinh) === 0 ? "Nam" : "Nữ"}>
+                    <td
+                      title={
+                        cbcs.GioiTinh
+                          ? Number(cbcs.GioiTinh) === 1
+                            ? "Nữ"
+                            : "Nam"
+                          : ""
+                      }
+                    >
                       {cbcs.NgaySinh && handleTime(cbcs.NgaySinh)}
                     </td>
                     <td title={cbcs.CapBac?.CapBac}>{cbcs.ChucVu?.ChucVu}</td>
@@ -391,7 +390,7 @@ export default function InputCBCS() {
                   name="GioiTinh"
                 >
                   <option defaultValue={""}>Chọn giới tính</option>
-                  <option value={0}>Nam</option>
+                  <option value={2}>Nam</option>
                   <option value={1}>Nữ</option>
                 </select>
               </div>
@@ -487,8 +486,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã quốc tịch (MaQT):</label>
                 <select
-                  required
-                  value={form.MaQT}
+                  value={form.MaQT ? form.MaQT : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
@@ -508,8 +506,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã dân tộc (MaDT):</label>
                 <select
-                  required
-                  value={form.MaDT}
+                  value={form.MaDT ? form.MaDT : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
@@ -527,8 +524,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã tôn giáo (MaTG):</label>
                 <select
-                  required
-                  value={form.MaTG}
+                  value={form.MaTG ? form.MaTG : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
@@ -546,8 +542,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã đội (MaDoi):</label>
                 <select
-                  required
-                  value={form.MaDoi}
+                  value={form.MaDoi ? form.MaDoi : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
@@ -565,8 +560,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
                 <select
-                  required
-                  value={form.MaCAQHvaTD}
+                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
@@ -586,8 +580,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã cấp bậc (MaCB):</label>
                 <select
-                  required
-                  value={form.MaCB}
+                  value={form.MaCB ? form.MaCB : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
@@ -605,8 +598,7 @@ export default function InputCBCS() {
               <div className="col-2 mb-3">
                 <label className="form-label">Mã chức vụ (MaCV):</label>
                 <select
-                  required
-                  value={form.MaCV}
+                  value={form.MaCV ? form.MaCV : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}

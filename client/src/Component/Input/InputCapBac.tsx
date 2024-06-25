@@ -182,7 +182,6 @@ export default function InputCapBac() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCB</th>
                   <th scope="col">CapBac</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -190,7 +189,6 @@ export default function InputCapBac() {
               <tbody>
                 {[...capbacs].reverse().map((capbac: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{capbac.MaCB}</td>
                     <td>{capbac.CapBac}</td>
                     <td className="ip-ls-action">
                       <i

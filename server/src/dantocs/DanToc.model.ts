@@ -32,6 +32,7 @@ export class DanToc {
     name: 'MaQT',
     foreignKeyConstraintName: 'FK_MaQT_DanToc',
   })
+  @Field({ nullable: true })
   QuocTich: QuocTich;
 
   @OneToMany(() => CBCS, (cbcs) => cbcs.DanToc)

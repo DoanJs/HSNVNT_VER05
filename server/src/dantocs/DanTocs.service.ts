@@ -121,7 +121,9 @@ export class DanTocsService {
   //  ResolveField
 
   async QuocTich(danToc: any): Promise<QuocTich> {
-    return this.dataloaderService.loaderQuocTich.load(danToc.MaQT);
+    if (danToc.MaQT) {
+      return this.dataloaderService.loaderQuocTich.load(danToc.MaQT);
+    }
   }
 
   DoiTuongs(MaDT: number): Promise<DoiTuong[]> {

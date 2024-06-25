@@ -182,7 +182,6 @@ export default function InputChucVu() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaChucVu</th>
                   <th scope="col">ChucVu</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -190,7 +189,6 @@ export default function InputChucVu() {
               <tbody>
                 {[...chucvus].reverse().map((chucvu: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{chucvu.MaCV}</td>
                     <td>{chucvu.ChucVu}</td>
                     <td className="ip-ls-action">
                       <i

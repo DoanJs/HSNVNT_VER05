@@ -138,7 +138,9 @@ export class CAQHvaTDsService {
   // ResolveField
 
   async CATTPvaTD(caQHvaTD: any): Promise<CATTPvaTD> {
-    return this.dataloaderService.loaderCATTPvaTD.load(caQHvaTD.MaCATTPvaTD);
+    if (caQHvaTD.MaCATTPvaTD) {
+      return this.dataloaderService.loaderCATTPvaTD.load(caQHvaTD.MaCATTPvaTD);
+    }
   }
 
   async Dois(MaCAQHvaTD: number): Promise<Doi[]> {

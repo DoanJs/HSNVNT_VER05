@@ -224,6 +224,7 @@ export class CBCS {
     name: 'MaQT',
     foreignKeyConstraintName: 'FK_MaQT_CBCS',
   })
+  @Field({ nullable: true })
   QuocTich: QuocTich;
 
   @ManyToOne(() => DanToc, (dantoc) => dantoc.CBCSs, {
@@ -234,6 +235,7 @@ export class CBCS {
     name: 'MaDT',
     foreignKeyConstraintName: 'FK_MaDT_CBCS',
   })
+  @Field({ nullable: true })
   DanToc: DanToc;
 
   @ManyToOne(() => TonGiao, (tongiao) => tongiao.CBCSs, {
@@ -244,6 +246,7 @@ export class CBCS {
     name: 'MaTG',
     foreignKeyConstraintName: 'FK_MaTG_CBCS',
   })
+  @Field({ nullable: true })
   TonGiao: TonGiao;
 
   @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CBCSs, {
@@ -254,6 +257,7 @@ export class CBCS {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_CBCS',
   })
+  @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @ManyToOne(() => CapBac, (capbac) => capbac.CBCSs, {
@@ -264,7 +268,7 @@ export class CBCS {
     name: 'MaCB',
     foreignKeyConstraintName: 'FK_MaCB_CBCS',
   })
-  @Field()
+  @Field({ nullable: true })
   CapBac: CapBac;
 
   @ManyToOne(() => ChucVu, (chucvu) => chucvu.CBCSs, {
@@ -275,6 +279,7 @@ export class CBCS {
     name: 'MaCV',
     foreignKeyConstraintName: 'FK_MaCV_CBCS',
   })
+  @Field({ nullable: true })
   ChucVu: ChucVu;
 
   @ManyToOne(() => Doi, (doi) => doi.CBCSs, { cascade: true, eager: true })
@@ -282,6 +287,7 @@ export class CBCS {
     name: 'MaDoi',
     foreignKeyConstraintName: 'FK_MaDoi_CBCS',
   })
+  @Field({ nullable: true })
   Doi: Doi;
 
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.LanhDaoPD)

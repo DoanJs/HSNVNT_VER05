@@ -188,7 +188,6 @@ export default function InputBienPhapDT() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaBPDT</th>
                   <th scope="col">BienPhapDT</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -198,7 +197,6 @@ export default function InputBienPhapDT() {
                   .reverse()
                   .map((bienPhapDT: any, ind: number) => (
                     <tr key={ind}>
-                      <td>{bienPhapDT.MaBPDT}</td>
                       <td>{bienPhapDT.BienPhapDT}</td>
                       <td className="ip-ls-action">
                         <i

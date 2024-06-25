@@ -182,7 +182,6 @@ export default function InputCapCA() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCapCA</th>
                   <th scope="col">CapCA</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -190,7 +189,6 @@ export default function InputCapCA() {
               <tbody>
                 {[...capCAs].reverse().map((capCA: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{capCA.MaCapCA}</td>
                     <td>{capCA.CapCA}</td>
                     <td className="ip-ls-action">
                       <i

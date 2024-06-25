@@ -361,7 +361,7 @@ export const handleTime = (time: any) => {
   let day = moment(time).date();
   let month = moment(time).month();
   let year = moment(time).year();
-  return `${day}/${
+  return `${Number(day) < 10 ? "0" + day : day}/${
     Number(month) < 9 ? "0" + (Number(month) + 1) : Number(month) + 1
   }/${year}`;
 };

@@ -69,7 +69,7 @@ export default function InputCAQHvaTD() {
   const [statusEdit, setStatusEdit] = useState(false);
   const [form, setForm] = useState({
     MaCAQHvaTD: 0,
-    MaCATTPvaTD: 0,
+    MaCATTPvaTD: null,
     CAQHvaTD: "",
     KyHieu: "",
   });
@@ -94,7 +94,7 @@ export default function InputCAQHvaTD() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CAQHvaTD.trim() !== "" && form.KyHieu.trim() !== "" && form.MaCATTPvaTD !== 0) {
+    if (form.CAQHvaTD.trim() !== "") {
       if (statusEdit) {
         editCAQHvaTD({
           variables: {
@@ -152,7 +152,7 @@ export default function InputCAQHvaTD() {
       MaCAQHvaTD: caQHvaTD.MaCAQHvaTD,
       CAQHvaTD: caQHvaTD.CAQHvaTD,
       KyHieu: caQHvaTD.KyHieu,
-      MaCATTPvaTD: caQHvaTD.CATTPvaTD.MaCATTPvaTD,
+      MaCATTPvaTD: caQHvaTD.CATTPvaTD?.MaCATTPvaTD,
     });
   };
 
@@ -204,7 +204,6 @@ export default function InputCAQHvaTD() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCAQHvaTD</th>
                   <th scope="col">CAQHvaTD</th>
                   <th scope="col">KyHieu</th>
                   <th scope="col">CATTPvaTD</th>
@@ -214,10 +213,9 @@ export default function InputCAQHvaTD() {
               <tbody>
                 {[...caQHvaTDs].reverse().map((caQHvaTD: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{caQHvaTD.MaCAQHvaTD}</td>
                     <td>{caQHvaTD.CAQHvaTD}</td>
                     <td>{caQHvaTD.KyHieu}</td>
-                    <td>{caQHvaTD.CATTPvaTD.CATTPvaTD}</td>
+                    <td>{caQHvaTD.CATTPvaTD?.CATTPvaTD}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
@@ -250,7 +248,7 @@ export default function InputCAQHvaTD() {
               </label>
               <input
                 required
-                value={form.CAQHvaTD}
+                value={form.CAQHvaTD ? form.CAQHvaTD : ""}
                 name="CAQHvaTD"
                 onChange={changeForm}
                 type="text"
@@ -261,8 +259,7 @@ export default function InputCAQHvaTD() {
             <div className="mb-3">
               <label className="form-label">Ký hiệu:</label>
               <input
-                required
-                value={form.KyHieu}
+                value={form.KyHieu ? form.KyHieu : ""}
                 name="KyHieu"
                 onChange={changeForm}
                 type="text"
@@ -276,7 +273,7 @@ export default function InputCAQHvaTD() {
               </label>
               <select
                 required
-                value={form.MaCATTPvaTD}
+                value={form.MaCATTPvaTD ? form.MaCATTPvaTD : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}

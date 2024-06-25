@@ -137,31 +137,45 @@ export class CBCSsService {
   //ResolveField
 
   async QuocTich(cbcs: any): Promise<QuocTich> {
-    return this.dataloaderService.loaderQuocTich.load(cbcs.MaQT);
+    if (cbcs.MaQT) {
+      return this.dataloaderService.loaderQuocTich.load(cbcs.MaQT);
+    }
   }
 
   async DanToc(cbcs: any): Promise<DanToc> {
-    return this.dataloaderService.loaderDanToc.load(cbcs.MaDT);
+    if (cbcs.MaDT) {
+      return this.dataloaderService.loaderDanToc.load(cbcs.MaDT);
+    }
   }
 
   async TonGiao(cbcs: any): Promise<TonGiao> {
-    return this.dataloaderService.loaderTonGiao.load(cbcs.MaTG);
+    if (cbcs.MaTG) {
+      return this.dataloaderService.loaderTonGiao.load(cbcs.MaTG);
+    }
   }
 
   async CAQHvaTD(cbcs: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(cbcs.MaCAQHvaTD);
+    if (cbcs.MaCAQHvaTD) {
+      return this.dataloaderService.loaderCAQHvaTD.load(cbcs.MaCAQHvaTD);
+    }
   }
 
   async CapBac(cbcs: any): Promise<CapBac> {
-    return this.dataloaderService.loaderCapBac.load(cbcs.MaCB);
+    if (cbcs.MaCB) {
+      return this.dataloaderService.loaderCapBac.load(cbcs.MaCB);
+    }
   }
 
   async ChucVu(cbcs: any): Promise<ChucVu> {
-    return this.dataloaderService.loaderChucVu.load(cbcs.MaCV);
+    if (cbcs.MaCV) {
+      return this.dataloaderService.loaderChucVu.load(cbcs.MaCV);
+    }
   }
 
   async Doi(cbcs: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(cbcs.MaDoi);
+    if (cbcs.MaDoi) {
+      return this.dataloaderService.loaderDoi.load(cbcs.MaDoi);
+    }
   }
 
   async LanhDaoDVDN_DeNghiTSNTs(MaCBCS: number): Promise<DeNghiTSNT[]> {

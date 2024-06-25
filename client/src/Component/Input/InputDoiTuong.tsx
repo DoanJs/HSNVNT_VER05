@@ -134,7 +134,7 @@ export default function InputDoiTuong() {
       TenKhac: obj.TenKhac,
       GioiTinh: obj.GioiTinh,
       NgaySinh: obj.NgaySinh
-        ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${day}`
+        ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${day < 10 ? "0" + day : day}`
         : "",
       NoiSinh: obj.NoiSinh,
       CCCD: obj.CCCD,
@@ -306,9 +306,9 @@ export default function InputDoiTuong() {
                     <td
                       title={
                         doituong.GioiTinh
-                          ? Number(doituong.GioiTinh) === 0
-                            ? "Nam"
-                            : "Nữ"
+                          ? Number(doituong.GioiTinh) === 1
+                            ? "Nữ"
+                            : "Nam"
                           : ""
                       }
                     >
@@ -409,7 +409,7 @@ export default function InputDoiTuong() {
                   name="GioiTinh"
                 >
                   <option defaultValue={""}>Chọn giới tính</option>
-                  <option value={0}>Nam</option>
+                  <option value={2}>Nam</option>
                   <option value={1}>Nữ</option>
                 </select>
               </div>

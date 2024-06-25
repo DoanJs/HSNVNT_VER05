@@ -128,7 +128,9 @@ export class CATTPvaTDsService {
   // ResolveField
 
   async CapCA(caTTPvaTD: any): Promise<CapCA> {
-    return this.dataloaderService.loaderCapCA.load(caTTPvaTD.MaCapCA);
+    if (caTTPvaTD.MaCapCA) {
+      return this.dataloaderService.loaderCapCA.load(caTTPvaTD.MaCapCA);
+    }
   }
 
   async CAQHvaTDs(MaCATTPvaTD: number): Promise<CAQHvaTD[]> {

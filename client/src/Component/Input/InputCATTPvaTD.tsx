@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
+import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_createCATTPvaTD,
   MUTATION_editCATTPvaTD,
@@ -10,7 +11,6 @@ import {
   QUERY_caTTPvaTDs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
-import { infoDeleteDataVar } from "../../graphql/client/cache";
 
 const InputCATTPvaTDStyled = styled.div`
   .ip-ls-old {
@@ -70,7 +70,7 @@ export default function InputCATTPvaTD() {
   const [form, setForm] = useState({
     MaCATTPvaTD: 0,
     CATTPvaTD: "",
-    MaCapCA: 0,
+    MaCapCA: null,
   });
 
   // --------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ export default function InputCATTPvaTD() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.CATTPvaTD.trim() !== "" && form.MaCapCA !== 0) {
+    if (form.CATTPvaTD.trim() !== "") {
       if (statusEdit) {
         editCATTPvaTD({
           variables: {
@@ -145,7 +145,7 @@ export default function InputCATTPvaTD() {
     setForm({
       ...form,
       CATTPvaTD: caTTPvaTD.CATTPvaTD,
-      MaCapCA: caTTPvaTD.CapCA.MaCapCA,
+      MaCapCA: caTTPvaTD.CapCA?.MaCapCA,
       MaCATTPvaTD: caTTPvaTD.MaCATTPvaTD,
     });
   };
@@ -198,7 +198,6 @@ export default function InputCATTPvaTD() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaCATTPvaTD</th>
                   <th scope="col">CATTPvaTD</th>
                   <th scope="col">CapCA</th>
                   <th scope="col">Action</th>
@@ -209,9 +208,8 @@ export default function InputCATTPvaTD() {
                   .reverse()
                   .map((caTTPvaTD: any, ind: number) => (
                     <tr key={ind}>
-                      <td>{caTTPvaTD.MaCATTPvaTD}</td>
                       <td>{caTTPvaTD.CATTPvaTD}</td>
-                      <td>{caTTPvaTD.CapCA.CapCA}</td>
+                      <td>{caTTPvaTD.CapCA?.CapCA}</td>
                       <td className="ip-ls-action">
                         <i
                           className="fa-solid fa-pen"
@@ -244,7 +242,7 @@ export default function InputCATTPvaTD() {
               </label>
               <input
                 required
-                value={form.CATTPvaTD}
+                value={form.CATTPvaTD ? form.CATTPvaTD : ""}
                 name="CATTPvaTD"
                 onChange={changeForm}
                 type="text"
@@ -256,7 +254,7 @@ export default function InputCATTPvaTD() {
               <label className="form-label">Mã cấp Công an (MaCapCA):</label>
               <select
                 required
-                value={form.MaCapCA}
+                value={form.MaCapCA ? form.MaCapCA : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}

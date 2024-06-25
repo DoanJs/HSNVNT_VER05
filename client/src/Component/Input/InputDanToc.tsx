@@ -66,7 +66,7 @@ export default function InputDanToc() {
   const [form, setForm] = useState({
     MaDT: 0,
     TenDT: "",
-    MaQT: 0,
+    MaQT: null,
   });
 
   // --------------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ export default function InputDanToc() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.TenDT.trim() !== "" && form.MaQT !== 0) {
+    if (form.TenDT.trim() !== "") {
       if (statusEdit) {
         editDanToc({
           variables: {
@@ -139,7 +139,7 @@ export default function InputDanToc() {
     setForm({
       ...form,
       TenDT: dantoc.TenDT,
-      MaQT: dantoc.QuocTich.MaQT,
+      MaQT: dantoc.QuocTich?.MaQT,
       MaDT: dantoc.MaDT,
     });
   };
@@ -176,8 +176,7 @@ export default function InputDanToc() {
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>
-            Danh sách dân tộc hiện có{" "}
-            <b>({dantocs.length})</b>:
+            Danh sách dân tộc hiện có <b>({dantocs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
@@ -192,7 +191,6 @@ export default function InputDanToc() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaDT</th>
                   <th scope="col">TenDT</th>
                   <th scope="col">QuocTich</th>
                   <th scope="col">Action</th>
@@ -201,9 +199,8 @@ export default function InputDanToc() {
               <tbody>
                 {[...dantocs].reverse().map((dantoc: any, ind: number) => (
                   <tr key={ind}>
-                    <td>{dantoc.MaDT}</td>
                     <td>{dantoc.TenDT}</td>
-                    <td>{dantoc.QuocTich.TenQT}</td>
+                    <td>{dantoc.QuocTich?.TenQT}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
@@ -225,17 +222,13 @@ export default function InputDanToc() {
           </div>
         </div>
         <div className="col-6">
-          <h5>
-            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} dân tộc:
-          </h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} dân tộc:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">
-                Dân tộc (TenDT):
-              </label>
+              <label className="form-label">Dân tộc (TenDT):</label>
               <input
                 required
-                value={form.TenDT}
+                value={form.TenDT ? form.TenDT : ""}
                 name="TenDT"
                 onChange={changeForm}
                 type="text"
@@ -247,7 +240,7 @@ export default function InputDanToc() {
               <label className="form-label">Mã quốc tịch (MaQT):</label>
               <select
                 required
-                value={form.MaQT}
+                value={form.MaQT ? form.MaQT : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}
