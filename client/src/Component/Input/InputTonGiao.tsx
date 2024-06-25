@@ -184,15 +184,13 @@ export default function InputTonGiao() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaTG</th>
                   <th scope="col">TenTG</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {[...tonGiaos].reverse().map((tongiao: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{tongiao.MaTG}</td>
+                  <tr key={ind} title={`MaTG: ${tongiao.MaTG}`}>
                     <td>{tongiao.TenTG}</td>
                     <td className="ip-ls-action">
                       <i
@@ -221,7 +219,7 @@ export default function InputTonGiao() {
               <label className="form-label">Tôn giáo (TenTG):</label>
               <input
                 required
-                value={form.TenTG}
+                value={form.TenTG ? form.TenTG : ""}
                 name="TenTG"
                 onChange={changeForm}
                 type="text"

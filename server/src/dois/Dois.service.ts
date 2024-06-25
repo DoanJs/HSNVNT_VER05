@@ -123,7 +123,9 @@ export class DoisService {
   // ResolveField
 
   async CAQHvaTD(doi: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(doi.MaCAQHvaTD);
+    if (doi.MaCAQHvaTD) {
+      return this.dataloaderService.loaderCAQHvaTD.load(doi.MaCAQHvaTD);
+    }
   }
 
   QuyetDinhTSNTs(MaDoi: number): Promise<QuyetDinhTSNT[]> {

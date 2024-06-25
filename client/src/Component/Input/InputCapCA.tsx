@@ -188,7 +188,7 @@ export default function InputCapCA() {
               </thead>
               <tbody>
                 {[...capCAs].reverse().map((capCA: any, ind: number) => (
-                  <tr key={ind}>
+                  <tr key={ind} title={`MaCapCA: ${capCA.MaCapCA}`}>
                     <td>{capCA.CapCA}</td>
                     <td className="ip-ls-action">
                       <i
@@ -217,7 +217,7 @@ export default function InputCapCA() {
               <label className="form-label">Cấp công an (CapBac):</label>
               <input
                 required
-                value={form.CapCA}
+                value={form.CapCA ? form.CapCA : ""}
                 name="CapCA"
                 onChange={changeForm}
                 type="text"

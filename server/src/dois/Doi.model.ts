@@ -39,6 +39,7 @@ export class Doi {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_Doi',
   })
+  @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @OneToMany(() => CBCS, (cbcs) => cbcs.Doi)

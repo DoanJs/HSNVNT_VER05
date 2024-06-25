@@ -182,15 +182,13 @@ export default function InputDDNB() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaDDNB</th>
                   <th scope="col">DacDiem</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {[...ddnbs].reverse().map((ddnb: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{ddnb.MaDDNB}</td>
+                  <tr key={ind} title={`MaDDNB: ${ddnb.MaDDNB}`}>
                     <td>{ddnb.DacDiem}</td>
                     <td className="ip-ls-action">
                       <i
@@ -219,7 +217,7 @@ export default function InputDDNB() {
               <label className="form-label">Đặc điểm nổi bật (DacDiem):</label>
               <input
                 required
-                value={form.DacDiem}
+                value={form.DacDiem ? form.DacDiem : ""}
                 name="DacDiem"
                 onChange={changeForm}
                 type="text"

@@ -33,7 +33,7 @@ const InputBienPhapDTStyled = styled.div`
           color: green;
         }
       }
-    };
+    }
     .ip-ls-old-content::-webkit-scrollbar {
       background-color: #e4e6eb;
       width: 4px;
@@ -132,21 +132,21 @@ export default function InputBienPhapDT() {
     }
   };
 
-  const onEditData = (BienPhapDT: any) => {
+  const onEditData = (bienphapDT: any) => {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaBPDT: BienPhapDT.MaBPDT,
-      BienPhapDT: BienPhapDT.BienPhapDT,
+      MaBPDT: bienphapDT.MaBPDT,
+      BienPhapDT: bienphapDT.BienPhapDT,
     });
   };
 
-  const onDeleteData = (BienPhapDT: any) =>
+  const onDeleteData = (bienphapDT: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: BienPhapDT.BienPhapDT,
+      Title: bienphapDT.BienPhapDT,
       Table: "BienPhapDTs",
-      ID: BienPhapDT.MaBPDT,
+      ID: bienphapDT.MaBPDT,
     });
 
   useEffect(() => {
@@ -196,7 +196,7 @@ export default function InputBienPhapDT() {
                 {[...bienPhapDTs]
                   .reverse()
                   .map((bienPhapDT: any, ind: number) => (
-                    <tr key={ind}>
+                    <tr key={ind} title={`MaBPDT: ${bienPhapDT.MaBPDT}`}>
                       <td>{bienPhapDT.BienPhapDT}</td>
                       <td className="ip-ls-action">
                         <i
@@ -227,7 +227,7 @@ export default function InputBienPhapDT() {
               </label>
               <input
                 required
-                value={form.BienPhapDT}
+                value={form.BienPhapDT ? form.BienPhapDT : ""}
                 name="BienPhapDT"
                 onChange={changeForm}
                 type="text"

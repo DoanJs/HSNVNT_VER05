@@ -33,7 +33,7 @@ const InputChucVuStyled = styled.div`
           color: green;
         }
       }
-    };
+    }
     .ip-ls-old-content::-webkit-scrollbar {
       background-color: #e4e6eb;
       width: 4px;
@@ -188,7 +188,7 @@ export default function InputChucVu() {
               </thead>
               <tbody>
                 {[...chucvus].reverse().map((chucvu: any, ind: number) => (
-                  <tr key={ind}>
+                  <tr key={ind} title={`MaCV: ${chucvu.MaCV}`}>
                     <td>{chucvu.ChucVu}</td>
                     <td className="ip-ls-action">
                       <i
@@ -217,7 +217,7 @@ export default function InputChucVu() {
               <label className="form-label">Chức vụ (ChucVu):</label>
               <input
                 required
-                value={form.ChucVu}
+                value={form.ChucVu ? form.ChucVu : ""}
                 name="ChucVu"
                 onChange={changeForm}
                 type="text"

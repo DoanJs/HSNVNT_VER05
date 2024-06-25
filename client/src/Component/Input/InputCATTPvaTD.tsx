@@ -207,7 +207,7 @@ export default function InputCATTPvaTD() {
                 {[...caTTPvaTDs]
                   .reverse()
                   .map((caTTPvaTD: any, ind: number) => (
-                    <tr key={ind}>
+                    <tr key={ind} title={`MaCATTPvaTD: ${caTTPvaTD.MaCATTPvaTD}`}>
                       <td>{caTTPvaTD.CATTPvaTD}</td>
                       <td>{caTTPvaTD.CapCA?.CapCA}</td>
                       <td className="ip-ls-action">

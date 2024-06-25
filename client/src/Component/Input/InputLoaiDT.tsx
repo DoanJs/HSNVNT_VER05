@@ -182,15 +182,13 @@ export default function InputLoaiDT() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaLoaiDT</th>
                   <th scope="col">LoaiDT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {[...loaiDTs].reverse().map((loaiDT: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{loaiDT.MaLoaiDT}</td>
+                  <tr key={ind} title={`MaLoaiDT: ${loaiDT.MaLoaiDT}`}>
                     <td>{loaiDT.LoaiDT}</td>
                     <td className="ip-ls-action">
                       <i
@@ -219,7 +217,7 @@ export default function InputLoaiDT() {
               <label className="form-label">Loại đối tượng (LoaiDT):</label>
               <input
                 required
-                value={form.LoaiDT}
+                value={form.LoaiDT ? form.LoaiDT : ""}
                 name="LoaiDT"
                 onChange={changeForm}
                 type="text"

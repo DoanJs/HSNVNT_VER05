@@ -7,7 +7,7 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_createLoaiLLDB,
   MUTATION_editLoaiLLDB,
-  QUERY_loaiLLDBs
+  QUERY_loaiLLDBs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
@@ -86,7 +86,7 @@ export default function InputLoaiLLDB() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.TenLLDB.trim() !== "" && form.KyHieu.trim() !==  "") {
+    if (form.TenLLDB.trim() !== "") {
       if (statusEdit) {
         editLoaiLLDB({
           variables: {
@@ -131,7 +131,11 @@ export default function InputLoaiLLDB() {
         });
       }
     } else {
-      showNotification("Cảnh báo", "Vui lòng nhập đầy đủ giá trị!", "warning");
+      showNotification(
+        "Cảnh báo",
+        "Vui lòng nhập đúng và đầy đủ giá trị!",
+        "warning"
+      );
     }
   };
 
@@ -193,7 +197,6 @@ export default function InputLoaiLLDB() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaLoaiLLDB</th>
                   <th scope="col">TenLLDB</th>
                   <th scope="col">KyHieu</th>
                   <th scope="col">Action</th>
@@ -201,8 +204,7 @@ export default function InputLoaiLLDB() {
               </thead>
               <tbody>
                 {[...loaiLLDBs].reverse().map((loaiLLDB: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{loaiLLDB.MaLoaiLLDB}</td>
+                  <tr key={ind} title={`MaLoaiLLDB: ${loaiLLDB.MaLoaiLLDB}`}>
                     <td>{loaiLLDB.TenLLDB}</td>
                     <td>{loaiLLDB.KyHieu}</td>
                     <td className="ip-ls-action">
@@ -236,7 +238,7 @@ export default function InputLoaiLLDB() {
               </label>
               <input
                 required
-                value={form.TenLLDB}
+                value={form.TenLLDB ? form.TenLLDB : ""}
                 name="TenLLDB"
                 onChange={changeForm}
                 type="text"
@@ -247,8 +249,7 @@ export default function InputLoaiLLDB() {
             <div className="mb-3">
               <label className="form-label">Ký hiệu:</label>
               <input
-                required
-                value={form.KyHieu}
+                value={form.KyHieu ? form.KyHieu : ""}
                 name="KyHieu"
                 onChange={changeForm}
                 type="text"

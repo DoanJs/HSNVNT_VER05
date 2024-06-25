@@ -188,7 +188,6 @@ export default function InputHinhThucHD() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaHTHD</th>
                   <th scope="col">HinhThuc</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -197,8 +196,7 @@ export default function InputHinhThucHD() {
                 {[...hinhthucHDs]
                   .reverse()
                   .map((hinhthuc: any, ind: number) => (
-                    <tr key={ind}>
-                      <td>{hinhthuc.MaHTHD}</td>
+                    <tr key={ind} title={`MaHTHD: ${hinhthuc.MaHTHD}`}>
                       <td>{hinhthuc.HinhThuc}</td>
                       <td className="ip-ls-action">
                         <i
@@ -229,7 +227,7 @@ export default function InputHinhThucHD() {
               </label>
               <input
                 required
-                value={form.HinhThuc}
+                value={form.HinhThuc ? form.HinhThuc : ""}
                 name="HinhThuc"
                 onChange={changeForm}
                 type="text"

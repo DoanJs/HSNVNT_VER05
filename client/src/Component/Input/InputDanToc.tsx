@@ -198,7 +198,7 @@ export default function InputDanToc() {
               </thead>
               <tbody>
                 {[...dantocs].reverse().map((dantoc: any, ind: number) => (
-                  <tr key={ind}>
+                  <tr key={ind} title={`MaDT: ${dantoc.MaDT}`}>
                     <td>{dantoc.TenDT}</td>
                     <td>{dantoc.QuocTich?.TenQT}</td>
                     <td className="ip-ls-action">

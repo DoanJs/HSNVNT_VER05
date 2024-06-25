@@ -80,7 +80,7 @@ export default function InputTinhTP() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.TinhTP.trim() !== "" && form.Cap.trim() !== "") {
+    if (form.TinhTP.trim() !== "") {
       if (statusEdit) {
         editTinhTP({
           variables: {
@@ -125,7 +125,11 @@ export default function InputTinhTP() {
         });
       }
     } else {
-      showNotification("Cảnh báo", "Vui lòng nhập đúng, đầy đủ giá trị!", "warning");
+      showNotification(
+        "Cảnh báo",
+        "Vui lòng nhập đúng, đầy đủ giá trị!",
+        "warning"
+      );
     }
   };
 
@@ -186,7 +190,6 @@ export default function InputTinhTP() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaTinhTP</th>
                   <th scope="col">TinhTP</th>
                   <th scope="col">Cap</th>
                   <th scope="col">Action</th>
@@ -194,8 +197,7 @@ export default function InputTinhTP() {
               </thead>
               <tbody>
                 {[...tinhTPs].reverse().map((tinhTP: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{tinhTP.MaTinhTP}</td>
+                  <tr key={ind} title={`MaTinhTP: ${tinhTP.MaTinhTP}`}>
                     <td>{tinhTP.TinhTP}</td>
                     <td>{tinhTP.Cap}</td>
                     <td className="ip-ls-action">
@@ -225,7 +227,7 @@ export default function InputTinhTP() {
               <label className="form-label">Tỉnh, thành phố (TinhTP):</label>
               <input
                 required
-                value={form.TinhTP}
+                value={form.TinhTP ? form.TinhTP : ""}
                 name="TinhTP"
                 onChange={changeForm}
                 type="text"
@@ -236,8 +238,7 @@ export default function InputTinhTP() {
             <div className="mb-3">
               <label className="form-label">Cấp:</label>
               <input
-                required
-                value={form.Cap}
+                value={form.Cap ? form.Cap : ""}
                 name="Cap"
                 onChange={changeForm}
                 type="text"

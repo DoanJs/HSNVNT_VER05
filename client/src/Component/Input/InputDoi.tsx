@@ -8,7 +8,7 @@ import {
   MUTATION_createDoi,
   MUTATION_editDoi,
   QUERY_caQHvaTDs,
-  QUERY_dois
+  QUERY_dois,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
@@ -66,7 +66,7 @@ export default function InputDoi() {
   const [form, setForm] = useState({
     MaDoi: 0,
     TenDoi: "",
-    MaCAQHvaTD: 0,
+    MaCAQHvaTD: null,
   });
 
   // --------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ export default function InputDoi() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.TenDoi.trim() !== "" && form.MaCAQHvaTD !== 0) {
+    if (form.TenDoi.trim() !== "") {
       if (statusEdit) {
         editDoi({
           variables: {
@@ -145,7 +145,7 @@ export default function InputDoi() {
     setForm({
       ...form,
       TenDoi: doi.TenDoi,
-      MaCAQHvaTD: doi.CAQHvaTD.MaCAQHvaTD,
+      MaCAQHvaTD: doi.CAQHvaTD?.MaCAQHvaTD,
       MaDoi: doi.MaDoi,
     });
   };
@@ -197,7 +197,6 @@ export default function InputDoi() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaDoi</th>
                   <th scope="col">TenDoi</th>
                   <th scope="col">CAQHvaTD</th>
                   <th scope="col">Action</th>
@@ -205,10 +204,9 @@ export default function InputDoi() {
               </thead>
               <tbody>
                 {[...dois].reverse().map((doi: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{doi.MaDoi}</td>
+                  <tr key={ind} title={`MaDoi: ${doi.MaDoi}`}>
                     <td>{doi.TenDoi}</td>
-                    <td>{doi.CAQHvaTD.CAQHvaTD}</td>
+                    <td>{doi.CAQHvaTD?.CAQHvaTD}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
@@ -233,12 +231,10 @@ export default function InputDoi() {
           <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} đội:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">
-                Đội (Doi):
-              </label>
+              <label className="form-label">Đội (Doi):</label>
               <input
                 required
-                value={form.TenDoi}
+                value={form.TenDoi ? form.TenDoi : ""}
                 name="TenDoi"
                 onChange={changeForm}
                 type="text"
@@ -251,8 +247,7 @@ export default function InputDoi() {
                 Mã công an quận huyện và tương đương (MaCAQHvaTD):
               </label>
               <select
-                required
-                value={form.MaCAQHvaTD}
+                value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}

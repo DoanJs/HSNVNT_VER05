@@ -70,8 +70,8 @@ export default function InputLLDB() {
   const [form, setForm] = useState({
     MaLLDB: 0,
     BiDanh: "",
-    MaLoaiLLDB: 0,
-    MaTSQuanLy: 0,
+    MaLoaiLLDB: null,
+    MaTSQuanLy: null,
   });
 
   // --------------------------------------------------------------------------------------------
@@ -81,7 +81,6 @@ export default function InputLLDB() {
   };
 
   const changeForm = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    console.log(form);
     setForm({
       ...form,
       [e.target.name]:
@@ -93,11 +92,7 @@ export default function InputLLDB() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      form.BiDanh.trim() !== "" &&
-      form.MaLoaiLLDB !== 0 &&
-      form.MaTSQuanLy !== 0
-    ) {
+    if (form.BiDanh.trim() !== "") {
       if (statusEdit) {
         editLLDB({
           variables: {
@@ -144,7 +139,11 @@ export default function InputLLDB() {
         });
       }
     } else {
-      showNotification("Cảnh báo", "Vui lòng nhập đúng và đầy đủ giá trị!", "warning");
+      showNotification(
+        "Cảnh báo",
+        "Vui lòng nhập đúng và đầy đủ giá trị!",
+        "warning"
+      );
     }
   };
 
@@ -153,8 +152,8 @@ export default function InputLLDB() {
     setForm({
       ...form,
       BiDanh: lldb.BiDanh,
-      MaLoaiLLDB: lldb.LoaiLLDB.MaLoaiLLDB,
-      MaTSQuanLy: lldb.TSQuanLy.MaCBCS,
+      MaLoaiLLDB: lldb.LoaiLLDB?.MaLoaiLLDB,
+      MaTSQuanLy: lldb.TSQuanLy?.MaCBCS,
       MaLLDB: lldb.MaLLDB,
     });
   };
@@ -206,7 +205,6 @@ export default function InputLLDB() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaLLDB</th>
                   <th scope="col">BiDanh</th>
                   <th scope="col">LoaiLLDB</th>
                   <th scope="col">TSQuanLy</th>
@@ -215,11 +213,10 @@ export default function InputLLDB() {
               </thead>
               <tbody>
                 {[...lldbs].reverse().map((lldb: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{lldb.MaLLDB}</td>
+                  <tr key={ind} title={`MaLLDB: ${lldb.MaLLDB}`}>
                     <td>{lldb.BiDanh}</td>
-                    <td>{lldb.LoaiLLDB.TenLLDB}</td>
-                    <td>{lldb.TSQuanLy.HoTen}</td>
+                    <td>{lldb.LoaiLLDB?.TenLLDB}</td>
+                    <td>{lldb.TSQuanLy?.HoTen}</td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
@@ -244,10 +241,10 @@ export default function InputLLDB() {
           <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} lực lượng đặc biệt:</h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">Lực lượng đặc biệt (LLDB):</label>
+              <label className="form-label">Bí danh (BiDanh):</label>
               <input
                 required
-                value={form.BiDanh}
+                value={form.BiDanh ? form.BiDanh : ""}
                 name="BiDanh"
                 onChange={changeForm}
                 type="text"
@@ -260,8 +257,7 @@ export default function InputLLDB() {
                 Mã loại lực lượng đặc biệt (MaLoaiLLDB):
               </label>
               <select
-                required
-                value={form.MaLoaiLLDB}
+                value={form.MaLoaiLLDB ? form.MaLoaiLLDB : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}
@@ -281,8 +277,7 @@ export default function InputLLDB() {
                 Mã trinh sát quản lý (MaTSQuanLy):
               </label>
               <select
-                required
-                value={form.MaTSQuanLy}
+                value={form.MaTSQuanLy ? form.MaTSQuanLy : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}

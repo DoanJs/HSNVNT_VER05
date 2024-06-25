@@ -2,7 +2,14 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { LoaiLLDB } from 'src/loaiLLDBs/LoaiLLDB.model';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'LLDBs' })
 @ObjectType()
@@ -17,20 +24,28 @@ export class LLDB {
 
   // relation
 
-  @ManyToOne(() => LoaiLLDB, loaiLLDB => loaiLLDB.LLDBs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaLoaiLLDB",
-    foreignKeyConstraintName: "FK_MaLoaiLLDB_LLDB"
+  @ManyToOne(() => LoaiLLDB, (loaiLLDB) => loaiLLDB.LLDBs, {
+    cascade: true,
+    eager: true,
   })
-  LoaiLLDB: LoaiLLDB
-
-  @ManyToMany(() => KeHoachTSNT, kehoachTSNT => kehoachTSNT.LLDBs)
-  KeHoachTSNTs: [KeHoachTSNT]
-
-  @ManyToOne(() => CBCS, cbcs => cbcs.TSQuanLy_LLDBs, { cascade: true, eager: true })
   @JoinColumn({
-    name: "MaTSQuanLy",
-    foreignKeyConstraintName: "FK_MaTSQuanLy_LLDB"
+    name: 'MaLoaiLLDB',
+    foreignKeyConstraintName: 'FK_MaLoaiLLDB_LLDB',
   })
-  TSQuanLy: CBCS
+  @Field({ nullable: true })
+  LoaiLLDB: LoaiLLDB;
+
+  @ManyToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.LLDBs)
+  KeHoachTSNTs: [KeHoachTSNT];
+
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.TSQuanLy_LLDBs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaTSQuanLy',
+    foreignKeyConstraintName: 'FK_MaTSQuanLy_LLDB',
+  })
+  @Field((type) => CBCS, { nullable: true })
+  TSQuanLy: CBCS;
 }

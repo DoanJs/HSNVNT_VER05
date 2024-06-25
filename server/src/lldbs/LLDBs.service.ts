@@ -115,7 +115,9 @@ export class LLDBsService {
   // ResolveField
 
   async LoaiLLDB(lldb: any): Promise<LoaiLLDB> {
-    return this.dataloaderService.loaderLoaiLLDB.load(lldb.MaLoaiLLDB);
+    if (lldb.MaLoaiLLDB) {
+      return this.dataloaderService.loaderLoaiLLDB.load(lldb.MaLoaiLLDB);
+    }
   }
 
   async KeHoachTSNTs(MaLLDB: number): Promise<KeHoachTSNT[]> {
@@ -129,6 +131,8 @@ export class LLDBsService {
   }
 
   async TSQuanLy(lldb: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(lldb.MaTSQuanLy);
+    if (lldb.MaTSQuanLy) {
+      return this.dataloaderService.loaderCBCS.load(lldb.MaTSQuanLy);
+    }
   }
 }

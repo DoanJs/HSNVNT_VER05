@@ -188,15 +188,13 @@ export default function InputQuocTich() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaQT</th>
                   <th scope="col">TenQT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {[...quocTichs].reverse().map((quoctich: any, ind: number) => (
-                  <tr key={ind}>
-                    <td>{quoctich.MaQT}</td>
+                  <tr key={ind} title={`MaQT: ${quoctich.MaQT}`}>
                     <td>{quoctich.TenQT}</td>
                     <td className="ip-ls-action">
                       <i
@@ -225,7 +223,7 @@ export default function InputQuocTich() {
               <label className="form-label">Quốc tịch (QuocTich):</label>
               <input
                 required
-                value={form.TenQT}
+                value={form.TenQT ? form.TenQT : ""}
                 name="TenQT"
                 onChange={changeForm}
                 type="text"

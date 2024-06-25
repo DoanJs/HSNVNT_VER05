@@ -212,7 +212,7 @@ export default function InputCAQHvaTD() {
               </thead>
               <tbody>
                 {[...caQHvaTDs].reverse().map((caQHvaTD: any, ind: number) => (
-                  <tr key={ind}>
+                  <tr key={ind} title={`MaCAQHvaTD: ${caQHvaTD.MaCAQHvaTD}`}>
                     <td>{caQHvaTD.CAQHvaTD}</td>
                     <td>{caQHvaTD.KyHieu}</td>
                     <td>{caQHvaTD.CATTPvaTD?.CATTPvaTD}</td>

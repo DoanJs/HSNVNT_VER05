@@ -188,7 +188,6 @@ export default function InputTinhChatDT() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">MaTCDT</th>
                   <th scope="col">TinhChat</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -197,8 +196,7 @@ export default function InputTinhChatDT() {
                 {[...tinhChatDTs]
                   .reverse()
                   .map((tinhchat: any, ind: number) => (
-                    <tr key={ind}>
-                      <td>{tinhchat.MaTCDT}</td>
+                    <tr key={ind} title={`MaTCDT: ${tinhchat.MaTCDT}`}>
                       <td>{tinhchat.TinhChat}</td>
                       <td className="ip-ls-action">
                         <i
@@ -229,7 +227,7 @@ export default function InputTinhChatDT() {
               </label>
               <input
                 required
-                value={form.TinhChat}
+                value={form.TinhChat ? form.TinhChat : ""}
                 name="TinhChat"
                 onChange={changeForm}
                 type="text"
