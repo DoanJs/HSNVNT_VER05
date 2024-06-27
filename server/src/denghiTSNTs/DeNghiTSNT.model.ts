@@ -66,6 +66,7 @@ export class DeNghiTSNT {
     name: 'MaCATTPvaTD',
     foreignKeyConstraintName: 'FK_MaCATTPvaTD_DeNghiTSNT',
   })
+  @Field({ nullable: true })
   CATTPvaTD: CATTPvaTD;
 
   @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.DeNghiTSNTs, {
@@ -76,6 +77,7 @@ export class DeNghiTSNT {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_DeNghiTSNT',
   })
+  @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @OneToOne(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DeNghiTSNT)
@@ -106,6 +108,7 @@ export class DeNghiTSNT {
     name: 'MaDoiTuong',
     foreignKeyConstraintName: 'FK_MaDoiTuong_DeNghiTSNT',
   })
+  @Field({ nullable: true })
   DoiTuong: DoiTuong;
 
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.DeNghiTSNT)
@@ -137,5 +140,6 @@ export class DeNghiTSNT {
     name: 'MaHTHD',
     foreignKeyConstraintName: 'FK_MaHTHD_DeNghiTSNT',
   })
+  @Field({ nullable: true })
   HinhThucHD: HinhThucHD;
 }

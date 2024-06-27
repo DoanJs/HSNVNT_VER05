@@ -10,6 +10,7 @@ import {
   QUERY_tonGiaos,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_TonGiao } from "./FormInitial";
 
 const InputTonGiaoStyled = styled.div`
   .ip-ls-old {
@@ -59,10 +60,7 @@ export default function InputTonGiao() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [tonGiaos, set_tonGiaos] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaTG: 0,
-    TenTG: "",
-  });
+  const [form, setForm] = useState(FI_TonGiao);
 
   // --------------------------------------------------------------------------------------------
 
@@ -95,6 +93,7 @@ export default function InputTonGiao() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_TonGiao);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -112,6 +111,7 @@ export default function InputTonGiao() {
               `Thêm mới "${data.createTonGiao.TenTG}" thành công`,
               "success"
             );
+            setForm(FI_TonGiao);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

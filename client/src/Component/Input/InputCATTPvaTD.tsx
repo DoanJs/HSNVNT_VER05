@@ -11,6 +11,7 @@ import {
   QUERY_caTTPvaTDs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_CATTPvaTD } from "./FormInitial";
 
 const InputCATTPvaTDStyled = styled.div`
   .ip-ls-old {
@@ -67,11 +68,7 @@ export default function InputCATTPvaTD() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [caTTPvaTDs, set_caTTPvaTDs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaCATTPvaTD: 0,
-    CATTPvaTD: "",
-    MaCapCA: null,
-  });
+  const [form, setForm] = useState(FI_CATTPvaTD);
 
   // --------------------------------------------------------------------------------------------
 
@@ -108,6 +105,7 @@ export default function InputCATTPvaTD() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_CATTPvaTD)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -128,6 +126,7 @@ export default function InputCATTPvaTD() {
               `Thêm mới "${data.createCATTPvaTD.CATTPvaTD}" thành công`,
               "success"
             );
+            setForm(FI_CATTPvaTD)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

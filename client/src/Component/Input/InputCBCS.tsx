@@ -22,6 +22,7 @@ import {
   handleTime,
   showNotification,
 } from "../../utils/functions";
+import { FI_CBCS } from "./FormInitial";
 
 const InputCBCSStyled = styled.div`
   .ip-ls-old {
@@ -93,30 +94,7 @@ export default function InputCBCS() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [cbcss, set_cbcss] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaCBCS: 0,
-    HoTen: "",
-    TenKhac: "",
-    AnhDD: "",
-    NgaySinh: "",
-    GioiTinh: 0,
-    QueQuan: "",
-    HKTT: "",
-    NoiO: "",
-    SDT: "",
-    CCCD: "",
-    CMND: "",
-    SHC: "",
-    PhuongTien: "",
-    ThongTinChiTiet: "",
-    MaQT: null,
-    MaDT: null,
-    MaTG: null,
-    MaCAQHvaTD: null,
-    MaDoi: null,
-    MaCB: null,
-    MaCV: null,
-  });
+  const [form, setForm] = useState(FI_CBCS);
 
   // --------------------------------------------------------------------------------------------
 
@@ -194,6 +172,7 @@ export default function InputCBCS() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_CBCS)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -212,6 +191,7 @@ export default function InputCBCS() {
               `Thêm mới "${data.createCBCS.HoTen}" thành công`,
               "success"
             );
+            setForm(FI_CBCS)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

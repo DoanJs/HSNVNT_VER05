@@ -10,6 +10,7 @@ import {
   QUERY_capbacs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_CapBac } from "./FormInitial";
 
 const InputCapBacStyled = styled.div`
   .ip-ls-old {
@@ -59,10 +60,7 @@ export default function InputCapBac() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [capbacs, set_capbacs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaCB: 0,
-    CapBac: "",
-  });
+  const [form, setForm] = useState(FI_CapBac);
 
   // --------------------------------------------------------------------------------------------
 
@@ -93,6 +91,7 @@ export default function InputCapBac() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_CapBac)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -110,6 +109,7 @@ export default function InputCapBac() {
               `Thêm mới "${data.createCapBac.CapBac}" thành công`,
               "success"
             );
+            setForm(FI_CapBac)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

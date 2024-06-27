@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import * as CryptoJS from 'crypto-js';
-import * as moment from 'moment';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { UtilsParamsInput } from './type/UtilsParams.input';
 
 @Injectable()
 export class UtilsService {
   constructor(private readonly actionDBsService: ActionDBsService) {}
+
+  async bienphapDTs_doituongs(utilsParams: UtilsParamsInput):Promise<any[]> {
+    return
+  }
+  // -----------------------------------------
 
   EncryptText(text: string): string | null {
     return text
@@ -41,4 +46,6 @@ export class UtilsService {
         )
       : null;
   }
+
+
 }

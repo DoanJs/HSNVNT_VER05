@@ -11,6 +11,7 @@ import {
   QUERY_dois,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_Doi } from "./FormInitial";
 
 const InputDoiStyled = styled.div`
   .ip-ls-old {
@@ -63,11 +64,7 @@ export default function InputDoi() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [dois, set_dois] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaDoi: 0,
-    TenDoi: "",
-    MaCAQHvaTD: null,
-  });
+  const [form, setForm] = useState(FI_Doi);
 
   // --------------------------------------------------------------------------------------------
 
@@ -104,6 +101,7 @@ export default function InputDoi() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_Doi)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -124,6 +122,7 @@ export default function InputDoi() {
               `Thêm mới "${data.createDoi.TenDoi}" thành công`,
               "success"
             );
+            setForm(FI_Doi)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

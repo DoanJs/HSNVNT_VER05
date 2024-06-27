@@ -9,6 +9,7 @@ import {
   FileList,
   Home,
   InputBienPhapDT,
+  InputBienPhapDT_DoiTuong,
   InputCapbac,
   InputCapCA,
   InputCAQHvaTD,
@@ -17,6 +18,8 @@ import {
   InputChucVu,
   InputDanToc,
   InputDDNB,
+  InputDeNghiTSNT,
+  InputDeNghiTSNT_TinhTP,
   InputDoi,
   InputDoiTuong,
   InputHinhThucHD,
@@ -100,6 +103,9 @@ export default function App() {
           <Route path="/nhaplieu/doi" element={<InputDoi />} />
           <Route path="/nhaplieu/cbcs" element={<InputCBCS />} />
           <Route path="/nhaplieu/doituong" element={<InputDoiTuong />} />
+          <Route path="/nhaplieu/bienphapdtdt" element={<InputBienPhapDT_DoiTuong />} />
+          <Route path="/nhaplieu/denghitsnt" element={<InputDeNghiTSNT />} />
+          <Route path="/nhaplieu/denghitsnttinhtp" element={<InputDeNghiTSNT_TinhTP />} />
 
 
 

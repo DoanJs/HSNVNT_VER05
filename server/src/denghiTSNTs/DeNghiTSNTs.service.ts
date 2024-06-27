@@ -11,6 +11,7 @@ import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
+  SP_CHANGE_DATA,
   SP_CHANGE_DENGHITSNT,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
@@ -19,6 +20,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DeNghiTSNT } from './DeNghiTSNT.model';
 import { DeNghiTSNTInput } from './type/DeNghiTSNT.input';
+import { DeNghiTSNT_TinhTPType } from './type/DeNghiTSNT_TinhTP.type';
+import { DeNghiTSNT_TinhTPInput } from './type/DeNghiTSNT_TinhTP.input';
 
 @Injectable()
 export class DeNghiTSNTsService {
@@ -38,12 +41,12 @@ export class DeNghiTSNTsService {
       MaDN,
       DeNghiTSNTInput: {
         So: denghiTSNTInput.So ? `N'${denghiTSNTInput.So}'` : null,
-        Ngay: denghiTSNTInput.Ngay ? denghiTSNTInput.Ngay : null,
+        Ngay: denghiTSNTInput.Ngay ? `N'${denghiTSNTInput.Ngay}'` : null,
         ThoiGianBD: denghiTSNTInput.ThoiGianBD
-          ? denghiTSNTInput.ThoiGianBD
+          ? `N'${denghiTSNTInput.ThoiGianBD}'`
           : null,
         ThoiGianKT: denghiTSNTInput.ThoiGianKT
-          ? denghiTSNTInput.ThoiGianKT
+          ? `N'${denghiTSNTInput.ThoiGianKT}'`
           : null,
         NoiDungDN: `N'${denghiTSNTInput.NoiDungDN}'`, //crypto
         NoiDungTN: `N'${denghiTSNTInput.NoiDungTN}'`, //crypto
@@ -135,14 +138,120 @@ export class DeNghiTSNTsService {
     return result[0];
   }
 
+  // many-to-many relation
+
+  denghiTSNTs_tinhTPs(utilsParams: UtilsParamsInput): Promise<DeNghiTSNT_TinhTPType[]> {
+    return this.denghiTSNTRepository.query(
+      SP_GET_DATA(
+        'DeNghiTSNTs_TinhTPs',
+        `'MaDN != 0'`,
+        'MaDN',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+  
+  async createDeNghiTSNT_TinhTP(
+    denghitsnt_tinhtpInput: DeNghiTSNT_TinhTPInput,
+    user: any,
+  ): Promise<DeNghiTSNT_TinhTPType> {
+    const result = await this.denghiTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'DeNghiTSNTs_TinhTPs',
+        `'MaTinhTP, MaDN'`,
+        `'  ${denghitsnt_tinhtpInput.MaTinhTP},
+            ${denghitsnt_tinhtpInput.MaDN}
+        '`,
+        `'MaTinhTP = ${denghitsnt_tinhtpInput.MaTinhTP}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaTinhTP: ${denghitsnt_tinhtpInput.MaTinhTP}, MaDN: ${denghitsnt_tinhtpInput.MaDN} };`,
+      TableName: 'DeNghiTSNTs_TinhTPs',
+    });
+    return result[0];
+  }
+
+  async editDeNghiTSNT_TinhTP(
+    denghitsnt_tinhtpInput: DeNghiTSNT_TinhTPInput,
+    MaTinhTP: number,
+    MaDN: number,
+    user: any,
+  ): Promise<DeNghiTSNT_TinhTPType> {
+    await this.denghiTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'DeNghiTSNTs_TinhTPs',
+        null,
+        null,
+        null,
+        `'  MaTinhTP = ${denghitsnt_tinhtpInput.MaTinhTP},
+            MaDN = ${denghitsnt_tinhtpInput.MaDN}
+        '`,
+        `'MaTinhTP = ${MaTinhTP} AND MaDN = ${MaDN}'`,
+      ),
+    );
+    const result = await this.denghiTSNTRepository.query(
+      SP_GET_DATA(
+        'DeNghiTSNTs_TinhTPs',
+        `'MaTinhTP = ${denghitsnt_tinhtpInput.MaTinhTP} AND MaDN = ${denghitsnt_tinhtpInput.MaDN}'`,
+        'MaTinhTP',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaTinhTP: ${denghitsnt_tinhtpInput.MaTinhTP}, MaDN: ${denghitsnt_tinhtpInput.MaDN} };`,
+      TableName: 'DeNghiTSNTs_TinhTPs',
+    });
+    return result[0];
+  }
+
+  async deleteDeNghiTSNT_TinhTP(
+    MaTinhTP: number,
+    MaDN: number,
+    user: any,
+  ): Promise<DeNghiTSNT_TinhTPType> {
+    const result = await this.denghiTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'DeNghiTSNTs_TinhTPs',
+        null,
+        null,
+        null,
+        null,
+        `'MaTinhTP = ${MaTinhTP} AND MaDN = ${MaDN}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaTinhTP: ${MaTinhTP}, MaDN: ${MaDN} };`,
+      TableName: 'DeNghiTSNTs_TinhTPs',
+    });
+    return result[0];
+  }
+
   // ResolveField
 
   async CATTPvaTD(denghiTSNT: any): Promise<CATTPvaTD> {
-    return this.dataloaderService.loaderCATTPvaTD.load(denghiTSNT.MaCATTPvaTD);
+    if (denghiTSNT.MaCATTPvaTD) {
+      return this.dataloaderService.loaderCATTPvaTD.load(
+        denghiTSNT.MaCATTPvaTD,
+      );
+    }
   }
 
   async CAQHvaTD(denghiTSNT: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(denghiTSNT.MaCAQHvaTD);
+    if (denghiTSNT.MaCAQHvaTD) {
+      return this.dataloaderService.loaderCAQHvaTD.load(denghiTSNT.MaCAQHvaTD);
+    }
   }
 
   async DiaBanDNs(MaDN: number): Promise<TinhTP[]> {
@@ -156,7 +265,9 @@ export class DeNghiTSNTsService {
   }
 
   async DoiTuong(denghiTSNT: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(denghiTSNT.MaDoiTuong);
+    if (denghiTSNT.MaDoiTuong) {
+      return this.dataloaderService.loaderDoiTuong.load(denghiTSNT.MaDoiTuong);
+    }
   }
 
   async LanhDaoDVDN(denghiTSNT: any): Promise<CBCS> {
@@ -189,7 +300,9 @@ export class DeNghiTSNTsService {
   }
 
   async HinhThucHD(denghiTSNT: any): Promise<HinhThucHD> {
-    return this.dataloaderService.loaderHinhThucHD.load(denghiTSNT.MaHTHD);
+    if (denghiTSNT.MaHTHD) {
+      return this.dataloaderService.loaderHinhThucHD.load(denghiTSNT.MaHTHD);
+    }
   }
 
   async KeHoachTSNT(MaDN: number): Promise<KeHoachTSNT> {

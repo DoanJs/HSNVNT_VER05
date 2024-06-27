@@ -10,6 +10,7 @@ import {
   QUERY_quocTichs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_QuocTich } from "./FormInitial";
 
 const InputQuocTichStyled = styled.div`
   .ip-ls-old {
@@ -63,10 +64,7 @@ export default function InputQuocTich() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [quocTichs, set_quocTichs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaQT: 0,
-    TenQT: "",
-  });
+  const [form, setForm] = useState(FI_QuocTich);
 
   // --------------------------------------------------------------------------------------------
 
@@ -98,6 +96,7 @@ export default function InputQuocTich() {
               `Cập nhật "${data.editQuocTich.TenQT}" thành công`,
               "success"
             );
+            setForm(FI_QuocTich)
             setStatusEdit(false);
           },
           onError: (error) => {
@@ -116,6 +115,7 @@ export default function InputQuocTich() {
               `Thêm mới "${data.createQuocTich.TenQT}" thành công`,
               "success"
             );
+            setForm(FI_QuocTich)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

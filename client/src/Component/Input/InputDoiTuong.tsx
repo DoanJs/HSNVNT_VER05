@@ -21,6 +21,7 @@ import {
   handleTime,
   showNotification,
 } from "../../utils/functions";
+import { FI_DoiTuong } from "./FormInitial";
 
 const InputDoiTuongStyled = styled.div`
   .ip-ls-old {
@@ -35,6 +36,9 @@ const InputDoiTuongStyled = styled.div`
     .ip-ls-old-content {
       max-height: 450px;
       overflow-y: scroll;
+      .fa-table {
+        cursor: pointer;
+      }
       .ip-ls-action {
         i {
           margin: 0 10px;
@@ -95,34 +99,7 @@ export default function InputDoiTuong() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [doituongs, set_doituongs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaDoiTuong: 0,
-    TenDT: "",
-    TenKhac: "",
-    GioiTinh: null,
-    NgaySinh: "",
-    NoiSinh: "",
-    CCCD: "",
-    CMND: "",
-    SHC: "",
-    AnhDD: "",
-    QueQuan: "",
-    HKTT: "",
-    NoiO: "",
-    NgheNghiep: "",
-    ChucVu: "",
-    NoiLamViec: "",
-    PhuongTien: "",
-    SDT: "",
-    ThongTinKhac: "",
-
-    MaQT: null,
-    MaDT: null,
-    MaTG: null,
-    MaTC: null,
-    MaLoai: null,
-    MaTramCT: null,
-  });
+  const [form, setForm] = useState(FI_DoiTuong);
   // --------------------------------------------------------------------------------------------
   const convertForm = (obj: any) => {
     let day = moment(obj.NgaySinh).date();
@@ -134,7 +111,9 @@ export default function InputDoiTuong() {
       TenKhac: obj.TenKhac,
       GioiTinh: obj.GioiTinh,
       NgaySinh: obj.NgaySinh
-        ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${day < 10 ? "0" + day : day}`
+        ? `${year}-${month < 9 ? "0" + (month + 1) : month + 1}-${
+            day < 10 ? "0" + day : day
+          }`
         : "",
       NoiSinh: obj.NoiSinh,
       CCCD: obj.CCCD,
@@ -200,6 +179,7 @@ export default function InputDoiTuong() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_DoiTuong)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -218,6 +198,7 @@ export default function InputDoiTuong() {
               `Thêm mới "${data.createDoiTuong.TenDT}" thành công`,
               "success"
             );
+            setForm(FI_DoiTuong)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -292,16 +273,16 @@ export default function InputDoiTuong() {
                   <th scope="col">TenDT/TenKhac</th>
                   <th scope="col">NgaySinh/GioiTinh</th>
                   <th scope="col">NoiO</th>
-                  <th scope="col">NgheNghiep/ChucVu</th>
-                  <th scope="col">NoiLamViec</th>
+                  <th scope="col">NgheNghiep/ChucVu/NoiLamViec</th>
                   <th scope="col">TinhChatDT</th>
                   <th scope="col">LoaiDT</th>
+                  <th scope="col">BienPhapDT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {[...doituongs].reverse().map((doituong: any, ind: number) => (
-                  <tr key={ind}>
+                  <tr key={ind} title={`MaDoiTuong: ${doituong.MaDoiTuong}`}>
                     <td title={doituong.TenKhac}>{doituong.TenDT}</td>
                     <td
                       title={
@@ -315,10 +296,14 @@ export default function InputDoiTuong() {
                       {doituong.NgaySinh && handleTime(doituong.NgaySinh)}
                     </td>
                     <td>{doituong.NoiO}</td>
-                    <td title={doituong.ChucVu}>{doituong.NgheNghiep}</td>
-                    <td>{doituong.NoiLamViec}</td>
+                    <td title={doituong.ChucVu + "-" + doituong.NoiLamViec}>
+                      {doituong.NgheNghiep}
+                    </td>
                     <td>{doituong.TinhChatDT?.TinhChat}</td>
                     <td>{doituong.LoaiDT?.LoaiDT}</td>
+                    <td>
+                      <i className="fa-solid fa-table" title="Mở rộng"></i>
+                    </td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"
@@ -352,7 +337,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -363,7 +347,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -374,7 +357,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -385,7 +367,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="date"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -396,7 +377,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -421,7 +401,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -432,7 +411,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -443,7 +421,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -454,7 +431,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -465,7 +441,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -476,7 +451,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -487,7 +461,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -498,7 +471,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -509,7 +481,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -520,7 +491,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               <div className="col-2 mb-3">
@@ -531,7 +501,6 @@ export default function InputDoiTuong() {
                   onChange={changeForm}
                   type="text"
                   className="form-control"
-                  aria-describedby="emailHelp"
                 />
               </div>
               {/* --------------------------Ma lien quan----------------------------------- */}
@@ -654,16 +623,17 @@ export default function InputDoiTuong() {
                 </select>
               </div>
             </div>
-            <div className="col-12 mb-3">
-              <label className="form-label">Thông tin khác:</label>
-              <textarea
-                value={form.ThongTinKhac ? form.ThongTinKhac : ""}
-                name="ThongTinKhac"
-                onChange={changeForm}
-                className="form-control"
-                aria-describedby="emailHelp"
-                rows={5}
-              ></textarea>
+            <div className="row">
+              <div className="col-6 mb-3">
+                <label className="form-label">Thông tin khác:</label>
+                <textarea
+                  value={form.ThongTinKhac ? form.ThongTinKhac : ""}
+                  name="ThongTinKhac"
+                  onChange={changeForm}
+                  className="form-control"
+                  rows={5}
+                ></textarea>
+              </div>
             </div>
             <button
               type="submit"

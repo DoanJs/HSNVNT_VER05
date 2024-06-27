@@ -13,7 +13,9 @@ import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
+import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
+  SP_CHANGE_DATA,
   SP_CHANGE_DOITUONG,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
@@ -22,7 +24,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { DoiTuong } from './DoiTuong.model';
 import { DoiTuongInput } from './type/DoiTuong.input';
-import { TramCT } from 'src/tramCTs/TramCT.model';
+import { BienPhapDT_DoiTuongType } from './type/BienPhapDT_DoiTuong.type';
+import { BienPhapDT_DoiTuongInput } from './type/BienPhapDT_DoiTuong.input';
 
 @Injectable()
 export class DoiTuongsService {
@@ -44,7 +47,9 @@ export class DoiTuongsService {
       DoiTuongInput: {
         TenKhac: doituongInput.TenKhac ? `N'${doituongInput.TenKhac}'` : null,
         GioiTinh: doituongInput.GioiTinh ? doituongInput.GioiTinh : null,
-        NgaySinh: doituongInput.NgaySinh ? `N'${doituongInput.NgaySinh}'` : null,
+        NgaySinh: doituongInput.NgaySinh
+          ? `N'${doituongInput.NgaySinh}'`
+          : null,
         NoiSinh: doituongInput.NoiSinh ? `N'${doituongInput.NoiSinh}'` : null,
         QueQuan: doituongInput.QueQuan ? `N'${doituongInput.QueQuan}'` : null,
         HKTT: doituongInput.HKTT ? `N'${doituongInput.HKTT}'` : null,
@@ -78,7 +83,7 @@ export class DoiTuongsService {
     };
   };
 
-  doituongs(utilsParams: UtilsParamsInput): Promise<DoiTuong[]> {
+  async doituongs(utilsParams: UtilsParamsInput): Promise<DoiTuong[]> {
     return this.doituongRepository.query(
       SP_GET_DATA_DECRYPT(
         'DoiTuongs',
@@ -148,6 +153,107 @@ export class DoiTuongsService {
     return result[0];
   }
 
+  // many-to-many relation
+
+  async bienphapDTs_doituongs(
+    utilsParams: UtilsParamsInput,
+  ): Promise<BienPhapDT_DoiTuongType[]> {
+    return this.doituongRepository.query(
+      SP_GET_DATA(
+        'BienPhapDTs_DoiTuongs',
+        `'MaBPDT != 0'`,
+        'MaBPDT',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+
+  async createBienPhapDT_DoiTuong(
+    bienphapdt_doituongInput: BienPhapDT_DoiTuongInput,
+    user: any,
+  ): Promise<BienPhapDT_DoiTuongType> {
+    const result = await this.doituongRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'BienPhapDTs_DoiTuongs',
+        `'MaBPDT, MaDoiTuong'`,
+        `'  ${bienphapdt_doituongInput.MaBPDT},
+            ${bienphapdt_doituongInput.MaDoiTuong}
+        '`,
+        `'MaBPDT = ${bienphapdt_doituongInput.MaBPDT}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaBPDT: ${bienphapdt_doituongInput.MaBPDT}, MaDoiTuong: ${bienphapdt_doituongInput.MaDoiTuong} };`,
+      TableName: 'BienPhapDTs_DoiTuongs',
+    });
+    return result[0];
+  }
+
+  async editBienPhapDT_DoiTuong(
+    bienphapdt_doituongInput: BienPhapDT_DoiTuongInput,
+    MaBPDT: number,
+    MaDoiTuong: number,
+    user: any,
+  ): Promise<BienPhapDT_DoiTuongType> {
+    await this.doituongRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'BienPhapDTs_DoiTuongs',
+        null,
+        null,
+        null,
+        `'  MaBPDT = ${bienphapdt_doituongInput.MaBPDT},
+            MaDoiTuong = ${bienphapdt_doituongInput.MaDoiTuong}
+        '`,
+        `'MaBPDT = ${MaBPDT} AND MaDoiTuong = ${MaDoiTuong}'`,
+      ),
+    );
+    const result = await this.doituongRepository.query(
+      SP_GET_DATA(
+        'BienPhapDTs_DoiTuongs',
+        `'MaBPDT = ${bienphapdt_doituongInput.MaBPDT} AND MaDoiTuong = ${bienphapdt_doituongInput.MaDoiTuong}'`,
+        'MaBPDT',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaBPDT: ${bienphapdt_doituongInput.MaBPDT}, MaDoiTuong: ${bienphapdt_doituongInput.MaDoiTuong} };`,
+      TableName: 'BienPhapDTs_DoiTuongs',
+    });
+    return result[0];
+  }
+
+  async deleteBienPhapDT_DoiTuong(
+    MaBPDT: number,
+    MaDoiTuong: number,
+    user: any,
+  ): Promise<BienPhapDT_DoiTuongType> {
+    const result = await this.doituongRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'BienPhapDTs_DoiTuongs',
+        null,
+        null,
+        null,
+        null,
+        `'MaBPDT = ${MaBPDT} AND MaDoiTuong = ${MaDoiTuong}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaBPDT: ${MaBPDT}, MaDoiTuong: ${MaDoiTuong} };`,
+      TableName: 'BienPhapDTs_DoiTuongs',
+    });
+    return result[0];
+  }
   // ResolveField
 
   async BienPhapDTs(MaDoiTuong: number): Promise<BienPhapDT[]> {

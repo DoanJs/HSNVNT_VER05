@@ -10,6 +10,7 @@ import {
   QUERY_loaiDTs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_LoaiDT } from "./FormInitial";
 
 const InputLoaiDTStyled = styled.div`
   .ip-ls-old {
@@ -59,10 +60,7 @@ export default function InputLoaiDT() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [loaiDTs, set_loaiDTs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaLoaiDT: 0,
-    LoaiDT: "",
-  });
+  const [form, setForm] = useState(FI_LoaiDT);
 
   // --------------------------------------------------------------------------------------------
 
@@ -93,6 +91,7 @@ export default function InputLoaiDT() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_LoaiDT)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -110,6 +109,7 @@ export default function InputLoaiDT() {
               `Thêm mới "${data.createLoaiDT.LoaiDT}" thành công`,
               "success"
             );
+            setForm(FI_LoaiDT)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

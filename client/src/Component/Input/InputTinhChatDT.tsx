@@ -10,6 +10,7 @@ import {
   QUERY_tinhChatDTs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_TinhChatDT } from "./FormInitial";
 
 const InputTinhChatDTStyled = styled.div`
   .ip-ls-old {
@@ -63,10 +64,7 @@ export default function InputTinhChatDT() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [tinhChatDTs, set_tinhChatDTs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaTCDT: 0,
-    TinhChat: "",
-  });
+  const [form, setForm] = useState(FI_TinhChatDT);
 
   // --------------------------------------------------------------------------------------------
 
@@ -99,6 +97,7 @@ export default function InputTinhChatDT() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_TinhChatDT)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -116,6 +115,7 @@ export default function InputTinhChatDT() {
               `Thêm mới "${data.createTinhChatDT.TinhChat}" thành công`,
               "success"
             );
+            setForm(FI_TinhChatDT)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

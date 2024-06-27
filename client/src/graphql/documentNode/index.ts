@@ -71,6 +71,10 @@ export const QUERY_doituongs = gql`
       TramCT {
         MaTramCT
       }
+      BienPhapDTs {
+        MaBPDT
+        BienPhapDT
+      }
       QuyetDinhTSNTs {
         MaQD
       }
@@ -305,6 +309,12 @@ export const QUERY_denghiTSNTs = gql`
       Ngay
       ThoiGianBD
       ThoiGianKT
+      NoiDungDN
+      NoiDungTN
+      HinhThucHD {
+        MaHTHD
+        HinhThuc
+      }
       DoiTuong {
         MaDoiTuong
         TenDT
@@ -316,6 +326,10 @@ export const QUERY_denghiTSNTs = gql`
       CAQHvaTD {
         MaCAQHvaTD
         CAQHvaTD
+      }
+      DiaBanDNs {
+        MaTinhTP
+        TinhTP
       }
     }
   }
@@ -824,6 +838,22 @@ export const QUERY_tramCTs = gql`
     }
   }
 `;
+export const QUERY_bienphapDTs_doituongs = gql`
+  query QUERY_bienphapDTs_doituongs($utilsParams: UtilsParamsInput!) {
+    bienphapDTs_doituongs(utilsParams: $utilsParams) {
+      MaBPDT
+      MaDoiTuong
+    }
+  }
+`;
+export const QUERY_denghiTSNTs_tinhTPs = gql`
+  query QUERY_denghiTSNTs_tinhTPs($utilsParams: UtilsParamsInput!) {
+    denghiTSNTs_tinhTPs(utilsParams: $utilsParams) {
+      MaTinhTP
+      MaDN
+    }
+  }
+`;
 
 // ---------------
 export const MUTATION_getData_searchFast = gql`
@@ -1306,6 +1336,115 @@ export const MUTATION_deleteDoiTuong = gql`
     deleteDoiTuong(doituongInput: $doituongInput, id: $id) {
       MaDoiTuong
       TenDT
+    }
+  }
+`;
+export const MUTATION_createBienPhapDT_DoiTuong = gql`
+  mutation MUTATION_createBienPhapDT_DoiTuong(
+    $bienphapdt_doituongInput: BienPhapDT_DoiTuongInput!
+  ) {
+    createBienPhapDT_DoiTuong(
+      bienphapdt_doituongInput: $bienphapdt_doituongInput
+    ) {
+      MaBPDT
+      MaDoiTuong
+    }
+  }
+`;
+export const MUTATION_editBienPhapDT_DoiTuong = gql`
+  mutation MUTATION_editBienPhapDT_DoiTuong(
+    $bienphapdt_doituongInput: BienPhapDT_DoiTuongInput!
+    $MaBPDT: Float!
+    $MaDoiTuong: Float!
+  ) {
+    editBienPhapDT_DoiTuong(
+      bienphapdt_doituongInput: $bienphapdt_doituongInput
+      MaBPDT: $MaBPDT
+      MaDoiTuong: $MaDoiTuong
+    ) {
+      MaBPDT
+      MaDoiTuong
+    }
+  }
+`;
+export const MUTATION_deleteBienPhapDT_DoiTuong = gql`
+  mutation MUTATION_deleteBienPhapDT_DoiTuong(
+    $MaBPDT: Float!
+    $MaDoiTuong: Float!
+  ) {
+    deleteBienPhapDT_DoiTuong(MaBPDT: $MaBPDT, MaDoiTuong: $MaDoiTuong) {
+      MaBPDT
+      MaDoiTuong
+    }
+  }
+`;
+export const MUTATION_createDeNghiTSNT = gql`
+  mutation MUTATION_createDeNghiTSNT($denghiTSNTInput: DeNghiTSNTInput!) {
+    createDeNghiTSNT(denghiTSNTInput: $denghiTSNTInput) {
+      MaDN
+      So
+    }
+  }
+`;
+export const MUTATION_editDeNghiTSNT = gql`
+  mutation MUTATION_editDeNghiTSNT(
+    $denghiTSNTInput: DeNghiTSNTInput!
+    $id: Float!
+  ) {
+    editDeNghiTSNT(denghiTSNTInput: $denghiTSNTInput, id: $id) {
+      MaDN
+      So
+    }
+  }
+`;
+export const MUTATION_deleteDeNghiTSNT = gql`
+  mutation MUTATION_deleteDeNghiTSNT(
+    $denghiTSNTInput: DeNghiTSNTInput!
+    $id: Float!
+  ) {
+    deleteDeNghiTSNT(denghiTSNTInput: $denghiTSNTInput, id: $id) {
+      MaDN
+      So
+    }
+  }
+`;
+export const MUTATION_createDeNghiTSNT_TinhTP = gql`
+  mutation MUTATION_createDeNghiTSNT_TinhTP(
+    $denghitsnt_tinhtpInput: DeNghiTSNT_TinhTPInput!
+  ) {
+    createDeNghiTSNT_TinhTP(denghitsnt_tinhtpInput: $denghitsnt_tinhtpInput) {
+      MaTinhTP
+      MaDN
+    }
+  }
+`;
+export const MUTATION_editDeNghiTSNT_TinhTP = gql`
+  mutation MUTATION_editDeNghiTSNT_TinhTP(
+    $denghitsnt_tinhtpInput: DeNghiTSNT_TinhTPInput!
+    $MaTinhTP: Float!
+    $MaDN: Float!
+  ) {
+    editDeNghiTSNT_TinhTP(
+      denghitsnt_tinhtpInput: $denghitsnt_tinhtpInput
+      MaTinhTP: $MaTinhTP
+      MaDN: $MaDN
+    ) {
+      MaTinhTP
+      MaDN
+    }
+  }
+`;
+export const MUTATION_deleteDeNghiTSNT_TinhTP = gql`
+  mutation MUTATION_deleteDeNghiTSNT_TinhTP(
+    $MaTinhTP: Float!
+    $MaDN: Float!
+  ) {
+    deleteDeNghiTSNT_TinhTP(
+      MaTinhTP: $MaTinhTP
+      MaDN: $MaDN
+    ) {
+      MaTinhTP
+      MaDN
     }
   }
 `;

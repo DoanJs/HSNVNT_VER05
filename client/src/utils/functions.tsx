@@ -79,13 +79,13 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
             .includes(keysearch)
       );
       break;
-    case "denghiTSNTs":
+    case "DeNghiTSNTs":
       arr = array.filter(
         (obj: any) =>
           obj.So.toLowerCase().includes(keysearch) ||
-          obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
-          obj.CATTPvaTD?.CATTPvaTD.toLowerCase().includes(keysearch) ||
-          obj.CAQHvaTD?.CAQHvaTD.toLowerCase().includes(keysearch) ||
+          obj.DoiTuong?.TenDT?.toLowerCase().includes(keysearch) ||
+          obj.CATTPvaTD?.CATTPvaTD?.toLowerCase().includes(keysearch) ||
+          obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch) ||
           moment(obj.Ngay)
             .date()
             .toString()

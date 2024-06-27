@@ -10,6 +10,7 @@ import {
   QUERY_hinhthucHDs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_HTHD } from "./FormInitial";
 
 const InputHinhThucHDStyled = styled.div`
   .ip-ls-old {
@@ -63,10 +64,7 @@ export default function InputHinhThucHD() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [hinhthucHDs, set_hinhthucHDs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaHTHD: 0,
-    HinhThuc: "",
-  });
+  const [form, setForm] = useState(FI_HTHD);
 
   // --------------------------------------------------------------------------------------------
 
@@ -99,6 +97,7 @@ export default function InputHinhThucHD() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_HTHD)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -116,6 +115,7 @@ export default function InputHinhThucHD() {
               `Thêm mới "${data.createHinhThucHD.HinhThuc}" thành công`,
               "success"
             );
+            setForm(FI_HTHD)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

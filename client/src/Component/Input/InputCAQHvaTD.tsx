@@ -11,6 +11,7 @@ import {
   QUERY_caTTPvaTDs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_CAQHvaTD } from "./FormInitial";
 
 const InputCAQHvaTDStyled = styled.div`
   .ip-ls-old {
@@ -67,12 +68,7 @@ export default function InputCAQHvaTD() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [caQHvaTDs, set_caQHvaTDs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaCAQHvaTD: 0,
-    MaCATTPvaTD: null,
-    CAQHvaTD: "",
-    KyHieu: "",
-  });
+  const [form, setForm] = useState(FI_CAQHvaTD);
 
   // --------------------------------------------------------------------------------------------
 
@@ -112,6 +108,7 @@ export default function InputCAQHvaTD() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_CAQHvaTD)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -133,6 +130,7 @@ export default function InputCAQHvaTD() {
               `Thêm mới "${data.createCAQHvaTD.CAQHvaTD}" thành công`,
               "success"
             );
+            setForm(FI_CAQHvaTD)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

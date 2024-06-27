@@ -10,6 +10,7 @@ import {
   QUERY_loaiLLDBs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_LoaiLLDB } from "./FormInitial";
 
 const InputLoaiLLDBStyled = styled.div`
   .ip-ls-old {
@@ -63,11 +64,7 @@ export default function InputLoaiLLDB() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [loaiLLDBs, set_loaiLLDBs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaLoaiLLDB: 0,
-    TenLLDB: "",
-    KyHieu: "",
-  });
+  const [form, setForm] = useState(FI_LoaiLLDB);
 
   // --------------------------------------------------------------------------------------------
 
@@ -103,6 +100,7 @@ export default function InputLoaiLLDB() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_LoaiLLDB)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -123,6 +121,7 @@ export default function InputLoaiLLDB() {
               `Thêm mới "${data.createLoaiLLDB.TenLLDB}" thành công`,
               "success"
             );
+            setForm(FI_LoaiLLDB)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

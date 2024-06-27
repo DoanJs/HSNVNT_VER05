@@ -10,6 +10,7 @@ import {
   QUERY_ddnbs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_DDNB } from "./FormInitial";
 
 const InputDDNBStyled = styled.div`
   .ip-ls-old {
@@ -59,10 +60,7 @@ export default function InputDDNB() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [ddnbs, set_ddnbs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaDDNB: 0,
-    DacDiem: "",
-  });
+  const [form, setForm] = useState(FI_DDNB);
 
   // --------------------------------------------------------------------------------------------
 
@@ -93,6 +91,7 @@ export default function InputDDNB() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_DDNB);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -110,6 +109,7 @@ export default function InputDDNB() {
               `Thêm mới "${data.createDDNB.DacDiem}" thành công`,
               "success"
             );
+            setForm(FI_DDNB);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

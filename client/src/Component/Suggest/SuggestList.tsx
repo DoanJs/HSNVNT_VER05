@@ -137,7 +137,7 @@ export default function SuggestList() {
 
   const onFilterSuggest = (e: ChangeEvent<HTMLInputElement>) => {
     setDenghiTSNTs(
-      handleSearch("denghiTSNTs", Data_denghiTSNTs.denghiTSNTs, e.target.value)
+      handleSearch("DeNghiTSNTs", Data_denghiTSNTs.denghiTSNTs, e.target.value)
     );
   };
 

@@ -10,6 +10,7 @@ import {
   QUERY_bienPhapDTs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_BienPhapDT } from "./FormInitial";
 
 const InputBienPhapDTStyled = styled.div`
   .ip-ls-old {
@@ -63,10 +64,7 @@ export default function InputBienPhapDT() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [bienPhapDTs, set_bienPhapDTs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaBPDT: 0,
-    BienPhapDT: "",
-  });
+  const [form, setForm] = useState(FI_BienPhapDT);
 
   // --------------------------------------------------------------------------------------------
 
@@ -99,6 +97,7 @@ export default function InputBienPhapDT() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_BienPhapDT)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -116,6 +115,7 @@ export default function InputBienPhapDT() {
               `Thêm mới "${data.createBienPhapDT.BienPhapDT}" thành công`,
               "success"
             );
+            setForm(FI_BienPhapDT)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

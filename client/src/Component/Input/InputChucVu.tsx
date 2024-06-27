@@ -10,6 +10,7 @@ import {
   QUERY_chucvus,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_ChucVu } from "./FormInitial";
 
 const InputChucVuStyled = styled.div`
   .ip-ls-old {
@@ -59,10 +60,7 @@ export default function InputChucVu() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [chucvus, set_chucvus] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaCV: 0,
-    ChucVu: "",
-  });
+  const [form, setForm] = useState(FI_ChucVu);
 
   // --------------------------------------------------------------------------------------------
 
@@ -93,6 +91,7 @@ export default function InputChucVu() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_ChucVu)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -110,6 +109,7 @@ export default function InputChucVu() {
               `Thêm mới "${data.createChucVu.ChucVu}" thành công`,
               "success"
             );
+            setForm(FI_ChucVu)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

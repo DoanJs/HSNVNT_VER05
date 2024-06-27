@@ -10,6 +10,7 @@ import {
   QUERY_tinhTPs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_TinhTP } from "./FormInitial";
 
 const InputTinhTPStyled = styled.div`
   .ip-ls-old {
@@ -59,11 +60,7 @@ export default function InputTinhTP() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [tinhTPs, set_tinhTPs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaTinhTP: 0,
-    TinhTP: "",
-    Cap: "",
-  });
+  const [form, setForm] = useState(FI_TinhTP);
 
   // --------------------------------------------------------------------------------------------
 
@@ -97,6 +94,7 @@ export default function InputTinhTP() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_TinhTP);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -117,6 +115,7 @@ export default function InputTinhTP() {
               `Thêm mới "${data.createTinhTP.TinhTP}" thành công`,
               "success"
             );
+            setForm(FI_TinhTP);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

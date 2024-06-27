@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_deleteBienPhapDT,
+  MUTATION_deleteBienPhapDT_DoiTuong,
   MUTATION_deleteCapBac,
   MUTATION_deleteCapCA,
   MUTATION_deleteCAQHvaTD,
@@ -11,6 +12,8 @@ import {
   MUTATION_deleteChucVu,
   MUTATION_deleteDanToc,
   MUTATION_deleteDDNB,
+  MUTATION_deleteDeNghiTSNT,
+  MUTATION_deleteDeNghiTSNT_TinhTP,
   MUTATION_deleteDoi,
   MUTATION_deleteDoiTuong,
   MUTATION_deleteHinhThucHD,
@@ -22,6 +25,7 @@ import {
   MUTATION_deleteTinhTP,
   MUTATION_deleteTonGiao,
   QUERY_bienPhapDTs,
+  QUERY_bienphapDTs_doituongs,
   QUERY_capbacs,
   QUERY_capCAs,
   QUERY_caQHvaTDs,
@@ -30,6 +34,8 @@ import {
   QUERY_chucvus,
   QUERY_dantocs,
   QUERY_ddnbs,
+  QUERY_denghiTSNTs,
+  QUERY_denghiTSNTs_tinhTPs,
   QUERY_dois,
   QUERY_doituongs,
   QUERY_hinhthucHDs,
@@ -39,7 +45,7 @@ import {
   QUERY_quocTichs,
   QUERY_tinhChatDTs,
   QUERY_tinhTPs,
-  QUERY_tonGiaos
+  QUERY_tonGiaos,
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
 
@@ -115,8 +121,33 @@ export default function ModalDeleteData() {
     refetchQueries: [{ query: QUERY_cbcss, variables: { utilsParams: {} } }],
   });
   const [deleteDoiTuong] = useMutation(MUTATION_deleteDoiTuong, {
-    refetchQueries: [{ query: QUERY_doituongs, variables: { utilsParams: {} } }],
+    refetchQueries: [
+      { query: QUERY_doituongs, variables: { utilsParams: {} } },
+    ],
   });
+  const [deleteBienPhapDT_DoiTuong] = useMutation(
+    MUTATION_deleteBienPhapDT_DoiTuong,
+    {
+      refetchQueries: [
+        { query: QUERY_bienphapDTs_doituongs, variables: { utilsParams: {} } },
+        { query: QUERY_doituongs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteDeNghiTSNT] = useMutation(MUTATION_deleteDeNghiTSNT, {
+    refetchQueries: [
+      { query: QUERY_denghiTSNTs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteDeNghiTSNT_TinhTP] = useMutation(
+    MUTATION_deleteDeNghiTSNT_TinhTP,
+    {
+      refetchQueries: [
+        { query: QUERY_denghiTSNTs_tinhTPs, variables: { utilsParams: {} } },
+        { query: QUERY_denghiTSNTs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
 
   const onMutationSuccess = () =>
     showNotification(
@@ -303,6 +334,36 @@ export default function ModalDeleteData() {
           variables: {
             doituongInput: infoDeleteData.Form,
             id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: (error) => console.log(error.message),
+        });
+        break;
+      case "BienPhapDTs_DoiTuongs":
+        deleteBienPhapDT_DoiTuong({
+          variables: {
+            MaBPDT: infoDeleteData.Form.MaBPDT,
+            MaDoiTuong: infoDeleteData.Form.MaDoiTuong,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: (error) => console.log(error.message),
+        });
+        break;
+      case "DeNghiTSNTs":
+        deleteDeNghiTSNT({
+          variables: {
+            denghiTSNTInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: (error) => console.log(error.message),
+        });
+        break;
+      case "DeNghiTSNTs_TinhTPs":
+        deleteDeNghiTSNT_TinhTP({
+          variables: {
+            MaTinhTP: infoDeleteData.Form.MaTinhTP,
+            MaDN: infoDeleteData.Form.MaDN,
           },
           onCompleted: () => onMutationSuccess(),
           onError: (error) => console.log(error.message),

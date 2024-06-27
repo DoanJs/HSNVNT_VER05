@@ -477,6 +477,9 @@ export const SP_CHANGE_DENGHITSNT = (
   '@So=' +
   spCHANGEDENGHITSNTInput.DeNghiTSNTInput.So +
   ',' +
+  '@Ngay=' +
+  spCHANGEDENGHITSNTInput.DeNghiTSNTInput.Ngay +
+  ',' +
   '@ThoiGianBD=' +
   spCHANGEDENGHITSNTInput.DeNghiTSNTInput.ThoiGianBD +
   ',' +

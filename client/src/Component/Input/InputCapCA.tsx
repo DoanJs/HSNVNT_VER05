@@ -10,6 +10,7 @@ import {
   QUERY_capCAs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_CapCA } from "./FormInitial";
 
 const InputCapCAStyled = styled.div`
   .ip-ls-old {
@@ -59,10 +60,7 @@ export default function InputCapCA() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [capCAs, set_capCAs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaCapCA: 0,
-    CapCA: "",
-  });
+  const [form, setForm] = useState(FI_CapCA);
 
   // --------------------------------------------------------------------------------------------
 
@@ -93,6 +91,7 @@ export default function InputCapCA() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_CapCA)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -110,6 +109,7 @@ export default function InputCapCA() {
               `Thêm mới "${data.createCapCA.CapCA}" thành công`,
               "success"
             );
+            setForm(FI_CapCA)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");

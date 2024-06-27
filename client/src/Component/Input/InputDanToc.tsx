@@ -11,6 +11,7 @@ import {
   QUERY_quocTichs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
+import { FI_DanToc } from "./FormInitial";
 
 const InputDanTocStyled = styled.div`
   .ip-ls-old {
@@ -63,11 +64,7 @@ export default function InputDanToc() {
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [dantocs, set_dantocs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState({
-    MaDT: 0,
-    TenDT: "",
-    MaQT: null,
-  });
+  const [form, setForm] = useState(FI_DanToc);
 
   // --------------------------------------------------------------------------------------------
 
@@ -102,6 +99,7 @@ export default function InputDanToc() {
               "success"
             );
             setStatusEdit(false);
+            setForm(FI_DanToc)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -122,6 +120,7 @@ export default function InputDanToc() {
               `Thêm mới "${data.createDanToc.TenDT}" thành công`,
               "success"
             );
+            setForm(FI_DanToc)
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
