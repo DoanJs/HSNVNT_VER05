@@ -331,21 +331,6 @@ export const QUERY_denghiTSNTs = gql`
         MaTinhTP
         TinhTP
       }
-      DauMoiPH_DN {
-        MaDMPH
-        DeNghiTSNT {
-          MaDN
-          So
-        }
-        LDDonViDN {
-          MaCBCS
-          HoTen
-        }
-        CBTrucTiepPH {
-          MaCBCS
-          HoTen
-        }
-      }
     }
   }
 `;
@@ -875,6 +860,15 @@ export const QUERY_dauMoiPH_DNs = gql`
       MaDMPH
       DeNghiTSNT {
         MaDN
+        So
+      }
+      LDDonViDN {
+        MaCBCS
+        HoTen
+      }
+      CBTrucTiepPH {
+        MaCBCS
+        HoTen
       }
     }
   }
@@ -1460,20 +1454,53 @@ export const MUTATION_editDeNghiTSNT_TinhTP = gql`
   }
 `;
 export const MUTATION_deleteDeNghiTSNT_TinhTP = gql`
-  mutation MUTATION_deleteDeNghiTSNT_TinhTP(
-    $MaTinhTP: Float!
-    $MaDN: Float!
-  ) {
-    deleteDeNghiTSNT_TinhTP(
-      MaTinhTP: $MaTinhTP
-      MaDN: $MaDN
-    ) {
+  mutation MUTATION_deleteDeNghiTSNT_TinhTP($MaTinhTP: Float!, $MaDN: Float!) {
+    deleteDeNghiTSNT_TinhTP(MaTinhTP: $MaTinhTP, MaDN: $MaDN) {
       MaTinhTP
       MaDN
     }
   }
 `;
-
+export const MUTATION_createDauMoiPH_DN = gql`
+  mutation MUTATION_createDauMoiPH_DN($dauMoiPH_DNInput: DauMoiPH_DNInput!) {
+    createDauMoiPH_DN(dauMoiPH_DNInput: $dauMoiPH_DNInput) {
+      MaDMPH
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+    }
+  }
+`;
+export const MUTATION_editDauMoiPH_DN = gql`
+  mutation MUTATION_editDauMoiPH_DN(
+    $dauMoiPH_DNInput: DauMoiPH_DNInput!
+    $id: Float!
+  ) {
+    editDauMoiPH_DN(
+      dauMoiPH_DNInput: $dauMoiPH_DNInput
+      id: $id
+    ) {
+      MaDMPH
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+    }
+  }
+`;
+export const MUTATION_deleteDauMoiPH_DN = gql`
+  mutation MUTATION_deleteDauMoiPH_DN($id: Float!) {
+    deleteDauMoiPH_DN(id: $id) {
+      MaDMPH
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+    }
+  }
+`;
+// -----------------------------
 export const QUERY_doituongCAsOpen = gql`
   query QUERY_doituongCAsOpen($conditionCol: String!, $value: String!) {
     doituongCAsOpen(conditionCol: $conditionCol, value: $value) {

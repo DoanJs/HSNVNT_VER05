@@ -4,14 +4,15 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_deleteBienPhapDT,
   MUTATION_deleteBienPhapDT_DoiTuong,
-  MUTATION_deleteCapBac,
-  MUTATION_deleteCapCA,
   MUTATION_deleteCAQHvaTD,
   MUTATION_deleteCATTPvaTD,
   MUTATION_deleteCBCS,
+  MUTATION_deleteCapBac,
+  MUTATION_deleteCapCA,
   MUTATION_deleteChucVu,
-  MUTATION_deleteDanToc,
   MUTATION_deleteDDNB,
+  MUTATION_deleteDanToc,
+  MUTATION_deleteDauMoiPH_DN,
   MUTATION_deleteDeNghiTSNT,
   MUTATION_deleteDeNghiTSNT_TinhTP,
   MUTATION_deleteDoi,
@@ -26,13 +27,14 @@ import {
   MUTATION_deleteTonGiao,
   QUERY_bienPhapDTs,
   QUERY_bienphapDTs_doituongs,
-  QUERY_capbacs,
-  QUERY_capCAs,
   QUERY_caQHvaTDs,
   QUERY_caTTPvaTDs,
+  QUERY_capCAs,
+  QUERY_capbacs,
   QUERY_cbcss,
   QUERY_chucvus,
   QUERY_dantocs,
+  QUERY_dauMoiPH_DNs,
   QUERY_ddnbs,
   QUERY_denghiTSNTs,
   QUERY_denghiTSNTs_tinhTPs,
@@ -148,6 +150,11 @@ export default function ModalDeleteData() {
       ],
     }
   );
+  const [deleteDauMoiPH_DN] = useMutation(MUTATION_deleteDauMoiPH_DN, {
+    refetchQueries: [
+      { query: QUERY_dauMoiPH_DNs, variables: { utilsParams: {} } },
+    ],
+  });
 
   const onMutationSuccess = () =>
     showNotification(
@@ -364,6 +371,15 @@ export default function ModalDeleteData() {
           variables: {
             MaTinhTP: infoDeleteData.Form.MaTinhTP,
             MaDN: infoDeleteData.Form.MaDN,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: (error) => console.log(error.message),
+        });
+        break;
+      case "DauMoiPH_DNs":
+        deleteDauMoiPH_DN({
+          variables: {
+            id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
           onError: (error) => console.log(error.message),
