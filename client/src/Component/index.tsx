@@ -39,6 +39,8 @@ export { default as InputBienPhapDTDoiTuong } from "./Input/InputBienPhapDTDoiTu
 export { default as InputDeNghiTSNT } from "./Input/InputDeNghiTSNT";
 export { default as InputDeNghiTSNTTinhTP } from "./Input/InputDeNghiTSNTTinhTP";
 export { default as InputDauMoiPHDN } from "./Input/InputDauMoiPHDN";
+export { default as InputKyDuyetDN } from "./Input/InputKyDuyetDN";
+export { default as InputQuyetDinhTSNT } from "./Input/InputQuyetDinhTSNT";
 export { default as ModalEditProfile } from "./Modal/ModalEditProfile";
 export { default as ModalLogout } from "./Modal/ModalLogout";
 export { default as ModalDeleteData } from "./Modal/ModalDeleteData";

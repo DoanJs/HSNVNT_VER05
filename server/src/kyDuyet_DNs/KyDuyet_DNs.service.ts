@@ -153,20 +153,26 @@ export class KyDuyet_DNsService {
   }
 
   async DaiDienCATTPvaTD(kyduyet_DNInput: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(
-      kyduyet_DNInput.MaDaiDienCATTPvaTD,
-    );
+    if (kyduyet_DNInput.MaDaiDienCATTPvaTD) {
+      return this.dataloaderService.loaderCBCS.load(
+        kyduyet_DNInput.MaDaiDienCATTPvaTD,
+      );
+    }
   }
 
   async DaiDienDonViDN(kyduyet_DNInput: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(
-      kyduyet_DNInput.MaDaiDienDonViDN,
-    );
+    if (kyduyet_DNInput.MaDaiDienDonViDN) {
+      return this.dataloaderService.loaderCBCS.load(
+        kyduyet_DNInput.MaDaiDienDonViDN,
+      );
+    }
   }
 
   async DaiDienDonViTSNT(kyduyet_DNInput: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(
-      kyduyet_DNInput.MaDaiDienDonViTSNT,
-    );
+    if (kyduyet_DNInput.MaDaiDienDonViTSNT) {
+      return this.dataloaderService.loaderCBCS.load(
+        kyduyet_DNInput.MaDaiDienDonViTSNT,
+      );
+    }
   }
 }

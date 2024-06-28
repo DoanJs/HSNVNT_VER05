@@ -164,3 +164,10 @@ export const FI_DauMoiPH_DN = {
   MaLDDonViDN: null,
   MaCBTrucTiepPH: null,
 };
+export const FI_KyDuyet_DN = {
+  MaKDDN: 0,
+  MaDN: null,
+  MaDaiDienCATTPvaTD: null,
+  MaDaiDienDonViDN: null,
+  MaDaiDienDonViTSNT: null,
+};

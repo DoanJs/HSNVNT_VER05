@@ -359,6 +359,15 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.CBTrucTiepPH?.HoTen?.toLowerCase().includes(keysearch)
       );
       break;
+    case "KyDuyet_DNs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.DeNghiTSNT?.So?.toLowerCase().includes(keysearch) ||
+          obj.DaiDienCATTPvaTD?.HoTen?.toLowerCase().includes(keysearch) ||
+          obj.DaiDienDonViDN?.HoTen?.toLowerCase().includes(keysearch) ||
+          obj.DaiDienDonViTSNT?.HoTen?.toLowerCase().includes(keysearch)
+      );
+      break;
     default:
   }
 

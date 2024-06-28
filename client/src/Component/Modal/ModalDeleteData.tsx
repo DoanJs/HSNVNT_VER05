@@ -18,6 +18,7 @@ import {
   MUTATION_deleteDoi,
   MUTATION_deleteDoiTuong,
   MUTATION_deleteHinhThucHD,
+  MUTATION_deleteKyDuyet_DN,
   MUTATION_deleteLLDB,
   MUTATION_deleteLoaiDT,
   MUTATION_deleteLoaiLLDB,
@@ -41,6 +42,7 @@ import {
   QUERY_dois,
   QUERY_doituongs,
   QUERY_hinhthucHDs,
+  QUERY_kyDuyet_DNs,
   QUERY_lldbs,
   QUERY_loaiDTs,
   QUERY_loaiLLDBs,
@@ -153,6 +155,11 @@ export default function ModalDeleteData() {
   const [deleteDauMoiPH_DN] = useMutation(MUTATION_deleteDauMoiPH_DN, {
     refetchQueries: [
       { query: QUERY_dauMoiPH_DNs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteKyDuyet_DN] = useMutation(MUTATION_deleteKyDuyet_DN, {
+    refetchQueries: [
+      { query: QUERY_kyDuyet_DNs, variables: { utilsParams: {} } },
     ],
   });
 
@@ -378,6 +385,15 @@ export default function ModalDeleteData() {
         break;
       case "DauMoiPH_DNs":
         deleteDauMoiPH_DN({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: (error) => console.log(error.message),
+        });
+        break;
+      case "KyDuyet_DNs":
+        deleteKyDuyet_DN({
           variables: {
             id: infoDeleteData.ID,
           },

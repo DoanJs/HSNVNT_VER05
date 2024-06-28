@@ -873,6 +873,29 @@ export const QUERY_dauMoiPH_DNs = gql`
     }
   }
 `;
+export const QUERY_kyDuyet_DNs = gql`
+  query QUERY_kyDuyet_DNs($utilsParams: UtilsParamsInput!) {
+    kyDuyet_DNs(utilsParams: $utilsParams) {
+      MaKDDN
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+      DaiDienCATTPvaTD {
+        MaCBCS
+        HoTen
+      }
+      DaiDienDonViDN {
+        MaCBCS
+        HoTen
+      }
+      DaiDienDonViTSNT {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
 
 // ---------------
 export const MUTATION_getData_searchFast = gql`
@@ -1493,6 +1516,45 @@ export const MUTATION_deleteDauMoiPH_DN = gql`
   mutation MUTATION_deleteDauMoiPH_DN($id: Float!) {
     deleteDauMoiPH_DN(id: $id) {
       MaDMPH
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+    }
+  }
+`;
+export const MUTATION_createKyDuyet_DN = gql`
+  mutation MUTATION_createKyDuyet_DN($kyDuyet_DNInput: KyDuyet_DNInput!) {
+    createKyDuyet_DN(kyDuyet_DNInput: $kyDuyet_DNInput) {
+      MaKDDN
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+    }
+  }
+`;
+export const MUTATION_editKyDuyet_DN = gql`
+  mutation MUTATION_editKyDuyet_DN(
+    $kyDuyet_DNInput: KyDuyet_DNInput!
+    $id: Float!
+  ) {
+    editKyDuyet_DN(
+      kyDuyet_DNInput: $kyDuyet_DNInput
+      id: $id
+    ) {
+      MaKDDN
+      DeNghiTSNT {
+        MaDN
+        So
+      }
+    }
+  }
+`;
+export const MUTATION_deleteKyDuyet_DN = gql`
+  mutation MUTATION_deleteKyDuyet_DN($id: Float!) {
+    deleteKyDuyet_DN(id: $id) {
+      MaKDDN
       DeNghiTSNT {
         MaDN
         So
