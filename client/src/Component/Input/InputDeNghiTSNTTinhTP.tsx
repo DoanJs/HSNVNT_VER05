@@ -14,7 +14,7 @@ import {
 import { handleSearch, showNotification } from "../../utils/functions";
 import { FI_DeNghiTSNT_TinhTP } from "./FormInitial";
 
-const InputDenghiTSNT_TinhTPStyled = styled.div`
+const InputDenghiTSNTTinhTPStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -48,7 +48,7 @@ const InputDenghiTSNT_TinhTPStyled = styled.div`
   }
 `;
 
-export default function InputDenghiTSNT_TinhTP() {
+export default function InputDenghiTSNTTinhTP() {
   const navigate = useNavigate();
   const { data: Data_denghiTSNTs, error } = useQuery(QUERY_denghiTSNTs, {
     variables: { utilsParams: {} },
@@ -209,7 +209,7 @@ export default function InputDenghiTSNT_TinhTP() {
 
   if (!Data_denghiTSNTs) return <Spinner />;
   return (
-    <InputDenghiTSNT_TinhTPStyled className="container">
+    <InputDenghiTSNTTinhTPStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
           <h5>Danh sách đề nghị trinh sát_tỉnh thành phố hiện có: </h5>
@@ -329,6 +329,6 @@ export default function InputDenghiTSNT_TinhTP() {
       </div>
 
       <ModalDeleteData />
-    </InputDenghiTSNT_TinhTPStyled>
+    </InputDenghiTSNTTinhTPStyled>
   );
 }

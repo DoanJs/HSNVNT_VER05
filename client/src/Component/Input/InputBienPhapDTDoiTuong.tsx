@@ -5,16 +5,16 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createDeNghiTSNT_TinhTP,
-  MUTATION_editDeNghiTSNT_TinhTP,
-  QUERY_denghiTSNTs,
-  QUERY_denghiTSNTs_tinhTPs,
-  QUERY_tinhTPs,
+  MUTATION_createBienPhapDT_DoiTuong,
+  MUTATION_editBienPhapDT_DoiTuong,
+  QUERY_bienPhapDTs,
+  QUERY_bienphapDTs_doituongs,
+  QUERY_doituongs,
 } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
-import { FI_DeNghiTSNT_TinhTP } from "./FormInitial";
+import { FI_BienPhapDT_DoiTuong } from "./FormInitial";
 
-const InputDenghiTSNT_TinhTPStyled = styled.div`
+const InputBienPhapDTDoiTuongStyled = styled.div`
   .ip-ls-old {
     border-right: 1px solid green;
     b {
@@ -48,45 +48,47 @@ const InputDenghiTSNT_TinhTPStyled = styled.div`
   }
 `;
 
-export default function InputDenghiTSNT_TinhTP() {
+export default function InputBienPhapDTDoiTuong() {
   const navigate = useNavigate();
-  const { data: Data_denghiTSNTs, error } = useQuery(QUERY_denghiTSNTs, {
+  const { data: Data_doituongs, error } = useQuery(QUERY_doituongs, {
     variables: { utilsParams: {} },
   });
-
-  const { data: Data_tinhTPs } = useQuery(QUERY_tinhTPs, {
+  const { data: Data_bienPhapDTs } = useQuery(QUERY_bienPhapDTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_denghiTSNTs_tinhTPs } = useQuery(
-    QUERY_denghiTSNTs_tinhTPs,
+  const { data: Data_bienphapDTs_doituongs } = useQuery(
+    QUERY_bienphapDTs_doituongs,
     {
       variables: { utilsParams: {} },
     }
   );
-  const [createDeNghiTSNT_TinhTP] = useMutation(
-    MUTATION_createDeNghiTSNT_TinhTP,
+  const [createBienPhapDT_DoiTuong] = useMutation(
+    MUTATION_createBienPhapDT_DoiTuong,
     {
       refetchQueries: [
-        { query: QUERY_denghiTSNTs, variables: { utilsParams: {} } },
-        { query: QUERY_denghiTSNTs_tinhTPs, variables: { utilsParams: {} } },
+        { query: QUERY_doituongs, variables: { utilsParams: {} } },
+        { query: QUERY_bienphapDTs_doituongs, variables: { utilsParams: {} } },
       ],
     }
   );
-  const [editDeNghiTSNT_TinhTP] = useMutation(MUTATION_editDeNghiTSNT_TinhTP, {
-    refetchQueries: [
-      { query: QUERY_denghiTSNTs, variables: { utilsParams: {} } },
-      { query: QUERY_denghiTSNTs_tinhTPs, variables: { utilsParams: {} } },
-    ],
-  });
+  const [editBienPhapDT_DoiTuong] = useMutation(
+    MUTATION_editBienPhapDT_DoiTuong,
+    {
+      refetchQueries: [
+        { query: QUERY_doituongs, variables: { utilsParams: {} } },
+        { query: QUERY_bienphapDTs_doituongs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [denghiTSNTs, set_denghiTSNTs] = useState([]);
+  const [doituongs, set_doituongs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState(FI_DeNghiTSNT_TinhTP);
+  const [form, setForm] = useState(FI_BienPhapDT_DoiTuong);
   // --------------------------------------------------------------------------------------------
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_denghiTSNTs(
-      handleSearch("DeNghiTSNTs", Data_denghiTSNTs.denghiTSNTs, e.target.value)
+    set_doituongs(
+      handleSearch("DoiTuongs", Data_doituongs.doituongs, e.target.value)
     );
   };
 
@@ -99,30 +101,31 @@ export default function InputDenghiTSNT_TinhTP() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form.MaDN && form.MaTinhTP) {
+    if (form.MaBPDT && form.MaDoiTuong) {
       if (
-        Data_denghiTSNTs_tinhTPs.denghiTSNTs_tinhTPs?.filter(
-          (obj: any) => obj.MaTinhTP === form.MaTinhTP && obj.MaDN === form.MaDN
+        Data_bienphapDTs_doituongs.bienphapDTs_doituongs?.filter(
+          (obj: any) =>
+            obj.MaBPDT === form.MaBPDT && obj.MaDoiTuong === form.MaDoiTuong
         ).length === 0
       ) {
         if (statusEdit) {
-          editDeNghiTSNT_TinhTP({
+          editBienPhapDT_DoiTuong({
             variables: {
-              denghitsnt_tinhtpInput: {
-                MaTinhTP: form.MaTinhTP,
-                MaDN: form.MaDN,
+              bienphapdt_doituongInput: {
+                MaBPDT: form.MaBPDT,
+                MaDoiTuong: form.MaDoiTuong,
               },
-              MaTinhTP: form.MaTinhTP_old,
-              MaDN: form.MaDN_old,
+              MaBPDT: form.MaBPDT_old,
+              MaDoiTuong: form.MaDoiTuong_old,
             },
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật "{ MaTinhTP: ${form.MaTinhTP}, MaDN: ${form.MaDN} }" thành công`,
+                `Cập nhật "{ MaBPDT: ${form.MaBPDT}, MaDoiTuong: ${form.MaDoiTuong} }" thành công`,
                 "success"
               );
               setStatusEdit(false);
-              setForm(FI_DeNghiTSNT_TinhTP);
+              setForm(FI_BienPhapDT_DoiTuong);
             },
             onError: (error) => {
               showNotification("Lỗi!", error.message, "danger");
@@ -130,20 +133,20 @@ export default function InputDenghiTSNT_TinhTP() {
             },
           });
         } else {
-          createDeNghiTSNT_TinhTP({
+          createBienPhapDT_DoiTuong({
             variables: {
-              denghitsnt_tinhtpInput: {
-                MaTinhTP: form.MaTinhTP,
-                MaDN: form.MaDN,
+              bienphapdt_doituongInput: {
+                MaBPDT: form.MaBPDT,
+                MaDoiTuong: form.MaDoiTuong,
               },
             },
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới "{ MaTinhTP: ${form.MaTinhTP}, MaDN: ${form.MaDN} }" thành công`,
+                `Thêm mới "{ MaBPDT: ${form.MaBPDT}, MaDoiTuong: ${form.MaDoiTuong} }" thành công`,
                 "success"
               );
-              setForm(FI_DeNghiTSNT_TinhTP);
+              setForm(FI_BienPhapDT_DoiTuong);
             },
             onError: (error) => {
               showNotification("Lỗi!", error.message, "danger");
@@ -171,29 +174,29 @@ export default function InputDenghiTSNT_TinhTP() {
     setStatusEdit(true);
     setForm({
       ...form,
-      MaTinhTP: obj.MaTinhTP,
-      MaDN: obj.MaDN,
-      MaTinhTP_old: obj.MaTinhTP,
-      MaDN_old: obj.MaDN,
+      MaBPDT: obj.MaBPDT,
+      MaDoiTuong: obj.MaDoiTuong,
+      MaBPDT_old: obj.MaBPDT,
+      MaDoiTuong_old: obj.MaDoiTuong,
     });
   };
 
   const onDeleteData = (obj: any) =>
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: `{MaTinhTP: ${obj.MaTinhTP}, MaDN: ${obj.MaDN}}`,
-      Table: "DeNghiTSNTs_TinhTPs",
+      Title: `{MaBPDT: ${obj.MaBPDT}, MaDoiTuong: ${obj.MaDoiTuong}}`,
+      Table: "BienPhapDTs_DoiTuongs",
       Form: {
-        MaTinhTP: obj.MaTinhTP,
-        MaDN: obj.MaDN,
+        MaBPDT: obj.MaBPDT,
+        MaDoiTuong: obj.MaDoiTuong,
       },
     });
 
   useEffect(() => {
-    if (Data_denghiTSNTs) {
-      set_denghiTSNTs(Data_denghiTSNTs.denghiTSNTs);
+    if (Data_doituongs) {
+      set_doituongs(Data_doituongs.doituongs);
     }
-  }, [Data_denghiTSNTs]);
+  }, [Data_doituongs]);
 
   useEffect(() => {
     if (error) {
@@ -207,17 +210,19 @@ export default function InputDenghiTSNT_TinhTP() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_denghiTSNTs) return <Spinner />;
+  if (!Data_doituongs) return <Spinner />;
   return (
-    <InputDenghiTSNT_TinhTPStyled className="container">
+    <InputBienPhapDTDoiTuongStyled className="container">
       <div className="row justify-content-center">
         <div className="col-6 ip-ls-old">
-          <h5>Danh sách đề nghị trinh sát_tỉnh thành phố hiện có: </h5>
+          <h5>
+            Danh sách biện pháp điều tra_đối tượng hiện có:{" "}
+          </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh..."
+              placeholder="Tìm kiếm nhanh theo tên đối tượng (TenDT)..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -226,25 +231,25 @@ export default function InputDenghiTSNT_TinhTP() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
-                  <th scope="col">SoDN</th>
-                  <th scope="col">TinhTP</th>
+                  <th scope="col">DoiTuong</th>
+                  <th scope="col">BienPhapDT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...denghiTSNTs].reverse().map((denghitsnt: any) => {
-                  return denghitsnt.DiaBanDNs?.map(
-                    (tinhtp: any, ind: number) => (
+                {[...doituongs].reverse().map((doituong: any) => {
+                  return doituong.BienPhapDTs?.map(
+                    (bienphapdt: any, ind: number) => (
                       <tr key={ind}>
-                        <td>{denghitsnt.So}</td>
-                        <td>{tinhtp.TinhTP}</td>
+                        <td>{doituong.TenDT}</td>
+                        <td>{bienphapdt.BienPhapDT}</td>
                         <td className="ip-ls-action">
                           <i
                             className="fa-solid fa-pen"
                             onClick={() =>
                               onEditData({
-                                MaTinhTP: tinhtp.MaTinhTP,
-                                MaDN: denghitsnt.MaDN,
+                                MaBPDT: bienphapdt.MaBPDT,
+                                MaDoiTuong: doituong.MaDoiTuong,
                               })
                             }
                             title="Sửa"
@@ -255,8 +260,8 @@ export default function InputDenghiTSNT_TinhTP() {
                             data-bs-target="#modalDeleteData"
                             onClick={() =>
                               onDeleteData({
-                                MaTinhTP: tinhtp.MaTinhTP,
-                                MaDN: denghitsnt.MaDN,
+                                MaBPDT: bienphapdt.MaBPDT,
+                                MaDoiTuong: doituong.MaDoiTuong,
                               })
                             }
                             title="Xóa"
@@ -272,49 +277,50 @@ export default function InputDenghiTSNT_TinhTP() {
         </div>
         <div className="col-6">
           <h5>
-            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} đề nghị TSNT_tỉnh thành phố:
+            {statusEdit ? "Chỉnh sửa" : "Thêm mới"} biện pháp điều tra_đối
+            tượng:
           </h5>
           <form onSubmit={submitForm}>
             <div className="mb-3">
-              <label className="form-label">Mã đề nghị TSNT (MaDN):</label>
+              <label className="form-label">Mã đối tượng (MaDoiTuong):</label>
               <select
                 required
-                value={form.MaDN ? form.MaDN : ""}
+                value={form.MaDoiTuong ? form.MaDoiTuong : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}
-                name="MaDN"
+                name="MaDoiTuong"
               >
-                <option defaultValue={""}>Chọn đề nghị TSNT</option>
-                {Data_denghiTSNTs &&
-                  Data_denghiTSNTs.denghiTSNTs.map(
-                    (denghitsnt: any, ind: number) => (
-                      <option key={ind} value={denghitsnt.MaDN}>
-                        {denghitsnt.So}
-                      </option>
-                    )
-                  )}
+                <option defaultValue={""}>Chọn đối tượng</option>
+                {Data_doituongs &&
+                  Data_doituongs.doituongs.map((doituong: any, ind: number) => (
+                    <option key={ind} value={doituong.MaDoiTuong}>
+                      {doituong.TenDT}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="mb-3">
               <label className="form-label">
-                Mã tỉnh thành phố (MaTinhTP):
+                Mã biện pháp điều tra (MaBPDT):
               </label>
               <select
                 required
-                value={form.MaTinhTP ? form.MaTinhTP : ""}
+                value={form.MaBPDT ? form.MaBPDT : ""}
                 className="form-select"
                 aria-label="Default select example"
                 onChange={changeForm}
-                name="MaTinhTP"
+                name="MaBPDT"
               >
-                <option defaultValue={""}>Chọn tỉnh thành phố</option>
-                {Data_tinhTPs &&
-                  Data_tinhTPs.tinhTPs.map((tinhtp: any, ind: number) => (
-                    <option key={ind} value={tinhtp.MaTinhTP}>
-                      {tinhtp.TinhTP}
-                    </option>
-                  ))}
+                <option defaultValue={""}>Chọn biện pháp điều tra</option>
+                {Data_bienPhapDTs &&
+                  Data_bienPhapDTs.bienPhapDTs.map(
+                    (bienphapdt: any, ind: number) => (
+                      <option key={ind} value={bienphapdt.MaBPDT}>
+                        {bienphapdt.BienPhapDT}
+                      </option>
+                    )
+                  )}
               </select>
             </div>
 
@@ -329,6 +335,6 @@ export default function InputDenghiTSNT_TinhTP() {
       </div>
 
       <ModalDeleteData />
-    </InputDenghiTSNT_TinhTPStyled>
+    </InputBienPhapDTDoiTuongStyled>
   );
 }

@@ -158,3 +158,9 @@ export const FI_DeNghiTSNT_TinhTP = {
   MaTinhTP_old: 0,
   MaDN_old: 0,
 };
+export const FI_DauMoiPH_DN = {
+  MaDMPH: 0,
+  MaDN: null,
+  MaLDDonViDN: null,
+  MaCBTrucTiepPH: null,
+};

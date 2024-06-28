@@ -333,7 +333,7 @@ export const QUERY_denghiTSNTs = gql`
       }
       DauMoiPH_DN {
         MaDMPH
-        DeNghiTS {
+        DeNghiTSNT {
           MaDN
           So
         }
@@ -341,7 +341,7 @@ export const QUERY_denghiTSNTs = gql`
           MaCBCS
           HoTen
         }
-        CBPhuTrachDN {
+        CBTrucTiepPH {
           MaCBCS
           HoTen
         }
@@ -866,6 +866,16 @@ export const QUERY_denghiTSNTs_tinhTPs = gql`
     denghiTSNTs_tinhTPs(utilsParams: $utilsParams) {
       MaTinhTP
       MaDN
+    }
+  }
+`;
+export const QUERY_dauMoiPH_DNs = gql`
+  query QUERY_dauMoiPH_DNs($utilsParams: UtilsParamsInput!) {
+    dauMoiPH_DNs(utilsParams: $utilsParams) {
+      MaDMPH
+      DeNghiTSNT {
+        MaDN
+      }
     }
   }
 `;

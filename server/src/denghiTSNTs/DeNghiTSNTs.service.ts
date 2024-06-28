@@ -22,6 +22,7 @@ import { DeNghiTSNT } from './DeNghiTSNT.model';
 import { DeNghiTSNTInput } from './type/DeNghiTSNT.input';
 import { DeNghiTSNT_TinhTPType } from './type/DeNghiTSNT_TinhTP.type';
 import { DeNghiTSNT_TinhTPInput } from './type/DeNghiTSNT_TinhTP.input';
+import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
 
 @Injectable()
 export class DeNghiTSNTsService {
@@ -140,7 +141,9 @@ export class DeNghiTSNTsService {
 
   // many-to-many relation
 
-  denghiTSNTs_tinhTPs(utilsParams: UtilsParamsInput): Promise<DeNghiTSNT_TinhTPType[]> {
+  denghiTSNTs_tinhTPs(
+    utilsParams: UtilsParamsInput,
+  ): Promise<DeNghiTSNT_TinhTPType[]> {
     return this.denghiTSNTRepository.query(
       SP_GET_DATA(
         'DeNghiTSNTs_TinhTPs',
@@ -151,7 +154,7 @@ export class DeNghiTSNTsService {
       ),
     );
   }
-  
+
   async createDeNghiTSNT_TinhTP(
     denghitsnt_tinhtpInput: DeNghiTSNT_TinhTPInput,
     user: any,
@@ -239,6 +242,13 @@ export class DeNghiTSNTsService {
   }
 
   // ResolveField
+
+  async DauMoiPH_DN(MaDN: number): Promise<DauMoiPH_DN> {
+    const result = await this.denghiTSNTRepository.query(
+      SP_GET_DATA('DauMoiPH_DNs', `'MaDN = ${MaDN}'`, 'MaDMPH', 0, 1),
+    );
+    return result[0];
+  }
 
   async CATTPvaTD(denghiTSNT: any): Promise<CATTPvaTD> {
     if (denghiTSNT.MaCATTPvaTD) {

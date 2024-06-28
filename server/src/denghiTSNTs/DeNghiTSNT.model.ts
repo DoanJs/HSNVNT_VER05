@@ -56,7 +56,8 @@ export class DeNghiTSNT {
   // relation
 
   @OneToOne(() => DauMoiPH_DN, (dauMoiPH) => dauMoiPH.DeNghiTSNT)
-  DauMoiPH: DauMoiPH_DN;
+  @Field({ nullable: true })
+  DauMoiPH_DN: DauMoiPH_DN;
 
   @ManyToOne(() => CATTPvaTD, (caTTPvaTD) => caTTPvaTD.DeNghiTSNTs, {
     cascade: true,
@@ -128,9 +129,6 @@ export class DeNghiTSNT {
     (ketquaXMDiaChi) => ketquaXMDiaChi.DeNghiTSNT,
   )
   KetQuaXMDiaChis: [KetQuaXMDiaChi];
-
-  @OneToOne(() => DauMoiPH_DN, (daumoiPH_DN) => daumoiPH_DN.DeNghiTSNT)
-  DauMoiPH_DN: DauMoiPH_DN;
 
   @ManyToOne(() => HinhThucHD, (hinhthucHD) => hinhthucHD.DeNghiTSNTs, {
     cascade: true,

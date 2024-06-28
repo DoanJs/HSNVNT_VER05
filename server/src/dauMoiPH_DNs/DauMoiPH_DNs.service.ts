@@ -144,10 +144,14 @@ export class DauMoiPH_DNsService {
   }
 
   async LDDonViDN(dauMoiPH_DN: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(dauMoiPH_DN.MaLDDonViDN);
+    if (dauMoiPH_DN.MaLDDonViDN) {
+      return this.dataloaderService.loaderCBCS.load(dauMoiPH_DN.MaLDDonViDN);
+    }
   }
 
   async CBTrucTiepPH(dauMoiPH_DN: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(dauMoiPH_DN.MaCBTrucTiepPH);
+    if (dauMoiPH_DN.MaCBTrucTiepPH) {
+      return this.dataloaderService.loaderCBCS.load(dauMoiPH_DN.MaCBTrucTiepPH);
+    }
   }
 }
