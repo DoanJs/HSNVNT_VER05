@@ -331,6 +331,21 @@ export const QUERY_denghiTSNTs = gql`
         MaTinhTP
         TinhTP
       }
+      DauMoiPH_DN {
+        MaDMPH
+        DeNghiTS {
+          MaDN
+          So
+        }
+        LDDonViDN {
+          MaCBCS
+          HoTen
+        }
+        CBPhuTrachDN {
+          MaCBCS
+          HoTen
+        }
+      }
     }
   }
 `;
