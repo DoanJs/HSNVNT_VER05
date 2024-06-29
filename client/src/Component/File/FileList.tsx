@@ -110,7 +110,7 @@ export default function FileList() {
     }
     // eslint-disable-next-line
   }, [error]);
-
+console.log(Data_quyetdinhTSNTs)
   useEffect(() => {
     if (Data_quyetdinhTSNTs) {
       set_quyetdinhTSNTs(

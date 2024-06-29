@@ -40,10 +40,9 @@ export class KeHoachTSNTsService {
       MaKH,
       KeHoachTSNTInput: {
         So: kehoachTSNTInput.So ? `N'${kehoachTSNTInput.So}'` : null,
-        Ngay: kehoachTSNTInput.Ngay ? kehoachTSNTInput.Ngay : null,
+        Ngay: kehoachTSNTInput.Ngay ? `N'${kehoachTSNTInput.Ngay}'` : null,
         VanDeChuY: `N'${kehoachTSNTInput.VanDeChuY}'`, // crypto
         NoiDung: `N'${kehoachTSNTInput.NoiDung}'`, // crypto
-        MaDN: kehoachTSNTInput.MaDN ? kehoachTSNTInput.MaDN : null,
         MaQD: kehoachTSNTInput.MaQD ? kehoachTSNTInput.MaQD : null,
         MaCAQHvaTD: kehoachTSNTInput.MaCAQHvaTD
           ? kehoachTSNTInput.MaCAQHvaTD
@@ -147,7 +146,9 @@ export class KeHoachTSNTsService {
   }
 
   async TramCT(kehoachTSNT: any): Promise<TramCT> {
-    return this.dataloaderService.loaderTramCT.load(kehoachTSNT.MaTramCT);
+    if (kehoachTSNT.MaTramCT) {
+      return this.dataloaderService.loaderTramCT.load(kehoachTSNT.MaTramCT);
+    }
   }
 
   async LLDBs(MaKH: number): Promise<LLDB[]> {
@@ -161,15 +162,21 @@ export class KeHoachTSNTsService {
   }
 
   async LanhDaoPD(kehoachTSNT: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(kehoachTSNT.MaLanhDaoPD);
+    if (kehoachTSNT.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(kehoachTSNT.MaLanhDaoPD);
+    }
   }
 
   async BCHPhuTrach(kehoachTSNT: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(kehoachTSNT.MaBCHPhuTrach);
+    if (kehoachTSNT.MaBCHPhuTrach) {
+      return this.dataloaderService.loaderCBCS.load(kehoachTSNT.MaBCHPhuTrach);
+    }
   }
 
   async DoiTuong(kehoachTSNT: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(kehoachTSNT.MaDoiTuong);
+    if (kehoachTSNT.MaDoiTuong) {
+      return this.dataloaderService.loaderDoiTuong.load(kehoachTSNT.MaDoiTuong);
+    }
   }
 
   async LLTGKeHoachs(MaKH: number): Promise<LucLuongThamGiaKH[]> {
@@ -198,10 +205,14 @@ export class KeHoachTSNTsService {
   }
 
   async DonVi(kehoachTSNT: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(kehoachTSNT.MaDonVi);
+    if (kehoachTSNT.MaDonVi) {
+      return this.dataloaderService.loaderCAQHvaTD.load(kehoachTSNT.MaDonVi);
+    }
   }
 
   async Doi(kehoachTSNT: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(kehoachTSNT.MaDoi);
+    if (kehoachTSNT.MaDoi) {
+      return this.dataloaderService.loaderDoi.load(kehoachTSNT.MaDoi);
+    }
   }
 }

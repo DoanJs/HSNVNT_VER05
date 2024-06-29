@@ -163,6 +163,7 @@ export const FI_DauMoiPH_DN = {
   MaDN: null,
   MaLDDonViDN: null,
   MaCBTrucTiepPH: null,
+  MaDN_edit: null,
 };
 export const FI_KyDuyet_DN = {
   MaKDDN: 0,
@@ -170,4 +171,47 @@ export const FI_KyDuyet_DN = {
   MaDaiDienCATTPvaTD: null,
   MaDaiDienDonViDN: null,
   MaDaiDienDonViTSNT: null,
+  MaDN_edit: null,
+};
+export const FI_QuyetDinhTSNT = {
+  MaQD: 0,
+  So: "",
+  Ngay: "",
+  BiDanh: "",
+  ThoiGianBD: "",
+  ThoiGianKT: "",
+  NhiemVuCT: "",
+
+  MaDN: null,
+  MaLanhDaoPD: null,
+  MaDoi: null,
+  MaCATTPvaTD: null,
+  MaCAQHvaTD: null,
+  MaDoiTuong: null,
+
+  MaDN_edit: null,
+};
+export const FI_QuyetDinhTSNT_TinhTP = {
+  MaTinhTP: null,
+  MaQD: null,
+  MaTinhTP_old: 0,
+  MaQD_old: 0,
+};
+export const FI_KeHoachTSNT = {
+  MaKH: 0,
+  So: "",
+  Ngay: "",
+  VanDeChuY: "",
+  NoiDung: "",
+
+  MaQD: null,
+  MaCAQHvaTD: null,
+  MaDoiTuong: null,
+  MaDoi: null,
+
+  MaTramCT: null,
+  MaLanhDaoPD: null,
+  MaBCHPhuTrach: null,
+
+  MaQD_edit: null
 };

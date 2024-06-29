@@ -18,11 +18,14 @@ import {
   MUTATION_deleteDoi,
   MUTATION_deleteDoiTuong,
   MUTATION_deleteHinhThucHD,
+  MUTATION_deleteKeHoachTSNT,
   MUTATION_deleteKyDuyet_DN,
   MUTATION_deleteLLDB,
   MUTATION_deleteLoaiDT,
   MUTATION_deleteLoaiLLDB,
   MUTATION_deleteQuocTich,
+  MUTATION_deleteQuyetDinhTSNT,
+  MUTATION_deleteQuyetDinhTSNT_TinhTP,
   MUTATION_deleteTinhChatDT,
   MUTATION_deleteTinhTP,
   MUTATION_deleteTonGiao,
@@ -42,11 +45,14 @@ import {
   QUERY_dois,
   QUERY_doituongs,
   QUERY_hinhthucHDs,
+  QUERY_kehoachTSNTs,
   QUERY_kyDuyet_DNs,
   QUERY_lldbs,
   QUERY_loaiDTs,
   QUERY_loaiLLDBs,
   QUERY_quocTichs,
+  QUERY_quyetdinhTSNTs,
+  QUERY_quyetdinhTSNTs_tinhTPs,
   QUERY_tinhChatDTs,
   QUERY_tinhTPs,
   QUERY_tonGiaos,
@@ -160,6 +166,25 @@ export default function ModalDeleteData() {
   const [deleteKyDuyet_DN] = useMutation(MUTATION_deleteKyDuyet_DN, {
     refetchQueries: [
       { query: QUERY_kyDuyet_DNs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteQuyetDinhTSNT] = useMutation(MUTATION_deleteQuyetDinhTSNT, {
+    refetchQueries: [
+      { query: QUERY_quyetdinhTSNTs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteQuyetDinhTSNT_TinhTP] = useMutation(
+    MUTATION_deleteQuyetDinhTSNT_TinhTP,
+    {
+      refetchQueries: [
+        { query: QUERY_quyetdinhTSNTs_tinhTPs, variables: { utilsParams: {} } },
+        { query: QUERY_quyetdinhTSNTs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteKeHoachTSNT] = useMutation(MUTATION_deleteKeHoachTSNT, {
+    refetchQueries: [
+      { query: QUERY_kehoachTSNTs, variables: { utilsParams: {} } },
     ],
   });
 
@@ -350,7 +375,7 @@ export default function ModalDeleteData() {
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
-          onError: (error) => console.log(error.message),
+          onError: () => onMutationError(),
         });
         break;
       case "BienPhapDTs_DoiTuongs":
@@ -360,7 +385,7 @@ export default function ModalDeleteData() {
             MaDoiTuong: infoDeleteData.Form.MaDoiTuong,
           },
           onCompleted: () => onMutationSuccess(),
-          onError: (error) => console.log(error.message),
+          onError: () => onMutationError(),
         });
         break;
       case "DeNghiTSNTs":
@@ -370,7 +395,7 @@ export default function ModalDeleteData() {
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
-          onError: (error) => console.log(error.message),
+          onError: () => onMutationError(),
         });
         break;
       case "DeNghiTSNTs_TinhTPs":
@@ -380,7 +405,7 @@ export default function ModalDeleteData() {
             MaDN: infoDeleteData.Form.MaDN,
           },
           onCompleted: () => onMutationSuccess(),
-          onError: (error) => console.log(error.message),
+          onError: () => onMutationError(),
         });
         break;
       case "DauMoiPH_DNs":
@@ -389,7 +414,7 @@ export default function ModalDeleteData() {
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
-          onError: (error) => console.log(error.message),
+          onError: () => onMutationError(),
         });
         break;
       case "KyDuyet_DNs":
@@ -398,10 +423,39 @@ export default function ModalDeleteData() {
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
-          onError: (error) => console.log(error.message),
+          onError: () => onMutationError(),
         });
         break;
-
+      case "QuyetDinhTSNTs":
+        deleteQuyetDinhTSNT({
+          variables: {
+            quyetdinhTSNTInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "QuyetDinhTSNTs_TinhTPs":
+        deleteQuyetDinhTSNT_TinhTP({
+          variables: {
+            MaTinhTP: infoDeleteData.Form.MaTinhTP,
+            MaQD: infoDeleteData.Form.MaQD,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "KeHoachTSNTs":
+        deleteKeHoachTSNT({
+          variables: {
+            kehoachTSNTInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
       default:
         break;
     }

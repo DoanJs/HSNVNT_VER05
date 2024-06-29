@@ -99,7 +99,7 @@ export default function InputKyDuyetDN() {
         (Data_kyDuyet_DNs.kyDuyet_DNs?.filter(
           (obj: any) => obj.DeNghiTSNT?.MaDN === form.MaDN
         ).length !== 0 &&
-          statusEdit)
+          form.MaDN === form.MaDN_edit)
       ) {
         if (statusEdit) {
           editKyDuyet_DN({
@@ -175,6 +175,7 @@ export default function InputKyDuyetDN() {
       MaDaiDienCATTPvaTD: obj.DaiDienCATTPvaTD?.MaCBCS,
       MaDaiDienDonViDN: obj.DaiDienDonViDN?.MaCBCS,
       MaDaiDienDonViTSNT: obj.DaiDienDonViTSNT?.MaCBCS,
+      MaDN_edit: obj.DeNghiTSNT?.MaDN,
     });
   };
 

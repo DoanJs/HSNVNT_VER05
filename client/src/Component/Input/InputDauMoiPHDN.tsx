@@ -102,7 +102,7 @@ export default function InputDauMoiPHDN() {
         (Data_dauMoiPH_DNs.dauMoiPH_DNs?.filter(
           (obj: any) => obj.DeNghiTSNT?.MaDN === form.MaDN
         ).length !== 0 &&
-          statusEdit)
+          form.MaDN === form.MaDN_edit)
       ) {
         if (statusEdit) {
           editDauMoiPH_DN({
@@ -117,7 +117,7 @@ export default function InputDauMoiPHDN() {
             onCompleted: (data) => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật "đầu mối phối hợp đề nghị ${data.editDauMoiPH_DN?.DeNghiTSNT?.So}" thành công`,
+                `Cập nhật đầu mối phối hợp đề nghị "${data.editDauMoiPH_DN?.DeNghiTSNT?.So}" thành công`,
                 "success"
               );
               setStatusEdit(false);
@@ -140,7 +140,7 @@ export default function InputDauMoiPHDN() {
             onCompleted: (data) => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới "đầu mối phối hợp đề nghị ${data.createDauMoiPH_DN?.DeNghiTSNT?.So}" thành công`,
+                `Thêm mới đầu mối phối hợp đề nghị "${data.createDauMoiPH_DN?.DeNghiTSNT?.So}" thành công`,
                 "success"
               );
               setForm(FI_DauMoiPH_DN);
@@ -175,6 +175,7 @@ export default function InputDauMoiPHDN() {
       MaDN: obj.DeNghiTSNT?.MaDN,
       MaLDDonViDN: obj.LDDonViDN?.MaCBCS,
       MaCBTrucTiepPH: obj.CBTrucTiepPH?.MaCBCS,
+      MaDN_edit: obj.DeNghiTSNT?.MaDN,
     });
   };
 
@@ -183,7 +184,7 @@ export default function InputDauMoiPHDN() {
       ...infoDeleteData,
       Title: obj.DeNghiTSNT?.So,
       Table: "DauMoiPH_DNs",
-      ID: obj.MaDMPH
+      ID: obj.MaDMPH,
     });
 
   useEffect(() => {

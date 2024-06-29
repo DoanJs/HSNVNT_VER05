@@ -554,9 +554,6 @@ export const SP_CHANGE_KEHOACHTSNT = (
   '@MaDoiTuong=' +
   spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaDoiTuong +
   ',' +
-  '@MaDN=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaDN +
-  ',' +
   '@MaQD=' +
   spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaQD +
   ',' +

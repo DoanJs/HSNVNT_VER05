@@ -109,14 +109,11 @@ export class DeNghiTSNT {
     name: 'MaDoiTuong',
     foreignKeyConstraintName: 'FK_MaDoiTuong_DeNghiTSNT',
   })
-  @Field({ nullable: true })
+  @Field((type) => DoiTuong, { nullable: true })
   DoiTuong: DoiTuong;
 
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.DeNghiTSNT)
   QuyetDinhTSNT: QuyetDinhTSNT;
-
-  @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.DeNghiTSNT)
-  KeHoachTSNT: KeHoachTSNT;
 
   @OneToMany(
     () => KetQuaXMQuanHe,

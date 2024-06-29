@@ -276,7 +276,6 @@ export default function InputDoiTuong() {
                   <th scope="col">NgheNghiep/ChucVu/NoiLamViec</th>
                   <th scope="col">TinhChatDT</th>
                   <th scope="col">LoaiDT</th>
-                  <th scope="col">BienPhapDT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -301,9 +300,6 @@ export default function InputDoiTuong() {
                     </td>
                     <td>{doituong.TinhChatDT?.TinhChat}</td>
                     <td>{doituong.LoaiDT?.LoaiDT}</td>
-                    <td>
-                      <i className="fa-solid fa-table" title="Mở rộng"></i>
-                    </td>
                     <td className="ip-ls-action">
                       <i
                         className="fa-solid fa-pen"

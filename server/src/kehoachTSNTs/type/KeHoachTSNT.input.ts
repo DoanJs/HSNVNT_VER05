@@ -17,9 +17,6 @@ export class KeHoachTSNTInput {
   
 
   @Field({ nullable: true })
-  MaDN?: number;
-
-  @Field({ nullable: true })
   MaQD?: number;
 
   @Field({ nullable: true })

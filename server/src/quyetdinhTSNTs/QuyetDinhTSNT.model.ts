@@ -66,16 +66,22 @@ export class QuyetDinhTSNT {
     name: 'MaDN',
     foreignKeyConstraintName: 'FK_MaDN_QuyetDinhTSNT',
   })
+  @Field((type) => DeNghiTSNT, { nullable: true })
   DeNghiTSNT: DeNghiTSNT;
 
-  @ManyToOne(() => CATTPvaTD, (caTTPvaTDCATTPvaTD) => caTTPvaTDCATTPvaTD.DeNghiTSNTs, {
-    cascade: true,
-    eager: true,
-  })
+  @ManyToOne(
+    () => CATTPvaTD,
+    (caTTPvaTDCATTPvaTD) => caTTPvaTDCATTPvaTD.DeNghiTSNTs,
+    {
+      cascade: true,
+      eager: true,
+    },
+  )
   @JoinColumn({
     name: 'MaCATTPvaTD',
     foreignKeyConstraintName: 'FK_MaCATTPvaTD_QuyetDinhTSNT',
   })
+  @Field((type) => CATTPvaTD, { nullable: true })
   CATTPvaTD: CATTPvaTD;
 
   @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.QuyetDinhTSNTs, {
@@ -86,6 +92,7 @@ export class QuyetDinhTSNT {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_QuyetDinhTSNT',
   })
+  @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @ManyToOne(() => DoiTuong, (doituong) => doituong.QuyetDinhTSNTs, {
@@ -96,6 +103,7 @@ export class QuyetDinhTSNT {
     name: 'MaDoiTuong',
     foreignKeyConstraintName: 'FK_MaDoiTuong_QuyetDinhTSNT',
   })
+  @Field((type) => DoiTuong, { nullable: true })
   DoiTuong: DoiTuong;
 
   @ManyToMany(() => TinhTP, (tinhTP) => tinhTP.QuyetDinhTSNTs, {
@@ -108,7 +116,7 @@ export class QuyetDinhTSNT {
       name: 'MaQD',
       foreignKeyConstraintName: 'FK_MaQD_QuyetDinhTSNTs_TinhTPs',
     },
-    inverseJoinColumn: { 
+    inverseJoinColumn: {
       name: 'MaTinhTP',
       foreignKeyConstraintName: 'FK_MaTinhTP_QuyetDinhTSNTs_TinhTPs',
     },
@@ -123,6 +131,7 @@ export class QuyetDinhTSNT {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_QuyetDinhTSNT',
   })
+  @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
   @ManyToOne(() => Doi, (doi) => doi.QuyetDinhTSNTs, {
@@ -133,30 +142,43 @@ export class QuyetDinhTSNT {
     name: 'MaDoi',
     foreignKeyConstraintName: 'FK_MaDoi_QuyetDinhTSNT',
   })
+  @Field(type => Doi, { nullable: true })
   Doi: Doi;
 
-  @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.DeNghiTSNT)
+  @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.QuyetDinhTSNT)
   KeHoachTSNT: KeHoachTSNT;
 
-  @ManyToOne(() => TramCT, tramCT => tramCT.QuyetDinhTSNTs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaTramCT",
-    foreignKeyConstraintName: "FK_MaTramCT_QuyetDinhTSNT"
-  })
-  TramCT: TramCT
+  // @ManyToOne(() => TramCT, tramCT => tramCT.QuyetDinhTSNTs, { cascade: true, eager: true })
+  // @JoinColumn({
+  //   name: "MaTramCT",
+  //   foreignKeyConstraintName: "FK_MaTramCT_QuyetDinhTSNT"
+  // })
+  // TramCT: TramCT
 
-  @OneToOne(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.QuyetDinhTSNT)
-  KetQuaTSNT: KetQuaTSNT
+  @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.QuyetDinhTSNT)
+  KetQuaTSNT: KetQuaTSNT;
 
-  @OneToMany(() => BaoCaoKQXMQuanHe, baocaoKQXMQuanHe => baocaoKQXMQuanHe.QuyetDinhTSNT)
-  BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe]
+  @OneToMany(
+    () => BaoCaoKQXMQuanHe,
+    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.QuyetDinhTSNT,
+  )
+  BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
 
-  @OneToMany(() => KetQuaXMQuanHe, ketquaXMQuanHe => ketquaXMQuanHe.QuyetDinhTSNT)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe]
+  @OneToMany(
+    () => KetQuaXMQuanHe,
+    (ketquaXMQuanHe) => ketquaXMQuanHe.QuyetDinhTSNT,
+  )
+  KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(() => KetQuaXMDiaChi, ketquaXMDiaChi => ketquaXMDiaChi.QuyetDinhTSNT)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi]
+  @OneToMany(
+    () => KetQuaXMDiaChi,
+    (ketquaXMDiaChi) => ketquaXMDiaChi.QuyetDinhTSNT,
+  )
+  KetQuaXMDiaChis: [KetQuaXMDiaChi];
 
-  @OneToMany(() => BaoCaoKQXMDiaChi, baoCaoKQXMDiaChi => baoCaoKQXMDiaChi.QuyetDinhTSNT)
-  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi]
+  @OneToMany(
+    () => BaoCaoKQXMDiaChi,
+    (baoCaoKQXMDiaChi) => baoCaoKQXMDiaChi.QuyetDinhTSNT,
+  )
+  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
 }

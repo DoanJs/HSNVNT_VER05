@@ -25,6 +25,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { QuyetDinhTSNT } from './QuyetDinhTSNT.model';
 import { QuyetDinhTSNTsService } from './QuyetDinhTSNTs.service';
 import { QuyetDinhTSNTInput } from './type/QuyetDinhTSNT.input';
+import { QuyetDinhTSNT_TinhTPType } from './type/QuyetDinhTSNT_TinhTP.type';
+import { QuyetDinhTSNT_TinhTPInput } from './type/QuyetDinhTSNT_TinhTP.input';
 
 @Resolver(() => QuyetDinhTSNT)
 @UseGuards(GraphQLGuard)
@@ -78,6 +80,59 @@ export class QuyetDinhTSNTsResolver {
     return this.quyetdinhTSNTsService.deleteQuyetDinhTSNT(
       quyetdinhTSNTInput,
       id,
+      user,
+    );
+  }
+
+  // relation
+
+  @Query((returns) => [QuyetDinhTSNT_TinhTPType])
+  quyetdinhTSNTs_tinhTPs(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<QuyetDinhTSNT_TinhTPType[]> {
+    return this.quyetdinhTSNTsService.quyetdinhTSNTs_tinhTPs(utilsParams);
+  }
+
+  @Mutation((returns) => QuyetDinhTSNT_TinhTPType)
+  @UseGuards(InsertGuard)
+  createQuyetDinhTSNT_TinhTP(
+    @CurrentUser() user: any,
+    @Args('quyetdinhtsnt_tinhtpInput')
+    quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput,
+  ): Promise<QuyetDinhTSNT_TinhTPType> {
+    return this.quyetdinhTSNTsService.createQuyetDinhTSNT_TinhTP(
+      quyetdinhtsnt_tinhtpInput,
+      user,
+    );
+  }
+
+  @Mutation((returns) => QuyetDinhTSNT_TinhTPType)
+  @UseGuards(UpdateGuard)
+  editQuyetDinhTSNT_TinhTP(
+    @CurrentUser() user: any,
+    @Args('quyetdinhtsnt_tinhtpInput')
+    quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput,
+    @Args('MaTinhTP') MaTinhTP: number,
+    @Args('MaQD') MaQD: number,
+  ): Promise<QuyetDinhTSNT_TinhTPType> {
+    return this.quyetdinhTSNTsService.editQuyetDinhTSNT_TinhTP(
+      quyetdinhtsnt_tinhtpInput,
+      MaTinhTP,
+      MaQD,
+      user,
+    );
+  }
+
+  @Mutation((retursn) => QuyetDinhTSNT_TinhTPType)
+  @UseGuards(DeleteGuard)
+  deleteQuyetDinhTSNT_TinhTP(
+    @CurrentUser() user: any,
+    @Args('MaTinhTP') MaTinhTP: number,
+    @Args('MaQD') MaQD: number,
+  ): Promise<QuyetDinhTSNT_TinhTPType> {
+    return this.quyetdinhTSNTsService.deleteQuyetDinhTSNT_TinhTP(
+      MaTinhTP,
+      MaQD,
       user,
     );
   }

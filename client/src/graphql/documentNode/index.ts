@@ -18,10 +18,31 @@ export const QUERY_quyetdinhTSNTs = gql`
       }
       DeNghiTSNT {
         MaDN
+        So
         DonViDN {
           MaCAQHvaTD
           CAQHvaTD
         }
+      }
+      LanhDaoPD {
+        MaCBCS
+        HoTen
+      }
+      Doi {
+        MaDoi
+        TenDoi
+      }
+      CAQHvaTD {
+        MaCAQHvaTD
+        CAQHvaTD
+      }
+      CATTPvaTD {
+        MaCATTPvaTD
+        CATTPvaTD
+      }
+      PhamViTSs {
+        MaTinhTP
+        TinhTP
       }
     }
   }
@@ -896,6 +917,53 @@ export const QUERY_kyDuyet_DNs = gql`
     }
   }
 `;
+export const QUERY_quyetdinhTSNTs_tinhTPs = gql`
+  query QUERY_quyetdinhTSNTs_tinhTPs($utilsParams: UtilsParamsInput!) {
+    quyetdinhTSNTs_tinhTPs(utilsParams: $utilsParams) {
+      MaQD
+      MaTinhTP
+    }
+  }
+`;
+export const QUERY_kehoachTSNTs = gql`
+  query QUERY_kehoachTSNTs($utilsParams: UtilsParamsInput!) {
+    kehoachTSNTs(utilsParams: $utilsParams) {
+      MaKH
+      So
+      Ngay
+      VanDeChuY
+      NoiDung
+      QuyetDinhTSNT {
+        MaQD
+        So
+      }
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+      CAQHvaTD {
+        MaCAQHvaTD
+        CAQHvaTD
+      }
+      Doi {
+        MaDoi
+        TenDoi
+      }
+      LanhDaoPD {
+        MaCBCS
+        HoTen
+      }
+      BCHPhuTrach {
+        MaCBCS
+        HoTen
+      }
+      TramCT {
+        MaTramCT
+        DiaDiem
+      }
+    }
+  }
+`;
 
 // ---------------
 export const MUTATION_getData_searchFast = gql`
@@ -1559,6 +1627,100 @@ export const MUTATION_deleteKyDuyet_DN = gql`
         MaDN
         So
       }
+    }
+  }
+`;
+export const MUTATION_createQuyetDinhTSNT = gql`
+  mutation MUTATION_createQuyetDinhTSNT($quyetdinhTSNTInput: QuyetDinhTSNTInput!) {
+    createQuyetDinhTSNT(quyetdinhTSNTInput: $quyetdinhTSNTInput) {
+      MaQD
+      So
+    }
+  }
+`;
+export const MUTATION_editQuyetDinhTSNT = gql`
+  mutation MUTATION_editQuyetDinhTSNT(
+    $quyetdinhTSNTInput: QuyetDinhTSNTInput!
+    $id: Float!
+  ) {
+    editQuyetDinhTSNT(quyetdinhTSNTInput: $quyetdinhTSNTInput, id: $id) {
+      MaQD
+      So
+    }
+  }
+`;
+export const MUTATION_deleteQuyetDinhTSNT = gql`
+  mutation MUTATION_deleteQuyetDinhTSNT(
+    $quyetdinhTSNTInput: QuyetDinhTSNTInput!
+    $id: Float!
+  ) {
+    deleteQuyetDinhTSNT(quyetdinhTSNTInput: $quyetdinhTSNTInput, id: $id) {
+      MaQD
+      So
+    }
+  }
+`;
+export const MUTATION_createQuyetDinhTSNT_TinhTP = gql`
+  mutation MUTATION_createQuyetDinhTSNT_TinhTP(
+    $quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput!
+  ) {
+    createQuyetDinhTSNT_TinhTP(quyetdinhtsnt_tinhtpInput: $quyetdinhtsnt_tinhtpInput) {
+      MaTinhTP
+      MaQD
+    }
+  }
+`;
+export const MUTATION_editQuyetDinhTSNT_TinhTP = gql`
+  mutation MUTATION_editQuyetDinhTSNT_TinhTP(
+    $quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput!
+    $MaTinhTP: Float!
+    $MaQD: Float!
+  ) {
+    editQuyetDinhTSNT_TinhTP(
+      quyetdinhtsnt_tinhtpInput: $quyetdinhtsnt_tinhtpInput
+      MaTinhTP: $MaTinhTP
+      MaQD: $MaQD
+    ) {
+      MaTinhTP
+      MaQD
+    }
+  }
+`;
+export const MUTATION_deleteQuyetDinhTSNT_TinhTP = gql`
+  mutation MUTATION_deleteQuyetDinhTSNT_TinhTP($MaTinhTP: Float!, $MaQD: Float!) {
+    deleteQuyetDinhTSNT_TinhTP(MaTinhTP: $MaTinhTP, MaQD: $MaQD) {
+      MaTinhTP
+      MaQD
+    }
+  }
+`;
+export const MUTATION_createKeHoachTSNT = gql`
+  mutation MUTATION_createKeHoachTSNT($kehoachTSNTInput: KeHoachTSNTInput!) {
+    createKeHoachTSNT(kehoachTSNTInput: $kehoachTSNTInput) {
+      MaKH
+      So
+    }
+  }
+`;
+export const MUTATION_editKeHoachTSNT = gql`
+  mutation MUTATION_editKeHoachTSNT(
+    $kehoachTSNTInput: KeHoachTSNTInput!
+    $id: Float!
+  ) {
+    editKeHoachTSNT(kehoachTSNTInput: $kehoachTSNTInput, id: $id) {
+      MaKH
+      So
+    }
+  }
+`;
+export const MUTATION_deleteKeHoachTSNT = gql`
+  mutation MUTATION_deleteKeHoachTSNT(
+    $kehoachTSNTInput: KeHoachTSNTInput!
+    $id: Float!
+  ) {
+    deleteKeHoachTSNT(kehoachTSNTInput: $kehoachTSNTInput, id: $id) {
+      MaKH
+      So
     }
   }
 `;

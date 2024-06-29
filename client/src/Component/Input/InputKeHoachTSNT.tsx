@@ -6,24 +6,24 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
-  MUTATION_createQuyetDinhTSNT,
-  MUTATION_editQuyetDinhTSNT,
+  MUTATION_createKeHoachTSNT,
+  MUTATION_editKeHoachTSNT,
   QUERY_caQHvaTDs,
-  QUERY_caTTPvaTDs,
   QUERY_cbcss,
-  QUERY_denghiTSNTs,
   QUERY_dois,
   QUERY_doituongs,
+  QUERY_kehoachTSNTs,
   QUERY_quyetdinhTSNTs,
+  QUERY_tramCTs,
 } from "../../graphql/documentNode";
 import {
   handleSearch,
   handleTime,
   showNotification,
 } from "../../utils/functions";
-import { FI_QuyetDinhTSNT } from "./FormInitial";
+import { FI_KeHoachTSNT } from "./FormInitial";
 
-const InputQuyetDinhTSNTstyled = styled.div`
+const InputKeHoachTSNTstyled = styled.div`
   .ip-ls-old {
     border-bottom: 1px solid green;
     margin-bottom: 16px;
@@ -61,12 +61,9 @@ const InputQuyetDinhTSNTstyled = styled.div`
   }
 `;
 
-export default function InputQuyetDinhTSNT() {
+export default function InputKeHoachTSNT() {
   const navigate = useNavigate();
-  const { data: Data_quyetdinhTSNTs, error } = useQuery(QUERY_quyetdinhTSNTs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_denghiTSNTs } = useQuery(QUERY_denghiTSNTs, {
+  const { data: Data_kehoachTSNTs, error } = useQuery(QUERY_kehoachTSNTs, {
     variables: { utilsParams: {} },
   });
   const { data: Data_doituongs } = useQuery(QUERY_doituongs, {
@@ -81,32 +78,35 @@ export default function InputQuyetDinhTSNT() {
   const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
+  const { data: Data_quyetdinhTSNTs } = useQuery(QUERY_quyetdinhTSNTs, {
+    variables: { utilsParams: {} },
+  });
+  const { data: Data_tramCTs } = useQuery(QUERY_tramCTs, {
     variables: { utilsParams: {} },
   });
 
   // ----------------------------------------------------
-  const [createQuyetDinhTSNT] = useMutation(MUTATION_createQuyetDinhTSNT, {
+  const [createKeHoachTSNT] = useMutation(MUTATION_createKeHoachTSNT, {
     refetchQueries: [
-      { query: QUERY_quyetdinhTSNTs, variables: { utilsParams: {} } },
+      { query: QUERY_kehoachTSNTs, variables: { utilsParams: {} } },
     ],
   });
-  const [editQuyetDinhTSNT] = useMutation(MUTATION_editQuyetDinhTSNT, {
+  const [editKeHoachTSNT] = useMutation(MUTATION_editKeHoachTSNT, {
     refetchQueries: [
-      { query: QUERY_quyetdinhTSNTs, variables: { utilsParams: {} } },
+      { query: QUERY_kehoachTSNTs, variables: { utilsParams: {} } },
     ],
   });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
-  const [quyetdinhTSNTs, set_quyetdinhTSNTs] = useState([]);
+  const [kehoachTSNTs, set_kehoachTSNTs] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
-  const [form, setForm] = useState(FI_QuyetDinhTSNT);
+  const [form, setForm] = useState(FI_KeHoachTSNT);
   // --------------------------------------------------------------------------------------------
   const convertForm = (obj: any) => {
     let day = (time: any) => moment(time).date();
     let month = (time: any) => moment(time).month();
     let year = (time: any) => moment(time).year();
     return {
-      MaQD: obj.MaQD,
+      MaKH: obj.MaKH,
       So: obj.So,
       Ngay: obj.Ngay
         ? `${year(obj.Ngay)}-${
@@ -115,46 +115,26 @@ export default function InputQuyetDinhTSNT() {
               : month(obj.Ngay) + 1
           }-${day(obj.Ngay) < 10 ? "0" + day(obj.Ngay) : day(obj.Ngay)}`
         : "",
-      BiDanh: obj.BiDanh,
-      ThoiGianBD: obj.ThoiGianBD
-        ? `${year(obj.ThoiGianBD)}-${
-            month(obj.ThoiGianBD) < 9
-              ? "0" + (month(obj.ThoiGianBD) + 1)
-              : month(obj.ThoiGianBD) + 1
-          }-${
-            day(obj.ThoiGianBD) < 10
-              ? "0" + day(obj.ThoiGianBD)
-              : day(obj.ThoiGianBD)
-          }`
-        : "",
-      ThoiGianKT: obj.ThoiGianKT
-        ? `${year(obj.ThoiGianKT)}-${
-            month(obj.ThoiGianKT) < 9
-              ? "0" + (month(obj.ThoiGianKT) + 1)
-              : month(obj.ThoiGianKT) + 1
-          }-${
-            day(obj.ThoiGianKT) < 10
-              ? "0" + day(obj.ThoiGianKT)
-              : day(obj.ThoiGianKT)
-          }`
-        : "",
-      NhiemVuCT: obj.NhiemVuCT,
-
-      MaDN: obj.DeNghiTSNT?.MaDN,
-      MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
-      MaDoi: obj.Doi?.MaDoi,
-      MaCATTPvaTD: obj.CATTPvaTD?.MaCATTPvaTD,
+      VanDeChuY: obj.VanDeChuY,
+      NoiDung: obj.NoiDung,
+      MaQD: obj.QuyetDinhTSNT?.MaQD,
       MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
       MaDoiTuong: obj.DoiTuong?.MaDoiTuong,
-      MaDN_edit: obj.DeNghiTSNT?.MaDN,
+      MaDoi: obj.Doi?.MaDoi,
+
+      MaTramCT: obj.TramCT?.MaTramCT,
+      MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
+      MaBCHPhuTrach: obj.BCHPhuTrach?.MaCBCS,
+
+      MaQD_edit: obj.QuyetDinhTSNT?.MaQD,
     };
   };
 
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
-    set_quyetdinhTSNTs(
+    set_kehoachTSNTs(
       handleSearch(
-        "QuyetDinhTSNTs",
-        Data_quyetdinhTSNTs.quyetdinhTSNTs,
+        "KeHoachTSNTs",
+        Data_kehoachTSNTs.kehoachTSNTs,
         e.target.value
       )
     );
@@ -166,12 +146,13 @@ export default function InputQuyetDinhTSNT() {
     setForm({
       ...form,
       [e.target.name]:
-        e.target.name === "MaDN" ||
-        e.target.name === "MaLanhDaoPD" ||
-        e.target.name === "MaDoi" ||
+        e.target.name === "MaQD" ||
         e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaCATTPvaTD" ||
-        e.target.name === "MaDoiTuong"
+        e.target.name === "MaDoiTuong" ||
+        e.target.name === "MaDoi" ||
+        e.target.name === "MaTramCT" ||
+        e.target.name === "MaLanhDaoPD" ||
+        e.target.name === "MaBCHPhuTrach"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -181,30 +162,30 @@ export default function InputQuyetDinhTSNT() {
     e.preventDefault();
     if (form.So.trim() !== "") {
       if (
-        // check one-to-one with MaDN
-        quyetdinhTSNTs.filter(
-          (quyetdinhTSNT: any) => quyetdinhTSNT.DeNghiTSNT?.MaDN === form.MaDN
+        // check one-to-one with MaQD
+        kehoachTSNTs.filter(
+          (kehoachTSNT: any) => kehoachTSNT.QuyetDinhTSNT?.MaQD === form.MaQD
         ).length === 0 ||
-        (quyetdinhTSNTs.filter(
-          (quyetdinhTSNT: any) => quyetdinhTSNT.DeNghiTSNT?.MaDN === form.MaDN
+        (kehoachTSNTs.filter(
+          (kehoachTSNT: any) => kehoachTSNT.QuyetDinhTSNT?.MaQD === form.MaQD
         ).length !== 0 &&
-          form.MaDN_edit === form.MaDN)
+          form.MaQD_edit === form.MaQD)
       ) {
         if (statusEdit) {
-          const { MaQD, MaDN_edit, ...quyetdinhTSNTInput } = form;
-          editQuyetDinhTSNT({
+          const { MaKH, MaQD_edit, ...kehoachTSNTInput } = form;
+          editKeHoachTSNT({
             variables: {
-              quyetdinhTSNTInput,
-              id: MaQD,
+              kehoachTSNTInput,
+              id: MaKH,
             },
             onCompleted: (data) => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật quyết định số "${data.editQuyetDinhTSNT.So}" thành công`,
+                `Cập nhật quyết định số "${data.editKeHoachTSNT.So}" thành công`,
                 "success"
               );
               setStatusEdit(false);
-              setForm(FI_QuyetDinhTSNT);
+              setForm(FI_KeHoachTSNT);
             },
             onError: (error) => {
               showNotification("Lỗi!", error.message, "danger");
@@ -212,18 +193,18 @@ export default function InputQuyetDinhTSNT() {
             },
           });
         } else {
-          const { MaQD, MaDN_edit, ...quyetdinhTSNTInput } = form;
-          createQuyetDinhTSNT({
+          const { MaKH, MaQD_edit, ...kehoachTSNTInput } = form;
+          createKeHoachTSNT({
             variables: {
-              quyetdinhTSNTInput,
+              kehoachTSNTInput,
             },
             onCompleted: (data) => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới quyết định số "${data.createQuyetDinhTSNT.So}" thành công`,
+                `Thêm mới kế hoạch số "${data.createKeHoachTSNT.So}" thành công`,
                 "success"
               );
-              setForm(FI_QuyetDinhTSNT);
+              setForm(FI_KeHoachTSNT);
             },
             onError: (error) => {
               showNotification("Lỗi!", error.message, "danger");
@@ -247,28 +228,28 @@ export default function InputQuyetDinhTSNT() {
     }
   };
 
-  const onEditData = (quyetdinhTSNT: any) => {
+  const onEditData = (kehoachTSNT: any) => {
     setStatusEdit(true);
-    setForm(convertForm(quyetdinhTSNT));
+    setForm(convertForm(kehoachTSNT));
   };
 
-  const onDeleteData = (quyetdinhTSNT: any) => {
-    const { MaQD, MaDN_edit, ...inputQuyetDinhTSNT } =
-      convertForm(quyetdinhTSNT);
+  const onDeleteData = (kehoachTSNT: any) => {
+    const { MaKH, MaQD_edit, ...inputKeHoachTSNT } =
+      convertForm(kehoachTSNT);
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: `quyết định TSNT số ${quyetdinhTSNT.So}`,
-      Table: "QuyetDinhTSNTs",
-      ID: quyetdinhTSNT.MaQD,
-      Form: inputQuyetDinhTSNT,
+      Title: `kế hoạch TSNT số ${kehoachTSNT.So}`,
+      Table: "KeHoachTSNTs",
+      ID: kehoachTSNT.MaKH,
+      Form: inputKeHoachTSNT,
     });
   };
 
   useEffect(() => {
-    if (Data_quyetdinhTSNTs) {
-      set_quyetdinhTSNTs(Data_quyetdinhTSNTs.quyetdinhTSNTs);
+    if (Data_kehoachTSNTs) {
+      set_kehoachTSNTs(Data_kehoachTSNTs.kehoachTSNTs);
     }
-  }, [Data_quyetdinhTSNTs]);
+  }, [Data_kehoachTSNTs]);
 
   useEffect(() => {
     if (error) {
@@ -282,19 +263,19 @@ export default function InputQuyetDinhTSNT() {
     // eslint-disable-next-line
   }, [error]);
 
-  if (!Data_quyetdinhTSNTs) return <Spinner />;
+  if (!Data_kehoachTSNTs) return <Spinner />;
   return (
-    <InputQuyetDinhTSNTstyled>
+    <InputKeHoachTSNTstyled>
       <div className="row justify-content-center">
         <div className="col-12 ip-ls-old">
           <h5>
-            Danh sách quyết định TSNT hiện có <b>({quyetdinhTSNTs.length})</b>:
+            Danh sách kế hoạch TSNT hiện có <b>({kehoachTSNTs.length})</b>:
           </h5>
           <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh QuyetDinhTSNT..."
+              placeholder="Tìm kiếm nhanh KeHoachTSNT..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -303,47 +284,35 @@ export default function InputQuyetDinhTSNT() {
             <table className="table table-dark table-striped">
               <thead>
                 <tr>
+                  <th scope="col">SoKH</th>
                   <th scope="col">SoQD</th>
-                  <th scope="col">SoDN</th>
                   <th scope="col">Ngay</th>
                   <th scope="col">DoiTuong</th>
-                  <th scope="col">BiDanh</th>
-                  <th scope="col">ThoiGianBD</th>
-                  <th scope="col">ThoiGianKT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {[...quyetdinhTSNTs]
+                {[...kehoachTSNTs]
                   .reverse()
-                  .map((quyetdinhTSNT: any, ind: number) => (
-                    <tr key={ind} title={`MaQD: ${quyetdinhTSNT.MaQD}`}>
-                      <td>{quyetdinhTSNT.So}</td>
-                      <td>{quyetdinhTSNT.DeNghiTSNT?.So}</td>
+                  .map((kehoachTSNT: any, ind: number) => (
+                    <tr key={ind} title={`MaKH: ${kehoachTSNT.MaKH}`}>
+                      <td>{kehoachTSNT.So}</td>
+                      <td>{kehoachTSNT.QuyetDinhTSNT?.So}</td>
                       <td>
-                        {quyetdinhTSNT.Ngay && handleTime(quyetdinhTSNT.Ngay)}
+                        {kehoachTSNT.Ngay && handleTime(kehoachTSNT.Ngay)}
                       </td>
-                      <td>{quyetdinhTSNT.DoiTuong?.TenDT}</td>
-                      <td>{quyetdinhTSNT.BiDanh}</td>
-                      <td>
-                        {quyetdinhTSNT.ThoiGianBD &&
-                          handleTime(quyetdinhTSNT.ThoiGianBD)}
-                      </td>
-                      <td>
-                        {quyetdinhTSNT.ThoiGianKT &&
-                          handleTime(quyetdinhTSNT.ThoiGianKT)}
-                      </td>
+                      <td>{kehoachTSNT.DoiTuong?.TenDT}</td>
                       <td className="ip-ls-action">
                         <i
                           className="fa-solid fa-pen"
-                          onClick={() => onEditData(quyetdinhTSNT)}
+                          onClick={() => onEditData(kehoachTSNT)}
                           title="Sửa"
                         ></i>
                         <i
                           className="fa-solid fa-trash"
                           data-bs-toggle="modal"
                           data-bs-target="#modalDeleteData"
-                          onClick={() => onDeleteData(quyetdinhTSNT)}
+                          onClick={() => onDeleteData(kehoachTSNT)}
                           title="Xóa"
                         ></i>
                       </td>
@@ -354,11 +323,11 @@ export default function InputQuyetDinhTSNT() {
           </div>
         </div>
         <div className="col-12">
-          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} quyết định TSNT:</h5>
+          <h5>{statusEdit ? "Chỉnh sửa" : "Thêm mới"} kế hoạch TSNT:</h5>
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Số quyết định (So):</label>
+                <label className="form-label">Số kế hoạch (So):</label>
                 <input
                   required
                   value={form.So ? form.So : ""}
@@ -369,7 +338,7 @@ export default function InputQuyetDinhTSNT() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Ngày quyết định:</label>
+                <label className="form-label">Ngày kế hoạch:</label>
                 <input
                   value={form.Ngay ? form.Ngay : ""}
                   name="Ngay"
@@ -378,6 +347,7 @@ export default function InputQuyetDinhTSNT() {
                   className="form-control"
                 />
               </div>
+              {/* --------------------------Ma lien quan----------------------------------- */}
               <div className="col-2 mb-3">
                 <label className="form-label">Mã đối tượng (MaDoiTuong):</label>
                 <select
@@ -399,51 +369,20 @@ export default function InputQuyetDinhTSNT() {
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Bí danh (BiDanh):</label>
-                <input
-                  value={form.BiDanh ? form.BiDanh : ""}
-                  name="BiDanh"
-                  onChange={changeForm}
-                  type="text"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Thời gian bắt đầu:</label>
-                <input
-                  value={form.ThoiGianBD ? form.ThoiGianBD : ""}
-                  name="ThoiGianBD"
-                  onChange={changeForm}
-                  type="date"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Thời gian kết thúc:</label>
-                <input
-                  value={form.ThoiGianKT ? form.ThoiGianKT : ""}
-                  name="ThoiGianKT"
-                  onChange={changeForm}
-                  type="date"
-                  className="form-control"
-                />
-              </div>
-              {/* --------------------------Ma lien quan----------------------------------- */}
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đề nghị TSNT (MaDN):</label>
+                <label className="form-label">Mã quyết định TSNT (MaQD):</label>
                 <select
-                  value={form.MaDN ? form.MaDN : ""}
+                  value={form.MaQD ? form.MaQD : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaDN"
+                  name="MaQD"
                 >
-                  <option defaultValue={""}>Chọn đề nghị TSNT</option>
-                  {Data_denghiTSNTs &&
-                    Data_denghiTSNTs.denghiTSNTs.map(
-                      (denghitsnt: any, ind: number) => (
-                        <option key={ind} value={denghitsnt.MaDN}>
-                          {denghitsnt.So}
+                  <option defaultValue={""}>Chọn quyết định TSNT</option>
+                  {Data_quyetdinhTSNTs &&
+                    Data_quyetdinhTSNTs.quyetdinhTSNTs.map(
+                      (quyetdinhtsnt: any, ind: number) => (
+                        <option key={ind} value={quyetdinhtsnt.MaQD}>
+                          {quyetdinhtsnt.So}
                         </option>
                       )
                     )}
@@ -486,6 +425,26 @@ export default function InputQuyetDinhTSNT() {
                 </select>
               </div>
               <div className="col-3 mb-3">
+                <label className="form-label">
+                  Mã BCH đội phụ trách (MaBCHPhuTrach):
+                </label>
+                <select
+                  value={form.MaBCHPhuTrach ? form.MaBCHPhuTrach : ""}
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={changeForm}
+                  name="MaBCHPhuTrach"
+                >
+                  <option defaultValue={""}>Chọn BCH đội phụ trách</option>
+                  {Data_cbcss &&
+                    Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
+                      <option key={ind} value={cbcs.MaCBCS}>
+                        {cbcs.HoTen}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="col-3 mb-3">
                 <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
                 <select
                   value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
@@ -507,37 +466,43 @@ export default function InputQuyetDinhTSNT() {
                     )}
                 </select>
               </div>
-              <div className="col-3 mb-3">
+              <div className="col-2 mb-3">
                 <label className="form-label">
-                  Mã CATTPvaTD (MaCATTPvaTD):
+                  Mã Trạm công tác (MaTramCT):
                 </label>
                 <select
-                  value={form.MaCATTPvaTD ? form.MaCATTPvaTD : ""}
+                  value={form.MaTramCT ? form.MaTramCT : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaCATTPvaTD"
+                  name="MaTramCT"
                 >
-                  <option defaultValue={""}>
-                    Chọn CA tỉnh thành phố và tương đương
-                  </option>
-                  {Data_caTTPvaTDs &&
-                    Data_caTTPvaTDs.caTTPvaTDs.map(
-                      (caTTPvaTD: any, ind: number) => (
-                        <option key={ind} value={caTTPvaTD.MaCATTPvaTD}>
-                          {caTTPvaTD.CATTPvaTD}
-                        </option>
-                      )
-                    )}
+                  <option defaultValue={""}>Chọn trạm công tác</option>
+                  {Data_tramCTs &&
+                    Data_tramCTs.tramCTs.map((tramct: any, ind: number) => (
+                      <option key={ind} value={tramct.MaTramCT}>
+                        {tramct.DiaDiem}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
             <div className="row">
               <div className="col-6 mb-3">
-                <label className="form-label">Nhiệm vụ cụ thể:</label>
+                <label className="form-label">Vấn đề chú ý:</label>
                 <textarea
-                  value={form.NhiemVuCT ? form.NhiemVuCT : ""}
-                  name="NhiemVuCT"
+                  value={form.VanDeChuY ? form.VanDeChuY : ""}
+                  name="VanDeChuY"
+                  onChange={changeForm}
+                  className="form-control"
+                  rows={5}
+                ></textarea>
+              </div>
+              <div className="col-6 mb-3">
+                <label className="form-label">Nội dung:</label>
+                <textarea
+                  value={form.NoiDung ? form.NoiDung : ""}
+                  name="NoiDung"
                   onChange={changeForm}
                   className="form-control"
                   rows={5}
@@ -555,6 +520,6 @@ export default function InputQuyetDinhTSNT() {
       </div>
 
       <ModalDeleteData />
-    </InputQuyetDinhTSNTstyled>
+    </InputKeHoachTSNTstyled>
   );
 }

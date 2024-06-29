@@ -84,8 +84,8 @@ export class TramCT {
   @OneToMany(() => DoiTuong, doituong => doituong.TramCT)
   DoiTuongs: [DoiTuong]
 
-  @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
-  QuyetDinhTSNTs: [QuyetDinhTSNT]
+  // @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
+  // QuyetDinhTSNTs: [QuyetDinhTSNT]
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_TramCTs, {
     cascade: true,

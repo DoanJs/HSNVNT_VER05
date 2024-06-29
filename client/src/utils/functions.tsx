@@ -31,12 +31,12 @@ export const MenuLink = ({ children, to, ...props }: MenuLinkParamsType) => {
 export const Filter_Data = (type: string | undefined, array: any) => {
   if (type === "anqg") {
     return array?.filter((obj: any) =>
-      ["Gián điệp", "Tình báo"].includes(obj.DoiTuong.TinhChatDT.TinhChat)
+      ["Gián điệp", "Tình báo"].includes(obj.DoiTuong?.TinhChatDT?.TinhChat)
     );
   } else {
     return array?.filter((obj: any) =>
       ["Phản động", "Kinh tế", "Ma túy", "Hình sự"].includes(
-        obj.DoiTuong.TinhChatDT.TinhChat
+        obj.DoiTuong?.TinhChatDT?.TinhChat
       )
     );
   }
@@ -98,12 +98,32 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
       );
       break;
-    case "quyetdinhTSNTs":
+    case "QuyetDinhTSNTs":
       arr = array.filter(
         (obj: any) =>
           obj.So.toLowerCase().includes(keysearch) ||
+          obj.DeNghiTSNT?.So.toLowerCase().includes(keysearch) ||
           obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
-          obj.BiDanh.toLowerCase().includes(keysearch) ||
+          obj.BiDanh?.toLowerCase().includes(keysearch) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay)
+            .month()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "KeHoachTSNTs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.So.toLowerCase().includes(keysearch) ||
+          obj.QuyetDinhTSNT?.So.toLowerCase().includes(keysearch) ||
+          obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
           moment(obj.Ngay)
             .date()
             .toString()

@@ -54,6 +54,7 @@ export class KeHoachTSNT {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_KeHoachTSNT',
   })
+  @Field(type => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @ManyToOne(() => Doi, (doi) => doi.KeHoachTSNTs, {
@@ -64,17 +65,8 @@ export class KeHoachTSNT {
     name: 'MaDoi',
     foreignKeyConstraintName: 'FK_MaDoi_KeHoachTSNT',
   })
+  @Field(type =>Doi, { nullable: true })
   Doi: Doi;
-
-  @OneToOne(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.KeHoachTSNT, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDN',
-    foreignKeyConstraintName: 'FK_MaDN_KeHoachTSNT',
-  })
-  DeNghiTSNT: DeNghiTSNT;
 
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.KeHoachTSNT, {
     cascade: true,
@@ -84,6 +76,7 @@ export class KeHoachTSNT {
     name: 'MaQD',
     foreignKeyConstraintName: 'FK_MaQD_KeHoachTSNT',
   })
+  @Field({ nullable: true })
   QuyetDinhTSNT: QuyetDinhTSNT;
 
   @ManyToOne(() => DoiTuong, (doituong) => doituong.KeHoachTSNTs, {
@@ -94,6 +87,7 @@ export class KeHoachTSNT {
     name: 'MaDoiTuong',
     foreignKeyConstraintName: 'FK_MaDoiTuong_KeHoachTSNT',
   })
+  @Field({ nullable: true })
   DoiTuong: DoiTuong;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_KeHoachTSNTs, {
@@ -104,6 +98,7 @@ export class KeHoachTSNT {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_KeHoachTSNT',
   })
+  @Field(type => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.BCHPhuTrach_KeHoachTSNTs, {
@@ -114,6 +109,7 @@ export class KeHoachTSNT {
     name: 'MaBCHPhuTrach',
     foreignKeyConstraintName: 'FK_MaBCHPhuTrach_KeHoachTSNT',
   })
+  @Field(type => CBCS, { nullable: true })
   BCHPhuTrach: CBCS;
 
   @ManyToOne(() => TramCT, tramCT => tramCT.KeHoachTSNTs, { cascade: true, eager: true })
@@ -121,6 +117,7 @@ export class KeHoachTSNT {
     name: "MaTramCT",
     foreignKeyConstraintName: "FK_MaTramCT_KeHoachTSNT"
   })
+  @Field({ nullable: true })
   TramCT: TramCT
 
   @ManyToMany(() => LLDB, (llbm) => llbm.KeHoachTSNTs, {

@@ -382,7 +382,7 @@ export default function InputDeNghiTSNT() {
               </div>
               <div className="col-2 mb-3">
                 <label className="form-label">
-                  Mã hình thức hoạt động (MaHTHD):
+                  Mã hình thức HD (MaHTHD):
                 </label>
                 <select
                   value={form.MaHTHD ? form.MaHTHD : ""}
@@ -391,7 +391,7 @@ export default function InputDeNghiTSNT() {
                   onChange={changeForm}
                   name="MaHTHD"
                 >
-                  <option defaultValue={""}>Chọn hình thức hoạt động</option>
+                  <option defaultValue={""}>Chọn hình thức HD</option>
                   {Data_hinhthucHDs &&
                     Data_hinhthucHDs.hinhthucHDs.map(
                       (hinhthuc: any, ind: number) => (

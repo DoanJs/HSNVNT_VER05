@@ -24,6 +24,7 @@ import {
   InputDoi,
   InputDoiTuong,
   InputHinhThucHD,
+  InputKeHoachTSNT,
   InputKyDuyetDN,
   InputList,
   InputLLDB,
@@ -31,6 +32,7 @@ import {
   InputLoaiLLDB,
   InputQuocTich,
   InputQuyetDinhTSNT,
+  InputQuyetDinhTSNTTinhTP,
   InputTinhChatDT,
   InputTinhTP,
   InputTonGiao,
@@ -112,6 +114,8 @@ export default function App() {
           <Route path="/nhaplieu/daumoiphdn" element={<InputDauMoiPHDN />} />
           <Route path="/nhaplieu/kyduyetdn" element={<InputKyDuyetDN />} />
           <Route path="/nhaplieu/quyetdinhtsnt" element={<InputQuyetDinhTSNT />} />
+          <Route path="/nhaplieu/quyetdinhtsnttinhtp" element={<InputQuyetDinhTSNTTinhTP />} />
+          <Route path="/nhaplieu/kehoachtsnt" element={<InputKeHoachTSNT />} />
 
 
 

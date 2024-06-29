@@ -12,6 +12,7 @@ import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
+  SP_CHANGE_DATA,
   SP_CHANGE_QUYETDINHTSNT,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
@@ -20,6 +21,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { QuyetDinhTSNT } from './QuyetDinhTSNT.model';
 import { QuyetDinhTSNTInput } from './type/QuyetDinhTSNT.input';
+import { QuyetDinhTSNT_TinhTPType } from './type/QuyetDinhTSNT_TinhTP.type';
+import { QuyetDinhTSNT_TinhTPInput } from './type/QuyetDinhTSNT_TinhTP.input';
 
 @Injectable()
 export class QuyetDinhTSNTsService {
@@ -39,15 +42,15 @@ export class QuyetDinhTSNTsService {
       MaQD,
       QuyetDinhTSNTInput: {
         So: quyetdinhTSNTInput.So ? `N'${quyetdinhTSNTInput.So}'` : null,
-        Ngay: quyetdinhTSNTInput.Ngay ? quyetdinhTSNTInput.Ngay : null,
+        Ngay: quyetdinhTSNTInput.Ngay ? `N'${quyetdinhTSNTInput.Ngay}'` : null,
         BiDanh: quyetdinhTSNTInput.BiDanh
           ? `N'${quyetdinhTSNTInput.BiDanh}'`
           : null,
         ThoiGianBD: quyetdinhTSNTInput.ThoiGianBD
-          ? quyetdinhTSNTInput.ThoiGianBD
+          ? `N'${quyetdinhTSNTInput.ThoiGianBD}'`
           : null,
         ThoiGianKT: quyetdinhTSNTInput.ThoiGianKT
-          ? quyetdinhTSNTInput.ThoiGianKT
+          ? `N'${quyetdinhTSNTInput.ThoiGianKT}'`
           : null,
         NhiemVuCT: `N'${quyetdinhTSNTInput.NhiemVuCT}'`, // crypto
         MaDoiTuong: quyetdinhTSNTInput.MaDoiTuong
@@ -142,9 +145,116 @@ export class QuyetDinhTSNTsService {
     return result[0];
   }
 
+  // many-to-many relation
+
+  async quyetdinhTSNTs_tinhTPs(
+    utilsParams: UtilsParamsInput,
+  ): Promise<QuyetDinhTSNT_TinhTPType[]> {
+    return this.quyetdinhTSNTRepository.query(
+      SP_GET_DATA(
+        'QuyetDinhTSNTs_TinhTPs',
+        `'MaQD != 0'`,
+        'MaQD',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+
+  async createQuyetDinhTSNT_TinhTP(
+    quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput,
+    user: any,
+  ): Promise<QuyetDinhTSNT_TinhTPType> {
+    const result = await this.quyetdinhTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'QuyetDinhTSNTs_TinhTPs',
+        `'MaTinhTP, MaQD'`,
+        `'  ${quyetdinhtsnt_tinhtpInput.MaTinhTP},
+            ${quyetdinhtsnt_tinhtpInput.MaQD}
+        '`,
+        `'MaTinhTP = ${quyetdinhtsnt_tinhtpInput.MaTinhTP}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaTinhTP: ${quyetdinhtsnt_tinhtpInput.MaTinhTP}, MaQD: ${quyetdinhtsnt_tinhtpInput.MaQD} };`,
+      TableName: 'QuyetDinhTSNTs_TinhTPs',
+    });
+    return result[0];
+  }
+
+  async editQuyetDinhTSNT_TinhTP(
+    quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput,
+    MaTinhTP: number,
+    MaQD: number,
+    user: any,
+  ): Promise<QuyetDinhTSNT_TinhTPType> {
+    await this.quyetdinhTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'QuyetDinhTSNTs_TinhTPs',
+        null,
+        null,
+        null,
+        `'  MaTinhTP = ${quyetdinhtsnt_tinhtpInput.MaTinhTP},
+            MaQD = ${quyetdinhtsnt_tinhtpInput.MaQD}
+        '`,
+        `'MaTinhTP = ${MaTinhTP} AND MaQD = ${MaQD}'`,
+      ),
+    );
+    const result = await this.quyetdinhTSNTRepository.query(
+      SP_GET_DATA(
+        'QuyetDinhTSNTs_TinhTPs',
+        `'MaTinhTP = ${quyetdinhtsnt_tinhtpInput.MaTinhTP} AND MaQD = ${quyetdinhtsnt_tinhtpInput.MaQD}'`,
+        'MaTinhTP',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaTinhTP: ${quyetdinhtsnt_tinhtpInput.MaTinhTP}, MaQD: ${quyetdinhtsnt_tinhtpInput.MaQD} };`,
+      TableName: 'QuyetDinhTSNTs_TinhTPs',
+    });
+    return result[0];
+  }
+
+  async deleteQuyetDinhTSNT_TinhTP(
+    MaTinhTP: number,
+    MaQD: number,
+    user: any,
+  ): Promise<QuyetDinhTSNT_TinhTPType> {
+    const result = await this.quyetdinhTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'QuyetDinhTSNTs_TinhTPs',
+        null,
+        null,
+        null,
+        null,
+        `'MaTinhTP = ${MaTinhTP} AND MaQD = ${MaQD}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaTinhTP: ${MaTinhTP}, MaQD: ${MaQD} };`,
+      TableName: 'QuyetDinhTSNTs_TinhTPs',
+    });
+    return result[0];
+  }
+
   // ResolveField
+
   async DoiTuong(quyetdinhTSNT: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(quyetdinhTSNT.MaDoiTuong);
+    if (quyetdinhTSNT.MaDoiTuong) {
+      return this.dataloaderService.loaderDoiTuong.load(
+        quyetdinhTSNT.MaDoiTuong,
+      );
+    }
   }
 
   async DeNghiTSNT(quyetdinhTSNT: any): Promise<DeNghiTSNT> {
@@ -160,11 +270,15 @@ export class QuyetDinhTSNTsService {
   }
 
   async LanhDaoPD(quyetdinhTSNT: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(quyetdinhTSNT.MaLanhDaoPD);
+    if (quyetdinhTSNT.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(quyetdinhTSNT.MaLanhDaoPD);
+    }
   }
 
   async Doi(quyetdinhTSNT: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(quyetdinhTSNT.MaDoi);
+    if (quyetdinhTSNT.MaDoi) {
+      return this.dataloaderService.loaderDoi.load(quyetdinhTSNT.MaDoi);
+    }
   }
 
   async KeHoachTSNT(MaQD: number): Promise<KeHoachTSNT> {
@@ -175,13 +289,19 @@ export class QuyetDinhTSNTsService {
   }
 
   async CATTPvaTD(quyetdinhTSNT: any): Promise<CATTPvaTD> {
-    return this.dataloaderService.loaderCATTPvaTD.load(
-      quyetdinhTSNT.MaCATTPvaTD,
-    );
+    if (quyetdinhTSNT.MaCATTPvaTD) {
+      return this.dataloaderService.loaderCATTPvaTD.load(
+        quyetdinhTSNT.MaCATTPvaTD,
+      );
+    }
   }
 
   async CAQHvaTD(quyetdinhTSNT: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(quyetdinhTSNT.MaCAQHvaTD);
+    if (quyetdinhTSNT.MaCAQHvaTD) {
+      return this.dataloaderService.loaderCAQHvaTD.load(
+        quyetdinhTSNT.MaCAQHvaTD,
+      );
+    }
   }
 
   async PhamViTSs(MaQD: number): Promise<TinhTP[]> {
