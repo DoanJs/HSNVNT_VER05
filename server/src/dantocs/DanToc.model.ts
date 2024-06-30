@@ -8,8 +8,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 
 @Entity({ name: 'DanTocs' })
@@ -38,6 +37,6 @@ export class DanToc {
   @OneToMany(() => CBCS, (cbcs) => cbcs.DanToc)
   CBCSs: [CBCS];
 
-  @OneToOne(() => DoiTuong, (doituong) => doituong.DanToc)
+  @OneToMany(() => DoiTuong, (doituong) => doituong.DanToc)
   DoiTuongs: [DoiTuong];
 }

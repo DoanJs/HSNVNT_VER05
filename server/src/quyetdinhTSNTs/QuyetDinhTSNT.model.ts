@@ -148,13 +148,6 @@ export class QuyetDinhTSNT {
   @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.QuyetDinhTSNT)
   KeHoachTSNT: KeHoachTSNT;
 
-  // @ManyToOne(() => TramCT, tramCT => tramCT.QuyetDinhTSNTs, { cascade: true, eager: true })
-  // @JoinColumn({
-  //   name: "MaTramCT",
-  //   foreignKeyConstraintName: "FK_MaTramCT_QuyetDinhTSNT"
-  // })
-  // TramCT: TramCT
-
   @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.QuyetDinhTSNT)
   KetQuaTSNT: KetQuaTSNT;
 
