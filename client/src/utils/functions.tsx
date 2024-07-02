@@ -388,6 +388,48 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.DaiDienDonViTSNT?.HoTen?.toLowerCase().includes(keysearch)
       );
       break;
+    case "LucLuongThamGiaKHs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.KeHoachTSNT?.So?.toLowerCase().includes(keysearch) ||
+          obj.CBCS?.HoTen?.toLowerCase().includes(keysearch) ||
+          obj.ViTri?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "TramCTs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.DiaDiem?.toLowerCase().includes(keysearch) ||
+          obj.TSXayDung?.HoTen?.toLowerCase().includes(keysearch) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.Ngay).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "BienBanRKNs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.ChuToa?.HoTen?.toLowerCase().includes(keysearch) ||
+          obj.ThuKy?.HoTen?.toLowerCase().includes(keysearch) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.Ngay).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
     default:
   }
 

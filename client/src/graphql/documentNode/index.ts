@@ -856,6 +856,15 @@ export const QUERY_tramCTs = gql`
     tramCTs(utilsParams: $utilsParams) {
       MaTramCT
       DiaDiem
+      Ngay
+      TSXayDung {
+        MaCBCS
+        HoTen
+      }
+      LanhDaoPD {
+        MaCBCS
+        HoTen
+      }
     }
   }
 `;
@@ -960,6 +969,68 @@ export const QUERY_kehoachTSNTs = gql`
       TramCT {
         MaTramCT
         DiaDiem
+      }
+      LLDBs {
+        MaLLDB
+        BiDanh
+      }
+    }
+  }
+`;
+export const QUERY_kehoachTSNTs_lldbs = gql`
+  query QUERY_kehoachTSNTs_lldbs($utilsParams: UtilsParamsInput!) {
+    kehoachTSNTs_lldbs(utilsParams: $utilsParams) {
+      MaLLDB
+      MaKH
+    }
+  }
+`;
+export const QUERY_lucluongThamGiaKHs = gql`
+  query QUERY_lucluongThamGiaKHs($utilsParams: UtilsParamsInput!) {
+    lucluongThamGiaKHs(utilsParams: $utilsParams) {
+      MaLLTGKH
+      ViTri
+      KeHoachTSNT {
+        MaKH
+        So
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const QUERY_bienBanRKNs = gql`
+  query QUERY_bienBanRKNs($utilsParams: UtilsParamsInput!) {
+    bienBanRKNs(utilsParams: $utilsParams) {
+      MaBBRKN
+      Ngay
+      KetQuaTSNT {
+        MaKQ
+        KeHoachTSNT {
+          MaKH
+          So
+        }
+      }
+      ChuToa {
+        MaCBCS
+        HoTen
+      }
+      ThuKy {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const QUERY_ketquaTSNTs = gql`
+  query QUERY_ketquaTSNTs($utilsParams: UtilsParamsInput!) {
+    ketquaTSNTs(utilsParams: $utilsParams) {
+      MaKQ
+      KeHoachTSNT {
+        MaKH
+        So
       }
     }
   }
@@ -1568,10 +1639,7 @@ export const MUTATION_editDauMoiPH_DN = gql`
     $dauMoiPH_DNInput: DauMoiPH_DNInput!
     $id: Float!
   ) {
-    editDauMoiPH_DN(
-      dauMoiPH_DNInput: $dauMoiPH_DNInput
-      id: $id
-    ) {
+    editDauMoiPH_DN(dauMoiPH_DNInput: $dauMoiPH_DNInput, id: $id) {
       MaDMPH
       DeNghiTSNT {
         MaDN
@@ -1607,10 +1675,7 @@ export const MUTATION_editKyDuyet_DN = gql`
     $kyDuyet_DNInput: KyDuyet_DNInput!
     $id: Float!
   ) {
-    editKyDuyet_DN(
-      kyDuyet_DNInput: $kyDuyet_DNInput
-      id: $id
-    ) {
+    editKyDuyet_DN(kyDuyet_DNInput: $kyDuyet_DNInput, id: $id) {
       MaKDDN
       DeNghiTSNT {
         MaDN
@@ -1631,7 +1696,9 @@ export const MUTATION_deleteKyDuyet_DN = gql`
   }
 `;
 export const MUTATION_createQuyetDinhTSNT = gql`
-  mutation MUTATION_createQuyetDinhTSNT($quyetdinhTSNTInput: QuyetDinhTSNTInput!) {
+  mutation MUTATION_createQuyetDinhTSNT(
+    $quyetdinhTSNTInput: QuyetDinhTSNTInput!
+  ) {
     createQuyetDinhTSNT(quyetdinhTSNTInput: $quyetdinhTSNTInput) {
       MaQD
       So
@@ -1664,7 +1731,9 @@ export const MUTATION_createQuyetDinhTSNT_TinhTP = gql`
   mutation MUTATION_createQuyetDinhTSNT_TinhTP(
     $quyetdinhtsnt_tinhtpInput: QuyetDinhTSNT_TinhTPInput!
   ) {
-    createQuyetDinhTSNT_TinhTP(quyetdinhtsnt_tinhtpInput: $quyetdinhtsnt_tinhtpInput) {
+    createQuyetDinhTSNT_TinhTP(
+      quyetdinhtsnt_tinhtpInput: $quyetdinhtsnt_tinhtpInput
+    ) {
       MaTinhTP
       MaQD
     }
@@ -1687,7 +1756,10 @@ export const MUTATION_editQuyetDinhTSNT_TinhTP = gql`
   }
 `;
 export const MUTATION_deleteQuyetDinhTSNT_TinhTP = gql`
-  mutation MUTATION_deleteQuyetDinhTSNT_TinhTP($MaTinhTP: Float!, $MaQD: Float!) {
+  mutation MUTATION_deleteQuyetDinhTSNT_TinhTP(
+    $MaTinhTP: Float!
+    $MaQD: Float!
+  ) {
     deleteQuyetDinhTSNT_TinhTP(MaTinhTP: $MaTinhTP, MaQD: $MaQD) {
       MaTinhTP
       MaQD
@@ -1721,6 +1793,141 @@ export const MUTATION_deleteKeHoachTSNT = gql`
     deleteKeHoachTSNT(kehoachTSNTInput: $kehoachTSNTInput, id: $id) {
       MaKH
       So
+    }
+  }
+`;
+export const MUTATION_createKeHoachTSNT_LLDB = gql`
+  mutation MUTATION_createKeHoachTSNT_LLDB(
+    $kehoachtsnt_lldbInput: KeHoachTSNT_LLDBInput!
+  ) {
+    createKeHoachTSNT_LLDB(kehoachtsnt_lldbInput: $kehoachtsnt_lldbInput) {
+      MaLLDB
+      MaKH
+    }
+  }
+`;
+export const MUTATION_editKeHoachTSNT_LLDB = gql`
+  mutation MUTATION_editKeHoachTSNT_LLDB(
+    $kehoachtsnt_lldbInput: KeHoachTSNT_LLDBInput!
+    $MaLLDB: Float!
+    $MaKH: Float!
+  ) {
+    editKeHoachTSNT_LLDB(
+      kehoachtsnt_lldbInput: $kehoachtsnt_lldbInput
+      MaLLDB: $MaLLDB
+      MaKH: $MaKH
+    ) {
+      MaLLDB
+      MaKH
+    }
+  }
+`;
+export const MUTATION_deleteKeHoachTSNT_LLDB = gql`
+  mutation MUTATION_deleteKeHoachTSNT_LLDB($MaLLDB: Float!, $MaKH: Float!) {
+    deleteKeHoachTSNT_LLDB(MaLLDB: $MaLLDB, MaKH: $MaKH) {
+      MaLLDB
+      MaKH
+    }
+  }
+`;
+export const MUTATION_createLucLuongThamGiaKH = gql`
+  mutation MUTATION_createLucLuongThamGiaKH(
+    $lucluongThamGiaKHInput: LucLuongThamGiaKHInput!
+  ) {
+    createLucLuongThamGiaKH(lucluongThamGiaKHInput: $lucluongThamGiaKHInput) {
+      MaLLTGKH
+      KeHoachTSNT {
+        MaKH
+        So
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const MUTATION_editLucLuongThamGiaKH = gql`
+  mutation MUTATION_editLucLuongThamGiaKH(
+    $lucluongThamGiaKHInput: LucLuongThamGiaKHInput!
+    $id: Float!
+  ) {
+    editLucLuongThamGiaKH(
+      lucluongThamGiaKHInput: $lucluongThamGiaKHInput
+      id: $id
+    ) {
+      MaLLTGKH
+      KeHoachTSNT {
+        MaKH
+        So
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const MUTATION_deleteLucLuongThamGiaKH = gql`
+  mutation MUTATION_deleteLucLuongThamGiaKH($id: Float!) {
+    deleteLucLuongThamGiaKH(id: $id) {
+      MaLLTGKH
+      KeHoachTSNT {
+        MaKH
+        So
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const MUTATION_createTramCT = gql`
+  mutation MUTATION_createTramCT($tramCTInput: TramCTInput!) {
+    createTramCT(tramCTInput: $tramCTInput) {
+      MaTramCT
+      DiaDiem
+    }
+  }
+`;
+export const MUTATION_editTramCT = gql`
+  mutation MUTATION_editTramCT($tramCTInput: TramCTInput!, $id: Float!) {
+    editTramCT(tramCTInput: $tramCTInput, id: $id) {
+      MaTramCT
+      DiaDiem
+    }
+  }
+`;
+export const MUTATION_deleteTramCT = gql`
+  mutation MUTATION_deleteTramCT($tramCTInput: TramCTInput!, $id: Float!) {
+    deleteTramCT(tramCTInput: $tramCTInput, id: $id) {
+      MaTramCT
+      DiaDiem
+    }
+  }
+`;
+export const MUTATION_createBienBanRKN = gql`
+  mutation MUTATION_createBienBanRKN($bienbanRKNInput: BienBanRKNInput!) {
+    createBienBanRKN(bienbanRKNInput: $bienbanRKNInput) {
+      MaBBRKN
+      Ngay
+    }
+  }
+`;
+export const MUTATION_editBienBanRKN = gql`
+  mutation MUTATION_editBienBanRKN($bienbanRKNInput: BienBanRKNInput!, $id: Float!) {
+    editBienBanRKN(bienbanRKNInput: $bienbanRKNInput, id: $id) {
+      MaBBRKN
+      Ngay
+    }
+  }
+`;
+export const MUTATION_deleteBienBanRKN = gql`
+  mutation MUTATION_deleteBienBanRKN($bienbanRKNInput: BienBanRKNInput!, $id: Float!) {
+    deleteBienBanRKN(bienbanRKNInput: $bienbanRKNInput, id: $id) {
+      MaBBRKN
+      Ngay
     }
   }
 `;

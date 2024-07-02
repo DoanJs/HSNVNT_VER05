@@ -34,7 +34,7 @@ export class KeHoachTSNT {
 
   @Column({ type: 'date', nullable: true })
   @Field({ nullable: true })
-  Ngay: string;
+  Ngay: Date;
 
   @Column({ type: 'varbinary', length: "max", nullable: true }) //hash
   @Field({ nullable: true })

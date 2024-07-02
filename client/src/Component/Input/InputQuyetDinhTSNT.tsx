@@ -84,7 +84,6 @@ export default function InputQuyetDinhTSNT() {
   const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
     variables: { utilsParams: {} },
   });
-
   // ----------------------------------------------------
   const [createQuyetDinhTSNT] = useMutation(MUTATION_createQuyetDinhTSNT, {
     refetchQueries: [

@@ -13,6 +13,7 @@ import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
+  SP_CHANGE_DATA,
   SP_CHANGE_KEHOACHTSNT,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
@@ -21,6 +22,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KeHoachTSNT } from './KeHoachTSNT.model';
 import { KeHoachTSNTInput } from './type/KeHoachTSNT.input';
+import { KeHoachTSNT_LLDBType } from './type/KeHoachTSNT_LLDB.type';
+import { KeHoachTSNT_LLDBInput } from './type/KeHoachTSNT_LLDB.input';
 
 @Injectable()
 export class KeHoachTSNTsService {
@@ -135,6 +138,107 @@ export class KeHoachTSNTsService {
     });
     return result[0];
   }
+  // many-to-many relation
+
+  async kehoachTSNTs_lldbs(
+    utilsParams: UtilsParamsInput,
+  ): Promise<KeHoachTSNT_LLDBType[]> {
+    return this.kehoachTSNTRepository.query(
+      SP_GET_DATA(
+        'KeHoachTSNTs_LLDBs',
+        `'MaKH != 0'`,
+        'MaKH',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+
+  async createKeHoachTSNT_LLDB(
+    kehoachtsnt_lldbInput: KeHoachTSNT_LLDBInput,
+    user: any,
+  ): Promise<KeHoachTSNT_LLDBType> {
+    const result = await this.kehoachTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'KeHoachTSNTs_LLDBs',
+        `'MaLLDB, MaKH'`,
+        `'  ${kehoachtsnt_lldbInput.MaLLDB},
+            ${kehoachtsnt_lldbInput.MaKH}
+        '`,
+        `'MaLLDB = ${kehoachtsnt_lldbInput.MaLLDB}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaLLDB: ${kehoachtsnt_lldbInput.MaLLDB}, MaKH: ${kehoachtsnt_lldbInput.MaKH} };`,
+      TableName: 'KeHoachTSNTs_LLDBs',
+    });
+    return result[0];
+  }
+
+  async editKeHoachTSNT_LLDB(
+    kehoachtsnt_lldbInput: KeHoachTSNT_LLDBInput,
+    MaLLDB: number,
+    MaKH: number,
+    user: any,
+  ): Promise<KeHoachTSNT_LLDBType> {
+    await this.kehoachTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'KeHoachTSNTs_LLDBs',
+        null,
+        null,
+        null,
+        `'  MaLLDB = ${kehoachtsnt_lldbInput.MaLLDB},
+            MaKH = ${kehoachtsnt_lldbInput.MaKH}
+        '`,
+        `'MaLLDB = ${MaLLDB} AND MaKH = ${MaKH}'`,
+      ),
+    );
+    const result = await this.kehoachTSNTRepository.query(
+      SP_GET_DATA(
+        'KeHoachTSNTs_LLDBs',
+        `'MaLLDB = ${kehoachtsnt_lldbInput.MaLLDB} AND MaKH = ${kehoachtsnt_lldbInput.MaKH}'`,
+        'MaLLDB',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaLLDB: ${kehoachtsnt_lldbInput.MaLLDB}, MaKH: ${kehoachtsnt_lldbInput.MaKH} };`,
+      TableName: 'KeHoachTSNTs_LLDBs',
+    });
+    return result[0];
+  }
+
+  async deleteKeHoachTSNT_LLDB(
+    MaLLDB: number,
+    MaKH: number,
+    user: any,
+  ): Promise<KeHoachTSNT_LLDBType> {
+    const result = await this.kehoachTSNTRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'KeHoachTSNTs_LLDBs',
+        null,
+        null,
+        null,
+        null,
+        `'MaLLDB = ${MaLLDB} AND MaKH = ${MaKH}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaLLDB: ${MaLLDB}, MaKH: ${MaKH} };`,
+      TableName: 'KeHoachTSNTs_LLDBs',
+    });
+    return result[0];
+  }
 
   // ResolveField
 
@@ -153,7 +257,7 @@ export class KeHoachTSNTsService {
 
   async LLDBs(MaKH: number): Promise<LLDB[]> {
     const result = (await this.kehoachTSNTRepository.query(
-      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaLLBM', 0, 0),
+      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaKH', 0, 0),
     )) as [{ MaLLDB: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderLLDB.load(obj.MaLLDB),

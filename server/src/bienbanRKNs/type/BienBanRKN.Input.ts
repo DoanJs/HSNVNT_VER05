@@ -21,11 +21,11 @@ export class BienBanRKNInput {
   DeXuat?: string;
 
   @Field({ nullable: true })
-  MaKQ?: string;
+  MaKQ?: number;
 
   @Field({ nullable: true })
-  MaChuToa?: string;
+  MaChuToa?: number;
 
   @Field({ nullable: true })
-  MaThuKy?: string;
+  MaThuKy?: number;
 }

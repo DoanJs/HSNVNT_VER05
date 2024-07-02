@@ -26,6 +26,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KeHoachTSNT } from './KeHoachTSNT.model';
 import { KeHoachTSNTsService } from './KeHoachTSNTs.service';
 import { KeHoachTSNTInput } from './type/KeHoachTSNT.input';
+import { KeHoachTSNT_LLDBType } from './type/KeHoachTSNT_LLDB.type';
+import { KeHoachTSNT_LLDBInput } from './type/KeHoachTSNT_LLDB.input';
 
 @Resolver(() => KeHoachTSNT)
 @UseGuards(GraphQLGuard)
@@ -72,6 +74,60 @@ export class KeHoachTSNTsResolver {
     return this.kehoachTSNTsService.deleteKeHoachTSNT(
       kehoachTSNTInput,
       id,
+      user,
+    );
+  }
+
+  // many-to-many
+
+  
+  @Query((returns) => [KeHoachTSNT_LLDBType])
+  kehoachTSNTs_lldbs(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<KeHoachTSNT_LLDBType[]> {
+    return this.kehoachTSNTsService.kehoachTSNTs_lldbs(utilsParams);
+  }
+
+  @Mutation((returns) => KeHoachTSNT_LLDBType)
+  @UseGuards(InsertGuard)
+  createKeHoachTSNT_LLDB(
+    @CurrentUser() user: any,
+    @Args('kehoachtsnt_lldbInput')
+    kehoachtsnt_lldbInput: KeHoachTSNT_LLDBInput,
+  ): Promise<KeHoachTSNT_LLDBType> {
+    return this.kehoachTSNTsService.createKeHoachTSNT_LLDB(
+      kehoachtsnt_lldbInput,
+      user,
+    );
+  }
+
+  @Mutation((returns) => KeHoachTSNT_LLDBType)
+  @UseGuards(UpdateGuard)
+  editKeHoachTSNT_LLDB(
+    @CurrentUser() user: any,
+    @Args('kehoachtsnt_lldbInput')
+    kehoachtsnt_lldbInput: KeHoachTSNT_LLDBInput,
+    @Args('MaLLDB') MaLLDB: number,
+    @Args('MaKH') MaKH: number,
+  ): Promise<KeHoachTSNT_LLDBType> {
+    return this.kehoachTSNTsService.editKeHoachTSNT_LLDB(
+      kehoachtsnt_lldbInput,
+      MaLLDB,
+      MaKH,
+      user,
+    );
+  }
+
+  @Mutation((retursn) => KeHoachTSNT_LLDBType)
+  @UseGuards(DeleteGuard)
+  deleteKeHoachTSNT_LLDB(
+    @CurrentUser() user: any,
+    @Args('MaLLDB') MaLLDB: number,
+    @Args('MaKH') MaKH: number,
+  ): Promise<KeHoachTSNT_LLDBType> {
+    return this.kehoachTSNTsService.deleteKeHoachTSNT_LLDB(
+      MaLLDB,
+      MaKH,
       user,
     );
   }

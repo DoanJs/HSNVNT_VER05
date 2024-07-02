@@ -19,7 +19,7 @@ export class TramCTsService {
     private tramCTRepository: Repository<TramCT>,
     private readonly dataloaderService: DataLoaderService,
     private readonly actionDBsService: ActionDBsService,
-  ) { }
+  ) {}
   public readonly tramCT_DataInput = (
     Type: string,
     MaTramCT: number | null,
@@ -46,7 +46,7 @@ export class TramCTsService {
     };
   };
 
-  tramCTs(utilsParams: UtilsParamsInput): Promise<TramCT[]> {
+  async tramCTs(utilsParams: UtilsParamsInput): Promise<TramCT[]> {
     return this.tramCTRepository.query(
       SP_GET_DATA_DECRYPT(
         'TramCTs',
@@ -77,7 +77,11 @@ export class TramCTsService {
     return result[0];
   }
 
-  async editTramCT(tramCTInput: TramCTInput, id: number, user: any): Promise<TramCT> {
+  async editTramCT(
+    tramCTInput: TramCTInput,
+    id: number,
+    user: any,
+  ): Promise<TramCT> {
     const result = await this.tramCTRepository.query(
       SP_CHANGE_TRAMCT(this.tramCT_DataInput('EDIT', id, tramCTInput)),
     );
@@ -90,7 +94,11 @@ export class TramCTsService {
     return result[0];
   }
 
-  async deleteTramCT(tramCTInput: TramCTInput, id: number, user: any): Promise<TramCT> {
+  async deleteTramCT(
+    tramCTInput: TramCTInput,
+    id: number,
+    user: any,
+  ): Promise<TramCT> {
     const result = await this.tramCTRepository.query(
       SP_CHANGE_TRAMCT(this.tramCT_DataInput('DELETE', id, tramCTInput)),
     );
@@ -111,18 +119,26 @@ export class TramCTsService {
   }
 
   async TSXayDung(tramCT: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(tramCT.MaTSXayDung);
+    if (tramCT.MaTSXayDung) {
+      return this.dataloaderService.loaderCBCS.load(tramCT.MaTSXayDung);
+    }
   }
 
   async LanhDaoPD(tramCT: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(tramCT.MaLanhDaoPD);
+    if (tramCT.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(tramCT.MaLanhDaoPD);
+    }
   }
 
   async CAQHvaTD(tramCT: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(tramCT.MaCAQHvaTD)
+    if (tramCT.MaCAQHvaTD) {
+      return this.dataloaderService.loaderCAQHvaTD.load(tramCT.MaCAQHvaTD);
+    }
   }
 
   async Doi(tramCT: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(tramCT.MaDoi)
+    if (tramCT.MaDoi) {
+      return this.dataloaderService.loaderDoi.load(tramCT.MaDoi);
+    }
   }
 }

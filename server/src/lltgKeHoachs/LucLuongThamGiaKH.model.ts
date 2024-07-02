@@ -21,6 +21,7 @@ export class LucLuongThamGiaKH {
     name: "MaKH",
     foreignKeyConstraintName: "FK_MaKH_LucLuongThamGiaKH"
   })
+  @Field(type => KeHoachTSNT, { nullable: true })
   KeHoachTSNT: KeHoachTSNT
 
   @ManyToOne(() => CBCS, cbcs => cbcs.LucLuongThamGiaKHs, { cascade: true, eager: true })
@@ -28,5 +29,6 @@ export class LucLuongThamGiaKH {
     name: "MaCBCS",
     foreignKeyConstraintName: "FK_MaCBCS_LucLuongThamGiaKH"
   })
+  @Field(type => CBCS, { nullable: true })
   CBCS: CBCS
 }

@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BienBanRKN } from './BienBanRKN.model';
 import { BienBanRKNsService } from './BienBanRKNs.service';
@@ -9,6 +9,8 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
+import { CBCS } from 'src/cbcss/CBCS.model';
 
 @Resolver(() => BienBanRKN)
 @UseGuards(GraphQLGuard)
@@ -57,4 +59,18 @@ export class BienBanRKNsResolver {
   }
 
   //ResolveField
+  @ResolveField((returns) => KetQuaTSNT)
+  KetQuaTSNT(@Parent() bienBanRKN: BienBanRKN): Promise<KetQuaTSNT> {
+    return this.bienbanRKNsService.KetQuaTSNT(bienBanRKN);
+  }
+  
+  @ResolveField((returns) => CBCS)
+  ChuToa(@Parent() bienBanRKN: BienBanRKN): Promise<CBCS> {
+    return this.bienbanRKNsService.ChuToa(bienBanRKN);
+  }
+  
+  @ResolveField((returns) => CBCS)
+  ThuKy(@Parent() bienBanRKN: BienBanRKN): Promise<CBCS> {
+    return this.bienbanRKNsService.ThuKy(bienBanRKN);
+  }
 }

@@ -23,7 +23,7 @@ export class TramCT {
 
   @Column({ type: 'date', nullable: true })
   @Field({ nullable: true })
-  Ngay: string;
+  Ngay: Date;
 
   @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
   @Field({ nullable: true })
@@ -51,8 +51,8 @@ export class TramCT {
 
   // relation
 
-  @OneToMany(() => KeHoachTSNT, kehoachTSNT => kehoachTSNT.TramCT)
-  KeHoachTSNTs: [KeHoachTSNT]
+  @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.TramCT)
+  KeHoachTSNTs: [KeHoachTSNT];
 
   @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.TramCTs, {
     cascade: true,
@@ -62,6 +62,7 @@ export class TramCT {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_TramCT',
   })
+  @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @ManyToOne(() => Doi, (doi) => doi.TramCTs, { cascade: true, eager: true })
@@ -69,6 +70,7 @@ export class TramCT {
     name: 'MaDoi',
     foreignKeyConstraintName: 'FK_MaDoi_TramCT',
   })
+  @Field((type) => Doi, { nullable: true })
   Doi: Doi;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.TSXayDung_TramCTs, {
@@ -79,10 +81,11 @@ export class TramCT {
     name: 'MaTSXayDung',
     foreignKeyConstraintName: 'FK_MaTSXayDung_TramCT',
   })
+  @Field((type) => CBCS, { nullable: true })
   TSXayDung: CBCS;
 
-  @OneToMany(() => DoiTuong, doituong => doituong.TramCT)
-  DoiTuongs: [DoiTuong]
+  @OneToMany(() => DoiTuong, (doituong) => doituong.TramCT)
+  DoiTuongs: [DoiTuong];
 
   // @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
   // QuyetDinhTSNTs: [QuyetDinhTSNT]
@@ -95,5 +98,6 @@ export class TramCT {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_TramCT',
   })
+  @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 }

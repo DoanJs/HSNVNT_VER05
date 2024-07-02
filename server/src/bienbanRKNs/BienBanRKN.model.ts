@@ -1,7 +1,16 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'BienBanRKNs' })
 @ObjectType()
@@ -36,39 +45,47 @@ export class BienBanRKN {
 
   // relation
 
-  @OneToOne(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.BienBanRKN, {cascade: true, eager: true})
-  @JoinColumn({
-    name: "MaKQ",
-    foreignKeyConstraintName: "FK_MaKQ_BienBanRKN"
+  @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.BienBanRKN, {
+    cascade: true,
+    eager: true,
   })
-  KetQuaTSNT: KetQuaTSNT
-
-  @ManyToOne(() => CBCS, cbcs => cbcs.ChuToa_BienBanRKNs)
   @JoinColumn({
-    name: "MaChuToa",
-    foreignKeyConstraintName: "FK_MaChuToa_BienBanRKN"
+    name: 'MaKQ',
+    foreignKeyConstraintName: 'FK_MaKQ_BienBanRKN',
   })
-  ChuToa: CBCS
+  @Field((type) => KetQuaTSNT, { nullable: true })
+  KetQuaTSNT: KetQuaTSNT;
 
-  @ManyToOne(() => CBCS, cbcs => cbcs.ThuKy_BienBanRKNs)
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.ChuToa_BienBanRKNs)
   @JoinColumn({
-    name: "MaThuKy",
-    foreignKeyConstraintName: "FK_MaThuKy_BienBanRKN"
+    name: 'MaChuToa',
+    foreignKeyConstraintName: 'FK_MaChuToa_BienBanRKN',
   })
-  ThuKy: CBCS
+  @Field((type) => CBCS, { nullable: true })
+  ChuToa: CBCS;
 
-  @ManyToMany(() => CBCS, cbcs => cbcs.BienBanRKNs, {cascade: true, eager: true})
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.ThuKy_BienBanRKNs)
+  @JoinColumn({
+    name: 'MaThuKy',
+    foreignKeyConstraintName: 'FK_MaThuKy_BienBanRKN',
+  })
+  @Field((type) => CBCS, { nullable: true })
+  ThuKy: CBCS;
+
+  @ManyToMany(() => CBCS, (cbcs) => cbcs.BienBanRKNs, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable({
-    name: "BienBanRKNs_LanhDaoTGs",
+    name: 'BienBanRKNs_LanhDaoTGs',
     joinColumn: {
-      name: "MaBBRKN",
-      foreignKeyConstraintName: "FK_MaBBRKN_BienBanRKNs_LanhDaoTGs"
+      name: 'MaBBRKN',
+      foreignKeyConstraintName: 'FK_MaBBRKN_BienBanRKNs_LanhDaoTGs',
     },
     inverseJoinColumn: {
-      name: "MaLanhDaoTG",
-      foreignKeyConstraintName: "FK_MaLanhDaoTG_BienBanRKNs_LanhDaoTGs"
-    }
+      name: 'MaLanhDaoTG',
+      foreignKeyConstraintName: 'FK_MaLanhDaoTG_BienBanRKNs_LanhDaoTGs',
+    },
   })
-  LanhDaoTGs: [CBCS]
-
+  LanhDaoTGs: [CBCS];
 }

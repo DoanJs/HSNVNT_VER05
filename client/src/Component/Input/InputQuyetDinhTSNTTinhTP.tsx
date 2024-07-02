@@ -138,7 +138,6 @@ export default function InputQuyetDinhTSNTTinhTP() {
                 },
               });
         } else {
-          console.log(form);
           createQuyetDinhTSNT_TinhTP({
             variables: {
               quyetdinhtsnt_tinhtpInput: {

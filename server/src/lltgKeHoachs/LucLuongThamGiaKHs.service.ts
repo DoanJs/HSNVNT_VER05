@@ -139,12 +139,16 @@ export class LucLuongThamGiaKHsService {
   // ResolveField
 
   async KeHoachTSNT(lucluongThamGiaKH: any): Promise<KeHoachTSNT> {
-    return this.dataloaderService.loaderKeHoachTSNT.load(
-      lucluongThamGiaKH.MaKH,
-    );
+    if (lucluongThamGiaKH.MaKH) {
+      return this.dataloaderService.loaderKeHoachTSNT.load(
+        lucluongThamGiaKH.MaKH,
+      );
+    }
   }
 
   async CBCS(lucluongThamGiaKH: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(lucluongThamGiaKH.MaCBCS);
+    if (lucluongThamGiaKH.MaCBCS) {
+      return this.dataloaderService.loaderCBCS.load(lucluongThamGiaKH.MaCBCS);
+    }
   }
 }

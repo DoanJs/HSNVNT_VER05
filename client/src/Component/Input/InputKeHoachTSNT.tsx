@@ -129,7 +129,6 @@ export default function InputKeHoachTSNT() {
       MaQD_edit: obj.QuyetDinhTSNT?.MaQD,
     };
   };
-
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
     set_kehoachTSNTs(
       handleSearch(
@@ -234,8 +233,7 @@ export default function InputKeHoachTSNT() {
   };
 
   const onDeleteData = (kehoachTSNT: any) => {
-    const { MaKH, MaQD_edit, ...inputKeHoachTSNT } =
-      convertForm(kehoachTSNT);
+    const { MaKH, MaQD_edit, ...inputKeHoachTSNT } = convertForm(kehoachTSNT);
     infoDeleteDataVar({
       ...infoDeleteData,
       Title: `kế hoạch TSNT số ${kehoachTSNT.So}`,

@@ -8,6 +8,7 @@ import {
   File,
   FileList,
   Home,
+  InputBienBanRKN,
   InputBienPhapDT,
   InputBienPhapDTDoiTuong,
   InputCapbac,
@@ -25,17 +26,20 @@ import {
   InputDoiTuong,
   InputHinhThucHD,
   InputKeHoachTSNT,
+  InputKeHoachTSNTLLDB,
   InputKyDuyetDN,
   InputList,
   InputLLDB,
   InputLoaiDT,
   InputLoaiLLDB,
+  InputLucLuongThamGiaKH,
   InputQuocTich,
   InputQuyetDinhTSNT,
   InputQuyetDinhTSNTTinhTP,
   InputTinhChatDT,
   InputTinhTP,
   InputTonGiao,
+  InputTramCT,
   Login,
   Navbar,
   PlaceDetail,
@@ -116,6 +120,10 @@ export default function App() {
           <Route path="/nhaplieu/quyetdinhtsnt" element={<InputQuyetDinhTSNT />} />
           <Route path="/nhaplieu/quyetdinhtsnttinhtp" element={<InputQuyetDinhTSNTTinhTP />} />
           <Route path="/nhaplieu/kehoachtsnt" element={<InputKeHoachTSNT />} />
+          <Route path="/nhaplieu/kehoachtsntlldb" element={<InputKeHoachTSNTLLDB />} />
+          <Route path="/nhaplieu/lucluongthamgiakh" element={<InputLucLuongThamGiaKH />} />
+          <Route path="/nhaplieu/tramct" element={<InputTramCT />} />
+          <Route path="/nhaplieu/bienbanrkn" element={<InputBienBanRKN />} />
 
 
 

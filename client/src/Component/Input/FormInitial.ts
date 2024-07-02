@@ -213,5 +213,49 @@ export const FI_KeHoachTSNT = {
   MaLanhDaoPD: null,
   MaBCHPhuTrach: null,
 
-  MaQD_edit: null
+  MaQD_edit: null,
+};
+export const FI_KeHoachTSNT_LLDB = {
+  MaLLDB: null,
+  MaKH: null,
+  MaLLDB_old: 0,
+  MaKH_old: 0,
+};
+export const FI_LucLuongThamGiaKH = {
+  MaLLTGKH: 0,
+  ViTri: "",
+  MaKH: null,
+  MaCBCS: null,
+};
+export const FI_TramCT = {
+  MaTramCT: 0,
+
+  Ngay: "",
+  DiaDiem: "",
+  TinhHinhDB: "",
+  LyLichTram: "",
+  SoDoTram: "",
+  VanDeChuY: "",
+  QuyDinh: "",
+
+  MaCAQHvaTD: null,
+  MaDoi: null,
+  MaTSXayDung: null,
+  MaLanhDaoPD: null,
+};
+export const FI_BienBanRKN = {
+  MaBBRKN: 0,
+
+  Ngay: "",
+  DanhGiaLDP: "",
+  DanhGiaTS: "",
+  DanhGiaDT: "",
+  KetLuan: "",
+  DeXuat: "",
+
+  MaKQ: null,
+  MaChuToa: null,
+  MaThuKy: null,
+
+  MaKQ_edit: null,
 };

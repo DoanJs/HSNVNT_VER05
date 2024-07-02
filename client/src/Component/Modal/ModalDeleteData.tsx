@@ -2,6 +2,7 @@ import { useMutation, useReactiveVar } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
+  MUTATION_deleteBienBanRKN,
   MUTATION_deleteBienPhapDT,
   MUTATION_deleteBienPhapDT_DoiTuong,
   MUTATION_deleteCAQHvaTD,
@@ -19,16 +20,20 @@ import {
   MUTATION_deleteDoiTuong,
   MUTATION_deleteHinhThucHD,
   MUTATION_deleteKeHoachTSNT,
+  MUTATION_deleteKeHoachTSNT_LLDB,
   MUTATION_deleteKyDuyet_DN,
   MUTATION_deleteLLDB,
   MUTATION_deleteLoaiDT,
   MUTATION_deleteLoaiLLDB,
+  MUTATION_deleteLucLuongThamGiaKH,
   MUTATION_deleteQuocTich,
   MUTATION_deleteQuyetDinhTSNT,
   MUTATION_deleteQuyetDinhTSNT_TinhTP,
   MUTATION_deleteTinhChatDT,
   MUTATION_deleteTinhTP,
   MUTATION_deleteTonGiao,
+  MUTATION_deleteTramCT,
+  QUERY_bienBanRKNs,
   QUERY_bienPhapDTs,
   QUERY_bienphapDTs_doituongs,
   QUERY_caQHvaTDs,
@@ -46,16 +51,19 @@ import {
   QUERY_doituongs,
   QUERY_hinhthucHDs,
   QUERY_kehoachTSNTs,
+  QUERY_kehoachTSNTs_lldbs,
   QUERY_kyDuyet_DNs,
   QUERY_lldbs,
   QUERY_loaiDTs,
   QUERY_loaiLLDBs,
+  QUERY_lucluongThamGiaKHs,
   QUERY_quocTichs,
   QUERY_quyetdinhTSNTs,
   QUERY_quyetdinhTSNTs_tinhTPs,
   QUERY_tinhChatDTs,
   QUERY_tinhTPs,
   QUERY_tonGiaos,
+  QUERY_tramCTs,
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
 
@@ -186,6 +194,29 @@ export default function ModalDeleteData() {
     refetchQueries: [
       { query: QUERY_kehoachTSNTs, variables: { utilsParams: {} } },
     ],
+  });
+  const [deleteKeHoachTSNT_LLDB] = useMutation(
+    MUTATION_deleteKeHoachTSNT_LLDB,
+    {
+      refetchQueries: [
+        { query: QUERY_kehoachTSNTs, variables: { utilsParams: {} } },
+        { query: QUERY_kehoachTSNTs_lldbs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteLucLuongThamGiaKH] = useMutation(
+    MUTATION_deleteLucLuongThamGiaKH,
+    {
+      refetchQueries: [
+        { query: QUERY_lucluongThamGiaKHs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteTramCT] = useMutation(MUTATION_deleteTramCT, {
+    refetchQueries: [{ query: QUERY_tramCTs, variables: { utilsParams: {} } }],
+  });
+  const [deleteBienBanRKN] = useMutation(MUTATION_deleteBienBanRKN, {
+    refetchQueries: [{ query: QUERY_bienBanRKNs, variables: { utilsParams: {} } }],
   });
 
   const onMutationSuccess = () =>
@@ -450,6 +481,45 @@ export default function ModalDeleteData() {
         deleteKeHoachTSNT({
           variables: {
             kehoachTSNTInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "KeHoachTSNTs_LLDBs":
+        deleteKeHoachTSNT_LLDB({
+          variables: {
+            MaLLDB: infoDeleteData.Form.MaLLDB,
+            MaKH: infoDeleteData.Form.MaKH,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "LucLuongThamGiaKHs":
+        deleteLucLuongThamGiaKH({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "TramCTs":
+        deleteTramCT({
+          variables: {
+            tramCTInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BienBanRKNs":
+        deleteBienBanRKN({
+          variables: {
+            bienbanRKNInput: infoDeleteData.Form,
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
