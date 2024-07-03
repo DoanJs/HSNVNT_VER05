@@ -259,3 +259,33 @@ export const FI_BienBanRKN = {
 
   MaKQ_edit: null,
 };
+
+export const FI_BienBanRKN_LanhDaoTG = {
+  MaBBRKN: null,
+  MaLanhDaoTG: null,
+  MaBBRKN_old: 0,
+  MaLanhDaoTG_old: 0,
+};
+export const FI_BaoCaoKQGH = {
+  MaBCKQGH: 0,
+  Ngay: "",
+  HinhAnh: "",
+  MucDich: "",
+  ThoiGian: "",
+  DiaDiem: "",
+  PhuongTienSD: "",
+  VaiNguyTrang: "",
+  NoiDung: "",
+
+  MaKQ: null,
+  MaCAQHvaTD: null,
+  MaDoi: null,
+  MaDoiTuong: null,
+  MaLanhDaoPD: null,
+};
+export const FI_BaoCaoKQGH_CBCS = {
+  MaBCKQGH: null,
+  MaCBCS: null,
+  MaBCKQGH_old: 0,
+  MaCBCS_old: 0,
+};

@@ -2,7 +2,10 @@ import { useMutation, useReactiveVar } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
+  MUTATION_deleteBaoCaoKQGH,
+  MUTATION_deleteBaoCaoKQGH_CBCS,
   MUTATION_deleteBienBanRKN,
+  MUTATION_deleteBienBanRKN_LanhDaoTG,
   MUTATION_deleteBienPhapDT,
   MUTATION_deleteBienPhapDT_DoiTuong,
   MUTATION_deleteCAQHvaTD,
@@ -33,7 +36,10 @@ import {
   MUTATION_deleteTinhTP,
   MUTATION_deleteTonGiao,
   MUTATION_deleteTramCT,
+  QUERY_baocaoKQGHs,
+  QUERY_baocaoKQGHs_cbcss,
   QUERY_bienBanRKNs,
+  QUERY_bienBanRKNs_lanhDaoTGs,
   QUERY_bienPhapDTs,
   QUERY_bienphapDTs_doituongs,
   QUERY_caQHvaTDs,
@@ -216,7 +222,29 @@ export default function ModalDeleteData() {
     refetchQueries: [{ query: QUERY_tramCTs, variables: { utilsParams: {} } }],
   });
   const [deleteBienBanRKN] = useMutation(MUTATION_deleteBienBanRKN, {
-    refetchQueries: [{ query: QUERY_bienBanRKNs, variables: { utilsParams: {} } }],
+    refetchQueries: [
+      { query: QUERY_bienBanRKNs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteBienBanRKN_LanhDaoTG] = useMutation(
+    MUTATION_deleteBienBanRKN_LanhDaoTG,
+    {
+      refetchQueries: [
+        { query: QUERY_bienBanRKNs_lanhDaoTGs, variables: { utilsParams: {} } },
+        { query: QUERY_bienBanRKNs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteBaoCaoKQGH] = useMutation(MUTATION_deleteBaoCaoKQGH, {
+    refetchQueries: [
+      { query: QUERY_baocaoKQGHs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteBaoCaoKQGH_CBCS] = useMutation(MUTATION_deleteBaoCaoKQGH_CBCS, {
+    refetchQueries: [
+      { query: QUERY_baocaoKQGHs, variables: { utilsParams: {} } },
+      { query: QUERY_baocaoKQGHs_cbcss, variables: { utilsParams: {} } },
+    ],
   });
 
   const onMutationSuccess = () =>
@@ -521,6 +549,36 @@ export default function ModalDeleteData() {
           variables: {
             bienbanRKNInput: infoDeleteData.Form,
             id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BienBanRKNs_LanhDaoTGs":
+        deleteBienBanRKN_LanhDaoTG({
+          variables: {
+            MaBBRKN: infoDeleteData.Form.MaBBRKN,
+            MaLanhDaoTG: infoDeleteData.Form.MaLanhDaoTG,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoKQGHs":
+        deleteBaoCaoKQGH({
+          variables: {
+            baocaoKQGHInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoKQGHs_CBCSs":
+        deleteBaoCaoKQGH_CBCS({
+          variables: {
+            MaBCKQGH: infoDeleteData.Form.MaBCKQGH,
+            MaCBCS: infoDeleteData.Form.MaCBCS,
           },
           onCompleted: () => onMutationSuccess(),
           onError: () => onMutationError(),

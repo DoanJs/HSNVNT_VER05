@@ -542,7 +542,9 @@ export const QUERY_baocaoKQGHs = gql`
     baocaoKQGHs(utilsParams: $utilsParams) {
       MaBCKQGH
       ThoiGian
+      Ngay
       DiaDiem
+      MucDich
       HinhAnh
       KetQuaTSNT {
         QuyetDinhTSNT {
@@ -1021,6 +1023,10 @@ export const QUERY_bienBanRKNs = gql`
         MaCBCS
         HoTen
       }
+      LanhDaoTGs {
+        MaCBCS
+        HoTen
+      }
     }
   }
 `;
@@ -1032,6 +1038,22 @@ export const QUERY_ketquaTSNTs = gql`
         MaKH
         So
       }
+    }
+  }
+`;
+export const QUERY_bienBanRKNs_lanhDaoTGs = gql`
+  query QUERY_bienBanRKNs_lanhDaoTGs($utilsParams: UtilsParamsInput!) {
+    bienBanRKNs_lanhDaoTGs(utilsParams: $utilsParams) {
+      MaBBRKN
+      MaLanhDaoTG
+    }
+  }
+`;
+export const QUERY_baocaoKQGHs_cbcss = gql`
+  query QUERY_baocaoKQGHs_cbcss($utilsParams: UtilsParamsInput!) {
+    baocaoKQGHs_cbcss(utilsParams: $utilsParams) {
+      MaBCKQGH
+      MaCBCS
     }
   }
 `;
@@ -1916,7 +1938,10 @@ export const MUTATION_createBienBanRKN = gql`
   }
 `;
 export const MUTATION_editBienBanRKN = gql`
-  mutation MUTATION_editBienBanRKN($bienbanRKNInput: BienBanRKNInput!, $id: Float!) {
+  mutation MUTATION_editBienBanRKN(
+    $bienbanRKNInput: BienBanRKNInput!
+    $id: Float!
+  ) {
     editBienBanRKN(bienbanRKNInput: $bienbanRKNInput, id: $id) {
       MaBBRKN
       Ngay
@@ -1924,10 +1949,118 @@ export const MUTATION_editBienBanRKN = gql`
   }
 `;
 export const MUTATION_deleteBienBanRKN = gql`
-  mutation MUTATION_deleteBienBanRKN($bienbanRKNInput: BienBanRKNInput!, $id: Float!) {
+  mutation MUTATION_deleteBienBanRKN(
+    $bienbanRKNInput: BienBanRKNInput!
+    $id: Float!
+  ) {
     deleteBienBanRKN(bienbanRKNInput: $bienbanRKNInput, id: $id) {
       MaBBRKN
       Ngay
+    }
+  }
+`;
+export const MUTATION_createBienBanRKN_LanhDaoTG = gql`
+  mutation MUTATION_createBienBanRKN_LanhDaoTG(
+    $bienBanRKN_lanhDaoTGInput: BienBanRKN_LanhDaoTGInput!
+  ) {
+    createBienBanRKN_LanhDaoTG(
+      bienBanRKN_lanhDaoTGInput: $bienBanRKN_lanhDaoTGInput
+    ) {
+      MaBBRKN
+      MaLanhDaoTG
+    }
+  }
+`;
+export const MUTATION_editBienBanRKN_LanhDaoTG = gql`
+  mutation MUTATION_editBienBanRKN_LanhDaoTG(
+    $bienBanRKN_lanhDaoTGInput: BienBanRKN_LanhDaoTGInput!
+    $MaBBRKN: Float!
+    $MaLanhDaoTG: Float!
+  ) {
+    editBienBanRKN_LanhDaoTG(
+      bienBanRKN_lanhDaoTGInput: $bienBanRKN_lanhDaoTGInput
+      MaBBRKN: $MaBBRKN
+      MaLanhDaoTG: $MaLanhDaoTG
+    ) {
+      MaBBRKN
+      MaLanhDaoTG
+    }
+  }
+`;
+export const MUTATION_deleteBienBanRKN_LanhDaoTG = gql`
+  mutation MUTATION_deleteBienBanRKN_LanhDaoTG(
+    $MaBBRKN: Float!
+    $MaLanhDaoTG: Float!
+  ) {
+    deleteBienBanRKN_LanhDaoTG(MaBBRKN: $MaBBRKN, MaLanhDaoTG: $MaLanhDaoTG) {
+      MaBBRKN
+      MaLanhDaoTG
+    }
+  }
+`;
+export const MUTATION_createBaoCaoKQGH = gql`
+  mutation MUTATION_createBaoCaoKQGH(
+    $baocaoKQGHInput: BaoCaoKQGHInput!
+  ) {
+    createBaoCaoKQGH(baocaoKQGHInput: $baocaoKQGHInput) {
+      MaBCKQGH
+      Ngay
+    }
+  }
+`;
+export const MUTATION_editBaoCaoKQGH = gql`
+  mutation MUTATION_editBaoCaoKQGH(
+    $baocaoKQGHInput: BaoCaoKQGHInput!
+    $id: Float!
+  ) {
+    editBaoCaoKQGH(baocaoKQGHInput: $baocaoKQGHInput, id: $id) {
+      MaBCKQGH
+      Ngay
+    }
+  }
+`;
+export const MUTATION_deleteBaoCaoKQGH = gql`
+  mutation MUTATION_deleteBaoCaoKQGH(
+    $baocaoKQGHInput: BaoCaoKQGHInput!
+    $id: Float!
+  ) {
+    deleteBaoCaoKQGH(baocaoKQGHInput: $baocaoKQGHInput, id: $id) {
+      MaBCKQGH
+      Ngay
+    }
+  }
+`;
+export const MUTATION_createBaoCaoKQGH_CBCS = gql`
+  mutation MUTATION_createBaoCaoKQGH_CBCS(
+    $baocaokqgh_cbcsInput: BaoCaoKQGH_CBCSInput!
+  ) {
+    createBaoCaoKQGH_CBCS(baocaokqgh_cbcsInput: $baocaokqgh_cbcsInput) {
+      MaBCKQGH
+      MaCBCS
+    }
+  }
+`;
+export const MUTATION_editBaoCaoKQGH_CBCS = gql`
+  mutation MUTATION_editBaoCaoKQGH_CBCS(
+    $baocaokqgh_cbcsInput: BaoCaoKQGH_CBCSInput!
+    $MaBCKQGH: Float!
+    $MaCBCS: Float!
+  ) {
+    editBaoCaoKQGH_CBCS(
+      baocaokqgh_cbcsInput: $baocaokqgh_cbcsInput
+      MaBCKQGH: $MaBCKQGH
+      MaCBCS: $MaCBCS
+    ) {
+      MaBCKQGH
+      MaCBCS
+    }
+  }
+`;
+export const MUTATION_deleteBaoCaoKQGH_CBCS = gql`
+  mutation MUTATION_deleteBaoCaoKQGH_CBCS($MaBCKQGH: Float!, $MaCBCS: Float!) {
+    deleteBaoCaoKQGH_CBCS(MaBCKQGH: $MaBCKQGH, MaCBCS: $MaCBCS) {
+      MaBCKQGH
+      MaCBCS
     }
   }
 `;

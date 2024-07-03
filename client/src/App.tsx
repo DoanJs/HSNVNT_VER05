@@ -8,7 +8,10 @@ import {
   File,
   FileList,
   Home,
+  InputBaoCaoKQGH,
+  InputBaoCaoKQGHCBCS,
   InputBienBanRKN,
+  InputBienBanRKNLanhDaoTG,
   InputBienPhapDT,
   InputBienPhapDTDoiTuong,
   InputCapbac,
@@ -124,6 +127,9 @@ export default function App() {
           <Route path="/nhaplieu/lucluongthamgiakh" element={<InputLucLuongThamGiaKH />} />
           <Route path="/nhaplieu/tramct" element={<InputTramCT />} />
           <Route path="/nhaplieu/bienbanrkn" element={<InputBienBanRKN />} />
+          <Route path="/nhaplieu/bienbanrknldtg" element={<InputBienBanRKNLanhDaoTG />} />
+          <Route path="/nhaplieu/baocaokqgh" element={<InputBaoCaoKQGH />} />
+          <Route path="/nhaplieu/baocaokqghcbcs" element={<InputBaoCaoKQGHCBCS />} />
 
 
 

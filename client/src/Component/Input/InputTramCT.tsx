@@ -331,7 +331,7 @@ export default function InputTramCT() {
               </div>
               <div className="col-2 mb-3">
                 <label className="form-label">
-                  Mã lãnh đạo phê duyệt (MaLanhDaoPD):
+                  Mã lãnh đạo (MaLanhDaoPD):
                 </label>
                 <select
                   value={form.MaLanhDaoPD ? form.MaLanhDaoPD : ""}

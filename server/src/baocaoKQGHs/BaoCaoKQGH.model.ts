@@ -63,6 +63,7 @@ export class BaoCaoKQGH {
     name: 'MaKQ',
     foreignKeyConstraintName: 'FK_MaKQ_BaoCaoKQGH',
   })
+  @Field({ nullable: true })
   KetQuaTSNT: KetQuaTSNT;
 
   @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.BaoCaoKQGHs, {
@@ -73,6 +74,7 @@ export class BaoCaoKQGH {
     name: 'MaCAQHvaTD',
     foreignKeyConstraintName: 'FK_MaCAQHvaTD_BaoCaoKQGH',
   })
+  @Field({ nullable: true })
   CAQHvaTD: CAQHvaTD;
 
   @ManyToOne(() => Doi, (doi) => doi.BaoCaoKQGHs, {
@@ -83,6 +85,7 @@ export class BaoCaoKQGH {
     name: 'MaDoi',
     foreignKeyConstraintName: 'FK_MaDoi_BaoCaoKQGH',
   })
+  @Field({ nullable: true })
   Doi: Doi;
 
   @ManyToMany(() => CBCS, (cbcs) => cbcs.TSThucHien_BaoCaoKQGHs, {
@@ -110,6 +113,7 @@ export class BaoCaoKQGH {
     name: 'MaDoiTuong',
     foreignKeyConstraintName: 'FK_MaDoiTuong_BaoCaoKQGH',
   })
+  @Field({ nullable: true })
   DoiTuong: DoiTuong;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoKQGHs, {
@@ -120,5 +124,6 @@ export class BaoCaoKQGH {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoKQGH',
   })
+  @Field({ nullable: true })
   LanhDaoPD: CBCS;
 }

@@ -224,10 +224,10 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
             .includes(keysearch)
       );
       break;
-    case "baocaoKQGHs":
+    case "BaoCaoKQGHs":
       arr = array.filter(
         (obj: any) =>
-          obj.DiaDiem.toLowerCase().includes(keysearch) ||
+          obj.DiaDiem?.toLowerCase().includes(keysearch) ||
           obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
           obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
             keysearch

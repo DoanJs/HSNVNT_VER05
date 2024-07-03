@@ -21,6 +21,8 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { BaoCaoKQGH_CBCSType } from './type/BaoCaoKQGH_CBCS.type';
+import { BaoCaoKQGH_CBCSInput } from './type/BaoCaoKQGH_CBCS.input';
 
 @Resolver(() => BaoCaoKQGH)
 @UseGuards(GraphQLGuard)
@@ -67,6 +69,57 @@ export class BaoCaoKQGHsResolver {
     return this.baocaoKQGHsService.deleteBaoCaoKQGH(baocaoKQGHInput, id, user);
   }
 
+  // many-to-many
+  @Query((returns) => [BaoCaoKQGH_CBCSType])
+  baocaoKQGHs_cbcss(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoKQGH_CBCSType[]> {
+    return this.baocaoKQGHsService.baocaoKQGHs_cbcss(utilsParams);
+  }
+  
+  @Mutation((returns) => BaoCaoKQGH_CBCSType)
+  @UseGuards(InsertGuard)
+  createBaoCaoKQGH_CBCS(
+    @CurrentUser() user: any,
+    @Args('baocaokqgh_cbcsInput')
+    baocaokqgh_cbcsInput: BaoCaoKQGH_CBCSInput,
+  ): Promise<BaoCaoKQGH_CBCSType> {
+    return this.baocaoKQGHsService.createBaoCaoKQGH_CBCS(
+      baocaokqgh_cbcsInput,
+      user,
+    );
+  }
+
+  @Mutation((returns) => BaoCaoKQGH_CBCSType)
+  @UseGuards(UpdateGuard)
+  editBaoCaoKQGH_CBCS(
+    @CurrentUser() user: any,
+    @Args('baocaokqgh_cbcsInput')
+    baocaokqgh_cbcsInput: BaoCaoKQGH_CBCSInput,
+    @Args('MaBCKQGH') MaBCKQGH: number,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BaoCaoKQGH_CBCSType> {
+    return this.baocaoKQGHsService.editBaoCaoKQGH_CBCS(
+      baocaokqgh_cbcsInput,
+      MaBCKQGH,
+      MaCBCS,
+      user,
+    );
+  }
+
+  @Mutation((retursn) => BaoCaoKQGH_CBCSType)
+  @UseGuards(DeleteGuard)
+  deleteBaoCaoKQGH_CBCS(
+    @CurrentUser() user: any,
+    @Args('MaBCKQGH') MaBCKQGH: number,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BaoCaoKQGH_CBCSType> {
+    return this.baocaoKQGHsService.deleteBaoCaoKQGH_CBCS(
+      MaBCKQGH,
+      MaCBCS,
+      user,
+    );
+  }
   // ResolveField
 
   @ResolveField((returns) => KetQuaTSNT)

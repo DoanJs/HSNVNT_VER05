@@ -9,6 +9,7 @@ import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOKQGH,
+  SP_CHANGE_DATA,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
@@ -16,6 +17,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQGH } from './BaoCaoKQGH.model';
 import { BaoCaoKQGHInput } from './type/BaoCaoKQGH.input';
+import { BaoCaoKQGH_CBCSType } from './type/BaoCaoKQGH_CBCS.type';
+import { BaoCaoKQGH_CBCSInput } from './type/BaoCaoKQGH_CBCS.input';
 
 @Injectable()
 export class BaoCaoKQGHsService {
@@ -34,12 +37,14 @@ export class BaoCaoKQGHsService {
       Type,
       MaBCKQGH,
       BaoCaoKQGHInput: {
-        Ngay: baocaoKQGHInput.Ngay ? baocaoKQGHInput.Ngay : null,
+        Ngay: baocaoKQGHInput.Ngay ? `N'${baocaoKQGHInput.Ngay}'` : null,
         HinhAnh: `N'${baocaoKQGHInput.HinhAnh}'`, //crypto
         MucDich: baocaoKQGHInput.MucDich
           ? `N'${baocaoKQGHInput.MucDich}'`
           : null,
-        ThoiGian: baocaoKQGHInput.ThoiGian ? baocaoKQGHInput.ThoiGian : null,
+        ThoiGian: baocaoKQGHInput.ThoiGian
+          ? `N'${baocaoKQGHInput.ThoiGian}'`
+          : null,
         DiaDiem: baocaoKQGHInput.DiaDiem
           ? `N'${baocaoKQGHInput.DiaDiem}'`
           : null,
@@ -143,17 +148,125 @@ export class BaoCaoKQGHsService {
     return result[0];
   }
 
+  // many-to-many
+
+  async baocaoKQGHs_cbcss(
+    utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoKQGH_CBCSType[]> {
+    return this.baocaoKQGHRepository.query(
+      SP_GET_DATA(
+        'BaoCaoKQGHs_CBCSs',
+        `'MaBCKQGH != 0'`,
+        'MaBCKQGH',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+
+  async createBaoCaoKQGH_CBCS(
+    baocaokqgh_cbcsInput: BaoCaoKQGH_CBCSInput,
+    user: any,
+  ): Promise<BaoCaoKQGH_CBCSType> {
+    const result = await this.baocaoKQGHRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'BaoCaoKQGHs_CBCSs',
+        `'MaBCKQGH, MaCBCS'`,
+        `'  ${baocaokqgh_cbcsInput.MaBCKQGH},
+            ${baocaokqgh_cbcsInput.MaCBCS}
+        '`,
+        `'MaBCKQGH = ${baocaokqgh_cbcsInput.MaBCKQGH}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaBCKQGH: ${baocaokqgh_cbcsInput.MaBCKQGH}, MaCBCS: ${baocaokqgh_cbcsInput.MaCBCS} };`,
+      TableName: 'BaoCaoKQGHs_CBCSs',
+    });
+    return result[0];
+  }
+
+  async editBaoCaoKQGH_CBCS(
+    baocaokqgh_cbcsInput: BaoCaoKQGH_CBCSInput,
+    MaBCKQGH: number,
+    MaCBCS: number,
+    user: any,
+  ): Promise<BaoCaoKQGH_CBCSType> {
+    await this.baocaoKQGHRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'BaoCaoKQGHs_CBCSs',
+        null,
+        null,
+        null,
+        `'  MaBCKQGH = ${baocaokqgh_cbcsInput.MaBCKQGH},
+            MaCBCS = ${baocaokqgh_cbcsInput.MaCBCS}
+        '`,
+        `'MaBCKQGH = ${MaBCKQGH} AND MaCBCS = ${MaCBCS}'`,
+      ),
+    );
+    const result = await this.baocaoKQGHRepository.query(
+      SP_GET_DATA(
+        'BaoCaoKQGHs_CBCSs',
+        `'MaBCKQGH = ${baocaokqgh_cbcsInput.MaBCKQGH} AND MaCBCS = ${baocaokqgh_cbcsInput.MaCBCS}'`,
+        'MaBCKQGH',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaBCKQGH: ${baocaokqgh_cbcsInput.MaBCKQGH}, MaCBCS: ${baocaokqgh_cbcsInput.MaCBCS} };`,
+      TableName: 'BaoCaoKQGHs_CBCSs',
+    });
+    return result[0];
+  }
+
+  async deleteBaoCaoKQGH_CBCS(
+    MaBCKQGH: number,
+    MaCBCS: number,
+    user: any,
+  ): Promise<BaoCaoKQGH_CBCSType> {
+    const result = await this.baocaoKQGHRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'BaoCaoKQGHs_CBCSs',
+        null,
+        null,
+        null,
+        null,
+        `'MaBCKQGH = ${MaBCKQGH} AND MaCBCS = ${MaCBCS}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaBCKQGH: ${MaBCKQGH}, MaCBCS: ${MaCBCS} };`,
+      TableName: 'BaoCaoKQGHs_CBCSs',
+    });
+    return result[0];
+  }
+
   // ResolveField
   async KetQuaTSNT(baocaoKQGH: any): Promise<KetQuaTSNT> {
-    return this.dataloaderService.loaderKetQuaTSNT.load(baocaoKQGH.MaKQ);
+    if (baocaoKQGH.MaKQ) {
+      return this.dataloaderService.loaderKetQuaTSNT.load(baocaoKQGH.MaKQ);
+    }
   }
 
   async CAQHvaTD(baocaoKQGH: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQGH.MaDonVi);
+    if (baocaoKQGH.MaDonVi) {
+      return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQGH.MaDonVi);
+    }
   }
 
   async Doi(baocaoKQGH: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(baocaoKQGH.MaDoi);
+    if (baocaoKQGH.MaDoi) {
+      return this.dataloaderService.loaderDoi.load(baocaoKQGH.MaDoi);
+    }
   }
 
   async TSThucHiens(MaBCKQGH: number): Promise<CBCS[]> {
@@ -173,10 +286,14 @@ export class BaoCaoKQGHsService {
   }
 
   async DoiTuong(baocaoKQGH: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(baocaoKQGH.MaDoiTuong);
+    if (baocaoKQGH.MaDoiTuong) {
+      return this.dataloaderService.loaderDoiTuong.load(baocaoKQGH.MaDoiTuong);
+    }
   }
 
   async LanhDaoPD(baocaoKQGH: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQGH.MaLanhDaoPD);
+    if (baocaoKQGH.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(baocaoKQGH.MaLanhDaoPD);
+    }
   }
 }
