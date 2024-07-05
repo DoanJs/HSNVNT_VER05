@@ -84,8 +84,7 @@ export class TramCT {
   @Field((type) => CBCS, { nullable: true })
   TSXayDung: CBCS;
 
-  @OneToMany(() => DoiTuong, (doituong) => doituong.TramCT)
-  DoiTuongs: [DoiTuong];
+  
 
   // @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
   // QuyetDinhTSNTs: [QuyetDinhTSNT]

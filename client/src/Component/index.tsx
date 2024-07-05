@@ -50,6 +50,7 @@ export { default as InputBienBanRKN } from "./Input/InputBienBanRKN";
 export { default as InputBienBanRKNLanhDaoTG } from "./Input/InputBienBanRKNLanhDaoTG";
 export { default as InputBaoCaoKQGH } from "./Input/InputBaoCaoKQGH";
 export { default as InputBaoCaoKQGHCBCS } from "./Input/InputBaoCaoKQGHCBCS";
+export { default as InputBaoCaoKQXMQuanHe } from "./Input/InputBaoCaoKQXMQuanHe";
 export { default as ModalEditProfile } from "./Modal/ModalEditProfile";
 export { default as ModalLogout } from "./Modal/ModalLogout";
 export { default as ModalDeleteData } from "./Modal/ModalDeleteData";

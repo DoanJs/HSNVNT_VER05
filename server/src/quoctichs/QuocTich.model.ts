@@ -19,17 +19,4 @@ export class QuocTich {
 
   @OneToMany(() => DanToc, (dantoc) => dantoc.QuocTich)
   DanTocs: [DanToc];
-
-  @OneToMany(() => CBCS, (cbcs) => cbcs.QuocTich)
-  CBCSs: [CBCS];
-
-
-
-
-
-
-
-  @OneToMany(() => DoiTuong, (doituong) => doituong.QuocTich)
-  DoiTuongs: [DoiTuong];
-
 }

@@ -14,6 +14,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQXMQuanHe } from './BaoCaoKQXMQuanHe.model';
 import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
+import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
+import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 
 @Injectable()
 export class BaoCaoKQXMQuanHesService {
@@ -198,5 +200,13 @@ export class BaoCaoKQXMQuanHesService {
       ),
     );
     return result[0];
+  }
+
+  async QuyetDinhTSNT(baocaoKQXMQuanHe: any):Promise<QuyetDinhTSNT> {
+    return
+  }
+
+  async DoiTuong(baocaoKQXMQuanHe: any):Promise<DoiTuong> {
+    return
   }
 }

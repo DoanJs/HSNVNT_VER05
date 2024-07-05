@@ -63,7 +63,7 @@ require('dotenv').config();
       database: 'HSNVNT_VER05',
       autoLoadEntities: true,
       logging: true,
-      // synchronize: true, ///not use production env
+      synchronize: true, ///not use production env
       options: {
         trustServerCertificate: true,
       },

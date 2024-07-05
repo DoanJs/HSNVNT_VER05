@@ -1057,6 +1057,26 @@ export const QUERY_baocaoKQGHs_cbcss = gql`
     }
   }
 `;
+export const QUERY_baocaoKQXMQuanHes = gql`
+  query QUERY_baocaoKQXMQuanHes($utilsParams: UtilsParamsInput!) {
+    baocaoKQXMQuanHes(utilsParams: $utilsParams) {
+      MaBCKQXMQH
+      HoTen
+      Ngay
+      BaoCaoPHQH {
+        MaBCPHQH
+      }
+      QuyetDinhTSNT {
+        MaQD
+        So
+      }
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+    }
+  }
+`;
 
 // ---------------
 export const MUTATION_getData_searchFast = gql`

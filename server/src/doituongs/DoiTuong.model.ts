@@ -58,15 +58,7 @@ export class DoiTuong {
 
   @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
   @Field({ nullable: true })
-  CCCD: string;
-
-  @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
-  @Field({ nullable: true })
-  CMND: string;
-
-  @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
-  @Field({ nullable: true })
-  SHC: string;
+  CMCCHC: string;
 
   @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
   @Field({ nullable: true })
@@ -110,17 +102,6 @@ export class DoiTuong {
 
   //relation
 
-  @ManyToMany(() => BienPhapDT, (bienPhapDT) => bienPhapDT.DoiTuongs)
-  BienPhapDTs: [BienPhapDT];
-
-  @ManyToOne(() => QuocTich, (quoctich) => quoctich.DoiTuongs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({ name: 'MaQT', foreignKeyConstraintName: 'FK_MaQT_DoiTuong' })
-  @Field({ nullable: true })
-  QuocTich: QuocTich;
-
   @ManyToOne(() => DanToc, (dantoc) => dantoc.DoiTuongs, {
     cascade: true,
     eager: true,
@@ -137,14 +118,6 @@ export class DoiTuong {
   @Field({ nullable: true })
   TonGiao: TonGiao;
 
-  @ManyToOne(() => TinhChatDT, (tinhchatDT) => tinhchatDT.DoiTuongs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({ name: 'MaTC', foreignKeyConstraintName: 'FK_MaTC_DoiTuong' })
-  @Field({ nullable: true })
-  TinhChatDT: TinhChatDT;
-
   @ManyToOne(() => LoaiDT, (loaiDT) => loaiDT.DoiTuongs, {
     cascade: true,
     eager: true,
@@ -156,6 +129,27 @@ export class DoiTuong {
   @Field({ nullable: true })
   LoaiDT: LoaiDT;
 
+  @ManyToOne(() => TinhChatDT, (tinhchatDT) => tinhchatDT.DoiTuongs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaTCDT',
+    foreignKeyConstraintName: 'FK_MaTCDT_DoiTuong',
+  })
+  @Field({ nullable: true })
+  TinhChatDT: TinhChatDT;
+
+
+
+
+
+
+  // chua duyet lai
+
+  @ManyToMany(() => BienPhapDT, (bienPhapDT) => bienPhapDT.DoiTuongs)
+  BienPhapDTs: [BienPhapDT];
+
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DoiTuong)
   DeNghiTSNTs: [DeNghiTSNT];
 
@@ -164,17 +158,6 @@ export class DoiTuong {
 
   @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.DoiTuong)
   KeHoachTSNTs: [KeHoachTSNT];
-
-  @ManyToOne(() => TramCT, (tramCT) => tramCT.DoiTuongs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaTramCT',
-    foreignKeyConstraintName: 'FK_MaTramCT_DoiTuong',
-  })
-  @Field({ nullable: true })
-  TramCT: TramCT;
 
   @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.DoiTuong)
   KetQuaTSNTs: [KetQuaTSNT];

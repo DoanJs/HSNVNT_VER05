@@ -20,7 +20,6 @@ import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
 import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
-import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
@@ -83,21 +82,73 @@ export class CBCS {
 
   @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
   @Field({ nullable: true })
-  CCCD: string;
-
-  @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
-  @Field({ nullable: true })
-  CMND: string;
-
-  @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
-  @Field({ nullable: true })
-  SHC: string;
+  CMCCHC: string;
 
   @Column({ type: 'nvarchar', length: 'max', nullable: true })
   @Field({ nullable: true })
   ThongTinChiTiet: string;
 
   // relation
+  @ManyToOne(() => DanToc, (dantoc) => dantoc.CBCSs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaDT',
+    foreignKeyConstraintName: 'FK_MaDT_CBCS',
+  })
+  @Field({ nullable: true })
+  DanToc: DanToc;
+
+  @ManyToOne(() => TonGiao, (tongiao) => tongiao.CBCSs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaTG',
+    foreignKeyConstraintName: 'FK_MaTG_CBCS',
+  })
+  @Field({ nullable: true })
+  TonGiao: TonGiao;
+
+  @ManyToOne(() => Doi, (doi) => doi.CBCSs, { cascade: true, eager: true })
+  @JoinColumn({
+    name: 'MaDoi',
+    foreignKeyConstraintName: 'FK_MaDoi_CBCS',
+  })
+  @Field({ nullable: true })
+  Doi: Doi;
+  
+  @ManyToOne(() => CapBac, (capbac) => capbac.CBCSs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaCB',
+    foreignKeyConstraintName: 'FK_MaCB_CBCS',
+  })
+  @Field({ nullable: true })
+  CapBac: CapBac;
+
+  @ManyToOne(() => ChucVu, (chucvu) => chucvu.CBCSs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaCV',
+    foreignKeyConstraintName: 'FK_MaCV_CBCS',
+  })
+  @Field({ nullable: true })
+  ChucVu: ChucVu;
+
+
+
+
+
+
+
+
+  // chua duyet lai
 
   @OneToMany(() => DauMoiPH_DN, (dauMoiPH_DN) => dauMoiPH_DN.LDDonViDN)
   LDDonViDN_DauMoiPHs: [DauMoiPH_DN];
@@ -216,79 +267,15 @@ export class CBCS {
   @ManyToMany(() => PhuongTienNV, (phuongtienNV) => phuongtienNV.TSThucHiens)
   TSThucHien_PhuongTienNVs: [PhuongTienNV];
 
-  @ManyToOne(() => QuocTich, (quoctich) => quoctich.CBCSs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaQT',
-    foreignKeyConstraintName: 'FK_MaQT_CBCS',
-  })
-  @Field({ nullable: true })
-  QuocTich: QuocTich;
 
-  @ManyToOne(() => DanToc, (dantoc) => dantoc.CBCSs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDT',
-    foreignKeyConstraintName: 'FK_MaDT_CBCS',
-  })
-  @Field({ nullable: true })
-  DanToc: DanToc;
+  
 
-  @ManyToOne(() => TonGiao, (tongiao) => tongiao.CBCSs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaTG',
-    foreignKeyConstraintName: 'FK_MaTG_CBCS',
-  })
-  @Field({ nullable: true })
-  TonGiao: TonGiao;
+  
 
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CBCSs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_CBCS',
-  })
-  @Field((type) => CAQHvaTD, { nullable: true })
-  CAQHvaTD: CAQHvaTD;
+  
 
-  @ManyToOne(() => CapBac, (capbac) => capbac.CBCSs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCB',
-    foreignKeyConstraintName: 'FK_MaCB_CBCS',
-  })
-  @Field({ nullable: true })
-  CapBac: CapBac;
+  
 
-  @ManyToOne(() => ChucVu, (chucvu) => chucvu.CBCSs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCV',
-    foreignKeyConstraintName: 'FK_MaCV_CBCS',
-  })
-  @Field({ nullable: true })
-  ChucVu: ChucVu;
-
-  @ManyToOne(() => Doi, (doi) => doi.CBCSs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_CBCS',
-  })
-  @Field({ nullable: true })
-  Doi: Doi;
 
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.LanhDaoPD)
   LanhDaoPD_QuyetDinhTSNTs: [QuyetDinhTSNT];

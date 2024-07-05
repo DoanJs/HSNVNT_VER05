@@ -92,6 +92,4 @@ export class CAQHvaTD {
   @OneToMany(() => Doi, (doi) => doi.CAQHvaTD)
   Dois: [Doi];
 
-  @OneToMany(() => CBCS, (cbcs) => cbcs.CAQHvaTD)
-  CBCSs: [CBCS];
 }

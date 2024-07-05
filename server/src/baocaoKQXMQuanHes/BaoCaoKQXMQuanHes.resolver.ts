@@ -20,6 +20,8 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
+import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 
 @Resolver(() => BaoCaoKQXMQuanHe)
 @UseGuards(GraphQLGuard)
@@ -106,5 +108,19 @@ export class BaoCaoKQXMQuanHesResolver {
     @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
   ): Promise<BaoCaoPHQH> {
     return this.baocaoKQXMQuanHesService.BaoCaoPHQH(baocaoKQXMQuanHe);
+  }
+
+  @ResolveField((returns) => QuyetDinhTSNT)
+  QuyetDinhTSNT(
+    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
+  ): Promise<QuyetDinhTSNT> {
+    return this.baocaoKQXMQuanHesService.QuyetDinhTSNT(baocaoKQXMQuanHe);
+  }
+
+  @ResolveField((returns) => DoiTuong)
+  DoiTuong(
+    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
+  ): Promise<DoiTuong> {
+    return this.baocaoKQXMQuanHesService.DoiTuong(baocaoKQXMQuanHe);
   }
 }

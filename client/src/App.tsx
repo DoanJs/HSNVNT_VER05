@@ -10,6 +10,7 @@ import {
   Home,
   InputBaoCaoKQGH,
   InputBaoCaoKQGHCBCS,
+  InputBaoCaoKQXMQuanHe,
   InputBienBanRKN,
   InputBienBanRKNLanhDaoTG,
   InputBienPhapDT,
@@ -130,6 +131,7 @@ export default function App() {
           <Route path="/nhaplieu/bienbanrknldtg" element={<InputBienBanRKNLanhDaoTG />} />
           <Route path="/nhaplieu/baocaokqgh" element={<InputBaoCaoKQGH />} />
           <Route path="/nhaplieu/baocaokqghcbcs" element={<InputBaoCaoKQGHCBCS />} />
+          <Route path="/nhaplieu/baocaokqxmquanhe" element={<InputBaoCaoKQXMQuanHe />} />
 
 
 

@@ -191,6 +191,7 @@ export const FI_QuyetDinhTSNT = {
 
   MaDN_edit: null,
 };
+
 export const FI_QuyetDinhTSNT_TinhTP = {
   MaTinhTP: null,
   MaQD: null,
@@ -288,4 +289,30 @@ export const FI_BaoCaoKQGH_CBCS = {
   MaCBCS: null,
   MaBCKQGH_old: 0,
   MaCBCS_old: 0,
+};
+export const FI_BaoCaoKQXMQuanHe = {
+  MaBCKQXMQH: 0,
+
+  Ngay: "",
+  HoTen: "",
+  TenKhac: "",
+  GioiTinh: 0,
+  NamSinh: "",
+  QueQuan: "",
+  HKTT: "",
+  NoiO: "",
+  NgheNghiep: "",
+  ChucVu: "",
+  NoiLamViec: "",
+  QuanHeGDXH: "",
+  BienPhapXM: "",
+
+  MaCAQHvaTD: null,
+  MaDoi: null,
+  MaDoiTuong: null,
+  MaQD: null,
+  MaBCPHQH: null,
+  MaTSXacMinh: null,
+  MaLanhDaoPD: null,
+  MaBCHPhuTrach: null,
 };
