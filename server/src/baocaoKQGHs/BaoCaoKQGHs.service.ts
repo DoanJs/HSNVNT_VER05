@@ -59,13 +59,6 @@ export class BaoCaoKQGHsService {
           : null,
 
         MaKQ: baocaoKQGHInput.MaKQ ? baocaoKQGHInput.MaKQ : null,
-        MaCAQHvaTD: baocaoKQGHInput.MaCAQHvaTD
-          ? baocaoKQGHInput.MaCAQHvaTD
-          : null,
-        MaDoi: baocaoKQGHInput.MaDoi ? baocaoKQGHInput.MaDoi : null,
-        MaDoiTuong: baocaoKQGHInput.MaDoiTuong
-          ? baocaoKQGHInput.MaDoiTuong
-          : null,
         MaLanhDaoPD: baocaoKQGHInput.MaLanhDaoPD
           ? baocaoKQGHInput.MaLanhDaoPD
           : null,
@@ -257,18 +250,6 @@ export class BaoCaoKQGHsService {
     }
   }
 
-  async CAQHvaTD(baocaoKQGH: any): Promise<CAQHvaTD> {
-    if (baocaoKQGH.MaDonVi) {
-      return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQGH.MaDonVi);
-    }
-  }
-
-  async Doi(baocaoKQGH: any): Promise<Doi> {
-    if (baocaoKQGH.MaDoi) {
-      return this.dataloaderService.loaderDoi.load(baocaoKQGH.MaDoi);
-    }
-  }
-
   async TSThucHiens(MaBCKQGH: number): Promise<CBCS[]> {
     const result = (await this.baocaoKQGHRepository.query(
       SP_GET_DATA(
@@ -283,12 +264,6 @@ export class BaoCaoKQGHsService {
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),
     );
     return await Promise.all(resultLoader);
-  }
-
-  async DoiTuong(baocaoKQGH: any): Promise<DoiTuong> {
-    if (baocaoKQGH.MaDoiTuong) {
-      return this.dataloaderService.loaderDoiTuong.load(baocaoKQGH.MaDoiTuong);
-    }
   }
 
   async LanhDaoPD(baocaoKQGH: any): Promise<CBCS> {

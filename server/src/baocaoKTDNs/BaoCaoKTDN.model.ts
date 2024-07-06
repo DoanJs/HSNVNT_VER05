@@ -39,6 +39,7 @@ export class BaoCaoKTDN {
     name: 'MaKQ',
     foreignKeyConstraintName: 'FK_MaKQ_BaoCaoKTDN',
   })
+  @Field((type) => KetQuaTSNT, { nullable: true })
   KetQuaTSNT: KetQuaTSNT;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoKQGHs, {
@@ -49,6 +50,7 @@ export class BaoCaoKTDN {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoKTDN',
   })
+  @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTongHop_BaoCaoKQGHs, {
@@ -59,7 +61,6 @@ export class BaoCaoKTDN {
     name: 'MaCBTongHop',
     foreignKeyConstraintName: 'FK_MaCBTongHop_BaoCaoKTDN',
   })
+  @Field((type) => CBCS, { nullable: true })
   CBTongHop: CBCS;
-  
-  // chua duyet lai
 }

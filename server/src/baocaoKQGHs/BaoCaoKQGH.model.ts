@@ -93,7 +93,4 @@ export class BaoCaoKQGH {
     },
   })
   TSThucHiens: [CBCS];
-  
-  // chua duyet lai
-  
 }

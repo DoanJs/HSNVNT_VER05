@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOKTDN,
   SP_GET_DATA_DECRYPT,
@@ -16,6 +19,7 @@ export class BaoCaoKTDNsService {
     @InjectRepository(BaoCaoKTDN)
     private baocaoKTDNRepository: Repository<BaoCaoKTDN>,
     private actionDBsService: ActionDBsService,
+    private dataloaderService: DataLoaderService,
   ) {}
 
   public readonly baocaoKTDN_DataInput = (
@@ -116,4 +120,23 @@ export class BaoCaoKTDNsService {
   }
 
   // ResolveField
+
+  async KetQuaTSNT(baocaoKTDN: any): Promise<KetQuaTSNT> {
+    const result = await this.baocaoKTDNRepository.query(
+      SP_GET_DATA_DECRYPT('KetQuaTSNTs', `'MaKQ = ${baocaoKTDN.MaKQ}'`, 0, 1),
+    );
+    return result[0];
+  }
+
+  async LanhDaoPD(baocaoKTDN: any): Promise<CBCS> {
+    if (baocaoKTDN.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(baocaoKTDN.MaLanhDaoPD);
+    }
+  }
+
+  async CBTongHop(baocaoKTDN: any): Promise<CBCS> {
+    if (baocaoKTDN.MaCBTongHop) {
+      return this.dataloaderService.loaderCBCS.load(baocaoKTDN.MaCBTongHop);
+    }
+  }
 }

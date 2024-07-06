@@ -42,18 +42,6 @@ export class BaoCaoKQXMQuanHeInput {
   BienPhapXM?: string;
 
   @Field({ nullable: true })
-  MaCAQHvaTD?: number;
-
-  @Field({ nullable: true })
-  MaDoi?: number;
-
-  @Field({ nullable: true })
-  MaDoiTuong?: number;
-
-  @Field({ nullable: true })
-  MaQD?: number;
-
-  @Field({ nullable: true })
   MaBCPHQH?: number;
 
   @Field({ nullable: true })

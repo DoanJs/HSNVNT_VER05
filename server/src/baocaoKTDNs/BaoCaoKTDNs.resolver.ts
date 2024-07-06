@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKTDN } from './BaoCaoKTDN.model';
 import { BaoCaoKTDNsService } from './BaoCaoKTDNs.service';
@@ -9,6 +9,8 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
+import { CBCS } from 'src/cbcss/CBCS.model';
 
 @Resolver(() => BaoCaoKTDN)
 @UseGuards(GraphQLGuard)
@@ -57,4 +59,18 @@ export class BaoCaoKTDNsResolver {
   }
 
   //ResolveField
+  @ResolveField((returns) => KetQuaTSNT)
+  KetQuaTSNT(@Parent() baocaoKTDN: BaoCaoKTDN): Promise<KetQuaTSNT> {
+    return this.baocaoKTDNsService.KetQuaTSNT(baocaoKTDN);
+  }
+
+  @ResolveField((returns) => CBCS)
+  LanhDaoPD(@Parent() baocaoKTDN: BaoCaoKTDN): Promise<CBCS> {
+    return this.baocaoKTDNsService.LanhDaoPD(baocaoKTDN);
+  }
+
+  @ResolveField((returns) => CBCS)
+  CBTongHop(@Parent() baocaoKTDN: BaoCaoKTDN): Promise<CBCS> {
+    return this.baocaoKTDNsService.CBTongHop(baocaoKTDN);
+  }
 }

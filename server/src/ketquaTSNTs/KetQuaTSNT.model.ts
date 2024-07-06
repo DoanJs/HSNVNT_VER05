@@ -74,6 +74,10 @@ export class KetQuaTSNT {
 
   @OneToMany(() => BaoCaoPHDC, (baocaoPHDC) => baocaoPHDC.KetQuaTSNT)
   BaoCaoPHDCs: [BaoCaoPHDC];
+  
+  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.KetQuaTSNT)
+  BaoCaoKQGHs: [BaoCaoKQGH];
+  
   // chua duyet lai
 
   @OneToMany(() => DanhGiaTSTH, (danhgiaTSTH) => danhgiaTSTH.KetQuaTSNT)
@@ -85,8 +89,6 @@ export class KetQuaTSNT {
   @OneToOne(() => BienBanRKN, (bienbanRKN) => bienbanRKN.KetQuaTSNT)
   BienBanRKN: BienBanRKN;
 
-  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.KetQuaTSNT)
-  BaoCaoKQGHs: [BaoCaoKQGH];
 
   @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH)
   BaoCaoPHQHs: [BaoCaoPHQH];

@@ -42,6 +42,7 @@ export class BaoCaoPHDC {
     name: 'MaKQ',
     foreignKeyConstraintName: 'FK_MaKQ_BaoCaoPHDC',
   })
+  @Field({ nullable: true })
   KetQuaTSNT: KetQuaTSNT;
 
   @OneToOne(
@@ -69,13 +70,4 @@ export class BaoCaoPHDC {
     },
   })
   TSThucHiens: [CBCS];
-  // chua duyet lai
-
-  
-
-  // @OneToOne(
-  //   () => BaoCaoKQXMDiaChi,
-  //   (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.BaoCaoPHDC,
-  // )
-  // KetQuaXM: BaoCaoKQXMDiaChi;
 }

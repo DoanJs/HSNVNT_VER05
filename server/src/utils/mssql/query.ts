@@ -14,48 +14,6 @@ import { SP_CHANGE_KEHOACHTSNT_Input } from '../type/SP_CHANGE_KEHOACHTSNT.input
 import { SP_CHANGE_QUYETDINHTSNT_Input } from '../type/SP_CHANGE_QUYETDINHTSNT.input';
 import { SP_CHANGE_TRAMCT_Input } from '../type/SP_CHANGE_TRAMCT.input';
 
-export const SP_GET_DATA = (
-  NameTable?: string,
-  Condition?: string,
-  IDColumn?: string,
-  Skip?: number,
-  Take?: number,
-) =>
-  `SP_GET_DATA @NameTable = ${NameTable}, 
-  @Condition = ${Condition}, 
-  @IDColumn = ${IDColumn}, 
-  @Skip = ${Skip}, 
-  @Take = ${Take}`;
-
-export const SP_CHANGE_DATA = (
-  Type?: string,
-  NameTable?: string,
-  NameColumns?: string,
-  ValueCreates?: string,
-  ConditionCreate?: string,
-  ValueUpdates?: string,
-  Condition?: string,
-) =>
-  `SP_CHANGE_DATA
-  @Type = ${Type},
-  @NameTable = ${NameTable},
-  @NameColumns = ${NameColumns},
-  @ValueCreates = ${ValueCreates},
-  @ConditionCreate = ${ConditionCreate},
-  @ValueUpdates = ${ValueUpdates},
-  @Condition = ${Condition}`;
-
-export const SP_GET_DATA_DECRYPT = (
-  NameTable: string,
-  Condition: string,
-  Skip: number,
-  Take: number,
-) =>
-  `SP_GET_DATA_DECRYPT @NameTable = ${NameTable}, 
-  @Condition = ${Condition}, 
-  @Skip = ${Skip}, 
-  @Take = ${Take}`;
-
 export const SP_CHANGE_BAOCAOKQGH = (
   spCHANGEBAOCAOKQGHInput: SP_CHANGE_BAOCAOKQGH_Input,
 ) =>
@@ -84,17 +42,8 @@ export const SP_CHANGE_BAOCAOKQGH = (
   '@MaLanhDaoPD=' +
   spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.MaLanhDaoPD +
   ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.MaCAQHvaTD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.MaDoi +
-  ',' +
   '@MaKQ=' +
   spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.MaKQ +
-  ',' +
-  '@MaDoiTuong=' +
-  spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.MaDoiTuong +
   ',' +
   '@HinhAnh=' +
   spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.HinhAnh +
@@ -104,7 +53,6 @@ export const SP_CHANGE_BAOCAOKQGH = (
   ',' +
   '@NoiDung=' +
   spCHANGEBAOCAOKQGHInput.BaoCaoKQGHInput.NoiDung;
-
 export const SP_CHANGE_BAOCAOKQXMDIACHI = (
   spCHANGEBAOCAOKQXMDIACHIInput: SP_CHANGE_BAOCAOKQXMDIACHI_Input,
 ) =>
@@ -142,20 +90,8 @@ export const SP_CHANGE_BAOCAOKQXMDIACHI = (
   '@BienPhapXM=' +
   spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.BienPhapXM +
   ',' +
-  '@MaDiaChiNV=' +
-  spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaDiaChiNV +
-  ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaCAQHvaTD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaDoi +
-  ',' +
-  '@MaDoiTuong=' +
-  spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaDoiTuong +
-  ',' +
-  '@MaQD=' +
-  spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaQD +
+  '@MaBCPHDC=' +
+  spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaBCPHDC +
   ',' +
   '@MaTSXacMinh=' +
   spCHANGEBAOCAOKQXMDIACHIInput.BaoCaoKQXMDiaChiInput.MaTSXacMinh +
@@ -221,18 +157,6 @@ export const SP_CHANGE_BAOCAOKQXMQUANHE = (
   '@BienPhapXM=' +
   spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.BienPhapXM +
   ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.MaCAQHvaTD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.MaDoi +
-  ',' +
-  '@MaDoiTuong=' +
-  spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.MaDoiTuong +
-  ',' +
-  '@MaQD=' +
-  spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.MaQD +
-  ',' +
   '@MaTSXacMinh=' +
   spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.MaTSXacMinh +
   ',' +
@@ -250,6 +174,78 @@ export const SP_CHANGE_BAOCAOKQXMQUANHE = (
   ',' +
   '@NoiO=' +
   spCHANGEBAOCAOKQXMQUANHEInput.BaoCaoKQXMQuanHeInput.NoiO;
+
+export const SP_GET_DATA_DECRYPT = (
+  NameTable: string,
+  Condition: string,
+  Skip: number,
+  Take: number,
+) =>
+  `SP_GET_DATA_DECRYPT @NameTable = ${NameTable}, 
+      @Condition = ${Condition}, 
+      @Skip = ${Skip}, 
+      @Take = ${Take}`;
+
+export const SP_GET_DATA = (
+  NameTable?: string,
+  Condition?: string,
+  IDColumn?: string,
+  Skip?: number,
+  Take?: number,
+) =>
+  `SP_GET_DATA @NameTable = ${NameTable}, 
+        @Condition = ${Condition}, 
+        @IDColumn = ${IDColumn}, 
+        @Skip = ${Skip}, 
+        @Take = ${Take}`;
+
+export const SP_CHANGE_BAOCAOPHDC = (
+  spCHANGEBAOCAOPHDCInput: SP_CHANGE_BAOCAOPHDC_Input,
+) =>
+  'SP_CHANGE_BAOCAOPHDC ' +
+  '@Type= "' +
+  spCHANGEBAOCAOPHDCInput.Type +
+  '",' +
+  '@MaBCPHDC=' +
+  spCHANGEBAOCAOPHDCInput.MaBCPHDC +
+  ',' +
+  '@ThoiGianPH=' +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.ThoiGianPH +
+  ',' +
+  '@DiaChi=' +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.DiaChi +
+  ',' +
+  '@HinhAnh=' +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.HinhAnh +
+  ',' +
+  '@MaKQ=' +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.MaKQ;
+
+
+
+
+
+  
+
+// chua duyet lai
+
+export const SP_CHANGE_DATA = (
+  Type?: string,
+  NameTable?: string,
+  NameColumns?: string,
+  ValueCreates?: string,
+  ConditionCreate?: string,
+  ValueUpdates?: string,
+  Condition?: string,
+) =>
+  `SP_CHANGE_DATA
+  @Type = ${Type},
+  @NameTable = ${NameTable},
+  @NameColumns = ${NameColumns},
+  @ValueCreates = ${ValueCreates},
+  @ConditionCreate = ${ConditionCreate},
+  @ValueUpdates = ${ValueUpdates},
+  @Condition = ${Condition}`;
 
 export const SP_CHANGE_BAOCAOKTDN = (
   spCHANGEBAOCAOKTDNInput: SP_CHANGE_BAOCAOKTDN_Input,
@@ -503,28 +499,6 @@ export const SP_CHANGE_DENGHITSNT = (
   ',' +
   '@MaCATTPvaTD=' +
   spCHANGEDENGHITSNTInput.DeNghiTSNTInput.MaCATTPvaTD;
-
-export const SP_CHANGE_BAOCAOPHDC = (
-  spCHANGEBAOCAOPHDCInput: SP_CHANGE_BAOCAOPHDC_Input,
-) =>
-  'SP_CHANGE_BAOCAOPHDC ' +
-  '@Type= "' +
-  spCHANGEBAOCAOPHDCInput.Type +
-  '",' +
-  '@MaBCPHDC=' +
-  spCHANGEBAOCAOPHDCInput.MaBCPHDC +
-  ',' +
-  '@ThoiGianPH=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.ThoiGianPH +
-  ',' +
-  '@DiaChi=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.DiaChi +
-  ',' +
-  '@HinhAnh=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.HinhAnh +
-  ',' +
-  '@MaKQ=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.MaKQ;
 
 export const SP_CHANGE_KEHOACHTSNT = (
   spCHANGEKEHOACHTSNTInput: SP_CHANGE_KEHOACHTSNT_Input,

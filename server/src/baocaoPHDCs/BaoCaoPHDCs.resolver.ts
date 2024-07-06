@@ -12,13 +12,14 @@ import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoPHDC } from './BaoCaoPHDC.model';
 import { BaoCaoPHDCsService } from './BaoCaoPHDCs.service';
 import { BaoCaoPHDCInput } from './type/BaoCaoPHDC.Input';
+import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
+import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 
 @Resolver(() => BaoCaoPHDC)
 @UseGuards(GraphQLGuard)
@@ -76,8 +77,13 @@ export class BaoCaoPHDCsResolver {
     return this.baocaoPHDCsService.TSThucHiens(baocaoPHDC.MaBCPHDC);
   }
 
-  // @ResolveField((returns) => BaoCaoKQXMDiaChi)
-  // BaoCaoKQXMDiaChi(@Parent() baocaoPHDC: BaoCaoPHDC): Promise<BaoCaoKQXMDiaChi> {
-  //   return this.baocaoPHDCsService.BaoCaoKQXMDiaChi(baocaoPHDC.MaBCPHDC);
-  // }
+  @ResolveField((returns) => BaoCaoKQXMDiaChi)
+  BaoCaoKQXMDiaChi(@Parent() baocaoPHDC: BaoCaoPHDC): Promise<BaoCaoKQXMDiaChi> {
+    return this.baocaoPHDCsService.BaoCaoKQXMDiaChi(baocaoPHDC.MaBCPHDC);
+  }
+
+  @ResolveField((returns) => KetQuaXMDiaChi)
+  KetQuaXMDiaChi(@Parent() baocaoPHDC: BaoCaoPHDC): Promise<KetQuaXMDiaChi> {
+    return this.baocaoPHDCsService.KetQuaXMDiaChi(baocaoPHDC.MaBCPHDC);
+  }
 }

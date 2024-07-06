@@ -7,22 +7,19 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQGH } from './BaoCaoKQGH.model';
 import { BaoCaoKQGHsService } from './BaoCaoKQGHs.service';
 import { BaoCaoKQGHInput } from './type/BaoCaoKQGH.input';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { BaoCaoKQGH_CBCSType } from './type/BaoCaoKQGH_CBCS.type';
 import { BaoCaoKQGH_CBCSInput } from './type/BaoCaoKQGH_CBCS.input';
+import { BaoCaoKQGH_CBCSType } from './type/BaoCaoKQGH_CBCS.type';
 
 @Resolver(() => BaoCaoKQGH)
 @UseGuards(GraphQLGuard)
@@ -76,7 +73,7 @@ export class BaoCaoKQGHsResolver {
   ): Promise<BaoCaoKQGH_CBCSType[]> {
     return this.baocaoKQGHsService.baocaoKQGHs_cbcss(utilsParams);
   }
-  
+
   @Mutation((returns) => BaoCaoKQGH_CBCSType)
   @UseGuards(InsertGuard)
   createBaoCaoKQGH_CBCS(
@@ -127,24 +124,9 @@ export class BaoCaoKQGHsResolver {
     return this.baocaoKQGHsService.KetQuaTSNT(baocaoKQGH);
   }
 
-  @ResolveField((returns) => CAQHvaTD)
-  CAQHvaTD(@Parent() baocaoKQGH: BaoCaoKQGH): Promise<CAQHvaTD> {
-    return this.baocaoKQGHsService.CAQHvaTD(baocaoKQGH);
-  }
-
-  @ResolveField((returns) => Doi)
-  Doi(@Parent() baocaoKQGH: BaoCaoKQGH): Promise<Doi> {
-    return this.baocaoKQGHsService.Doi(baocaoKQGH);
-  }
-
   @ResolveField((returns) => [CBCS])
   TSThucHiens(@Parent() baocaoKQGH: BaoCaoKQGH): Promise<CBCS[]> {
     return this.baocaoKQGHsService.TSThucHiens(baocaoKQGH.MaBCKQGH);
-  }
-
-  @ResolveField((returns) => DoiTuong)
-  DoiTuong(@Parent() baocaoKQGH: BaoCaoKQGH): Promise<DoiTuong> {
-    return this.baocaoKQGHsService.DoiTuong(baocaoKQGH);
   }
 
   @ResolveField((returns) => CBCS)

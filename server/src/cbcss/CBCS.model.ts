@@ -152,7 +152,8 @@ export class CBCS {
   @ManyToMany(() => BaoCaoPHDC, (baocaoPHDC) => baocaoPHDC.TSThucHiens)
   TSThucHien_BaoCaoPHDCs: [BaoCaoPHDC];
 
-
+  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.LanhDaoPD)
+  LanhDaoPD_BaoCaoKQGHs: [BaoCaoKQGH];
 
 
 
@@ -240,8 +241,6 @@ export class CBCS {
   @ManyToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.TSThucHiens)
   TSThucHien_BaoCaoKQGHs: [BaoCaoKQGH];
 
-  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.LanhDaoPD)
-  LanhDaoPD_BaoCaoKQGHs: [BaoCaoKQGH];
 
   @OneToMany(() => DanhGiaTSTH, (danhgiaTSTH) => danhgiaTSTH.CBCS)
   DanhGiaTSTHs: [DanhGiaTSTH];

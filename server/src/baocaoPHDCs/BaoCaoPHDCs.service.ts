@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
@@ -14,6 +13,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoPHDC } from './BaoCaoPHDC.model';
 import { BaoCaoPHDCInput } from './type/BaoCaoPHDC.Input';
+import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
+import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 
 @Injectable()
 export class BaoCaoPHDCsService {
@@ -125,10 +126,17 @@ export class BaoCaoPHDCsService {
     return await Promise.all(resultLoader);
   }
 
-  // async BaoCaoKQXMDiaChi(MaBCPHDC: number): Promise<BaoCaoKQXMDiaChi> {
-  //   const result = await this.baocaoPHDCRepository.query(
-  //     SP_GET_DATA_DECRYPT('BaoCaoKQXMDiaChis', `'MaBCPHDC = ${MaBCPHDC}'`, 0, 1),
-  //   );
-  //   return result[0];
-  // }
+  async BaoCaoKQXMDiaChi(MaBCPHDC: number): Promise<BaoCaoKQXMDiaChi> {
+    const result = await this.baocaoPHDCRepository.query(
+      SP_GET_DATA_DECRYPT('BaoCaoKQXMDiaChis', `'MaBCPHDC = ${MaBCPHDC}'`, 0, 1),
+    );
+    return result[0];
+  }
+
+  async KetQuaXMDiaChi(MaBCPHDC: number): Promise<KetQuaXMDiaChi> {
+    const result = await this.baocaoPHDCRepository.query(
+      SP_GET_DATA('KetQuaXMDiaChis', `'MaBCPHDC = ${MaBCPHDC}'`, 'MaKQXMDC', 0, 1),
+    );
+    return result[0];
+  }
 }

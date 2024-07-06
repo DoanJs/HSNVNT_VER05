@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { Doi } from 'src/dois/Doi.model';
 import {
   SP_CHANGE_BAOCAOKQXMDIACHI,
   SP_GET_DATA_DECRYPT,
@@ -13,7 +12,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQXMDiaChi } from './BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMDiaChiInput } from './type/BaoCaoKQXMDiaChi.input';
-import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 
 @Injectable()
 export default class BaoCaoKQXMDiaChisService {
@@ -63,16 +61,8 @@ export default class BaoCaoKQXMDiaChisService {
         BienPhapXM: baocaoKQXMDiaChiInput.BienPhapXM
           ? `N'${baocaoKQXMDiaChiInput.BienPhapXM}'`
           : null,
-        MaCAQHvaTD: baocaoKQXMDiaChiInput.MaCAQHvaTD
-          ? baocaoKQXMDiaChiInput.MaCAQHvaTD
-          : null,
-        MaDoi: baocaoKQXMDiaChiInput.MaDoi ? baocaoKQXMDiaChiInput.MaDoi : null,
-        MaDoiTuong: baocaoKQXMDiaChiInput.MaDoiTuong
-          ? baocaoKQXMDiaChiInput.MaDoiTuong
-          : null,
-        MaQD: baocaoKQXMDiaChiInput.MaQD ? baocaoKQXMDiaChiInput.MaQD : null,
-        MaDiaChiNV: baocaoKQXMDiaChiInput.MaDiaChiNV
-          ? baocaoKQXMDiaChiInput.MaDiaChiNV
+        MaBCPHDC: baocaoKQXMDiaChiInput.MaBCPHDC
+          ? baocaoKQXMDiaChiInput.MaBCPHDC
           : null,
         MaTSXacMinh: baocaoKQXMDiaChiInput.MaTSXacMinh
           ? baocaoKQXMDiaChiInput.MaTSXacMinh
@@ -165,17 +155,6 @@ export default class BaoCaoKQXMDiaChisService {
   }
 
   // ResolveField ---------------------------
-  async CAQHvaTD(baocaoKQXMDiaChi: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQXMDiaChi.MaDonVi);
-  }
-
-  async Doi(baocaoKQXMDiaChi: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(baocaoKQXMDiaChi.MaDoi);
-  }
-
-  //DoiTuong
-  //QuyetDinhTSNT
-
   async BaoCaoPHDC(baocaoKQXMDiaChi: any): Promise<BaoCaoPHDC> {
     const result = await this.baocaoKQXMDiaChiRepository.query(
       SP_GET_DATA_DECRYPT(

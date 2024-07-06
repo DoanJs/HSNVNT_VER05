@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,22 +7,17 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQXMQuanHe } from './BaoCaoKQXMQuanHe.model';
 import { BaoCaoKQXMQuanHesService } from './BaoCaoKQXMQuanHes.service';
 import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 
 @Resolver(() => BaoCaoKQXMQuanHe)
 @UseGuards(GraphQLGuard)
@@ -46,7 +42,8 @@ export class BaoCaoKQXMQuanHesResolver {
     @Args('baocaoKQXMQuanHeInput') baocaoKQXMQuanHeInput: BaoCaoKQXMQuanHeInput,
   ): Promise<BaoCaoKQXMQuanHe> {
     return this.baocaoKQXMQuanHesService.createBaoCaoKQXMQuanHe(
-      baocaoKQXMQuanHeInput,user
+      baocaoKQXMQuanHeInput,
+      user,
     );
   }
 
@@ -59,7 +56,8 @@ export class BaoCaoKQXMQuanHesResolver {
   ): Promise<BaoCaoKQXMQuanHe> {
     return this.baocaoKQXMQuanHesService.editBaoCaoKQXMQuanHe(
       baocaoKQXMQuanHeInput,
-      id,user
+      id,
+      user,
     );
   }
 
@@ -72,20 +70,18 @@ export class BaoCaoKQXMQuanHesResolver {
   ): Promise<BaoCaoKQXMQuanHe> {
     return this.baocaoKQXMQuanHesService.deleteBaoCaoKQXMQuanHe(
       baocaoKQXMQuanHeInput,
-      id,user
+      id,
+      user,
     );
   }
 
   // ResolveField
 
-  @ResolveField((returns) => CAQHvaTD)
-  CAQHvaTD(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CAQHvaTD> {
-    return this.baocaoKQXMQuanHesService.CAQHvaTD(baocaoKQXMQuanHe);
-  }
-
-  @ResolveField((returns) => Doi)
-  Doi(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<Doi> {
-    return this.baocaoKQXMQuanHesService.Doi(baocaoKQXMQuanHe);
+  @ResolveField((returns) => BaoCaoPHQH)
+  BaoCaoPHQH(
+    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
+  ): Promise<BaoCaoPHQH> {
+    return this.baocaoKQXMQuanHesService.BaoCaoPHQH(baocaoKQXMQuanHe);
   }
 
   @ResolveField((returns) => CBCS)
@@ -101,26 +97,5 @@ export class BaoCaoKQXMQuanHesResolver {
   @ResolveField((returns) => CBCS)
   BanChiHuy(@Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe): Promise<CBCS> {
     return this.baocaoKQXMQuanHesService.BanChiHuy(baocaoKQXMQuanHe);
-  }
-
-  @ResolveField((returns) => BaoCaoPHQH)
-  BaoCaoPHQH(
-    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
-  ): Promise<BaoCaoPHQH> {
-    return this.baocaoKQXMQuanHesService.BaoCaoPHQH(baocaoKQXMQuanHe);
-  }
-
-  @ResolveField((returns) => QuyetDinhTSNT)
-  QuyetDinhTSNT(
-    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
-  ): Promise<QuyetDinhTSNT> {
-    return this.baocaoKQXMQuanHesService.QuyetDinhTSNT(baocaoKQXMQuanHe);
-  }
-
-  @ResolveField((returns) => DoiTuong)
-  DoiTuong(
-    @Parent() baocaoKQXMQuanHe: BaoCaoKQXMQuanHe,
-  ): Promise<DoiTuong> {
-    return this.baocaoKQXMQuanHesService.DoiTuong(baocaoKQXMQuanHe);
   }
 }

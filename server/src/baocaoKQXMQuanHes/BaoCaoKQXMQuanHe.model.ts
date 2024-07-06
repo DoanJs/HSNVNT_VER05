@@ -1,10 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import {
   Column,
   Entity,
@@ -83,6 +79,7 @@ export class BaoCaoKQXMQuanHe {
     name: 'MaBCPHQH',
     foreignKeyConstraintName: 'FK_MaBCPHQH_BaoCaoKQXMQuanHe',
   })
+  @Field((type) => BaoCaoPHQH, { nullable: true })
   BaoCaoPHQH: BaoCaoPHQH;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoKQXMQuanHes, {
@@ -93,6 +90,7 @@ export class BaoCaoKQXMQuanHe {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoKQXMQuanHe',
   })
+  @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.BCHPhuTrach_BaoCaoKQXMQuanHes, {
@@ -103,6 +101,7 @@ export class BaoCaoKQXMQuanHe {
     name: 'MaBCHPhuTrach',
     foreignKeyConstraintName: 'FK_MaBCHPhuTrach_BaoCaoKQXMQuanHe',
   })
+  @Field((type) => CBCS, { nullable: true })
   BCHPhuTrach: CBCS;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.TSXacMinh_BaoCaoKQXMQuanHes, {
@@ -113,10 +112,6 @@ export class BaoCaoKQXMQuanHe {
     name: 'MaTSXacMinh',
     foreignKeyConstraintName: 'FK_MaTSXacMinh_BaoCaoKQXMQuanHe',
   })
+  @Field((type) => CBCS, { nullable: true })
   TSXacMinh: CBCS;
-
-
-
-
-  // chua duyet lai
 }

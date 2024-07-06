@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { Doi } from 'src/dois/Doi.model';
 import {
   SP_CHANGE_BAOCAOKQXMQUANHE,
   SP_GET_DATA_DECRYPT,
@@ -14,8 +12,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQXMQuanHe } from './BaoCaoKQXMQuanHe.model';
 import { BaoCaoKQXMQuanHeInput } from './type/BaoCaoKQXMQuanHe.input';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 
 @Injectable()
 export class BaoCaoKQXMQuanHesService {
@@ -67,15 +63,6 @@ export class BaoCaoKQXMQuanHesService {
         BienPhapXM: baocaoKQXMQuanHeInput.BienPhapXM
           ? `N'${baocaoKQXMQuanHeInput.BienPhapXM}'`
           : null,
-
-        MaCAQHvaTD: baocaoKQXMQuanHeInput.MaCAQHvaTD
-          ? baocaoKQXMQuanHeInput.MaCAQHvaTD
-          : null,
-        MaDoi: baocaoKQXMQuanHeInput.MaDoi ? baocaoKQXMQuanHeInput.MaDoi : null,
-        MaDoiTuong: baocaoKQXMQuanHeInput.MaDoiTuong
-          ? baocaoKQXMQuanHeInput.MaDoiTuong
-          : null,
-        MaQD: baocaoKQXMQuanHeInput.MaQD ? baocaoKQXMQuanHeInput.MaQD : null,
         MaBCPHQH: baocaoKQXMQuanHeInput.MaBCPHQH
           ? baocaoKQXMQuanHeInput.MaBCPHQH
           : null,
@@ -170,24 +157,28 @@ export class BaoCaoKQXMQuanHesService {
 
   // ResolveField
 
-  async CAQHvaTD(baocaoKQXMQuanHe: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(baocaoKQXMQuanHe.MaDonVi);
-  }
-
-  async Doi(baocaoKQXMQuanHe: any): Promise<Doi> {
-    return this.dataloaderService.loaderDoi.load(baocaoKQXMQuanHe.MaDoi);
-  }
-
   async TSXacMinh(baocaoKQXMQuanHe: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQXMQuanHe.MaTSXacMinh);
+    if (baocaoKQXMQuanHe.MaTSXacMinh) {
+      return this.dataloaderService.loaderCBCS.load(
+        baocaoKQXMQuanHe.MaTSXacMinh,
+      );
+    }
   }
 
   async LanhDaoPD(baocaoKQXMQuanHe: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQXMQuanHe.MaLanhDaoPD);
+    if (baocaoKQXMQuanHe.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(
+        baocaoKQXMQuanHe.MaLanhDaoPD,
+      );
+    }
   }
 
   async BanChiHuy(baocaoKQXMQuanHe: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(baocaoKQXMQuanHe.MaBanChiHuy);
+    if (baocaoKQXMQuanHe.MaBanChiHuy) {
+      return this.dataloaderService.loaderCBCS.load(
+        baocaoKQXMQuanHe.MaBanChiHuy,
+      );
+    }
   }
 
   async BaoCaoPHQH(baocaoKQXMQuanHe: any): Promise<BaoCaoPHQH> {
@@ -200,13 +191,5 @@ export class BaoCaoKQXMQuanHesService {
       ),
     );
     return result[0];
-  }
-
-  async QuyetDinhTSNT(baocaoKQXMQuanHe: any):Promise<QuyetDinhTSNT> {
-    return
-  }
-
-  async DoiTuong(baocaoKQXMQuanHe: any):Promise<DoiTuong> {
-    return
   }
 }
