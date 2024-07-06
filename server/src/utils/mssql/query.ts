@@ -385,11 +385,30 @@ export const SP_CHANGE_CBCS = (spCHANGECBCSInput: SP_CHANGE_CBCS_Input) =>
   '@MaDoi=' +
   spCHANGECBCSInput.CBCSInput.MaDoi;
 
-
-
-
-
-
+export const SP_CHANGE_CHUYENAN = (
+  spCHANGECHUYENANInput: SP_CHANGE_CHUYENAN_Input,
+) =>
+  'SP_CHANGE_CHUYENAN ' +
+  '@Type= "' +
+  spCHANGECHUYENANInput.Type +
+  '",' +
+  '@MaCA=' +
+  spCHANGECHUYENANInput.MaCA +
+  ',' +
+  '@BiSo=' +
+  spCHANGECHUYENANInput.ChuyenAnInput.BiSo +
+  ',' +
+  '@ThoiGianBD=' +
+  spCHANGECHUYENANInput.ChuyenAnInput.ThoiGianBD +
+  ',' +
+  '@TenCA=' +
+  spCHANGECHUYENANInput.ChuyenAnInput.TenCA +
+  ',' +
+  '@NoiDung=' +
+  spCHANGECHUYENANInput.ChuyenAnInput.NoiDung +
+  ',' +
+  '@MaTCDT=' +
+  spCHANGECHUYENANInput.ChuyenAnInput.MaTCDT;
 
 
 
@@ -448,31 +467,6 @@ export const SP_CHANGE_BAOCAOKTDN = (
   ',' +
   '@MaCBTongHop=' +
   spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaCBTongHop;
-
-export const SP_CHANGE_CHUYENAN = (
-  spCHANGECHUYENANInput: SP_CHANGE_CHUYENAN_Input,
-) =>
-  'SP_CHANGE_CHUYENAN ' +
-  '@Type= "' +
-  spCHANGECHUYENANInput.Type +
-  '",' +
-  '@MaCA=' +
-  spCHANGECHUYENANInput.MaCA +
-  ',' +
-  '@BiSo=' +
-  spCHANGECHUYENANInput.ChuyenAnInput.BiSo +
-  ',' +
-  '@ThoiGianBD=' +
-  spCHANGECHUYENANInput.ChuyenAnInput.ThoiGianBD +
-  ',' +
-  '@TenCA=' +
-  spCHANGECHUYENANInput.ChuyenAnInput.TenCA +
-  ',' +
-  '@NoiDung=' +
-  spCHANGECHUYENANInput.ChuyenAnInput.NoiDung +
-  ',' +
-  '@MaTC=' +
-  spCHANGECHUYENANInput.ChuyenAnInput.MaTC;
 
 export const SP_CHANGE_DENGHITSNT = (
   spCHANGEDENGHITSNTInput: SP_CHANGE_DENGHITSNT_Input,

@@ -37,6 +37,7 @@ export class DanhGiaTSTH {
     name: 'MaKQ',
     foreignKeyConstraintName: 'FK_MaKQ_DanhGiaTSTH',
   })
+  @Field((type) => KetQuaTSNT, { nullable: true })
   KetQuaTSNT: KetQuaTSNT;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.DanhGiaTSTHs, {
@@ -47,5 +48,6 @@ export class DanhGiaTSTH {
     name: 'MaCBCS',
     foreignKeyConstraintName: 'FK_MaCBCS_DanhGiaTSTH',
   })
+  @Field((type) => CBCS, { nullable: true })
   CBCS: CBCS;
 }

@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,16 +7,15 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { ChucVu } from './ChucVu.model';
 import { ChucVusService } from './ChucVus.service';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => ChucVu)
 @UseGuards(GraphQLGuard)

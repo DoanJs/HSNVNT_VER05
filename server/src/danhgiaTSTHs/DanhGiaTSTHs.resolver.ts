@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,18 +7,17 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DanhGiaTSTH } from './DanhGiaTSTH.model';
 import { DanhGiaTSTHsService } from './DanhGiaTSTHs.service';
 import { DanhGiaTSTHInput } from './type/DanhGiaTSTH.input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => DanhGiaTSTH)
 @UseGuards(GraphQLGuard)

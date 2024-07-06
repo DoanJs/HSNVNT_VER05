@@ -38,7 +38,7 @@ export class ChuyenAnsService {
           : null,
         TenCA: `N'${chuyenanInput.TenCA}'`, //crypto
         NoiDung: `N'${chuyenanInput.NoiDung}'`, //crypto
-        MaTC: chuyenanInput.MaTC ? chuyenanInput.MaTC : null,
+        MaTCDT: chuyenanInput.MaTCDT ? chuyenanInput.MaTCDT : null,
       },
     };
   };
@@ -114,8 +114,8 @@ export class ChuyenAnsService {
 
   //  ResolveField
 
-  async TinhChat(chuyenan: any): Promise<TinhChatDT> {
-    return this.dataloaderService.loaderTinhChat.load(chuyenan.MaTC);
+  async TinhChatDT(chuyenan: any): Promise<TinhChatDT> {
+    return this.dataloaderService.loaderTinhChatDT.load(chuyenan.MaTC);
   }
 
   async DoiTuongCAs(MaCA: number): Promise<DoiTuongCA[]> {

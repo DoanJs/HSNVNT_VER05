@@ -141,10 +141,14 @@ export class DanhGiaTSTHsService {
 
   // ResolverField
   async KetQuaTSNT(danhgiaTSTH: any): Promise<KetQuaTSNT> {
-    return this.dataloaderService.loaderKetQuaTSNT.load(danhgiaTSTH.MaKQ);
+    if (danhgiaTSTH.MaKQ) {
+      return this.dataloaderService.loaderKetQuaTSNT.load(danhgiaTSTH.MaKQ);
+    }
   }
 
   async CBCS(danhgiaTSTH: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(danhgiaTSTH.MaCBCS);
+    if (danhgiaTSTH.MaCBCS) {
+      return this.dataloaderService.loaderCBCS.load(danhgiaTSTH.MaCBCS);
+    }
   }
 }

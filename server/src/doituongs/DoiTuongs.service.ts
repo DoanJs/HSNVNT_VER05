@@ -292,7 +292,7 @@ export class DoiTuongsService {
 
   async TinhChatDT(doituong: any): Promise<TinhChatDT> {
     if (doituong.MaTC) {
-      return this.dataloaderService.loaderTinhChat.load(doituong.MaTC);
+      return this.dataloaderService.loaderTinhChatDT.load(doituong.MaTC);
     }
   }
 

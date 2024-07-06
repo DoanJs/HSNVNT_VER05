@@ -17,7 +17,4 @@ export class ChucVu {
 
   @OneToMany(() => CBCS, (cbcs) => cbcs.ChucVu)
   CBCSs: [CBCS];
-
-
-  // chua duyet lai
 }

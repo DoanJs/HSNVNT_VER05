@@ -7,17 +7,17 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnsService } from './ChuyenAns.service';
 import { ChuyenAnInput } from './type/ChuyenAn.input';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => ChuyenAn)
 @UseGuards(GraphQLGuard)
@@ -67,8 +67,8 @@ export class ChuyenAnsResolver {
   // ResolveField
 
   @ResolveField((returns) => TinhChatDT)
-  TinhChat(@Parent() chuyenan: ChuyenAn): Promise<TinhChatDT> {
-    return this.chuyenansService.TinhChat(chuyenan);
+  TinhChatDT(@Parent() chuyenan: ChuyenAn): Promise<TinhChatDT> {
+    return this.chuyenansService.TinhChatDT(chuyenan);
   }
 
   @ResolveField((returns) => [DoiTuongCA])

@@ -143,9 +143,6 @@ export class CBCS {
   @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.LanhDaoPD)
   LanhDaoPD_KetQuaXMDiaChis: [KetQuaXMDiaChi];
 
-
-
-
   @OneToMany(
     () => BaoCaoKQXMDiaChi,
     (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.TSXacMinh,

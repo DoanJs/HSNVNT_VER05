@@ -44,15 +44,6 @@ export class ChuyenAn {
   })
   TinhChatDT: TinhChatDT;
 
-
-
-
-
-
-
-  // chua duyet lai
- 
-
   @OneToMany(() => DoiTuongCA, (doituongCA) => doituongCA.ChuyenAn)
   DoiTuongCAs: [DoiTuongCA];
 }

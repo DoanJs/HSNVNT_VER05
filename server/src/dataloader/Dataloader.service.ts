@@ -152,7 +152,7 @@ export class DataLoaderService {
     });
     return Promise.resolve(result);
   });
-  public readonly loaderTinhChat = new DataLoader((ids: number[]) => {
+  public readonly loaderTinhChatDT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tinhchatRepository.query(
         SP_GET_DATA('TinhChatDTs', `'MaTCDT = ${id}'`, 'MaTCDT', 0, 0)
