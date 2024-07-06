@@ -31,7 +31,7 @@ export class BaoCaoKTDN {
 
   // relation
 
-  @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT, {
+  @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.BaoCaoKTDN, {
     cascade: true,
     eager: true,
   })
@@ -53,7 +53,7 @@ export class BaoCaoKTDN {
   @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
-  @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTongHop_BaoCaoKQGHs, {
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTongHop_BaoCaoKTDNs, {
     cascade: true,
     eager: true,
   })

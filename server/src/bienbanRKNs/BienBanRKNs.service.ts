@@ -14,8 +14,8 @@ import { BienBanRKNInput } from './type/BienBanRKN.Input';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { BienBanRKN_LanhDaoTGType } from './type/BienBanRKN_LanhDaoTG.type';
-import { BienBanRKN_LanhDaoTGInput } from './type/BienBanRKN_LanhDaoTG.input';
+import { BienBanRKN_CBCSType } from './type/BienBanRKN_CBCS.type';
+import { BienBanRKN_CBCSInput } from './type/BienBanRKN_CBCS.input';
 
 @Injectable()
 export class BienBanRKNsService {
@@ -126,12 +126,12 @@ export class BienBanRKNsService {
 
   // many-to-many
 
-  async bienBanRKNs_lanhDaoTGs(
+  async bienBanRKNs_cbcss(
     utilsParams: UtilsParamsInput,
-  ): Promise<BienBanRKN_LanhDaoTGType[]> {
+  ): Promise<BienBanRKN_CBCSType[]> {
     return this.bienbanRKNRepository.query(
       SP_GET_DATA(
-        'BienBanRKNs_LanhDaoTGs',
+        'BienBanRKNs_CBCSs',
         `'MaBBRKN != 0'`,
         'MaBBRKN',
         utilsParams.skip ? utilsParams.skip : 0,
@@ -140,53 +140,53 @@ export class BienBanRKNsService {
     );
   }
 
-  async createBienBanRKN_LanhDaoTG(
-    bienBanRKN_lanhDaoTGInput: BienBanRKN_LanhDaoTGInput,
+  async createBienBanRKN_CBCS(
+    bienBanRKN_CBCSInput: BienBanRKN_CBCSInput,
     user: any,
-  ): Promise<BienBanRKN_LanhDaoTGType> {
+  ): Promise<BienBanRKN_CBCSType> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_DATA(
         "'CREATE'",
-        'BienBanRKNs_LanhDaoTGs',
-        `'MaBBRKN, MaLanhDaoTG'`,
-        `'  ${bienBanRKN_lanhDaoTGInput.MaBBRKN},
-            ${bienBanRKN_lanhDaoTGInput.MaLanhDaoTG}
+        'BienBanRKNs_CBCSs',
+        `'MaBBRKN, MaCBCS'`,
+        `'  ${bienBanRKN_CBCSInput.MaBBRKN},
+            ${bienBanRKN_CBCSInput.MaCBCS}
         '`,
-        `'MaBBRKN = ${bienBanRKN_lanhDaoTGInput.MaBBRKN}'`,
+        `'MaBBRKN = ${bienBanRKN_CBCSInput.MaBBRKN}'`,
       ),
     );
     this.actionDBsService.createActionDB({
       MaHistory: user.MaHistory,
       Action: 'CREATE',
-      Other: `{ MaBBRKN: ${bienBanRKN_lanhDaoTGInput.MaBBRKN}, MaLanhDaoTG: ${bienBanRKN_lanhDaoTGInput.MaLanhDaoTG} };`,
-      TableName: 'BienBanRKNs_LanhDaoTGs',
+      Other: `{ MaBBRKN: ${bienBanRKN_CBCSInput.MaBBRKN}, MaCBCS: ${bienBanRKN_CBCSInput.MaCBCS} };`,
+      TableName: 'BienBanRKNs_CBCSs',
     });
     return result[0];
   }
 
-  async editBienBanRKN_LanhDaoTG(
-    bienBanRKN_lanhDaoTGInput: BienBanRKN_LanhDaoTGInput,
+  async editBienBanRKN_CBCS(
+    bienBanRKN_CBCSInput: BienBanRKN_CBCSInput,
     MaBBRKN: number,
-    MaLanhDaoTG: number,
+    MaCBCS: number,
     user: any,
-  ): Promise<BienBanRKN_LanhDaoTGType> {
+  ): Promise<BienBanRKN_CBCSType> {
     await this.bienbanRKNRepository.query(
       SP_CHANGE_DATA(
         "'EDIT'",
-        'BienBanRKNs_LanhDaoTGs',
+        'BienBanRKNs_CBCSs',
         null,
         null,
         null,
-        `'  MaBBRKN = ${bienBanRKN_lanhDaoTGInput.MaBBRKN},
-            MaLanhDaoTG = ${bienBanRKN_lanhDaoTGInput.MaLanhDaoTG}
+        `'  MaBBRKN = ${bienBanRKN_CBCSInput.MaBBRKN},
+            MaCBCS = ${bienBanRKN_CBCSInput.MaCBCS}
         '`,
-        `'MaBBRKN = ${MaBBRKN} AND MaLanhDaoTG = ${MaLanhDaoTG}'`,
+        `'MaBBRKN = ${MaBBRKN} AND MaCBCS = ${MaCBCS}'`,
       ),
     );
     const result = await this.bienbanRKNRepository.query(
       SP_GET_DATA(
-        'BienBanRKNs_LanhDaoTGs',
-        `'MaBBRKN = ${bienBanRKN_lanhDaoTGInput.MaBBRKN} AND MaLanhDaoTG = ${bienBanRKN_lanhDaoTGInput.MaLanhDaoTG}'`,
+        'BienBanRKNs_CBCSs',
+        `'MaBBRKN = ${bienBanRKN_CBCSInput.MaBBRKN} AND MaCBCS = ${bienBanRKN_CBCSInput.MaCBCS}'`,
         'MaBBRKN',
         0,
         0,
@@ -195,33 +195,33 @@ export class BienBanRKNsService {
     this.actionDBsService.createActionDB({
       MaHistory: user.MaHistory,
       Action: 'EDIT',
-      Other: `{ MaBBRKN: ${bienBanRKN_lanhDaoTGInput.MaBBRKN}, MaLanhDaoTG: ${bienBanRKN_lanhDaoTGInput.MaLanhDaoTG} };`,
-      TableName: 'BienBanRKNs_LanhDaoTGs',
+      Other: `{ MaBBRKN: ${bienBanRKN_CBCSInput.MaBBRKN}, MaCBCS: ${bienBanRKN_CBCSInput.MaCBCS} };`,
+      TableName: 'BienBanRKNs_CBCSs',
     });
     return result[0];
   }
 
-  async deleteBienBanRKN_LanhDaoTG(
+  async deleteBienBanRKN_CBCS(
     MaBBRKN: number,
-    MaLanhDaoTG: number,
+    MaCBCS: number,
     user: any,
-  ): Promise<BienBanRKN_LanhDaoTGType> {
+  ): Promise<BienBanRKN_CBCSType> {
     const result = await this.bienbanRKNRepository.query(
       SP_CHANGE_DATA(
         "'DELETE'",
-        'BienBanRKNs_LanhDaoTGs',
+        'BienBanRKNs_CBCSs',
         null,
         null,
         null,
         null,
-        `'MaBBRKN = ${MaBBRKN} AND MaLanhDaoTG = ${MaLanhDaoTG}'`,
+        `'MaBBRKN = ${MaBBRKN} AND MaCBCS = ${MaCBCS}'`,
       ),
     );
     this.actionDBsService.createActionDB({
       MaHistory: user.MaHistory,
       Action: 'DELETE',
-      Other: `{ MaBBRKN: ${MaBBRKN}, MaLanhDaoTG: ${MaLanhDaoTG} };`,
-      TableName: 'BienBanRKNs_LanhDaoTGs',
+      Other: `{ MaBBRKN: ${MaBBRKN}, MaCBCS: ${MaCBCS} };`,
+      TableName: 'BienBanRKNs_CBCSs',
     });
     return result[0];
   }
@@ -247,12 +247,12 @@ export class BienBanRKNsService {
     }
   }
 
-  async LanhDaoTGs(MaBBRKN: number): Promise<CBCS[]> {
+  async ThanhPhanTDs(MaBBRKN: number): Promise<CBCS[]> {
     const result = await this.bienbanRKNRepository.query(
-      SP_GET_DATA('BienBanRKNs_LanhDaoTGs', `'MaBBRKN = ${MaBBRKN}'`, 'MaBBRKN', 0, 0),
-    ) as [{ MaLanhDaoTG: number }];
+      SP_GET_DATA('BienBanRKNs_CBCSs', `'MaBBRKN = ${MaBBRKN}'`, 'MaBBRKN', 0, 0),
+    ) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj: any) =>
-      this.dataloaderService.loaderCBCS.load(obj.MaLanhDaoTG),
+      this.dataloaderService.loaderCBCS.load(obj.MaCBCS),
     );
     return await Promise.all(resultLoader);
   }

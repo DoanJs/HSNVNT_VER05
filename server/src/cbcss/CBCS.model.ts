@@ -141,7 +141,10 @@ export class CBCS {
   ChucVu: ChucVu;
 
   @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.LanhDaoPD)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi];
+  LanhDaoPD_KetQuaXMDiaChis: [KetQuaXMDiaChi];
+
+
+
 
   @OneToMany(
     () => BaoCaoKQXMDiaChi,
@@ -155,19 +158,62 @@ export class CBCS {
   @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.LanhDaoPD)
   LanhDaoPD_BaoCaoKQGHs: [BaoCaoKQGH];
 
+  @ManyToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThanhPhanTDs)
+  ThanhPhanTD_BienBanRKNs: [BienBanRKN];
 
+  @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThuKy)
+  ThuKy_BienBanRKNs: [BienBanRKN];
 
+  @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ChuToa)
+  ChuToa_BienBanRKNs: [BienBanRKN];
 
+  @ManyToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.TSThucHiens)
+  TSThucHien_BaoCaoPHQHs: [BaoCaoPHQH];
 
+  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.LanhDaoPD)
+  LanhDaoPD_BaoCaoPHQHs: [BaoCaoPHQH];
 
+  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.ToTruongTS)
+  ToTruongTS_BaoCaoPHQHs: [BaoCaoPHQH];
 
+  @ManyToMany(() => BaoCaoPHPT, (baocaoPHPT) => baocaoPHPT.TSThucHiens)
+  TSThucHien_BaoCaoPHPTs: [BaoCaoPHPT];
 
+  @OneToMany(() => BaoCaoKTDN, (baocaoKTDN) => baocaoKTDN.CBTongHop)
+  CBTongHop_BaoCaoKTDNs: [BaoCaoKTDN];
 
+  @OneToMany(
+    () => BaoCaoKQXMQuanHe,
+    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.LanhDaoPD,
+  )
+  LanhDaoPD_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
 
+  @OneToMany(
+    () => BaoCaoKQXMQuanHe,
+    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.BCHPhuTrach,
+  )
+  BCHPhuTrach_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
 
+  @OneToMany(
+    () => BaoCaoKQXMQuanHe,
+    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.TSXacMinh,
+  )
+  TSXacMinh_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
 
-  
-  // chua duyet lai
+  @OneToMany(
+    () => BaoCaoKQXMDiaChi,
+    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.LanhDaoPD,
+  )
+  LanhDaoPD_BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
+
+  @OneToMany(
+    () => BaoCaoKQXMDiaChi,
+    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.BCHPhuTrach,
+  )
+  BCHPhuTrach_BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
+
+  @ManyToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.TSThucHiens)
+  TSThucHien_BaoCaoKQGHs: [BaoCaoKQGH];
 
   @OneToMany(() => DauMoiPH_DN, (dauMoiPH_DN) => dauMoiPH_DN.LDDonViDN)
   LDDonViDN_DauMoiPHs: [DauMoiPH_DN];
@@ -196,57 +242,9 @@ export class CBCS {
   @OneToMany(() => TramCT, (tramCT) => tramCT.LanhDaoPD)
   LanhDaoPD_TramCTs: [TramCT];
 
-  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.ToTruongTS)
-  ToTruongTS_BaoCaoPHQHs: [BaoCaoPHQH];
-
-  @ManyToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.TSThucHiens)
-  TSThucHien_BaoCaoPHQHs: [BaoCaoPHQH];
-
-  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.LanhDaoPD)
-  LanhDaoPD_BaoCaoPHQHs: [BaoCaoPHQH];
-
-  @OneToMany(
-    () => BaoCaoKQXMQuanHe,
-    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.LanhDaoPD,
-  )
-  LanhDaoPD_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
-
-  @OneToMany(
-    () => BaoCaoKQXMQuanHe,
-    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.BCHPhuTrach,
-  )
-  BCHPhuTrach_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
-
-  @OneToMany(
-    () => BaoCaoKQXMQuanHe,
-    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.TSXacMinh,
-  )
-  TSXacMinh_BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
-
   @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.LanhDaoPD)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe];
+  LanhDaoPD_KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.LanhDaoPD,
-  )
-  LanhDaoPD_BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
-
-  @OneToMany(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.BCHPhuTrach,
-  )
-  BCHPhuTrach_BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
-
-  @ManyToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.TSThucHiens)
-  TSThucHien_BaoCaoKQGHs: [BaoCaoKQGH];
-
-
-  @OneToMany(() => DanhGiaTSTH, (danhgiaTSTH) => danhgiaTSTH.CBCS)
-  DanhGiaTSTHs: [DanhGiaTSTH];
-
-  @OneToMany(() => LLDB, (lldb) => lldb.TSQuanLy)
-  TSQuanLy_LLDBs: [LLDB];
 
   @OneToMany(
     () => LucLuongThamGiaKH,
@@ -254,23 +252,14 @@ export class CBCS {
   )
   LucLuongThamGiaKHs: [LucLuongThamGiaKH];
 
+  @OneToMany(() => DanhGiaTSTH, (danhgiaTSTH) => danhgiaTSTH.CBCS)
+  DanhGiaTSTHs: [DanhGiaTSTH];
+
+  @OneToMany(() => LLDB, (lldb) => lldb.TSQuanLy)
+  TSQuanLy_LLDBs: [LLDB];
+
   @OneToMany(() => BaoCaoKTDN, (baocaoKTDN) => baocaoKTDN.LanhDaoPD)
   LanhDaoPD_BaoCaoKTDNs: [BaoCaoKTDN];
-
-  @OneToMany(() => BaoCaoKTDN, (baocaoKTDN) => baocaoKTDN.CBTongHop)
-  CBTongHop_BaoCaoKQGHs: [BaoCaoKTDN];
-
-  @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ChuToa)
-  ChuToa_BienBanRKNs: [BienBanRKN];
-
-  @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThuKy)
-  ThuKy_BienBanRKNs: [BienBanRKN];
-
-  @ManyToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThanhPhanTDs)
-  BienBanRKNs: [BienBanRKN];
-
-  @ManyToMany(() => BaoCaoPHPT, (baocaoPHPT) => baocaoPHPT.TSThucHiens)
-  TSThucHien_BaoCaoPHPTs: [BaoCaoPHPT];
 
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.LanhDaoPD)
   LanhDaoPD_QuyetDinhTSNTs: [QuyetDinhTSNT];

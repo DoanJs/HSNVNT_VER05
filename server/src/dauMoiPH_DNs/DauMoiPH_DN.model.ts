@@ -18,7 +18,27 @@ export class DauMoiPH_DN {
 
   // relation
 
-
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.LDDonViDN_DauMoiPHs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaLDDonViDN',
+    foreignKeyConstraintName: 'FK_MaLDDonViDN_DauMoiPH',
+  })
+  @Field((type) => CBCS, { nullable: true })
+  LDDonViDN: CBCS;
+  
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTrucTiepPH_DauMoiPHs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaCBTrucTiepPH',
+    foreignKeyConstraintName: 'FK_MaCBTrucTiepPH_DauMoiPH',
+  })
+  @Field((type) => CBCS, { nullable: true })
+  CBTrucTiepPH: CBCS;
 
 
 
@@ -35,28 +55,6 @@ export class DauMoiPH_DN {
     foreignKeyConstraintName: 'FK_MaDN_DauMoiPH_DN',
   })
   DeNghiTSNT: DeNghiTSNT;
-
-  @ManyToOne(() => CBCS, (cbcs) => cbcs.LDDonViDN_DauMoiPHs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaLDDonViDN',
-    foreignKeyConstraintName: 'FK_MaLDDonViDN_DauMoiPH',
-  })
-  @Field((type) => CBCS, { nullable: true })
-  LDDonViDN: CBCS;
-
-  @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTrucTiepPH_DauMoiPHs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCBTrucTiepPH',
-    foreignKeyConstraintName: 'FK_MaCBTrucTiepPH_DauMoiPH',
-  })
-  @Field((type) => CBCS, { nullable: true })
-  CBTrucTiepPH: CBCS;
 
 
 }

@@ -6,5 +6,8 @@ export class CATTPvaTDInput {
     CATTPvaTD?: string
 
     @Field({ nullable: true })
+    KyHieu?: string
+
+    @Field({ nullable: true })
     MaCapCA?: number
 }

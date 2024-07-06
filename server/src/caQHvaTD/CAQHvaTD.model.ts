@@ -62,17 +62,9 @@ export class CAQHvaTD {
   @Field({ nullable: true })
   CapCA: CapCA;
   
-
-
-  
-  // chua duyet lai
-
-  
-
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.CAQHvaTD)
   DeNghiTSNTs: [DeNghiTSNT];
 
   @OneToMany(() => Doi, (doi) => doi.CAQHvaTD)
   Dois: [Doi];
-
 }

@@ -8,6 +8,10 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
@@ -19,10 +23,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoPHQH } from './BaoCaoPHQH.model';
 import { BaoCaoPHQHsService } from './BaoCaoPHQHs.service';
 import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => BaoCaoPHQH)
 @UseGuards(GraphQLGuard)
@@ -75,24 +75,9 @@ export class BaoCaoPHQHsResolver {
     return this.baocaoPHQHsService.KetQuaTSNT(baocaoPHQH);
   }
 
-  @ResolveField((returns) => [CBCS])
-  TSThucHiens(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS[]> {
-    return this.baocaoPHQHsService.TSThucHiens(baocaoPHQH.MaBCPHQH);
-  }
-
   @ResolveField((returns) => CBCS)
   LanhDaoPD(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS> {
     return this.baocaoPHQHsService.LanhDaoPD(baocaoPHQH);
-  }
-
-  @ResolveField((returns) => CAQHvaTD)
-  DonVi(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CAQHvaTD> {
-    return this.baocaoPHQHsService.DonVi(baocaoPHQH);
-  }
-
-  @ResolveField((returns) => Doi)
-  Doi(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<Doi> {
-    return this.baocaoPHQHsService.Doi(baocaoPHQH);
   }
 
   @ResolveField((returns) => CBCS)
@@ -100,9 +85,10 @@ export class BaoCaoPHQHsResolver {
     return this.baocaoPHQHsService.ToTruongTS(baocaoPHQH);
   }
 
-  @ResolveField((returns) => DoiTuong)
-  DoiTuong(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<DoiTuong> {
-    return this.baocaoPHQHsService.DoiTuong(baocaoPHQH);
+
+  @ResolveField((returns) => [CBCS])
+  TSThucHiens(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS[]> {
+    return this.baocaoPHQHsService.TSThucHiens(baocaoPHQH.MaBCPHQH);
   }
 
   @ResolveField((returns) => BaoCaoKQXMQuanHe)

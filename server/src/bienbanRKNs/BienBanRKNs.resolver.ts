@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,20 +7,19 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BienBanRKN } from './BienBanRKN.model';
 import { BienBanRKNsService } from './BienBanRKNs.service';
 import { BienBanRKNInput } from './type/BienBanRKN.Input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
-import { BienBanRKN_LanhDaoTGType } from './type/BienBanRKN_LanhDaoTG.type';
-import { BienBanRKN_LanhDaoTGInput } from './type/BienBanRKN_LanhDaoTG.input';
+import { BienBanRKN_CBCSInput } from './type/BienBanRKN_CBCS.input';
+import { BienBanRKN_CBCSType } from './type/BienBanRKN_CBCS.type';
 
 @Resolver(() => BienBanRKN)
 @UseGuards(GraphQLGuard)
@@ -69,53 +69,53 @@ export class BienBanRKNsResolver {
 
   // many-to-many
 
-  @Query((returns) => [BienBanRKN_LanhDaoTGType])
-  bienBanRKNs_lanhDaoTGs(
+  @Query((returns) => [BienBanRKN_CBCSType])
+  bienBanRKNs_cbcss(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
-  ): Promise<BienBanRKN_LanhDaoTGType[]> {
-    return this.bienbanRKNsService.bienBanRKNs_lanhDaoTGs(utilsParams);
+  ): Promise<BienBanRKN_CBCSType[]> {
+    return this.bienbanRKNsService.bienBanRKNs_cbcss(utilsParams);
   }
 
-  @Mutation((returns) => BienBanRKN_LanhDaoTGType)
+  @Mutation((returns) => BienBanRKN_CBCSType)
   @UseGuards(InsertGuard)
-  createBienBanRKN_LanhDaoTG(
+  createBienBanRKN_CBCS(
     @CurrentUser() user: any,
-    @Args('bienBanRKN_lanhDaoTGInput')
-    bienBanRKN_lanhDaoTGInput: BienBanRKN_LanhDaoTGInput,
-  ): Promise<BienBanRKN_LanhDaoTGType> {
-    return this.bienbanRKNsService.createBienBanRKN_LanhDaoTG(
-      bienBanRKN_lanhDaoTGInput,
+    @Args('bienBanRKN_CBCSInput')
+    bienBanRKN_CBCSInput: BienBanRKN_CBCSInput,
+  ): Promise<BienBanRKN_CBCSType> {
+    return this.bienbanRKNsService.createBienBanRKN_CBCS(
+      bienBanRKN_CBCSInput,
       user,
     );
   }
 
-  @Mutation((returns) => BienBanRKN_LanhDaoTGType)
+  @Mutation((returns) => BienBanRKN_CBCSType)
   @UseGuards(UpdateGuard)
-  editBienBanRKN_LanhDaoTG(
+  editBienBanRKN_CBCS(
     @CurrentUser() user: any,
-    @Args('bienBanRKN_lanhDaoTGInput')
-    bienBanRKN_lanhDaoTGInput: BienBanRKN_LanhDaoTGInput,
+    @Args('bienBanRKN_CBCSInput')
+    bienBanRKN_CBCSInput: BienBanRKN_CBCSInput,
     @Args('MaBBRKN') MaBBRKN: number,
-    @Args('MaLanhDaoTG') MaLanhDaoTG: number,
-  ): Promise<BienBanRKN_LanhDaoTGType> {
-    return this.bienbanRKNsService.editBienBanRKN_LanhDaoTG(
-      bienBanRKN_lanhDaoTGInput,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BienBanRKN_CBCSType> {
+    return this.bienbanRKNsService.editBienBanRKN_CBCS(
+      bienBanRKN_CBCSInput,
       MaBBRKN,
-      MaLanhDaoTG,
+      MaCBCS,
       user,
     );
   }
 
-  @Mutation((returns) => BienBanRKN_LanhDaoTGType)
+  @Mutation((returns) => BienBanRKN_CBCSType)
   @UseGuards(DeleteGuard)
-  deleteBienBanRKN_LanhDaoTG(
+  deleteBienBanRKN_CBCS(
     @CurrentUser() user: any,
     @Args('MaBBRKN') MaBBRKN: number,
-    @Args('MaLanhDaoTG') MaLanhDaoTG: number,
-  ): Promise<BienBanRKN_LanhDaoTGType> {
-    return this.bienbanRKNsService.deleteBienBanRKN_LanhDaoTG(
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BienBanRKN_CBCSType> {
+    return this.bienbanRKNsService.deleteBienBanRKN_CBCS(
       MaBBRKN,
-      MaLanhDaoTG,
+      MaCBCS,
       user,
     );
   }
@@ -137,7 +137,7 @@ export class BienBanRKNsResolver {
   }
 
   @ResolveField((returns) => [CBCS])
-  LanhDaoTGs(@Parent() bienBanRKN: BienBanRKN): Promise<CBCS[]> {
-    return this.bienbanRKNsService.LanhDaoTGs(bienBanRKN.MaBBRKN);
+  ThanhPhanTDs(@Parent() bienBanRKN: BienBanRKN): Promise<CBCS[]> {
+    return this.bienbanRKNsService.ThanhPhanTDs(bienBanRKN.MaBBRKN);
   }
 }

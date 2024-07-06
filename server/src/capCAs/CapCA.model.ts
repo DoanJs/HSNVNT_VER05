@@ -21,7 +21,4 @@ export class CapCA {
 
   @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CapCA)
   CAQHvaTDs: [CAQHvaTD];
-  
-  // chua duyet lai
-
 }

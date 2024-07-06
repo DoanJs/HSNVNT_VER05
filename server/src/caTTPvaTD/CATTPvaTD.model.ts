@@ -32,7 +32,7 @@ export class CATTPvaTD {
 
   // relation
   
-  @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CAQHvaTD)
+  @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CATTPvaTD)
   CAQHvaTDs: [CAQHvaTD];
 
   @ManyToOne(() => CapCA, (capCA) => capCA.CATTPvaTDs, {
@@ -45,8 +45,4 @@ export class CATTPvaTD {
   })
   @Field({ nullable: true })
   CapCA: CapCA;
-
-  // chua duyet lai
-
-
 }

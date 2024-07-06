@@ -30,15 +30,6 @@ export class BaoCaoPHQHInput {
   MaKQ?: number;
 
   @Field({ nullable: true })
-  MaCAQHvaTD?: number;
-
-  @Field({ nullable: true })
-  MaDoi?: number;
-
-  @Field({ nullable: true })
-  MaDoiTuong?: number;
-
-  @Field({ nullable: true })
   MaToTruongTS?: number;
 
   @Field({ nullable: true })

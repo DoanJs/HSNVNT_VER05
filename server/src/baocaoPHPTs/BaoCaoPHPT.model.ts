@@ -1,7 +1,15 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'BaoCaoPHPTs' })
 @ObjectType()
@@ -27,14 +35,21 @@ export default class BaoCaoPHPT {
   DiaDiemPH: string;
 
   // relation
-  @ManyToOne(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.BaoCaoPHPTs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaKQ",
-    foreignKeyConstraintName: "FK_MaKQ_BaoCaoPHPT"
+  @ManyToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.BaoCaoPHPTs, {
+    cascade: true,
+    eager: true,
   })
-  KetQuaTSNT: KetQuaTSNT
+  @JoinColumn({
+    name: 'MaKQ',
+    foreignKeyConstraintName: 'FK_MaKQ_BaoCaoPHPT',
+  })
+  @Field((type) => KetQuaTSNT, { nullable: true })
+  KetQuaTSNT: KetQuaTSNT;
 
-  @ManyToMany(() => CBCS, cbcs => cbcs.TSThucHien_BaoCaoPHPTs, { cascade: true, eager: true })
+  @ManyToMany(() => CBCS, (cbcs) => cbcs.TSThucHien_BaoCaoPHPTs, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable({
     name: 'BaoCaoPHPTs_CBCSs',
     joinColumn: {
@@ -46,5 +61,5 @@ export default class BaoCaoPHPT {
       foreignKeyConstraintName: 'FK_MaCBCS_BaoCaoPHPTs_CBCSs',
     },
   })
-  TSThucHiens: [CBCS]
+  TSThucHiens: [CBCS];
 }

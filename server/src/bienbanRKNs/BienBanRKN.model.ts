@@ -72,7 +72,7 @@ export class BienBanRKN {
   @Field((type) => CBCS, { nullable: true })
   ThuKy: CBCS;
 
-  @ManyToMany(() => CBCS, (cbcs) => cbcs.BienBanRKNs, {
+  @ManyToMany(() => CBCS, (cbcs) => cbcs.ThanhPhanTD_BienBanRKNs, {
     cascade: true,
     eager: true,
   })
@@ -88,8 +88,4 @@ export class BienBanRKN {
     },
   })
   ThanhPhanTDs: [CBCS];
-
-
-  // chua duyet lai
-
 }

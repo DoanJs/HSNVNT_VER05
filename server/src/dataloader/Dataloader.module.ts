@@ -27,6 +27,7 @@ import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import { DataLoaderService } from './Dataloader.service';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 
 @Module({
   imports: [
@@ -56,7 +57,8 @@ import { DataLoaderService } from './Dataloader.service';
       BaoCaoPHDC,
       LLDB,
       CapCA,
-      BienPhapDT
+      BienPhapDT,
+      BienBanRKN
     ]),
   ],
   providers: [DataLoaderService],

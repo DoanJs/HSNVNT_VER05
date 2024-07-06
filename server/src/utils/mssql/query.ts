@@ -221,6 +221,121 @@ export const SP_CHANGE_BAOCAOPHDC = (
   '@MaKQ=' +
   spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.MaKQ;
 
+export const SP_CHANGE_BAOCAOPHPT = (
+  spCHANGEBAOCAOPHPTInput: SP_CHANGE_BAOCAOPHPT_Input,
+) =>
+  'SP_CHANGE_BAOCAOPHPT ' +
+  '@Type= "' +
+  spCHANGEBAOCAOPHPTInput.Type +
+  '",' +
+  '@MaBCPHPT=' +
+  spCHANGEBAOCAOPHPTInput.MaBCPHPT +
+  ',' +
+  '@ThoiGianPH=' +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.ThoiGianPH +
+  ',' +
+  '@DiaDiemPH=' +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.DiaDiemPH +
+  ',' +
+  '@MaKQ=' +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.MaKQ +
+  ',' +
+  '@BKS=' +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.BKS +
+  ',' +
+  '@HinhAnh=' +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.HinhAnh;
+
+export const SP_CHANGE_BAOCAOPHQH = (
+  spCHANGEBAOCAOPHQHInput: SP_CHANGE_BAOCAOPHQH_Input,
+) =>
+  'SP_CHANGE_BAOCAOPHQH ' +
+  '@Type= "' +
+  spCHANGEBAOCAOPHQHInput.Type +
+  '",' +
+  '@MaBCPHQH=' +
+  spCHANGEBAOCAOPHQHInput.MaBCPHQH +
+  ',' +
+  '@Ngay=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.Ngay +
+  ',' +
+  '@BiDanh=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.BiDanh +
+  ',' +
+  '@ThoiGianPH=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.ThoiGianPH +
+  ',' +
+  '@DiaDiemPH=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.DiaDiemPH +
+  ',' +
+  '@DDNhanDang=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.DDNhanDang +
+  ',' +
+  '@TSNhanXet=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.TSNhanXet +
+  ',' +
+  '@MaKQ=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaKQ +
+  ',' +
+  '@MaLanhDaoPD=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaLanhDaoPD +
+  ',' +
+  '@MaToTruongTS=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaToTruongTS +
+  ',' +
+  '@HinhAnh=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.HinhAnh +
+  ',' +
+  '@DiaChiCC=' +
+  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.DiaChiCC;
+
+export const SP_CHANGE_BIENBANRKN = (
+  spCHANGEBIENBANRKNInput: SP_CHANGE_BIENBANRKN_Input,
+) =>
+  'SP_CHANGE_BIENBANRKN ' +
+  '@Type= "' +
+  spCHANGEBIENBANRKNInput.Type +
+  '",' +
+  '@MaBBRKN=' +
+  spCHANGEBIENBANRKNInput.MaBBRKN +
+  ',' +
+  '@Ngay=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.Ngay +
+  ',' +
+  '@DanhGiaLDP=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.DanhGiaLDP +
+  ',' +
+  '@DanhGiaTS=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.DanhGiaTS +
+  ',' +
+  '@DanhGiaDT=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.DanhGiaDT +
+  ',' +
+  '@KetLuan=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.KetLuan +
+  ',' +
+  '@DeXuat=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.DeXuat +
+  ',' +
+  '@MaKQ=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.MaKQ +
+  ',' +
+  '@MaChuToa=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.MaChuToa +
+  ',' +
+  '@MaThuKy=' +
+  spCHANGEBIENBANRKNInput.BienBanRKNInput.MaThuKy;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -274,95 +389,6 @@ export const SP_CHANGE_BAOCAOKTDN = (
   ',' +
   '@MaCBTongHop=' +
   spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaCBTongHop;
-
-export const SP_CHANGE_BAOCAOPHQH = (
-  spCHANGEBAOCAOPHQHInput: SP_CHANGE_BAOCAOPHQH_Input,
-) =>
-  'SP_CHANGE_BAOCAOPHQH ' +
-  '@Type= "' +
-  spCHANGEBAOCAOPHQHInput.Type +
-  '",' +
-  '@MaBCPHQH=' +
-  spCHANGEBAOCAOPHQHInput.MaBCPHQH +
-  ',' +
-  '@Ngay=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.Ngay +
-  ',' +
-  '@BiDanh=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.BiDanh +
-  ',' +
-  '@ThoiGianPH=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.ThoiGianPH +
-  ',' +
-  '@DiaDiemPH=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.DiaDiemPH +
-  ',' +
-  '@DDNhanDang=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.DDNhanDang +
-  ',' +
-  '@TSNhanXet=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.TSNhanXet +
-  ',' +
-  '@MaKQ=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaKQ +
-  ',' +
-  '@MaLanhDaoPD=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaLanhDaoPD +
-  ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaCAQHvaTD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaDoi +
-  ',' +
-  '@MaDoiTuong=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaDoiTuong +
-  ',' +
-  '@MaToTruongTS=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.MaToTruongTS +
-  ',' +
-  '@HinhAnh=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.HinhAnh +
-  ',' +
-  '@DiaChiCC=' +
-  spCHANGEBAOCAOPHQHInput.BaoCaoPHQHInput.DiaChiCC;
-
-export const SP_CHANGE_BIENBANRKN = (
-  spCHANGEBIENBANRKNInput: SP_CHANGE_BIENBANRKN_Input,
-) =>
-  'SP_CHANGE_BIENBANRKN ' +
-  '@Type= "' +
-  spCHANGEBIENBANRKNInput.Type +
-  '",' +
-  '@MaBBRKN=' +
-  spCHANGEBIENBANRKNInput.MaBBRKN +
-  ',' +
-  '@Ngay=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.Ngay +
-  ',' +
-  '@DanhGiaLDP=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.DanhGiaLDP +
-  ',' +
-  '@DanhGiaTS=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.DanhGiaTS +
-  ',' +
-  '@DanhGiaDT=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.DanhGiaDT +
-  ',' +
-  '@KetLuan=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.KetLuan +
-  ',' +
-  '@DeXuat=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.DeXuat +
-  ',' +
-  '@MaKQ=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.MaKQ +
-  ',' +
-  '@MaChuToa=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.MaChuToa +
-  ',' +
-  '@MaThuKy=' +
-  spCHANGEBIENBANRKNInput.BienBanRKNInput.MaThuKy;
 
 export const SP_CHANGE_CBCS = (spCHANGECBCSInput: SP_CHANGE_CBCS_Input) =>
   'SP_CHANGE_CBCS ' +
@@ -542,31 +568,6 @@ export const SP_CHANGE_KEHOACHTSNT = (
   ',' +
   '@NoiDung=' +
   spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.NoiDung;
-
-export const SP_CHANGE_BAOCAOPHPT = (
-  spCHANGEBAOCAOPHPTInput: SP_CHANGE_BAOCAOPHPT_Input,
-) =>
-  'SP_CHANGE_BAOCAOPHPT ' +
-  '@Type= "' +
-  spCHANGEBAOCAOPHPTInput.Type +
-  '",' +
-  '@MaBCPHPT=' +
-  spCHANGEBAOCAOPHPTInput.MaBCPHPT +
-  ',' +
-  '@ThoiGianPH=' +
-  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.ThoiGianPH +
-  ',' +
-  '@DiaDiemPH=' +
-  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.DiaDiemPH +
-  ',' +
-  '@MaKQ=' +
-  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.MaKQ +
-  ',' +
-  '@BKS=' +
-  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.BKS +
-  ',' +
-  '@HinhAnh=' +
-  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.HinhAnh;
 
 export const SP_CHANGE_QUYETDINHTSNT = (
   spCHANGEQUYETDINHTSNTInput: SP_CHANGE_QUYETDINHTSNT_Input,

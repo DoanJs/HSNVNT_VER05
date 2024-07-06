@@ -140,21 +140,20 @@ export class DoiTuong {
   @Field({ nullable: true })
   TinhChatDT: TinhChatDT;
 
+  @ManyToMany(() => BienPhapDT, (bienPhapDT) => bienPhapDT.DoiTuongs)
+  BienPhapDTs: [BienPhapDT];
+
+
+
+
 
 
 
 
 
   // chua duyet lai
-
-  @ManyToMany(() => BienPhapDT, (bienPhapDT) => bienPhapDT.DoiTuongs)
-  BienPhapDTs: [BienPhapDT];
-
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DoiTuong)
   DeNghiTSNTs: [DeNghiTSNT];
-
-
-
 
   @OneToMany(() => DoiTuongCA, (doituongCA) => doituongCA.DoiTuong)
   DoiTuongCAs: [DoiTuongCA];

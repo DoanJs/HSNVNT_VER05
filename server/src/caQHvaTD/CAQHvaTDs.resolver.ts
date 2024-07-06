@@ -27,6 +27,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDsService } from './CAQHvaTDs.service';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
+import { CapCA } from 'src/capCAs/CapCA.model';
 
 @Resolver(() => CAQHvaTD)
 @UseGuards(GraphQLGuard)
@@ -79,9 +80,9 @@ export class CAQHvaTDsResolver {
     return this.caQHvaTDsService.CATTPvaTD(caQHvaTD);
   }
 
-  @ResolveField((returns) => [Doi])
-  Dois(@Parent() caQHvaTD: CAQHvaTD): Promise<Doi[]> {
-    return this.caQHvaTDsService.Dois(caQHvaTD.MaCAQHvaTD);
+  @ResolveField((returns) => CapCA)
+  CapCA(@Parent() caQHvaTD: CAQHvaTD): Promise<CapCA> {
+    return this.caQHvaTDsService.CapCA(caQHvaTD);
   }
 
   @ResolveField((returns) => [DeNghiTSNT])
@@ -89,43 +90,9 @@ export class CAQHvaTDsResolver {
     return this.caQHvaTDsService.DeNghiTSNTs(CAQHvaTD.MaCAQHvaTD);
   }
 
-  @ResolveField((returns) => [CBCS])
-  CBCSs(@Parent() CAQHvaTD: CAQHvaTD): Promise<CBCS[]> {
-    return this.caQHvaTDsService.CBCSs(CAQHvaTD.MaCAQHvaTD);
-  }
 
-  @ResolveField((returns) => [QuyetDinhTSNT])
-  QuyetDinhTSNTs(@Parent() CAQHvaTD: CAQHvaTD): Promise<QuyetDinhTSNT[]> {
-    return this.caQHvaTDsService.QuyetDinhTSNTs(CAQHvaTD.MaCAQHvaTD);
-  }
-
-  @ResolveField((returns) => [TramCT])
-  TramCTs(@Parent() CAQHvaTD: CAQHvaTD): Promise<TramCT[]> {
-    return this.caQHvaTDsService.TramCTs(CAQHvaTD.MaCAQHvaTD);
-  }
-
-  @ResolveField((returns) => [BaoCaoPHQH])
-  BaoCaoPHQHs(@Parent() CAQHvaTD: CAQHvaTD): Promise<BaoCaoPHQH[]> {
-    return this.caQHvaTDsService.BaoCaoPHQHs(CAQHvaTD.MaCAQHvaTD);
-  }
-
-  @ResolveField((returns) => [BaoCaoKQGH])
-  BaoCaoKQGHs(@Parent() CAQHvaTD: CAQHvaTD): Promise<BaoCaoKQGH[]> {
-    return this.caQHvaTDsService.BaoCaoKQGHs(CAQHvaTD.MaCAQHvaTD);
-  }
-
-  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
-  BaoCaoKQXMQuanHes(@Parent() CAQHvaTD: CAQHvaTD): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.caQHvaTDsService.BaoCaoKQXMQuanHes(CAQHvaTD.MaCAQHvaTD);
-  }
-
-  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
-  BaoCaoKQXMDiaChis(@Parent() CAQHvaTD: CAQHvaTD): Promise<BaoCaoKQXMDiaChi[]> {
-    return this.caQHvaTDsService.BaoCaoKQXMDiaChis(CAQHvaTD.MaCAQHvaTD);
-  }
-
-  @ResolveField((returns) => [KeHoachTSNT])
-  KeHoachTSNTs(@Parent() CAQHvaTD: CAQHvaTD): Promise<KeHoachTSNT[]> {
-    return this.caQHvaTDsService.KeHoachTSNTs(CAQHvaTD.MaCAQHvaTD);
+  @ResolveField((returns) => [Doi])
+  Dois(@Parent() caQHvaTD: CAQHvaTD): Promise<Doi[]> {
+    return this.caQHvaTDsService.Dois(caQHvaTD.MaCAQHvaTD);
   }
 }

@@ -42,6 +42,12 @@ export class Doi {
   @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
+
+
+
+  
+  // chua duyet lai
+
   @OneToMany(() => CBCS, (cbcs) => cbcs.Doi)
   CBCSs: [CBCS];
 

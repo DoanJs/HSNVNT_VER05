@@ -29,6 +29,7 @@ import { CapCA } from 'src/capCAs/CapCA.model';
 import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 
 @Injectable()
 export class DataLoaderService {
@@ -85,6 +86,8 @@ export class DataLoaderService {
     private readonly capCARepository: Repository<CapCA>,
     @InjectRepository(BienPhapDT)
     private readonly bienPhapDTRepository: Repository<BienPhapDT>,
+    @InjectRepository(BienBanRKN)
+    private readonly bienbanRKNRepository: Repository<BienBanRKN>,
   ) {}
   public readonly loaderQuocTich = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
@@ -271,6 +274,15 @@ export class DataLoaderService {
     const result = ids.map(async (id) => {
       const response = await this.baocaoPHQHRepository.query(
         SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaBCPHQH = ${id}'`, 0, 0),
+      );
+      return response[0];
+    });
+    return Promise.resolve(result);
+  });
+  public readonly loaderBienBanRKN = new DataLoader((ids: number[]) => {
+    const result = ids.map(async (id) => {
+      const response = await this.bienbanRKNRepository.query(
+        SP_GET_DATA_DECRYPT('BienBanRKNs', `'MaBBRKN = ${id}'`, 0, 0),
       );
       return response[0];
     });

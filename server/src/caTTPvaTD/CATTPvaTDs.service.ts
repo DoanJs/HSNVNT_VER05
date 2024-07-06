@@ -127,12 +127,6 @@ export class CATTPvaTDsService {
 
   // ResolveField
 
-  async CapCA(caTTPvaTD: any): Promise<CapCA> {
-    if (caTTPvaTD.MaCapCA) {
-      return this.dataloaderService.loaderCapCA.load(caTTPvaTD.MaCapCA);
-    }
-  }
-
   async CAQHvaTDs(MaCATTPvaTD: number): Promise<CAQHvaTD[]> {
     return await this.caTTPvaTDRepository.query(
       SP_GET_DATA(
@@ -144,22 +138,10 @@ export class CATTPvaTDsService {
       ),
     );
   }
-  // THE END!
-
-  DeNghiTSNTs(MaCATinhTP: number): Promise<DeNghiTSNT[]> {
-    return this.caTTPvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaCATinhTP = ${MaCATinhTP}'`, 0, 0),
-    );
-  }
-
-  QuyetDinhTSNTs(MaCATinhTP: number): Promise<QuyetDinhTSNT[]> {
-    return this.caTTPvaTDRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'QuyetDinhTSNTs',
-        `'MaCATinhTP = ${MaCATinhTP}'`,
-        0,
-        0,
-      ),
-    );
+  
+  async CapCA(caTTPvaTD: any): Promise<CapCA> {
+    if (caTTPvaTD.MaCapCA) {
+      return this.dataloaderService.loaderCapCA.load(caTTPvaTD.MaCapCA);
+    }
   }
 }

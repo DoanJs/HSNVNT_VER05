@@ -32,7 +32,7 @@ export class KetQuaXMDiaChi {
   })
   BaoCaoPHDC: BaoCaoPHDC
 
-  @ManyToOne(() => CBCS, cbcs => cbcs.KetQuaXMDiaChis, {cascade: true, eager: true})
+  @ManyToOne(() => CBCS, cbcs => cbcs.LanhDaoPD_KetQuaXMDiaChis, {cascade: true, eager: true})
   @JoinColumn({
     name: "MaLanhDaoPD",
     foreignKeyConstraintName: "FK_MaLanhDaoPD_KetQuaXMDiaChi"

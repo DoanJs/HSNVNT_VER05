@@ -10,4 +10,7 @@ export class CAQHvaTDInput {
 
   @Field({ nullable: true })
   MaCATTPvaTD?: number;
+
+  @Field({ nullable: true })
+  MaCapCA?: number;
 }

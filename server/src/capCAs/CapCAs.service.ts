@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -102,6 +103,12 @@ export class CapCAsService {
   async CATTPvaTDs(MaCapCA: number): Promise<CATTPvaTD[]> {
     return await this.capCARepository.query(
       SP_GET_DATA('CATTPvaTDs', `MaCapCA = ${MaCapCA}`, 'MaCATTPvaTD', 0, 0),
+    );
+  }
+
+  async CAQHvaTDs(MaCapCA: number): Promise<CAQHvaTD[]> {
+    return await this.capCARepository.query(
+      SP_GET_DATA('CAQHvaTDs', `MaCapCA = ${MaCapCA}`, 'MaCAQHvaTD', 0, 0),
     );
   }
 }

@@ -4,21 +4,24 @@ import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
+import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
+import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
 import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
+import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
+import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
+import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
-import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
@@ -136,239 +139,37 @@ export class CBCSsService {
 
   //ResolveField
 
-  async QuocTich(cbcs: any): Promise<QuocTich> {
-    if (cbcs.MaQT) {
-      return this.dataloaderService.loaderQuocTich.load(cbcs.MaQT);
-    }
-  }
-
   async DanToc(cbcs: any): Promise<DanToc> {
     if (cbcs.MaDT) {
       return this.dataloaderService.loaderDanToc.load(cbcs.MaDT);
     }
   }
-
   async TonGiao(cbcs: any): Promise<TonGiao> {
     if (cbcs.MaTG) {
       return this.dataloaderService.loaderTonGiao.load(cbcs.MaTG);
     }
   }
-
-  async CAQHvaTD(cbcs: any): Promise<CAQHvaTD> {
-    if (cbcs.MaCAQHvaTD) {
-      return this.dataloaderService.loaderCAQHvaTD.load(cbcs.MaCAQHvaTD);
-    }
-  }
-
-  async CapBac(cbcs: any): Promise<CapBac> {
-    if (cbcs.MaCB) {
-      return this.dataloaderService.loaderCapBac.load(cbcs.MaCB);
-    }
-  }
-
-  async ChucVu(cbcs: any): Promise<ChucVu> {
-    if (cbcs.MaCV) {
-      return this.dataloaderService.loaderChucVu.load(cbcs.MaCV);
-    }
-  }
-
   async Doi(cbcs: any): Promise<Doi> {
     if (cbcs.MaDoi) {
       return this.dataloaderService.loaderDoi.load(cbcs.MaDoi);
     }
   }
-
-  async LanhDaoDVDN_DeNghiTSNTs(MaCBCS: number): Promise<DeNghiTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaLanhDaoDVDN = ${MaCBCS}'`, 0, 0),
-    );
+  async CapBac(cbcs: any): Promise<CapBac> {
+    if (cbcs.MaCB) {
+      return this.dataloaderService.loaderCapBac.load(cbcs.MaCB);
+    }
   }
-
-  async CBPhuTrachDN_DeNghiTSNTs(MaCBCS: number): Promise<DeNghiTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaCBPhuTrachDN = ${MaCBCS}'`, 0, 0),
-    );
+  async ChucVu(cbcs: any): Promise<ChucVu> {
+    if (cbcs.MaCV) {
+      return this.dataloaderService.loaderChucVu.load(cbcs.MaCV);
+    }
   }
-
-  async LanhDaoCapTren_DeNghiTSNTs(MaCBCS: number): Promise<DeNghiTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'DeNghiTSNTs',
-        `'MaLanhDaoCapTren = ${MaCBCS}'`,
-        0,
-        0,
-      ),
-    );
-  }
-
-  async DaiDienDonViTSNT_DeNghiTSNTs(MaCBCS: number): Promise<DeNghiTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'DeNghiTSNTs',
-        `'MaDaiDienDonViTSNT = ${MaCBCS}'`,
-        0,
-        0,
-      ),
-    );
-  }
-
-  async LanhDaoQD_QuyetDinhTSNTs(MaCBCS: number): Promise<QuyetDinhTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaLanhDaoQD = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async LanhDaoPD_KeHoachTSNTs(MaCBCS: number): Promise<KeHoachTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async BanChiHuy_KeHoachTSNTs(MaCBCS: number): Promise<KeHoachTSNT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaBanChiHuy = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async LucLuongThamGiaKHs(MaCBCS: number): Promise<LucLuongThamGiaKH[]> {
+  async LanhDaoPD_KetQuaXMDiaChis(MaCBCS: number): Promise<KetQuaXMDiaChi[]> {
     return this.cbcsRepository.query(
       SP_GET_DATA(
-        'LucLuongThamGiaKHs',
-        `'MaCBCS = ${MaCBCS}'`,
-        'MaLLTGKH',
-        0,
-        0,
-      ),
-    );
-  }
-
-  async DanhGiaTSTHs(MaCBCS: number): Promise<DanhGiaTSTH[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA(
-        'DanhGiaTSTHs',
-        `'MaCBCS = ${MaCBCS}'`,
-        'MaDanhGiaTSTH',
-        0,
-        0,
-      ),
-    );
-  }
-
-  async TSThucHien_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
-    const result = (await this.cbcsRepository.query(
-      SP_GET_DATA(
-        'BaoCaoPHQHs_CBCSs',
-        `'MaCBCS = ${MaCBCS}'`,
-        'MaBCPHQH',
-        0,
-        0,
-      ),
-    )) as [{ MaBCPHQH: number }];
-    const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderBaoCaoPHQH.load(obj.MaBCPHQH),
-    );
-    return await Promise.all(resultLoader);
-  }
-
-  async TSThucHien_BaoCaoPHPTs(MaCBCS: number): Promise<BaoCaoPHPT[]> {
-    const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('BaoCaoPHPTs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCPHPT', 0, 0),
-    )) as [{ MaBCPHPT: number }];
-    const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderBaoCaoPHPT.load(obj.MaBCPHPT),
-    );
-    return await Promise.all(resultLoader);
-  }
-
-  async TSThucHien_BaoCaoPHDCs(MaCBCS: number): Promise<BaoCaoPHDC[]> {
-    const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('BaoCaoPHDCs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaDC', 0, 0),
-    )) as [{ MaDC: number }];
-    const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderBaoCaoPHDC.load(obj.MaDC),
-    );
-    return await Promise.all(resultLoader);
-  }
-
-  async LanhDaoPD_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async ToTruongTS_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaToTruongTS = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async TSThucHien_BaoCaoKQGHs(MaCBCS: number): Promise<BaoCaoKQGH[]> {
-    const result = (await this.cbcsRepository.query(
-      SP_GET_DATA(
-        'BaoCaoKQGHs_CBCSs',
-        `'MaCBCS = ${MaCBCS}'`,
-        'MaBCKQGH',
-        0,
-        0,
-      ),
-    )) as [{ MaBCKQGH: number }];
-    const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderBaoCaoKQGH.load(obj.MaBCKQGH),
-    );
-    return await Promise.all(resultLoader);
-  }
-
-  async LanhDaoPD_BaoCaoKQGHs(MaCBCS: number): Promise<BaoCaoKQGH[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async TSXayDung_TramCTs(MaCBCS: number): Promise<TramCT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('TramCTs', `'MaTSXayDung = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async LanhDaoPD_TramCTs(MaCBCS: number): Promise<TramCT[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT('TramCTs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
-    );
-  }
-
-  async TSXacMinh_BaoCaoKQXMQuanHes(
-    MaCBCS: number,
-  ): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'BaoCaoKQXMQuanHes',
-        `'MaTSXacMinh = ${MaCBCS}'`,
-        0,
-        0,
-      ),
-    );
-  }
-
-  async LanhDaoPD_BaoCaoKQXMQuanHes(
-    MaCBCS: number,
-  ): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'BaoCaoKQXMQuanHes',
+        'KetQuaXMDiaChis',
         `'MaLanhDaoPD = ${MaCBCS}'`,
-        0,
-        0,
-      ),
-    );
-  }
-
-  async BanChiHuy_BaoCaoKQXMQuanHes(
-    MaCBCS: number,
-  ): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.cbcsRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'BaoCaoKQXMQuanHes',
-        `'MaBanChiHuy = ${MaCBCS}'`,
+        'MaKQXMDC',
         0,
         0,
       ),
@@ -386,7 +187,6 @@ export class CBCSsService {
       ),
     );
   }
-
   async LanhDaoPD_BaoCaoKQXMDiaChis(
     MaCBCS: number,
   ): Promise<BaoCaoKQXMDiaChi[]> {
@@ -399,23 +199,262 @@ export class CBCSsService {
       ),
     );
   }
-
-  async BanChiHuy_BaoCaoKQXMDiaChis(
+  async BCHPhuTrach_BaoCaoKQXMDiaChis(
     MaCBCS: number,
   ): Promise<BaoCaoKQXMDiaChi[]> {
     return this.cbcsRepository.query(
       SP_GET_DATA_DECRYPT(
         'BaoCaoKQXMDiaChis',
-        `'MaBanChiHuy = ${MaCBCS}'`,
+        `'MaBCHPhuTrach = ${MaCBCS}'`,
         0,
         0,
       ),
     );
   }
-
+  async TSThucHien_BaoCaoPHDCs(MaCBCS: number): Promise<BaoCaoPHDC[]> {
+    const result = (await this.cbcsRepository.query(
+      SP_GET_DATA('BaoCaoPHDCs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCPHDC', 0, 0),
+    )) as [{ MaBCPHDC: number }];
+    const resultLoader = result.map((obj) =>
+      this.dataloaderService.loaderBaoCaoPHDC.load(obj.MaBCPHDC),
+    );
+    return await Promise.all(resultLoader);
+  }
+  async LanhDaoPD_BaoCaoKQGHs(MaCBCS: number): Promise<BaoCaoKQGH[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async TSThucHien_BaoCaoKQGHs(MaCBCS: number): Promise<BaoCaoKQGH[]> {
+    const result = (await this.cbcsRepository.query(
+      SP_GET_DATA(
+        'BaoCaoKQGHs_CBCSs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaBCKQGH',
+        0,
+        0,
+      ),
+    )) as [{ MaBCKQGH: number }];
+    const resultLoader = result.map((obj) =>
+      this.dataloaderService.loaderBaoCaoKQGH.load(obj.MaBCKQGH),
+    );
+    return await Promise.all(resultLoader);
+  }
+  async ThanhPhanTD_BienBanRKNs(MaCBCS: number): Promise<BienBanRKN[]> {
+    const result = (await this.cbcsRepository.query(
+      SP_GET_DATA('BienBanRKNs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBBRKN', 0, 0),
+    )) as [{ MaBBRKN: number }];
+    const resultLoader = result.map((obj) =>
+      this.dataloaderService.loaderBienBanRKN.load(obj.MaBBRKN),
+    );
+    return await Promise.all(resultLoader);
+  }
+  async ThuKy_BienBanRKNs(MaCBCS: number): Promise<BienBanRKN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BienBanRKNs', `'MaThuKy = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async ChuToa_BienBanRKNs(MaCBCS: number): Promise<BienBanRKN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BienBanRKNs', `'MaChuToa = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async TSThucHien_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
+    const result = (await this.cbcsRepository.query(
+      SP_GET_DATA(
+        'BaoCaoPHQHs_CBCSs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaBCPHQH',
+        0,
+        0,
+      ),
+    )) as [{ MaBCPHQH: number }];
+    const resultLoader = result.map((obj) =>
+      this.dataloaderService.loaderBaoCaoPHQH.load(obj.MaBCPHQH),
+    );
+    return await Promise.all(resultLoader);
+  }
+  async LanhDaoPD_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async ToTruongTS_BaoCaoPHQHs(MaCBCS: number): Promise<BaoCaoPHQH[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaToTruongTS = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async TSThucHien_BaoCaoPHPTs(MaCBCS: number): Promise<BaoCaoPHPT[]> {
+    const result = (await this.cbcsRepository.query(
+      SP_GET_DATA(
+        'BaoCaoPHPTs_CBCSs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaBCPHPT',
+        0,
+        0,
+      ),
+    )) as [{ MaBCPHPT: number }];
+    const resultLoader = result.map((obj) =>
+      this.dataloaderService.loaderBaoCaoPHPT.load(obj.MaBCPHPT),
+    );
+    return await Promise.all(resultLoader);
+  }
+  async LanhDaoPD_BaoCaoKTDNs(MaCBCS: number): Promise<BaoCaoKTDN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BaoCaoKTDNs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async CBTongHop_BaoCaoKTDNs(MaCBCS: number): Promise<BaoCaoKTDN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('BaoCaoKTDNs', `'MaCBTongHop = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async LanhDaoPD_BaoCaoKQXMQuanHes(
+    MaCBCS: number,
+  ): Promise<BaoCaoKQXMQuanHe[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT(
+        'BaoCaoKQXMQuanHes',
+        `'MaLanhDaoPD = ${MaCBCS}'`,
+        0,
+        0,
+      ),
+    );
+  }
+  async BCHPhuTrach_BaoCaoKQXMQuanHes(
+    MaCBCS: number,
+  ): Promise<BaoCaoKQXMQuanHe[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT(
+        'BaoCaoKQXMQuanHes',
+        `'BCHPhuTrach = ${MaCBCS}'`,
+        0,
+        0,
+      ),
+    );
+  }
+  async TSXacMinh_BaoCaoKQXMQuanHes(
+    MaCBCS: number,
+  ): Promise<BaoCaoKQXMQuanHe[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT(
+        'BaoCaoKQXMQuanHes',
+        `'MaTSXacMinh = ${MaCBCS}'`,
+        0,
+        0,
+      ),
+    );
+  }
+  async LDDonViDN_DauMoiPHs(MaCBCS: number): Promise<DauMoiPH_DN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA('DauMoiPH_DNs', `'MaLDDonViDN = ${MaCBCS}'`, 'MaDMPH', 0, 0),
+    );
+  }
+  async CBTrucTiepPH_DauMoiPHs(MaCBCS: number): Promise<DauMoiPH_DN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'DauMoiPH_DNs',
+        `'MaCBTrucTiepPH = ${MaCBCS}'`,
+        'MaDMPH',
+        0,
+        0,
+      ),
+    );
+  }
+  async DaiDienCATTPvaTD_KyDuyet_DNs(MaCBCS: number): Promise<KyDuyet_DN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'KyDuyet_DNs',
+        `'MaDaiDienCATTPvaTD = ${MaCBCS}'`,
+        'MaKDDN',
+        0,
+        0,
+      ),
+    );
+  }
+  async DaiDienDonViDN_KyDuyet_DNs(MaCBCS: number): Promise<KyDuyet_DN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'KyDuyet_DNs',
+        `'MaDaiDienDonViDN = ${MaCBCS}'`,
+        'MaKDDN',
+        0,
+        0,
+      ),
+    );
+  }
+  async DaiDienDonViTSNT_KyDuyet_DNs(MaCBCS: number): Promise<KyDuyet_DN[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'KyDuyet_DNs',
+        `'MaDaiDienDonViTSNT = ${MaCBCS}'`,
+        'MaKDDN',
+        0,
+        0,
+      ),
+    );
+  }
+  async LanhDaoPD_KeHoachTSNTs(MaCBCS: number): Promise<KeHoachTSNT[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async BCHPhuTrach_KeHoachTSNTs(MaCBCS: number): Promise<KeHoachTSNT[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaBCHPhuTrach = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async TSXayDung_TramCTs(MaCBCS: number): Promise<TramCT[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('TramCTs', `'MaTSXayDung = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async LanhDaoPD_TramCTs(MaCBCS: number): Promise<TramCT[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('TramCTs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async LanhDaoPD_KetQuaXMQuanHes(MaCBCS: number): Promise<KetQuaXMQuanHe[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'KetQuaXMQuanHes',
+        `'MaLanhDaoPD = ${MaCBCS}'`,
+        'MaKQXMQH',
+        0,
+        0,
+      ),
+    );
+  }
+  async LucLuongThamGiaKHs(MaCBCS: number): Promise<LucLuongThamGiaKH[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'LucLuongThamGiaKHs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaLLTGKH',
+        0,
+        0,
+      ),
+    );
+  }
+  async DanhGiaTSTHs(MaCBCS: number): Promise<DanhGiaTSTH[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA(
+        'DanhGiaTSTHs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaDanhGiaTSTH',
+        0,
+        0,
+      ),
+    );
+  }
   async TSQuanLy_LLDBs(id: number): Promise<LLDB[]> {
     return this.cbcsRepository.query(
       SP_GET_DATA('LLDBs', `'MaTSQuanLy = ${id}'`, 'MaLLDB', 0, 0),
+    );
+  }
+  async LanhDaoPD_QuyetDinhTSNTs(MaCBCS: number): Promise<QuyetDinhTSNT[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
     );
   }
 }

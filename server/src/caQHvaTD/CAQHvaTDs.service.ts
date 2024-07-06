@@ -22,6 +22,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
+import { CapCA } from 'src/capCAs/CapCA.model';
 
 @Injectable()
 export class CAQHvaTDsService {
@@ -39,6 +40,7 @@ export class CAQHvaTDsService {
         : null,
       KyHieu: caQHvaTDInput.KyHieu ? `N''${caQHvaTDInput.KyHieu}''` : null,
       MaCATTPvaTD: caQHvaTDInput.MaCATTPvaTD ? caQHvaTDInput.MaCATTPvaTD : null,
+      MaCapCA: caQHvaTDInput.MaCapCA ? caQHvaTDInput.MaCapCA : null,
     };
   };
 
@@ -69,10 +71,11 @@ export class CAQHvaTDsService {
       SP_CHANGE_DATA(
         "'CREATE'",
         'CAQHvaTDs',
-        '"CAQHvaTD, KyHieu, MaCATTPvaTD"',
+        '"CAQHvaTD, KyHieu, MaCATTPvaTD, MaCapCA"',
         `N'${this.caQHvaTD_DataInput(caQHvaTDInput).CAQHvaTD},
         ${this.caQHvaTD_DataInput(caQHvaTDInput).KyHieu},
-         ${this.caQHvaTD_DataInput(caQHvaTDInput).MaCATTPvaTD}
+         ${this.caQHvaTD_DataInput(caQHvaTDInput).MaCATTPvaTD},
+         ${this.caQHvaTD_DataInput(caQHvaTDInput).MaCapCA}
          '`,
         "'MaCAQHvaTD = SCOPE_IDENTITY()'",
       ),
@@ -100,7 +103,8 @@ export class CAQHvaTDsService {
         null,
         `N'CAQHvaTD = ${this.caQHvaTD_DataInput(caQHvaTDInput).CAQHvaTD},
           KyHieu = ${this.caQHvaTD_DataInput(caQHvaTDInput).KyHieu},
-          MaCATTPvaTD = ${this.caQHvaTD_DataInput(caQHvaTDInput).MaCATTPvaTD}
+          MaCATTPvaTD = ${this.caQHvaTD_DataInput(caQHvaTDInput).MaCATTPvaTD},
+          MaCapCA = ${this.caQHvaTD_DataInput(caQHvaTDInput).MaCapCA}
         '`,
         `"MaCAQHvaTD = ${id}"`,
       ),
@@ -143,10 +147,10 @@ export class CAQHvaTDsService {
     }
   }
 
-  async Dois(MaCAQHvaTD: number): Promise<Doi[]> {
-    return await this.caQHvaTDRepository.query(
-      `SELECT * FROM Dois WHERE MaCAQHvaTD = ${MaCAQHvaTD}`,
-    );
+  async CapCA(caQHvaTD: any): Promise<CapCA> {
+    if (caQHvaTD.MaCapCA) {
+      return this.dataloaderService.loaderCapCA.load(caQHvaTD.MaCapCA);
+    }
   }
 
   DeNghiTSNTs(MaDV: number): Promise<DeNghiTSNT[]> {
@@ -155,51 +159,9 @@ export class CAQHvaTDsService {
     );
   }
 
-  CBCSs(MaDV: number): Promise<CBCS[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('CBCSs', `'MaDV = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  QuyetDinhTSNTs(MaDV: number): Promise<QuyetDinhTSNT[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaCAQHvaTDQD = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  TramCTs(MaDV: number): Promise<TramCT[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('TramCTs', `'MaCAQHvaTD = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  BaoCaoPHQHs(MaDV: number): Promise<BaoCaoPHQH[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaCAQHvaTD = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  BaoCaoKQGHs(MaDV: number): Promise<BaoCaoKQGH[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaCAQHvaTD = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  BaoCaoKQXMQuanHes(MaDV: number): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQXMQuanHes', `'MaCAQHvaTD = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  BaoCaoKQXMDiaChis(MaDV: number): Promise<BaoCaoKQXMDiaChi[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQXMDiaChis', `'MaCAQHvaTD = ${MaDV}'`, 0, 0),
-    );
-  }
-
-  KeHoachTSNTs(MaDV: number): Promise<KeHoachTSNT[]> {
-    return this.caQHvaTDRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaCAQHvaTD = ${MaDV}'`, 0, 0),
+  async Dois(MaCAQHvaTD: number): Promise<Doi[]> {
+    return await this.caQHvaTDRepository.query(
+      SP_GET_DATA('Dois', `'MaCAQHvaTD = ${MaCAQHvaTD}'`, 'MaDoi', 0, 0),
     );
   }
 }

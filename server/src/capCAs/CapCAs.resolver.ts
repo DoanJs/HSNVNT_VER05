@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,16 +7,16 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CapCA } from './CapCA.model';
 import { CapCAsService } from './CapCAs.service';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 
 @Resolver(() => CapCA)
 @UseGuards(GraphQLGuard)
@@ -65,5 +66,10 @@ export class CapCAsResolver {
   @ResolveField((returns) => [CATTPvaTD])
   CATTPvaTDs(@Parent() capCA: CapCA): Promise<CATTPvaTD[]> {
     return this.capCAsService.CATTPvaTDs(capCA.MaCapCA);
+  }
+
+  @ResolveField((returns) => [CAQHvaTD])
+  CAQHvaTDs(@Parent() capCA: CapCA): Promise<CAQHvaTD[]> {
+    return this.capCAsService.CAQHvaTDs(capCA.MaCapCA);
   }
 }

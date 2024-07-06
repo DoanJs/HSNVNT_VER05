@@ -1,9 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
@@ -65,6 +62,7 @@ export class BaoCaoPHQH {
     name: 'MaKQ',
     foreignKeyConstraintName: 'FK_MaKQ_BaoCaoPHQH',
   })
+  @Field((type) => KetQuaTSNT, { nullable: true })
   KetQuaTSNT: KetQuaTSNT;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.ToTruongTS_BaoCaoPHQHs, {
@@ -75,6 +73,7 @@ export class BaoCaoPHQH {
     name: 'MaToTruongTS',
     foreignKeyConstraintName: 'FK_MaToTruongTS_BaoCaoPHQH',
   })
+  @Field((type) => CBCS, { nullable: true })
   ToTruongTS: CBCS;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoPHQHs, {
@@ -85,6 +84,7 @@ export class BaoCaoPHQH {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoPHQH',
   })
+  @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
   @ManyToMany(() => CBCS, (cbcs) => cbcs.TSThucHien_BaoCaoPHQHs, {
@@ -104,20 +104,12 @@ export class BaoCaoPHQH {
   })
   TSThucHiens: [CBCS];
 
+  @OneToOne(
+    () => BaoCaoKQXMQuanHe,
+    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.BaoCaoPHQH,
+  )
+  BaoCaoKQXMQuanHe: BaoCaoKQXMQuanHe;
 
-
-
-
-
-
-
-  // chua duyet lai
- 
-
-
-  @OneToOne(() => BaoCaoKQXMQuanHe, baocaoKQXMQuanHe => baocaoKQXMQuanHe.BaoCaoPHQH)
-  BaoCaoKQXMQuanHe: BaoCaoKQXMQuanHe
-
-  @OneToOne(() => KetQuaXMQuanHe, ketquaXMQuanHe => ketquaXMQuanHe.BaoCaoPHQH)
-  KetQuaXMQuanHe: KetQuaXMQuanHe
+  @OneToOne(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.BaoCaoPHQH)
+  KetQuaXMQuanHe: KetQuaXMQuanHe;
 }

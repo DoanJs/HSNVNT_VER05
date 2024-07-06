@@ -15,27 +15,30 @@ import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
+import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
+import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
 import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
+import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
+import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
-import { QuocTich } from 'src/quoctichs/QuocTich.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CBCS } from './CBCS.model';
 import { CBCSsService } from './CBCSs.service';
 import { CBCSInput } from './type/CBCS.Input';
+import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
+import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 
 @Resolver(() => CBCS)
 @UseGuards(GraphQLGuard)
@@ -82,12 +85,6 @@ export class CBCSsResolver {
   }
 
   // ResolveField
-
-  @ResolveField((returns) => QuocTich)
-  QuocTich(@Parent() cbcs: CBCS): Promise<QuocTich> {
-    return this.cbcssService.QuocTich(cbcs);
-  }
-
   @ResolveField((returns) => DanToc)
   DanToc(@Parent() cbcs: CBCS): Promise<DanToc> {
     return this.cbcssService.DanToc(cbcs);
@@ -98,9 +95,9 @@ export class CBCSsResolver {
     return this.cbcssService.TonGiao(cbcs);
   }
 
-  @ResolveField((returns) => CAQHvaTD)
-  CAQHvaTD(@Parent() cbcs: CBCS): Promise<CAQHvaTD> {
-    return this.cbcssService.CAQHvaTD(cbcs);
+  @ResolveField((returns) => Doi)
+  Doi(@Parent() cbcs: CBCS): Promise<Doi> {
+    return this.cbcssService.Doi(cbcs);
   }
 
   @ResolveField((returns) => CapBac)
@@ -113,69 +110,64 @@ export class CBCSsResolver {
     return this.cbcssService.ChucVu(cbcs);
   }
 
-  @ResolveField((returns) => Doi)
-  Doi(@Parent() cbcs: CBCS): Promise<Doi> {
-    return this.cbcssService.Doi(cbcs);
+  @ResolveField((returns) => [KetQuaXMDiaChi])
+  LanhDaoPD_KetQuaXMDiaChis(@Parent() cbcs: CBCS): Promise<KetQuaXMDiaChi[]> {
+    return this.cbcssService.LanhDaoPD_KetQuaXMDiaChis(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [DeNghiTSNT])
-  LanhDaoDVDN_DeNghiTSNTs(@Parent() cbcs: CBCS): Promise<DeNghiTSNT[]> {
-    return this.cbcssService.LanhDaoDVDN_DeNghiTSNTs(cbcs.MaCBCS);
+  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
+  TSXacMinh_BaoCaoKQXMDiaChis(
+    @Parent() cbcs: CBCS,
+  ): Promise<BaoCaoKQXMDiaChi[]> {
+    return this.cbcssService.TSXacMinh_BaoCaoKQXMDiaChis(cbcs.MaCBCS);
+  }
+  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
+  LanhDaoPD_BaoCaoKQXMDiaChis(
+    @Parent() cbcs: CBCS,
+  ): Promise<BaoCaoKQXMDiaChi[]> {
+    return this.cbcssService.LanhDaoPD_BaoCaoKQXMDiaChis(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [DeNghiTSNT])
-  CBPhuTrachDN_DeNghiTSNTs(@Parent() cbcs: CBCS): Promise<DeNghiTSNT[]> {
-    return this.cbcssService.CBPhuTrachDN_DeNghiTSNTs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [DeNghiTSNT])
-  LanhDaoCapTren_DeNghiTSNTs(@Parent() cbcs: CBCS): Promise<DeNghiTSNT[]> {
-    return this.cbcssService.LanhDaoCapTren_DeNghiTSNTs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [DeNghiTSNT])
-  DaiDienDonViTSNT_DeNghiTSNTs(@Parent() cbcs: CBCS): Promise<DeNghiTSNT[]> {
-    return this.cbcssService.DaiDienDonViTSNT_DeNghiTSNTs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [QuyetDinhTSNT])
-  LanhDaoQD_QuyetDinhTSNTs(@Parent() cbcs: CBCS): Promise<QuyetDinhTSNT[]> {
-    return this.cbcssService.LanhDaoQD_QuyetDinhTSNTs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [KeHoachTSNT])
-  LanhDaoPD_KeHoachTSNTs(@Parent() cbcs: CBCS): Promise<KeHoachTSNT[]> {
-    return this.cbcssService.LanhDaoPD_KeHoachTSNTs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [KeHoachTSNT])
-  BanChiHuy_KeHoachTSNTs(@Parent() cbcs: CBCS): Promise<KeHoachTSNT[]> {
-    return this.cbcssService.BanChiHuy_KeHoachTSNTs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [LucLuongThamGiaKH])
-  LucLuongThamGiaKHs(@Parent() cbcs: CBCS): Promise<LucLuongThamGiaKH[]> {
-    return this.cbcssService.LucLuongThamGiaKHs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [DanhGiaTSTH])
-  DanhGiaTSTHs(@Parent() cbcs: CBCS): Promise<DanhGiaTSTH[]> {
-    return this.cbcssService.DanhGiaTSTHs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [BaoCaoPHQH])
-  TSThucHien_BaoCaoPHQHs(@Parent() cbcs: CBCS): Promise<BaoCaoPHQH[]> {
-    return this.cbcssService.TSThucHien_BaoCaoPHQHs(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [BaoCaoPHPT])
-  TSThucHien_BaoCaoPHPTs(@Parent() cbcs: CBCS): Promise<BaoCaoPHPT[]> {
-    return this.cbcssService.TSThucHien_BaoCaoPHPTs(cbcs.MaCBCS);
+  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
+  BCHPhuTrach_BaoCaoKQXMDiaChis(
+    @Parent() cbcs: CBCS,
+  ): Promise<BaoCaoKQXMDiaChi[]> {
+    return this.cbcssService.BCHPhuTrach_BaoCaoKQXMDiaChis(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [BaoCaoPHDC])
   TSThucHien_BaoCaoPHDCs(@Parent() cbcs: CBCS): Promise<BaoCaoPHDC[]> {
     return this.cbcssService.TSThucHien_BaoCaoPHDCs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BaoCaoKQGH])
+  LanhDaoPD_BaoCaoKQGHs(@Parent() cbcs: CBCS): Promise<BaoCaoKQGH[]> {
+    return this.cbcssService.LanhDaoPD_BaoCaoKQGHs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BaoCaoKQGH])
+  TSThucHien_BaoCaoKQGHs(@Parent() cbcs: CBCS): Promise<BaoCaoKQGH[]> {
+    return this.cbcssService.TSThucHien_BaoCaoKQGHs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BienBanRKN])
+  ThanhPhanTD_BienBanRKNs(@Parent() cbcs: CBCS): Promise<BienBanRKN[]> {
+    return this.cbcssService.ThanhPhanTD_BienBanRKNs(cbcs.MaCBCS);
+  }
+  
+  @ResolveField((returns) => [BienBanRKN])
+  ThuKy_BienBanRKNs(@Parent() cbcs: CBCS): Promise<BienBanRKN[]> {
+    return this.cbcssService.ThuKy_BienBanRKNs(cbcs.MaCBCS);
+  }
+  
+  @ResolveField((returns) => [BienBanRKN])
+  ChuToa_BienBanRKNs(@Parent() cbcs: CBCS): Promise<BienBanRKN[]> {
+    return this.cbcssService.ChuToa_BienBanRKNs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BaoCaoPHQH])
+  TSThucHien_BaoCaoPHQHs(@Parent() cbcs: CBCS): Promise<BaoCaoPHQH[]> {
+    return this.cbcssService.TSThucHien_BaoCaoPHQHs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [BaoCaoPHQH])
@@ -188,14 +180,85 @@ export class CBCSsResolver {
     return this.cbcssService.ToTruongTS_BaoCaoPHQHs(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [BaoCaoKQGH])
-  TSThucHien_BaoCaoKQGHs(@Parent() cbcs: CBCS): Promise<BaoCaoKQGH[]> {
-    return this.cbcssService.TSThucHien_BaoCaoKQGHs(cbcs.MaCBCS);
+  @ResolveField((returns) => [BaoCaoPHPT])
+  TSThucHien_BaoCaoPHPTs(@Parent() cbcs: CBCS): Promise<BaoCaoPHPT[]> {
+    return this.cbcssService.TSThucHien_BaoCaoPHPTs(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [BaoCaoKQGH])
-  LanhDaoPD_BaoCaoKQGHs(@Parent() cbcs: CBCS): Promise<BaoCaoKQGH[]> {
-    return this.cbcssService.LanhDaoPD_BaoCaoKQGHs(cbcs.MaCBCS);
+  @ResolveField((returns) => [BaoCaoKTDN])
+  LanhDaoPD_BaoCaoKTDNs(@Parent() cbcs: CBCS): Promise<BaoCaoKTDN[]> {
+    return this.cbcssService.LanhDaoPD_BaoCaoKTDNs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BaoCaoKTDN])
+  CBTongHop_BaoCaoKTDNs(@Parent() cbcs: CBCS): Promise<BaoCaoKTDN[]> {
+    return this.cbcssService.CBTongHop_BaoCaoKTDNs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
+  LanhDaoPD_BaoCaoKQXMQuanHes(
+    @Parent() cbcs: CBCS,
+  ): Promise<BaoCaoKQXMQuanHe[]> {
+    return this.cbcssService.LanhDaoPD_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
+  }
+  
+  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
+  BCHPhuTrach_BaoCaoKQXMQuanHes(
+    @Parent() cbcs: CBCS,
+  ): Promise<BaoCaoKQXMQuanHe[]> {
+    return this.cbcssService.BCHPhuTrach_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
+  TSXacMinh_BaoCaoKQXMQuanHes(
+    @Parent() cbcs: CBCS,
+  ): Promise<BaoCaoKQXMQuanHe[]> {
+    return this.cbcssService.TSXacMinh_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [DauMoiPH_DN])
+  LDDonViDN_DauMoiPHs(
+    @Parent() cbcs: CBCS,
+  ): Promise<DauMoiPH_DN[]> {
+    return this.cbcssService.LDDonViDN_DauMoiPHs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [DauMoiPH_DN])
+  CBTrucTiepPH_DauMoiPHs(
+    @Parent() cbcs: CBCS,
+  ): Promise<DauMoiPH_DN[]> {
+    return this.cbcssService.CBTrucTiepPH_DauMoiPHs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [KyDuyet_DN])
+  DaiDienCATTPvaTD_KyDuyet_DNs(
+    @Parent() cbcs: CBCS,
+  ): Promise<KyDuyet_DN[]> {
+    return this.cbcssService.DaiDienCATTPvaTD_KyDuyet_DNs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [KyDuyet_DN])
+  DaiDienDonViDN_KyDuyet_DNs(
+    @Parent() cbcs: CBCS,
+  ): Promise<KyDuyet_DN[]> {
+    return this.cbcssService.DaiDienDonViDN_KyDuyet_DNs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [KyDuyet_DN])
+  DaiDienDonViTSNT_KyDuyet_DNs(
+    @Parent() cbcs: CBCS,
+  ): Promise<KyDuyet_DN[]> {
+    return this.cbcssService.DaiDienDonViTSNT_KyDuyet_DNs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [KeHoachTSNT])
+  LanhDaoPD_KeHoachTSNTs(@Parent() cbcs: CBCS): Promise<KeHoachTSNT[]> {
+    return this.cbcssService.LanhDaoPD_KeHoachTSNTs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [KeHoachTSNT])
+  BCHPhuTrach_KeHoachTSNTs(@Parent() cbcs: CBCS): Promise<KeHoachTSNT[]> {
+    return this.cbcssService.BCHPhuTrach_KeHoachTSNTs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [TramCT])
@@ -208,50 +271,28 @@ export class CBCSsResolver {
     return this.cbcssService.LanhDaoPD_TramCTs(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
-  TSXacMinh_BaoCaoKQXMQuanHes(
-    @Parent() cbcs: CBCS,
-  ): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.cbcssService.TSXacMinh_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
+  @ResolveField((returns) => [KetQuaXMQuanHe])
+  LanhDaoPD_KetQuaXMQuanHes(@Parent() cbcs: CBCS): Promise<KetQuaXMQuanHe[]> {
+    return this.cbcssService.LanhDaoPD_KetQuaXMQuanHes(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
-  LanhDaoPD_BaoCaoKQXMQuanHes(
-    @Parent() cbcs: CBCS,
-  ): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.cbcssService.LanhDaoPD_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
+  @ResolveField((returns) => [LucLuongThamGiaKH])
+  LucLuongThamGiaKHs(@Parent() cbcs: CBCS): Promise<LucLuongThamGiaKH[]> {
+    return this.cbcssService.LucLuongThamGiaKHs(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [BaoCaoKQXMQuanHe])
-  BanChiHuy_BaoCaoKQXMQuanHes(
-    @Parent() cbcs: CBCS,
-  ): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.cbcssService.BanChiHuy_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
-  TSXacMinh_BaoCaoKQXMDiaChis(
-    @Parent() cbcs: CBCS,
-  ): Promise<BaoCaoKQXMDiaChi[]> {
-    return this.cbcssService.TSXacMinh_BaoCaoKQXMDiaChis(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
-  LanhDaoPD_BaoCaoKQXMDiaChis(
-    @Parent() cbcs: CBCS,
-  ): Promise<BaoCaoKQXMDiaChi[]> {
-    return this.cbcssService.LanhDaoPD_BaoCaoKQXMDiaChis(cbcs.MaCBCS);
-  }
-
-  @ResolveField((returns) => [BaoCaoKQXMDiaChi])
-  BanChiHuy_BaoCaoKQXMDiaChis(
-    @Parent() cbcs: CBCS,
-  ): Promise<BaoCaoKQXMDiaChi[]> {
-    return this.cbcssService.BanChiHuy_BaoCaoKQXMDiaChis(cbcs.MaCBCS);
+  @ResolveField((returns) => [DanhGiaTSTH])
+  DanhGiaTSTHs(@Parent() cbcs: CBCS): Promise<DanhGiaTSTH[]> {
+    return this.cbcssService.DanhGiaTSTHs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [LLDB])
   TSQuanLy_LLDBs(@Parent() cbcs: CBCS): Promise<LLDB[]> {
     return this.cbcssService.TSQuanLy_LLDBs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [QuyetDinhTSNT])
+  LanhDaoPD_QuyetDinhTSNTs(@Parent() cbcs: CBCS): Promise<QuyetDinhTSNT[]> {
+    return this.cbcssService.LanhDaoPD_QuyetDinhTSNTs(cbcs.MaCBCS);
   }
 }
