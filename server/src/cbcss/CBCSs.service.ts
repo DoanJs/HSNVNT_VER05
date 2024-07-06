@@ -65,13 +65,9 @@ export class CBCSsService {
         NoiO: `N'${cbcsInput.NoiO}'`, //crypto
         AnhDD: `N'${cbcsInput.AnhDD}'`, //crypto
         SDT: `N'${cbcsInput.SDT}'`, //crypto
-        CCCD: `N'${cbcsInput.CCCD}'`, //crypto
-        CMND: `N'${cbcsInput.CMND}'`, //crypto
-        SHC: `N'${cbcsInput.SHC}'`, //crypto
-        MaQT: cbcsInput.MaQT ? cbcsInput.MaQT : null,
+        CMCCHC: `N'${cbcsInput.CMCCHC}'`, //crypto
         MaDT: cbcsInput.MaDT ? cbcsInput.MaDT : null,
         MaTG: cbcsInput.MaTG ? cbcsInput.MaTG : null,
-        MaCAQHvaTD: cbcsInput.MaCAQHvaTD ? cbcsInput.MaCAQHvaTD : null,
         MaCB: cbcsInput.MaCB ? cbcsInput.MaCB : null,
         MaCV: cbcsInput.MaCV ? cbcsInput.MaCV : null,
         MaDoi: cbcsInput.MaDoi ? cbcsInput.MaDoi : null,

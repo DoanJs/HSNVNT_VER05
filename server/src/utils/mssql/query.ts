@@ -326,6 +326,66 @@ export const SP_CHANGE_BIENBANRKN = (
   '@MaThuKy=' +
   spCHANGEBIENBANRKNInput.BienBanRKNInput.MaThuKy;
 
+export const SP_CHANGE_CBCS = (spCHANGECBCSInput: SP_CHANGE_CBCS_Input) =>
+  'SP_CHANGE_CBCS ' +
+  '@Type= "' +
+  spCHANGECBCSInput.Type +
+  '",' +
+  '@MaCBCS=' +
+  spCHANGECBCSInput.MaCBCS +
+  ',' +
+  '@HoTen=' +
+  spCHANGECBCSInput.CBCSInput.HoTen +
+  ',' +
+  '@TenKhac=' +
+  spCHANGECBCSInput.CBCSInput.TenKhac +
+  ',' +
+  '@NgaySinh=' +
+  spCHANGECBCSInput.CBCSInput.NgaySinh +
+  ',' +
+  '@QueQuan=' +
+  spCHANGECBCSInput.CBCSInput.QueQuan +
+  ',' +
+  '@HKTT=' +
+  spCHANGECBCSInput.CBCSInput.HKTT +
+  ',' +
+  '@PhuongTien=' +
+  spCHANGECBCSInput.CBCSInput.PhuongTien +
+  ',' +
+  '@ThongTinChiTiet=' +
+  spCHANGECBCSInput.CBCSInput.ThongTinChiTiet +
+  ',' +
+  '@GioiTinh=' +
+  spCHANGECBCSInput.CBCSInput.GioiTinh +
+  ',' +
+  '@AnhDD=' +
+  spCHANGECBCSInput.CBCSInput.AnhDD +
+  ',' +
+  '@NoiO=' +
+  spCHANGECBCSInput.CBCSInput.NoiO +
+  ',' +
+  '@SDT=' +
+  spCHANGECBCSInput.CBCSInput.SDT +
+  ',' +
+  '@CMCCHC=' +
+  spCHANGECBCSInput.CBCSInput.CMCCHC +
+  ',' +
+  '@MaDT=' +
+  spCHANGECBCSInput.CBCSInput.MaDT +
+  ',' +
+  '@MaTG=' +
+  spCHANGECBCSInput.CBCSInput.MaTG +
+  ',' +
+  '@MaCB=' +
+  spCHANGECBCSInput.CBCSInput.MaCB +
+  ',' +
+  '@MaCV=' +
+  spCHANGECBCSInput.CBCSInput.MaCV +
+  ',' +
+  '@MaDoi=' +
+  spCHANGECBCSInput.CBCSInput.MaDoi;
+
+
 
 
 
@@ -341,7 +401,6 @@ export const SP_CHANGE_BIENBANRKN = (
 
 
   
-
 // chua duyet lai
 
 export const SP_CHANGE_DATA = (
@@ -389,77 +448,6 @@ export const SP_CHANGE_BAOCAOKTDN = (
   ',' +
   '@MaCBTongHop=' +
   spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaCBTongHop;
-
-export const SP_CHANGE_CBCS = (spCHANGECBCSInput: SP_CHANGE_CBCS_Input) =>
-  'SP_CHANGE_CBCS ' +
-  '@Type= "' +
-  spCHANGECBCSInput.Type +
-  '",' +
-  '@MaCBCS=' +
-  spCHANGECBCSInput.MaCBCS +
-  ',' +
-  '@HoTen=' +
-  spCHANGECBCSInput.CBCSInput.HoTen +
-  ',' +
-  '@TenKhac=' +
-  spCHANGECBCSInput.CBCSInput.TenKhac +
-  ',' +
-  '@NgaySinh=' +
-  spCHANGECBCSInput.CBCSInput.NgaySinh +
-  ',' +
-  '@QueQuan=' +
-  spCHANGECBCSInput.CBCSInput.QueQuan +
-  ',' +
-  '@HKTT=' +
-  spCHANGECBCSInput.CBCSInput.HKTT +
-  ',' +
-  '@PhuongTien=' +
-  spCHANGECBCSInput.CBCSInput.PhuongTien +
-  ',' +
-  '@ThongTinChiTiet=' +
-  spCHANGECBCSInput.CBCSInput.ThongTinChiTiet +
-  ',' +
-  '@GioiTinh=' +
-  spCHANGECBCSInput.CBCSInput.GioiTinh +
-  ',' +
-  '@AnhDD=' +
-  spCHANGECBCSInput.CBCSInput.AnhDD +
-  ',' +
-  '@NoiO=' +
-  spCHANGECBCSInput.CBCSInput.NoiO +
-  ',' +
-  '@SDT=' +
-  spCHANGECBCSInput.CBCSInput.SDT +
-  ',' +
-  '@CCCD=' +
-  spCHANGECBCSInput.CBCSInput.CCCD +
-  ',' +
-  '@CMND=' +
-  spCHANGECBCSInput.CBCSInput.CMND +
-  ',' +
-  '@SHC=' +
-  spCHANGECBCSInput.CBCSInput.SHC +
-  ',' +
-  '@MaQT=' +
-  spCHANGECBCSInput.CBCSInput.MaQT +
-  ',' +
-  '@MaDT=' +
-  spCHANGECBCSInput.CBCSInput.MaDT +
-  ',' +
-  '@MaTG=' +
-  spCHANGECBCSInput.CBCSInput.MaTG +
-  ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGECBCSInput.CBCSInput.MaCAQHvaTD +
-  ',' +
-  '@MaCB=' +
-  spCHANGECBCSInput.CBCSInput.MaCB +
-  ',' +
-  '@MaCV=' +
-  spCHANGECBCSInput.CBCSInput.MaCV +
-  ',' +
-  '@MaDoi=' +
-  spCHANGECBCSInput.CBCSInput.MaDoi;
 
 export const SP_CHANGE_CHUYENAN = (
   spCHANGECHUYENANInput: SP_CHANGE_CHUYENAN_Input,

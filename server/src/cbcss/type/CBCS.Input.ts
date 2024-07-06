@@ -30,13 +30,7 @@ export class CBCSInput {
   SDT?: string;
 
   @Field({ nullable: true })
-  CCCD?: string;
-
-  @Field({ nullable: true })
-  CMND?: string;
-
-  @Field({ nullable: true })
-  SHC?: string;
+  CMCCHC?: string;
 
   @Field({ nullable: true })
   PhuongTien?: string;
@@ -45,16 +39,10 @@ export class CBCSInput {
   ThongTinChiTiet?: string;
 
   @Field({ nullable: true })
-  MaQT?: number;
-
-  @Field({ nullable: true })
   MaDT?: number;
 
   @Field({ nullable: true })
   MaTG?: number;
-
-  @Field({ nullable: true })
-  MaCAQHvaTD?: number;
 
   @Field({ nullable: true })
   MaDoi?: number;
