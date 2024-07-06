@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,4 +18,10 @@ export class CapCA {
 
   @OneToMany(() => CATTPvaTD, (caTTPvaTD) => caTTPvaTD.CapCA)
   CATTPvaTDs: [CATTPvaTD];
+
+  @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CapCA)
+  CAQHvaTDs: [CAQHvaTD];
+  
+  // chua duyet lai
+
 }

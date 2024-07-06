@@ -5,19 +5,19 @@ import { ActionDB } from 'src/actionDBs/ActionDB.model';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
-import PhuongTienNV from './PhuongTienNV.model';
-import { PhuongTienNVsResolver } from './PhuongTienNVs.resolver';
-import { PhuongTienNVsService } from './PhuongTienNVs.service';
+import { BaoCaoPHDC } from './BaoCaoPHDC.model';
+import { BaoCaoPHDCsResolver } from './BaoCaoPHDCs.resolver';
+import { BaoCaoPHDCsService } from './BaoCaoPHDCs.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PhuongTienNV, ActionDB]),
+    TypeOrmModule.forFeature([BaoCaoPHDC, ActionDB]),
     DataLoaderModule,
     AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),
   ],
-  providers: [PhuongTienNVsResolver, PhuongTienNVsService, ActionDBsService],
+  providers: [BaoCaoPHDCsResolver, BaoCaoPHDCsService, ActionDBsService],
 })
-export class PhuongTienNVsModule {}
+export class BaoCaoPHDCsModule {}

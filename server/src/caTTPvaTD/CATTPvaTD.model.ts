@@ -26,7 +26,15 @@ export class CATTPvaTD {
   @Field({ nullable: true })
   CATTPvaTD: string;
 
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Field({ nullable: true })
+  KyHieu: string;
+
   // relation
+  
+  @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CAQHvaTD)
+  CAQHvaTDs: [CAQHvaTD];
+
   @ManyToOne(() => CapCA, (capCA) => capCA.CATTPvaTDs, {
     cascade: true,
     eager: true,
@@ -38,21 +46,7 @@ export class CATTPvaTD {
   @Field({ nullable: true })
   CapCA: CapCA;
 
-  @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.CATTPvaTD)
-  DeNghiTSNTs: [DeNghiTSNT];
+  // chua duyet lai
 
-  @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CAQHvaTD)
-  CAQHvaTDs: [CAQHvaTD];
 
-  @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.CATTPvaTD)
-  KetQuaTSNTs: [KetQuaTSNT];
-
-  @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.CATTPvaTD)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe];
-
-  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.CATTPvaTD)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi];
-
-  @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.CATTPvaTD)
-  QuyetDinhTSNTs: [QuyetDinhTSNT];
 }

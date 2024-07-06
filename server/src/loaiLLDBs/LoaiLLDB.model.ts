@@ -24,6 +24,8 @@ export class LoaiLLDB {
 
   //relation
 
+
+  // chua duyet lai
   @OneToMany(() => LLDB, lldb => lldb.LoaiLLDB)
   LLDBs: [LLDB]
 }

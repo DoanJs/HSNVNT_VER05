@@ -36,7 +36,7 @@ export class KeHoachTSNT {
   @Field({ nullable: true })
   Ngay: Date;
 
-  @Column({ type: 'varbinary', length: "max", nullable: true }) //hash
+  @Column({ type: 'varbinary', length: 'max', nullable: true }) //hash
   @Field({ nullable: true })
   VanDeChuY: string;
 
@@ -45,29 +45,6 @@ export class KeHoachTSNT {
   NoiDung: string;
 
   // relation
-
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.KeHoachTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_KeHoachTSNT',
-  })
-  @Field(type => CAQHvaTD, { nullable: true })
-  CAQHvaTD: CAQHvaTD;
-
-  @ManyToOne(() => Doi, (doi) => doi.KeHoachTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_KeHoachTSNT',
-  })
-  @Field(type =>Doi, { nullable: true })
-  Doi: Doi;
-
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.KeHoachTSNT, {
     cascade: true,
     eager: true,
@@ -76,19 +53,19 @@ export class KeHoachTSNT {
     name: 'MaQD',
     foreignKeyConstraintName: 'FK_MaQD_KeHoachTSNT',
   })
-  @Field({ nullable: true })
+  @Field((type) => QuyetDinhTSNT, { nullable: true })
   QuyetDinhTSNT: QuyetDinhTSNT;
 
-  @ManyToOne(() => DoiTuong, (doituong) => doituong.KeHoachTSNTs, {
+  @ManyToOne(() => TramCT, (tramCT) => tramCT.KeHoachTSNTs, {
     cascade: true,
     eager: true,
   })
   @JoinColumn({
-    name: 'MaDoiTuong',
-    foreignKeyConstraintName: 'FK_MaDoiTuong_KeHoachTSNT',
+    name: 'MaTramCT',
+    foreignKeyConstraintName: 'FK_MaTramCT_KeHoachTSNT',
   })
   @Field({ nullable: true })
-  DoiTuong: DoiTuong;
+  TramCT: TramCT;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_KeHoachTSNTs, {
     cascade: true,
@@ -98,7 +75,7 @@ export class KeHoachTSNT {
     name: 'MaLanhDaoPD',
     foreignKeyConstraintName: 'FK_MaLanhDaoPD_KeHoachTSNT',
   })
-  @Field(type => CBCS, { nullable: true })
+  @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.BCHPhuTrach_KeHoachTSNTs, {
@@ -109,16 +86,8 @@ export class KeHoachTSNT {
     name: 'MaBCHPhuTrach',
     foreignKeyConstraintName: 'FK_MaBCHPhuTrach_KeHoachTSNT',
   })
-  @Field(type => CBCS, { nullable: true })
+  @Field((type) => CBCS, { nullable: true })
   BCHPhuTrach: CBCS;
-
-  @ManyToOne(() => TramCT, tramCT => tramCT.KeHoachTSNTs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaTramCT",
-    foreignKeyConstraintName: "FK_MaTramCT_KeHoachTSNT"
-  })
-  @Field({ nullable: true })
-  TramCT: TramCT
 
   @ManyToMany(() => LLDB, (llbm) => llbm.KeHoachTSNTs, {
     cascade: true,
@@ -142,7 +111,11 @@ export class KeHoachTSNT {
     (lucluongthamgiaKH) => lucluongthamgiaKH.KeHoachTSNT,
   )
   LLTGKeHoachs: [LucLuongThamGiaKH];
+  
+  // relation forward
 
   @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.KeHoachTSNT)
-  KetQuaTSNT: KetQuaTSNT
+  KetQuaTSNT: KetQuaTSNT;
+
+  // chua duyet lai
 }

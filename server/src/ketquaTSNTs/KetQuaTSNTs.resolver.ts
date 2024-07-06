@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,26 +7,23 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
+import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
-import { DDNB } from 'src/ddnbs/DDNB.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
+import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KetQuaTSNT } from './KetQuaTSNT.model';
 import { KetQuaTSNTsService } from './KetQuaTSNTs.service';
 import { KetQuaTSNTInput } from './type/KetQuaTSNT.input';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { UseGuards } from '@nestjs/common';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => KetQuaTSNT)
 @UseGuards(GraphQLGuard)
@@ -88,11 +86,6 @@ export class KetQuaTSNTsResolver {
     return this.ketquaTSNTsService.PhamViTSs(ketquaTSNT.MaKQ);
   }
 
-  @ResolveField((returns) => [DDNB])
-  DDNBs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<DDNB[]> {
-    return this.ketquaTSNTsService.DDNBs(ketquaTSNT.MaKQ);
-  }
-
   @ResolveField((returns) => [DanhGiaTSTH])
   DanhGiaTSTHs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<DanhGiaTSTH[]> {
     return this.ketquaTSNTsService.DanhGiaTSTHs(ketquaTSNT.MaKQ);
@@ -113,13 +106,13 @@ export class KetQuaTSNTsResolver {
     return this.ketquaTSNTsService.BaoCaoKQGHs(ketquaTSNT.MaKQ);
   }
 
-  @ResolveField((returns) => [DiaChiNV])
-  DiaChiNVs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<DiaChiNV[]> {
-    return this.ketquaTSNTsService.DiaChiNVs(ketquaTSNT.MaKQ);
-  }
+  // @ResolveField((returns) => [BaoCaoPHDC])
+  // BaoCaoPHDCs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHDC[]> {
+  //   return this.ketquaTSNTsService.BaoCaoPHDCs(ketquaTSNT.MaKQ);
+  // }
 
-  @ResolveField((returns) => [PhuongTienNV])
-  PhuongTienNVs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<PhuongTienNV[]> {
-    return this.ketquaTSNTsService.PhuongTienNVs(ketquaTSNT.MaKQ);
+  @ResolveField((returns) => [BaoCaoPHPT])
+  BaoCaoPHPTs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHPT[]> {
+    return this.ketquaTSNTsService.BaoCaoPHPTs(ketquaTSNT.MaKQ);
   }
 }

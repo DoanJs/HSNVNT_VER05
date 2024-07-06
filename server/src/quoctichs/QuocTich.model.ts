@@ -1,7 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CBCS } from 'src/cbcss/CBCS.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'QuocTichs' })
@@ -19,4 +17,6 @@ export class QuocTich {
 
   @OneToMany(() => DanToc, (dantoc) => dantoc.QuocTich)
   DanTocs: [DanToc];
+
+  // chua duyet lai
 }

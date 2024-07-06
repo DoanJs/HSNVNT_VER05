@@ -6,7 +6,6 @@ import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import {
@@ -18,6 +17,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KetQuaXMDiaChi } from './KetQuaXMDiaChi.model';
 import { KetQuaXMDiaChiInput } from './type/KetQuaXMDiaChi.input';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 
 @Injectable()
 export class KetQuaXMDiaChisService {
@@ -169,11 +169,11 @@ export class KetQuaXMDiaChisService {
 
   // ResolveField
 
-  async DiaChiNV(ketquaXMDiaChi: any): Promise<DiaChiNV> {
+  async BaoCaoPHDC(ketquaXMDiaChi: any): Promise<BaoCaoPHDC> {
     const result = await this.ketQuaXMDiaChiRepository.query(
       SP_GET_DATA_DECRYPT(
-        'DiaChiNVs',
-        `'MaDC  = ${ketquaXMDiaChi.MaDC}'`,
+        'BaoCaoPHDCs',
+        `'MaBCPHDC  = ${ketquaXMDiaChi.MaBCPHDC}'`,
         0,
         1,
       ),

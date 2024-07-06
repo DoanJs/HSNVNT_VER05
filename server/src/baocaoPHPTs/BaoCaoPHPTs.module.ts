@@ -5,19 +5,19 @@ import { ActionDB } from 'src/actionDBs/ActionDB.model';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
-import { DiaChiNV } from './DiaChiNV.model';
-import { DiaChiNVsResolver } from './DiaChiNVs.resolver';
-import { DiaChiNVsService } from './DiaChiNVs.service';
+import BaoCaoPHPT from './BaoCaoPHPT.model';
+import { BaoCaoPHPTsResolver } from './BaoCaoPHPTs.resolver';
+import { BaoCaoPHPTsService } from './BaoCaoPHPTs.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([DiaChiNV, ActionDB]),
+    TypeOrmModule.forFeature([BaoCaoPHPT, ActionDB]),
     DataLoaderModule,
     AuthPassportModule,
     JwtModule.register({
       secret: process.env.SECRETJWT as string,
     }),
   ],
-  providers: [DiaChiNVsResolver, DiaChiNVsService, ActionDBsService],
+  providers: [BaoCaoPHPTsResolver, BaoCaoPHPTsService, ActionDBsService],
 })
-export class DiaChiNVsModule {}
+export class BaoCaoPHPTsModule {}

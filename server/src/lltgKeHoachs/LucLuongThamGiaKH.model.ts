@@ -31,4 +31,6 @@ export class LucLuongThamGiaKH {
   })
   @Field(type => CBCS, { nullable: true })
   CBCS: CBCS
+
+  // chua duyet lai
 }

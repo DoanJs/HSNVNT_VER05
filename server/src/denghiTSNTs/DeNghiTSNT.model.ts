@@ -55,21 +55,6 @@ export class DeNghiTSNT {
 
   // relation
 
-  @OneToOne(() => DauMoiPH_DN, (dauMoiPH) => dauMoiPH.DeNghiTSNT)
-  @Field({ nullable: true })
-  DauMoiPH_DN: DauMoiPH_DN;
-
-  @ManyToOne(() => CATTPvaTD, (caTTPvaTD) => caTTPvaTD.DeNghiTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCATTPvaTD',
-    foreignKeyConstraintName: 'FK_MaCATTPvaTD_DeNghiTSNT',
-  })
-  @Field({ nullable: true })
-  CATTPvaTD: CATTPvaTD;
-
   @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.DeNghiTSNTs, {
     cascade: true,
     eager: true,
@@ -81,8 +66,27 @@ export class DeNghiTSNT {
   @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
-  @OneToOne(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DeNghiTSNT)
-  KyDuyet_DN: KyDuyet_DN;
+  @ManyToOne(() => DoiTuong, (doituong) => doituong.DeNghiTSNTs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaDoiTuong',
+    foreignKeyConstraintName: 'FK_MaDoiTuong_DeNghiTSNT',
+  })
+  @Field((type) => DoiTuong, { nullable: true })
+  DoiTuong: DoiTuong;
+
+  @ManyToOne(() => HinhThucHD, (hinhthucHD) => hinhthucHD.DeNghiTSNTs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaHTHD',
+    foreignKeyConstraintName: 'FK_MaHTHD_DeNghiTSNT',
+  })
+  @Field({ nullable: true })
+  HinhThucHD: HinhThucHD;
 
   @ManyToMany(() => TinhTP, (tinhTP) => tinhTP.DeNghiTSNTs, {
     cascade: true,
@@ -100,41 +104,26 @@ export class DeNghiTSNT {
     },
   })
   DiaBanDNs: [TinhTP];
+// ------------------------------------------------------------------------------------------------------------
+  @OneToOne(() => DauMoiPH_DN, (dauMoiPH) => dauMoiPH.DeNghiTSNT)
+  @Field({ nullable: true })
+  DauMoiPH_DN: DauMoiPH_DN;
 
-  @ManyToOne(() => DoiTuong, (doituong) => doituong.DeNghiTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoiTuong',
-    foreignKeyConstraintName: 'FK_MaDoiTuong_DeNghiTSNT',
-  })
-  @Field((type) => DoiTuong, { nullable: true })
-  DoiTuong: DoiTuong;
+  @OneToOne(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DeNghiTSNT)
+  KyDuyet_DN: KyDuyet_DN;
+
+
+
+
+
+
+
+
+  // chua duyet lai
 
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.DeNghiTSNT)
   QuyetDinhTSNT: QuyetDinhTSNT;
 
-  @OneToMany(
-    () => KetQuaXMQuanHe,
-    (ketquaXMQuanHe) => ketquaXMQuanHe.DeNghiTSNT,
-  )
-  KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(
-    () => KetQuaXMDiaChi,
-    (ketquaXMDiaChi) => ketquaXMDiaChi.DeNghiTSNT,
-  )
-  KetQuaXMDiaChis: [KetQuaXMDiaChi];
-
-  @ManyToOne(() => HinhThucHD, (hinhthucHD) => hinhthucHD.DeNghiTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaHTHD',
-    foreignKeyConstraintName: 'FK_MaHTHD_DeNghiTSNT',
-  })
-  @Field({ nullable: true })
-  HinhThucHD: HinhThucHD;
+  
 }

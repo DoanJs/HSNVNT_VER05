@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { Doi } from 'src/dois/Doi.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
@@ -74,56 +74,15 @@ export class BaoCaoKQXMDiaChi {
   BienPhapXM: string;
 
   // relation
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.BaoCaoKQXMDiaChis, {
+  @OneToOne(() => BaoCaoPHDC, (baocaoPHDC) => baocaoPHDC.BaoCaoKQXMDiaChi, {
     cascade: true,
     eager: true,
   })
   @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_BaoCaoKQXMDiaChi',
+    name: 'MaBCPHDC',
+    foreignKeyConstraintName: 'FK_MaBCPHDC_BaoCaoKQXMDiaChi',
   })
-  CAQHvaTD: CAQHvaTD;
-
-  @ManyToOne(() => Doi, (doi) => doi.BaoCaoKQXMDiaChis, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_BaoCaoKQXMDiaChi',
-  })
-  Doi: Doi;
-
-  @ManyToOne(() => DoiTuong, (doituong) => doituong.BaoCaoKQXMDiaChis, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoiTuong',
-    foreignKeyConstraintName: 'FK_MaDoiTuong_BaoCaoKQXMDiaChi',
-  })
-  DoiTuong: DoiTuong;
-
-  @ManyToOne(
-    () => QuyetDinhTSNT,
-    (quyetDinhTSNT) => quyetDinhTSNT.BaoCaoKQXMDiaChis,
-    { cascade: true, eager: true },
-  )
-  @JoinColumn({
-    name: 'MaQD',
-    foreignKeyConstraintName: 'FK_MaQD_BaoCaoKQXMDiaChi',
-  })
-  QuyetDinhTSNT: QuyetDinhTSNT;
-
-  @OneToOne(() => DiaChiNV, (diachiNV) => diachiNV.BaoCaoKQXMDiaChi, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDiaChiNV',
-    foreignKeyConstraintName: 'FK_MaDiaChiNV_BaoCaoKQXMDiaChi',
-  })
-  DiaChiNV: DiaChiNV;
+  BaoCaoPHDC: BaoCaoPHDC;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.TSXacMinh_BaoCaoKQXMDiaChis, {
     cascade: true,
@@ -154,4 +113,7 @@ export class BaoCaoKQXMDiaChi {
     foreignKeyConstraintName: 'FK_MaBCHPhuTrach_BaoCaoKQXMDiaChi',
   })
   BCHPhuTrach: CBCS;
+
+
+  // chua duyet lai
 }

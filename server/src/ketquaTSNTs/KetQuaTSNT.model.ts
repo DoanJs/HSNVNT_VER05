@@ -1,18 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
-import { DDNB } from 'src/ddnbs/DDNB.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
   Column,
@@ -20,10 +14,9 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 
 @Entity({ name: 'KetQuaTSNTs' })
@@ -41,48 +34,11 @@ export class KetQuaTSNT {
   @Field({ nullable: true })
   ThoiGianKT: Date;
 
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
+  @Field({ nullable: true })
+  DDNB: string;
+
   // relation
-
-  @ManyToOne(() => CATTPvaTD, (caTTPvaTD) => caTTPvaTD.KetQuaTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCATTPvaTD',
-    foreignKeyConstraintName: 'FK_MaCATTPvaTD_KetQuaTSNT',
-  })
-  CATTPvaTD: CATTPvaTD;
-
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.KetQuaTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_KetQuaTSNT',
-  })
-  CAQHvaTD: CAQHvaTD;
-
-  @ManyToOne(() => Doi, (doi) => doi.KetQuaTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_KetQuaTSNT',
-  })
-  Doi: Doi;
-
-  @ManyToOne(() => DoiTuong, (doiTuong) => doiTuong.KetQuaTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoiTuong',
-    foreignKeyConstraintName: 'FK_MaDoiTuong_KetQuaTSNT',
-  })
-  DoiTuong: DoiTuong;
-
   @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.KetQuaTSNT, {
     cascade: true,
     eager: true,
@@ -92,16 +48,6 @@ export class KetQuaTSNT {
     foreignKeyConstraintName: 'FK_MaKH_KetQuaTSNT',
   })
   KeHoachTSNT: KeHoachTSNT;
-
-  @OneToOne(() => QuyetDinhTSNT, (quyetDinhTSNT) => quyetDinhTSNT.KetQuaTSNT, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaQD',
-    foreignKeyConstraintName: 'FK_MaQD_KetQuaTSNT',
-  })
-  QuyetDinhTSNT: QuyetDinhTSNT;
 
   @ManyToMany(() => TinhTP, (tinhTP) => tinhTP.KetQuaTSNTs, {
     cascade: true,
@@ -120,22 +66,15 @@ export class KetQuaTSNT {
   })
   PhamViTSs: [TinhTP];
 
-  @ManyToMany(() => DDNB, (ddnb) => ddnb.KetQuaTSNTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinTable({
-    name: 'KetQuaTSNTs_DDNBs',
-    joinColumn: {
-      name: 'MaKQ',
-      foreignKeyConstraintName: 'FK_MaKQ_KetQuaTSNTs_DDNBs',
-    },
-    inverseJoinColumn: {
-      name: 'MaDDNB',
-      foreignKeyConstraintName: 'FK_MaDDNB_KetQuaTSNTs_DDNBs',
-    },
-  })
-  DDNBs: [DDNB];
+
+
+
+  
+
+
+  @OneToMany(() => BaoCaoPHDC, (baocaoPHDC) => baocaoPHDC.KetQuaTSNT)
+  BaoCaoPHDCs: [BaoCaoPHDC];
+  // chua duyet lai
 
   @OneToMany(() => DanhGiaTSTH, (danhgiaTSTH) => danhgiaTSTH.KetQuaTSNT)
   DanhGiaTSTHs: [DanhGiaTSTH];
@@ -152,9 +91,7 @@ export class KetQuaTSNT {
   @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH)
   BaoCaoPHQHs: [BaoCaoPHQH];
 
-  @OneToMany(() => DiaChiNV, (diachiNV) => diachiNV.KetQuaTSNT)
-  DiaChiNVs: [DiaChiNV];
 
-  @OneToMany(() => PhuongTienNV, (phuongtienNV) => phuongtienNV.KetQuaTSNT)
-  PhuongTienNVs: [PhuongTienNV];
+  @OneToMany(() => BaoCaoPHPT, (baocaoPHPT) => baocaoPHPT.KetQuaTSNT)
+  BaoCaoPHPTs: [BaoCaoPHPT];
 }

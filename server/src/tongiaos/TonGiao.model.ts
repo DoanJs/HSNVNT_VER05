@@ -15,6 +15,9 @@ export class TonGiao {
   TenTG: string;
 
   //relation
+
+
+  // chua duyet lai
   @OneToMany(() => CBCS, cbcs => cbcs.TonGiao)
   CBCSs: [CBCS]
 

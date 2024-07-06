@@ -1,14 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { DiaChiNVInput } from 'src/diachiNVs/type/DiaChiNV.Input';
+import { BaoCaoPHDCInput } from 'src/baocaoPHDCs/type/BaoCaoPHDC.Input';
 
 @InputType()
-export class SP_CHANGE_DIACHINV_Input {
+export class SP_CHANGE_BAOCAOPHDC_Input {
   @Field({ nullable: true })
   Type?: string;
 
   @Field({ nullable: true })
-  MaDC?: number;
+  MaBCPHDC?: number;
 
   @Field({ nullable: true })
-  DiaChiNVInput?: DiaChiNVInput;
+  BAOCAOPHDCInput?: BaoCaoPHDCInput;
 }

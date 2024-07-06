@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -24,48 +24,13 @@ export class KetQuaXMDiaChi {
   Ngay: string;
 
   // relation
-  
-  @OneToOne(() => DiaChiNV, diaChiNV => diaChiNV.KetQuaXMDiaChi, {cascade: true, eager: true})
-  @JoinColumn({
-    name:"MaDC",
-    foreignKeyConstraintName: "FK_MaBCPHQH_KetQuaXMDiaChi"
-  })
-  DiaChiNV: DiaChiNV
 
-  @ManyToOne(() => DeNghiTSNT, denghiTSNT => denghiTSNT.KetQuaXMDiaChis, {cascade: true, eager: true})
+  @OneToOne(() => BaoCaoPHDC, baocaoPHDC => baocaoPHDC.KetQuaXMDiaChi, {cascade: true, eager: true})
   @JoinColumn({
-    name: "MaDN",
-    foreignKeyConstraintName: "FK_MaDN_KetQuaXMDiaChi"
+    name:"MaBCPHDC",
+    foreignKeyConstraintName: "FK_MaBCPHDC_KetQuaXMDiaChi"
   })
-  DeNghiTSNT: DeNghiTSNT
-
-  @ManyToOne(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.KetQuaXMDiaChis, {cascade: true, eager: true})
-  @JoinColumn({
-    name: "MaQD",
-    foreignKeyConstraintName: "FK_MaQD_KetQuaXMDiaChi"
-  })
-  QuyetDinhTSNT: QuyetDinhTSNT
-
-  @ManyToOne(() => CATTPvaTD, caTTPvaTD => caTTPvaTD.KetQuaXMDiaChis, {cascade: true, eager: true})
-  @JoinColumn({
-    name: "MaCATTPvaTD",
-    foreignKeyConstraintName: "FK_MaCATTPvaTD_KetQuaXMDiaChi"
-  })
-  CATTPvaTD: CATTPvaTD
-
-  @ManyToOne(() => CAQHvaTD, caQHvaTD => caQHvaTD.KetQuaXMDiaChis, {cascade: true, eager: true})
-  @JoinColumn({
-    name: "MaCAQHvaTD",
-    foreignKeyConstraintName: "FK_MaCAQHvaTD_KetQuaXMDiaChi"
-  })
-  CAQHvaTD: CAQHvaTD
-
-  @ManyToOne(() => DoiTuong, doiTuong => doiTuong.KetQuaXMDiaChis, {cascade: true, eager: true})
-  @JoinColumn({
-    name: "MaDoiTuong",
-    foreignKeyConstraintName: "FK_MaDoiTuong_KetQuaXMDiaChi"
-  })
-  DoiTuong: DoiTuong
+  BaoCaoPHDC: BaoCaoPHDC
 
   @ManyToOne(() => CBCS, cbcs => cbcs.KetQuaXMDiaChis, {cascade: true, eager: true})
   @JoinColumn({
@@ -73,4 +38,8 @@ export class KetQuaXMDiaChi {
     foreignKeyConstraintName: "FK_MaLanhDaoPD_KetQuaXMDiaChi"
   })
   LanhDaoPD: CBCS
+
+
+
+  // chua duyet lai
 }

@@ -34,16 +34,24 @@ export class ChuyenAn {
   NoiDung: string;
 
   // relation
-
   @ManyToOne(() => TinhChatDT, (tinhchatDT) => tinhchatDT.ChuyenAns, {
     cascade: true,
     eager: true,
   })
   @JoinColumn({
-    name: 'MaTC',
-    foreignKeyConstraintName: 'FK_MaTC_ChuyenAn',
+    name: 'MaTCDT',
+    foreignKeyConstraintName: 'FK_MaTCDT_ChuyenAn',
   })
-  TinhChat: TinhChatDT;
+  TinhChatDT: TinhChatDT;
+
+
+
+
+
+
+
+  // chua duyet lai
+ 
 
   @OneToMany(() => DoiTuongCA, (doituongCA) => doituongCA.ChuyenAn)
   DoiTuongCAs: [DoiTuongCA];

@@ -59,4 +59,6 @@ export class KyDuyet_DN {
   })
   @Field((type) => CBCS, { nullable: true })
   DaiDienDonViTSNT: CBCS;
+
+  // chua duyet lai
 }

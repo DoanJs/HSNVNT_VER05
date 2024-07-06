@@ -21,6 +21,8 @@ export class BienPhapDT {
 
   // relation
 
+  // chua duyet lai
+
   @ManyToMany(() => DoiTuong, (doituong) => doituong.BienPhapDTs, {
     cascade: true,
     eager: true,

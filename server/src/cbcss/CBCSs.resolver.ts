@@ -8,9 +8,15 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
@@ -18,12 +24,10 @@ import { ChucVu } from 'src/chucvus/ChucVu.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
 import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
@@ -32,11 +36,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CBCS } from './CBCS.model';
 import { CBCSsService } from './CBCSs.service';
 import { CBCSInput } from './type/CBCS.Input';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { ReadGuard } from 'src/authPassport/authorization/read.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => CBCS)
 @UseGuards(GraphQLGuard)
@@ -169,14 +168,14 @@ export class CBCSsResolver {
     return this.cbcssService.TSThucHien_BaoCaoPHQHs(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [PhuongTienNV])
-  TSThucHien_PhuongTienNVs(@Parent() cbcs: CBCS): Promise<PhuongTienNV[]> {
-    return this.cbcssService.TSThucHien_PhuongTienNVs(cbcs.MaCBCS);
+  @ResolveField((returns) => [BaoCaoPHPT])
+  TSThucHien_BaoCaoPHPTs(@Parent() cbcs: CBCS): Promise<BaoCaoPHPT[]> {
+    return this.cbcssService.TSThucHien_BaoCaoPHPTs(cbcs.MaCBCS);
   }
 
-  @ResolveField((returns) => [DiaChiNV])
-  TSThucHien_DiaChiNVs(@Parent() cbcs: CBCS): Promise<DiaChiNV[]> {
-    return this.cbcssService.TSThucHien_DiaChiNVs(cbcs.MaCBCS);
+  @ResolveField((returns) => [BaoCaoPHDC])
+  TSThucHien_BaoCaoPHDCs(@Parent() cbcs: CBCS): Promise<BaoCaoPHDC[]> {
+    return this.cbcssService.TSThucHien_BaoCaoPHDCs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [BaoCaoPHQH])

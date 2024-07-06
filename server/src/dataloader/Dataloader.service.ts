@@ -8,7 +8,6 @@ import { CapBac } from 'src/capbacs/CapBac.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
-import { DDNB } from 'src/ddnbs/DDNB.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
@@ -28,8 +27,8 @@ import { SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
 import { Repository } from 'typeorm';
 import { CapCA } from 'src/capCAs/CapCA.model';
 import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 
 @Injectable()
 export class DataLoaderService {
@@ -58,8 +57,6 @@ export class DataLoaderService {
     private readonly cbcsRepository: Repository<CBCS>,
     @InjectRepository(DoiTuong)
     private readonly doituongRepository: Repository<DoiTuong>,
-    @InjectRepository(DDNB)
-    private readonly ddnbRepository: Repository<DDNB>,
     @InjectRepository(TinhTP)
     private readonly tinhTPRepository: Repository<TinhTP>,
     @InjectRepository(LoaiLLDB)
@@ -78,10 +75,10 @@ export class DataLoaderService {
     private readonly baocaoKQGHRepository: Repository<BaoCaoKQGH>,
     @InjectRepository(TramCT)
     private readonly tramCTRepository: Repository<TramCT>,
-    @InjectRepository(PhuongTienNV)
-    private readonly phuongtienNVRepository: Repository<PhuongTienNV>,
-    @InjectRepository(DiaChiNV)
-    private readonly diachiNVRepository: Repository<DiaChiNV>,
+    @InjectRepository(BaoCaoPHPT)
+    private readonly baocaoPHPTRepository: Repository<BaoCaoPHPT>,
+    @InjectRepository(BaoCaoPHDC)
+    private readonly baocaoPHDCRepository: Repository<BaoCaoPHDC>,
     @InjectRepository(LLDB)
     private readonly lldbRepository: Repository<LLDB>,
     @InjectRepository(CapCA)
@@ -215,15 +212,7 @@ export class DataLoaderService {
     });
     return Promise.resolve(result);
   });
-  public readonly loaderDDNB = new DataLoader((ids: number[]) => {
-    const result = ids.map(async (id) => {
-      const response = await this.ddnbRepository.query(
-        SP_GET_DATA('DDNBs', `'MaDDNB = ${id}'`, 'MaDDNB', 0, 0)
-      );
-      return response[0];
-    });
-    return Promise.resolve(result);
-  });
+  
   public readonly loaderTinhTP = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tinhTPRepository.query(
@@ -305,19 +294,19 @@ export class DataLoaderService {
     });
     return Promise.resolve(result);
   });
-  public readonly loaderPhuongTienNV = new DataLoader((ids: number[]) => {
+  public readonly loaderBaoCaoPHPT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
-      const response = await this.phuongtienNVRepository.query(
-        SP_GET_DATA_DECRYPT('PhuongTienNVs', `"MaPT = ${id}"`, 0, 0),
+      const response = await this.baocaoPHPTRepository.query(
+        SP_GET_DATA_DECRYPT('BaoCaoPHPTs', `"MaBCPHPT = ${id}"`, 0, 0),
       );
       return response[0];
     });
     return Promise.resolve(result);
   });
-  public readonly loaderDiaChiNV = new DataLoader((ids: number[]) => {
+  public readonly loaderBaoCaoPHDC = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
-      const response = await this.diachiNVRepository.query(
-        SP_GET_DATA_DECRYPT('DiaChiNVs', `"MaDC = ${id}"`, 0, 0),
+      const response = await this.baocaoPHDCRepository.query(
+        SP_GET_DATA_DECRYPT('BaoCaoPHDCs', `"MaBCPHDC = ${id}"`, 0, 0),
       );
       return response[0];
     });

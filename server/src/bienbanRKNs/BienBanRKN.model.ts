@@ -77,15 +77,19 @@ export class BienBanRKN {
     eager: true,
   })
   @JoinTable({
-    name: 'BienBanRKNs_LanhDaoTGs',
+    name: 'BienBanRKNs_CBCSs',
     joinColumn: {
       name: 'MaBBRKN',
-      foreignKeyConstraintName: 'FK_MaBBRKN_BienBanRKNs_LanhDaoTGs',
+      foreignKeyConstraintName: 'FK_MaBBRKN_BienBanRKNs_CBCSs',
     },
     inverseJoinColumn: {
-      name: 'MaLanhDaoTG',
-      foreignKeyConstraintName: 'FK_MaLanhDaoTG_BienBanRKNs_LanhDaoTGs',
+      name: 'MaCBCS',
+      foreignKeyConstraintName: 'FK_MaCBCS_BienBanRKNs_CBCSs',
     },
   })
-  LanhDaoTGs: [CBCS];
+  ThanhPhanTDs: [CBCS];
+
+
+  // chua duyet lai
+
 }

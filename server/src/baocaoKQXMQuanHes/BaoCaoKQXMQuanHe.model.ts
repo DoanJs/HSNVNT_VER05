@@ -75,47 +75,6 @@ export class BaoCaoKQXMQuanHe {
 
   // relation
 
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.BaoCaoKQXMQuanHes, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_BaoCaoKQXMQuanHe',
-  })
-  CAQHvaTD: CAQHvaTD;
-
-  @ManyToOne(() => Doi, (doi) => doi.BaoCaoKQXMQuanHes, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_BaoCaoKQXMQuanHe',
-  })
-  Doi: Doi;
-
-  @ManyToOne(() => DoiTuong, (doituong) => doituong.BaoCaoKQXMQHs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoiTuong',
-    foreignKeyConstraintName: 'FK_MaDoiTuong_BaoCaoKQXMQuanHe',
-  })
-  DoiTuong: DoiTuong;
-
-  @ManyToOne(
-    () => QuyetDinhTSNT,
-    (quyetdinhTSNT) => quyetdinhTSNT.BaoCaoKQXMQuanHes,
-    { cascade: true, eager: true },
-  )
-  @JoinColumn({
-    name: 'MaQD',
-    foreignKeyConstraintName: 'FK_MaQD_BaoCaoKQXMQuanHe',
-  })
-  QuyetDinhTSNT: QuyetDinhTSNT;
-
   @OneToOne(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.BaoCaoKQXMQuanHe, {
     cascade: true,
     eager: true,
@@ -155,4 +114,9 @@ export class BaoCaoKQXMQuanHe {
     foreignKeyConstraintName: 'FK_MaTSXacMinh_BaoCaoKQXMQuanHe',
   })
   TSXacMinh: CBCS;
+
+
+
+
+  // chua duyet lai
 }

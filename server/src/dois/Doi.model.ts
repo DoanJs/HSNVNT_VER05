@@ -48,24 +48,4 @@ export class Doi {
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.Doi)
   QuyetDinhTSNTs: [QuyetDinhTSNT];
 
-  @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.Doi)
-  KeHoachTSNTs: [KeHoachTSNT];
-
-  @OneToMany(() => TramCT, (tramCT) => tramCT.Doi)
-  TramCTs: [TramCT];
-
-  @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.Doi)
-  KetQuaTSNTs: [KetQuaTSNT];
-
-  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.Doi)
-  BaoCaoPHQHs: [BaoCaoPHQH];
-
-  @OneToMany(() => BaoCaoKQXMQuanHe, (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.Doi)
-  BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
-
-  @OneToMany(() => BaoCaoKQXMDiaChi, (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.Doi)
-  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
-
-  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.Doi)
-  BaoCaoKQGHs: [BaoCaoKQGH];
 }

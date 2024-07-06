@@ -4,6 +4,7 @@ import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
+import { CapCA } from 'src/capCAs/CapCA.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
@@ -50,44 +51,26 @@ export class CAQHvaTD {
   @Field({ nullable: true })
   CATTPvaTD: CATTPvaTD;
 
+  @ManyToOne(() => CapCA, (capCA) => capCA.CAQHvaTDs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaCapCA',
+    foreignKeyConstraintName: 'FK_MaCapCA_CAQHvaTD',
+  })
+  @Field({ nullable: true })
+  CapCA: CapCA;
+  
+
+
+  
+  // chua duyet lai
+
+  
+
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.CAQHvaTD)
   DeNghiTSNTs: [DeNghiTSNT];
-
-  @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.CAQHvaTD)
-  QuyetDinhTSNTs: [QuyetDinhTSNT];
-
-  @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.CAQHvaTD)
-  KeHoachTSNTs: [KeHoachTSNT];
-
-  @OneToMany(() => TramCT, (tramCT) => tramCT.CAQHvaTD)
-  TramCTs: [TramCT];
-
-  @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.CAQHvaTD)
-  KetQuaTSNTs: [KetQuaTSNT];
-
-  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.CAQHvaTD)
-  BaoCaoPHQHs: [BaoCaoPHQH];
-
-  @OneToMany(
-    () => BaoCaoKQXMQuanHe,
-    (baocaoKQXMQuanHe) => baocaoKQXMQuanHe.CAQHvaTD,
-  )
-  BaoCaoKQXMQuanHes: [BaoCaoKQXMQuanHe];
-
-  @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.CAQHvaTD)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe];
-
-  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.CAQHvaTD)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi];
-
-  @OneToMany(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.CAQHvaTD,
-  )
-  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
-
-  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.CAQHvaTD)
-  BaoCaoKQGHs: [BaoCaoKQGH];
 
   @OneToMany(() => Doi, (doi) => doi.CAQHvaTD)
   Dois: [Doi];

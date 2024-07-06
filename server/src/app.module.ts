@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountModule } from './accounts/Account.module';
+import { ActionDBsModule } from './actionDBs/ActionDBs.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthPassportModule } from './authPassport/AuthPassport.module';
@@ -10,6 +11,8 @@ import { BaoCaoKQGHsModule } from './baocaoKQGHs/BaoCaoKQGHs.module';
 import { BaoCaoKQXMDiaChisModule } from './baocaoKQXMDiaChis/BaoCaoKQXMDiaChis.module';
 import { BaoCaoKQXMQuanHesModule } from './baocaoKQXMQuanHes/BaoCaoKQXMQuanHes.module';
 import { BaoCaoKTDNsModule } from './baocaoKTDNs/BaoCaoKTDNs.module';
+import { BaoCaoPHDCsModule } from './baocaoPHDCs/BaoCaoPHDCs.module';
+import { BaoCaoPHPTsModule } from './baocaoPHPTs/BaoCaoPHPTs.module';
 import { BaoCaoPHQHsModule } from './baocaoPHQHs/BaoCaoPHQHs.module';
 import { BienPhapDTsModule } from './bienPhapDTs/BienPhapDTs.module';
 import { BienBanRKNsModule } from './bienbanRKNs/BienBanRKNs.module';
@@ -24,13 +27,12 @@ import { DanhGiaTSTHsModule } from './danhgiaTSTHs/DanhGiaTSTHs.module';
 import { DanTocsModule } from './dantocs/DanTocs.module';
 import { DataLoaderModule } from './dataloader/Dataloader.module';
 import { DauMoiPH_DNModule } from './dauMoiPH_DNs/DauMoiPH_DNs.module';
-import { DDNBsModule } from './ddnbs/DDNBs.module';
 import { DeNghiTSNTsModule } from './denghiTSNTs/DeNghiTSNTs.module';
-import { DiaChiNVsModule } from './diachiNVs/DiaChiNVs.module';
 import { DoisModule } from './dois/Dois.module';
 import { DoiTuongCAsModule } from './doituongCAs/DoiTuongCAs.module';
 import { DoiTuongsModule } from './doituongs/DoiTuongs.module';
 import { HinhThucHDsModule } from './hinhthucHDs/HinhThucHDs.module';
+import { HistoriesModule } from './histories/Histories.module';
 import { KeHoachTSNTsModule } from './kehoachTSNTs/KeHoachTSNTs.module';
 import { KetQuaXMDiaChisModule } from './ketQuaXMDiaChis/KetQuaXMDiaChis.module';
 import { KetQuaXMQuanHesModule } from './ketQuaXMQuanHes/KetQuaXMQuanHes.module';
@@ -40,16 +42,13 @@ import { LLDBsModule } from './lldbs/LLDBs.module';
 import { LucLuongThamGiaKHsModule } from './lltgKeHoachs/LucLuongThamGiaKHs.module';
 import { LoaiDTsModule } from './loaiDTs/LoaiDTs.module';
 import { LoaiLLDBsModule } from './loaiLLDBs/LoaiLLDBs.module';
-import { PhuongTienNVsModule } from './phuongtienNVs/PhuongTienNVs.module';
 import { QuocTichsModule } from './quoctichs/QuocTichs.module';
 import { QuyetDinhTSNTsModule } from './quyetdinhTSNTs/QuyetDinhTSNTs.module';
+import { TKNhanhsModule } from './timkiemnhanhs/TKNhanhs.module';
 import { TinhTPsModule } from './tinhTPs/TinhTPs.module';
 import { TinhChatDTsModule } from './tinhchatDTs/TinhChatDTs.module';
 import { TonGiaosModule } from './tongiaos/TonGiaos.module';
 import { TramCTsModule } from './tramCTs/TramCTs.module';
-import { TKNhanhsModule } from './timkiemnhanhs/TKNhanhs.module';
-import { HistoriesModule } from './histories/Histories.module';
-import { ActionDBsModule } from './actionDBs/ActionDBs.module';
 require('dotenv').config();
 
 @Module({
@@ -102,24 +101,23 @@ require('dotenv').config();
     BaoCaoKTDNsModule,
     BienBanRKNsModule,
     DanhGiaTSTHsModule,
-    DDNBsModule,
     CBCSsModule,
     ChuyenAnsModule,
     DoiTuongCAsModule,
     BaoCaoKQGHsModule,
     BaoCaoPHQHsModule,
     BaoCaoKQXMQuanHesModule,
-    DiaChiNVsModule,
+    BaoCaoPHDCsModule,
     BaoCaoKQXMDiaChisModule,
-    PhuongTienNVsModule,
+    BaoCaoPHPTsModule,
     TKNhanhsModule,
     AccountModule,
     HistoriesModule,
     ActionDBsModule,
     AuthPassportModule,
-    DataLoaderModule
+    DataLoaderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

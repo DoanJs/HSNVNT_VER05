@@ -60,4 +60,6 @@ export class BaoCaoKTDN {
     foreignKeyConstraintName: 'FK_MaCBTongHop_BaoCaoKTDN',
   })
   CBTongHop: CBCS;
+  
+  // chua duyet lai
 }

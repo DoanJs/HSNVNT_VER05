@@ -34,6 +34,9 @@ export class DanToc {
   @Field({ nullable: true })
   QuocTich: QuocTich;
 
+
+  // chua duyet lai
+
   @OneToMany(() => CBCS, (cbcs) => cbcs.DanToc)
   CBCSs: [CBCS];
 

@@ -4,7 +4,6 @@ import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { Doi } from 'src/dois/Doi.model';
 import {
   SP_CHANGE_BAOCAOKQXMDIACHI,
@@ -14,6 +13,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQXMDiaChi } from './BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMDiaChiInput } from './type/BaoCaoKQXMDiaChi.input';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 
 @Injectable()
 export default class BaoCaoKQXMDiaChisService {
@@ -176,11 +176,11 @@ export default class BaoCaoKQXMDiaChisService {
   //DoiTuong
   //QuyetDinhTSNT
 
-  async DiaChiNV(baocaoKQXMDiaChi: any): Promise<DiaChiNV> {
+  async BaoCaoPHDC(baocaoKQXMDiaChi: any): Promise<BaoCaoPHDC> {
     const result = await this.baocaoKQXMDiaChiRepository.query(
       SP_GET_DATA_DECRYPT(
-        'DiaChiNVs',
-        `'MaDC = ${baocaoKQXMDiaChi.MaDiaChiNV}'`,
+        'BaoCaoPHDCs',
+        `'MaBCPHDC = ${baocaoKQXMDiaChi.MaDiaChiNV}'`,
         0,
         1,
       ),

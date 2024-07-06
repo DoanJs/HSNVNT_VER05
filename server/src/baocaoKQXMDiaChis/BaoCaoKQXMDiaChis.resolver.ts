@@ -8,7 +8,6 @@ import {
 } from '@nestjs/graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { Doi } from 'src/dois/Doi.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKQXMDiaChi } from './BaoCaoKQXMDiaChi.model';
@@ -20,6 +19,7 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 
 @Resolver(() => BaoCaoKQXMDiaChi)
 @UseGuards(GraphQLGuard)
@@ -91,9 +91,9 @@ export class BaoCaoKQXMDiaChisResolver {
   //DoiTuong
   //QuyetDinhTSNT
 
-  @ResolveField((returns) => DiaChiNV)
-  DiaChiNV(@Parent() baocaoKQXMDiaChi: BaoCaoKQXMDiaChi): Promise<DiaChiNV> {
-    return this.baocaoKQXMDiaChisService.DiaChiNV(baocaoKQXMDiaChi);
+  @ResolveField((returns) => BaoCaoPHDC)
+  BaoCaoPHDC(@Parent() baocaoKQXMDiaChi: BaoCaoKQXMDiaChi): Promise<BaoCaoPHDC> {
+    return this.baocaoKQXMDiaChisService.BaoCaoPHDC(baocaoKQXMDiaChi);
   }
 
   @ResolveField((returns) => CBCS)

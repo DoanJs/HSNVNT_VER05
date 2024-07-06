@@ -32,45 +32,12 @@ export class KetQuaXMQuanHe {
   })
   BaoCaoPHQH: BaoCaoPHQH
 
-  @ManyToOne(() => DeNghiTSNT, denghiTSNT => denghiTSNT.KetQuaXMQuanHes, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaDN",
-    foreignKeyConstraintName: "FK_MaDN_KetQuaXMQuanHe"
-  })
-  DeNghiTSNT: DeNghiTSNT
-
-  @ManyToOne(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.KetQuaXMQuanHes, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaQD",
-    foreignKeyConstraintName: "FK_MaQD_KetQuaXMQuanHe"
-  })
-  QuyetDinhTSNT: QuyetDinhTSNT
-
-  @ManyToOne(() => CATTPvaTD, caTTPvaTD => caTTPvaTD.KetQuaXMQuanHes, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaCATTPvaTD",
-    foreignKeyConstraintName: "FK_MaCATTPvaTD_KetQuaXMQuanHe"
-  })
-  CATTPvaTD: CATTPvaTD
-
-  @ManyToOne(() => CAQHvaTD, caQHvaTD => caQHvaTD.KetQuaXMQuanHes, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaCAQHvaTD",
-    foreignKeyConstraintName: "FK_MaCAQHvaTD_KetQuaXMQuanHe"
-  })
-  CAQHvaTD: CAQHvaTD
-
-  @ManyToOne(() => DoiTuong, doiTuong => doiTuong.KetQuaXMQuanHes, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaDoiTuong",
-    foreignKeyConstraintName: "FK_MaDoiTuong_KetQuaXMQuanHe"
-  })
-  DoiTuong: DoiTuong
-
   @ManyToOne(() => CBCS, cbcs => cbcs.KetQuaXMQuanHes, { cascade: true, eager: true })
   @JoinColumn({
     name: "MaLanhDaoPD",
     foreignKeyConstraintName: "FK_MaLanhDaoPD_KetQuaXMQuanHe"
   })
   LanhDaoPD: CBCS
+
+  // chua duyet lai
 }

@@ -153,35 +153,8 @@ export class DoiTuong {
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DoiTuong)
   DeNghiTSNTs: [DeNghiTSNT];
 
-  @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.DoiTuong)
-  QuyetDinhTSNTs: [QuyetDinhTSNT];
 
-  @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.DoiTuong)
-  KeHoachTSNTs: [KeHoachTSNT];
 
-  @OneToMany(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.DoiTuong)
-  KetQuaTSNTs: [KetQuaTSNT];
-
-  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.DoiTuong)
-  BaoCaoPHQHs: [BaoCaoPHQH];
-
-  @OneToMany(() => BaoCaoKQXMQuanHe, (baocaoKQXMQH) => baocaoKQXMQH.DoiTuong)
-  BaoCaoKQXMQHs: [BaoCaoKQXMQuanHe];
-
-  @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.DoiTuong)
-  KetQuaXMQuanHes: [KetQuaXMQuanHe];
-
-  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.DoiTuong)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi];
-
-  @OneToMany(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.DoiTuong,
-  )
-  BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
-
-  @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.DoiTuong)
-  BaoCaoKQGHs: [BaoCaoKQGH];
 
   @OneToMany(() => DoiTuongCA, (doituongCA) => doituongCA.DoiTuong)
   DoiTuongCAs: [DoiTuongCA];

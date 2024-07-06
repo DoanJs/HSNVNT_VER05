@@ -26,6 +26,9 @@ export class TinhTP {
 
 
   // relation
+
+
+  // chua duyet lai
   
   @ManyToMany(() => DeNghiTSNT, denghiTSNT => denghiTSNT.DiaBanDNs)
   DeNghiTSNTs: [DeNghiTSNT]

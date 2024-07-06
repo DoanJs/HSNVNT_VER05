@@ -15,6 +15,11 @@ export class CapBac {
 
   // relation
 
+
+  
+  // chua duyet lai
+
+
   @OneToMany(() => CBCS, (cbcs) => cbcs.CapBac)
   CBCSs: [CBCS];
 }

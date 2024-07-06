@@ -2,15 +2,15 @@ import { SP_CHANGE_BAOCAOKQGH_Input } from '../type/SP_CHANGE_BAOCAOKQGH.input';
 import { SP_CHANGE_BAOCAOKQXMDIACHI_Input } from '../type/SP_CHANGE_BAOCAOKQXMDIACHI.input';
 import { SP_CHANGE_BAOCAOKQXMQUANHE_Input } from '../type/SP_CHANGE_BAOCAOKQXMQUANHE.input';
 import { SP_CHANGE_BAOCAOKTDN_Input } from '../type/SP_CHANGE_BAOCAOKTDN.input';
+import { SP_CHANGE_BAOCAOPHDC_Input } from '../type/SP_CHANGE_BAOCAOPHDC.Input';
+import { SP_CHANGE_BAOCAOPHPT_Input } from '../type/SP_CHANGE_BAOCAOPHPT.input';
 import { SP_CHANGE_BAOCAOPHQH_Input } from '../type/SP_CHANGE_BAOCAOPHQH.input';
 import { SP_CHANGE_BIENBANRKN_Input } from '../type/SP_CHANGE_BIENBANRKN.input';
 import { SP_CHANGE_CBCS_Input } from '../type/SP_CHANGE_CBCS.input';
 import { SP_CHANGE_CHUYENAN_Input } from '../type/SP_CHANGE_CHUYENAN.Input';
 import { SP_CHANGE_DENGHITSNT_Input } from '../type/SP_CHANGE_DENGHITSNT.Input';
-import { SP_CHANGE_DIACHINV_Input } from '../type/SP_CHANGE_DIACHINV.Input';
 import { SP_CHANGE_DOITUONG_Input } from '../type/SP_CHANGE_DOITUONG.input';
 import { SP_CHANGE_KEHOACHTSNT_Input } from '../type/SP_CHANGE_KEHOACHTSNT.input';
-import { SP_CHANGE_PHUONGTIENNV_Input } from '../type/SP_CHANGE_PHUONGTIENNV.input';
 import { SP_CHANGE_QUYETDINHTSNT_Input } from '../type/SP_CHANGE_QUYETDINHTSNT.input';
 import { SP_CHANGE_TRAMCT_Input } from '../type/SP_CHANGE_TRAMCT.input';
 
@@ -504,27 +504,27 @@ export const SP_CHANGE_DENGHITSNT = (
   '@MaCATTPvaTD=' +
   spCHANGEDENGHITSNTInput.DeNghiTSNTInput.MaCATTPvaTD;
 
-export const SP_CHANGE_DIACHINV = (
-  spCHANGEDIACHINVInput: SP_CHANGE_DIACHINV_Input,
+export const SP_CHANGE_BAOCAOPHDC = (
+  spCHANGEBAOCAOPHDCInput: SP_CHANGE_BAOCAOPHDC_Input,
 ) =>
-  'SP_CHANGE_DIACHINV ' +
+  'SP_CHANGE_BAOCAOPHDC ' +
   '@Type= "' +
-  spCHANGEDIACHINVInput.Type +
+  spCHANGEBAOCAOPHDCInput.Type +
   '",' +
-  '@MaDC=' +
-  spCHANGEDIACHINVInput.MaDC +
+  '@MaBCPHDC=' +
+  spCHANGEBAOCAOPHDCInput.MaBCPHDC +
   ',' +
   '@ThoiGianPH=' +
-  spCHANGEDIACHINVInput.DiaChiNVInput.ThoiGianPH +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.ThoiGianPH +
   ',' +
   '@DiaChi=' +
-  spCHANGEDIACHINVInput.DiaChiNVInput.DiaChi +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.DiaChi +
   ',' +
   '@HinhAnh=' +
-  spCHANGEDIACHINVInput.DiaChiNVInput.HinhAnh +
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.HinhAnh +
   ',' +
   '@MaKQ=' +
-  spCHANGEDIACHINVInput.DiaChiNVInput.MaKQ;
+  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.MaKQ;
 
 export const SP_CHANGE_KEHOACHTSNT = (
   spCHANGEKEHOACHTSNTInput: SP_CHANGE_KEHOACHTSNT_Input,
@@ -569,30 +569,30 @@ export const SP_CHANGE_KEHOACHTSNT = (
   '@NoiDung=' +
   spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.NoiDung;
 
-export const SP_CHANGE_PHUONGTIENNV = (
-  spCHANGEPHUONGTIENNVInput: SP_CHANGE_PHUONGTIENNV_Input,
+export const SP_CHANGE_BAOCAOPHPT = (
+  spCHANGEBAOCAOPHPTInput: SP_CHANGE_BAOCAOPHPT_Input,
 ) =>
-  'SP_CHANGE_PHUONGTIENNV ' +
+  'SP_CHANGE_BAOCAOPHPT ' +
   '@Type= "' +
-  spCHANGEPHUONGTIENNVInput.Type +
+  spCHANGEBAOCAOPHPTInput.Type +
   '",' +
-  '@MaPT=' +
-  spCHANGEPHUONGTIENNVInput.MaPT +
+  '@MaBCPHPT=' +
+  spCHANGEBAOCAOPHPTInput.MaBCPHPT +
   ',' +
   '@ThoiGianPH=' +
-  spCHANGEPHUONGTIENNVInput.PhuongTienNVInput.ThoiGianPH +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.ThoiGianPH +
   ',' +
   '@DiaDiemPH=' +
-  spCHANGEPHUONGTIENNVInput.PhuongTienNVInput.DiaDiemPH +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.DiaDiemPH +
   ',' +
   '@MaKQ=' +
-  spCHANGEPHUONGTIENNVInput.PhuongTienNVInput.MaKQ +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.MaKQ +
   ',' +
   '@BKS=' +
-  spCHANGEPHUONGTIENNVInput.PhuongTienNVInput.BKS +
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.BKS +
   ',' +
   '@HinhAnh=' +
-  spCHANGEPHUONGTIENNVInput.PhuongTienNVInput.HinhAnh;
+  spCHANGEBAOCAOPHPTInput.BaoCaoPHPTInput.HinhAnh;
 
 export const SP_CHANGE_QUYETDINHTSNT = (
   spCHANGEQUYETDINHTSNTInput: SP_CHANGE_QUYETDINHTSNT_Input,

@@ -14,12 +14,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'DiaChiNVs' })
+@Entity({ name: 'BaoCaoPHDCs' })
 @ObjectType()
-export class DiaChiNV {
-  @PrimaryGeneratedColumn({ primaryKeyConstraintName: 'PK_MaDC' })
+export class BaoCaoPHDC {
+  @PrimaryGeneratedColumn({ primaryKeyConstraintName: 'PK_MaBCPHDC' })
   @Field()
-  MaDC: number;
+  MaBCPHDC: number;
 
   @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
   @Field({ nullable: true })
@@ -34,45 +34,48 @@ export class DiaChiNV {
   ThoiGianPH: Date;
 
   // relation
-  @ManyToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.DiaChiNVs, {
+  @ManyToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.BaoCaoPHDCs, {
     cascade: true,
     eager: true,
   })
   @JoinColumn({
     name: 'MaKQ',
-    foreignKeyConstraintName: 'FK_MaKQ_DiaChiNV',
+    foreignKeyConstraintName: 'FK_MaKQ_BaoCaoPHDC',
   })
   KetQuaTSNT: KetQuaTSNT;
 
-  @ManyToMany(() => CBCS, (cbcs) => cbcs.TSThucHien_DiaChiNVs, {
+  @OneToOne(
+    () => BaoCaoKQXMDiaChi,
+    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.BaoCaoPHDC,
+  )
+  BaoCaoKQXMDiaChi: BaoCaoKQXMDiaChi;
+
+  @OneToOne(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.BaoCaoPHDC)
+  KetQuaXMDiaChi: KetQuaXMDiaChi;
+
+  @ManyToMany(() => CBCS, (cbcs) => cbcs.TSThucHien_BaoCaoPHDCs, {
     cascade: true,
     eager: true,
   })
   @JoinTable({
-    name: 'DiaChiNVs_CBCSs',
+    name: 'BaoCaoPHDCs_CBCSs',
     joinColumn: {
-      name: 'MaDC',
-      foreignKeyConstraintName: 'FK_MaBC_DiaChiNVs_CBCSs',
+      name: 'MaBCPHDC',
+      foreignKeyConstraintName: 'FK_MaBCPHDC_BaoCaoPHDCs_CBCSs',
     },
     inverseJoinColumn: {
       name: 'MaCBCS',
-      foreignKeyConstraintName: 'FK_MaCBCS_DiaChiNVs_CBCSs',
+      foreignKeyConstraintName: 'FK_MaCBCS_BaoCaoPHDCs_CBCSs',
     },
   })
   TSThucHiens: [CBCS];
+  // chua duyet lai
 
-  @OneToOne(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.DiaChiNV,
-  )
-  BaoCaoKQXMDiaChi: BaoCaoKQXMDiaChi;
+  
 
-  @OneToOne(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.DiaChiNV)
-  KetQuaXMDiaChi: KetQuaXMDiaChi;
-
-  @OneToOne(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.DiaChiNV,
-  )
-  KetQuaXM: BaoCaoKQXMDiaChi;
+  // @OneToOne(
+  //   () => BaoCaoKQXMDiaChi,
+  //   (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.BaoCaoPHDC,
+  // )
+  // KetQuaXM: BaoCaoKQXMDiaChi;
 }

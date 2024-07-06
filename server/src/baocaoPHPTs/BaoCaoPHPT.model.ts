@@ -3,12 +3,12 @@ import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'PhuongTienNVs' })
+@Entity({ name: 'BaoCaoPHPTs' })
 @ObjectType()
-export default class PhuongTienNV {
-  @PrimaryGeneratedColumn({ primaryKeyConstraintName: 'PK_MaPT' })
+export default class BaoCaoPHPT {
+  @PrimaryGeneratedColumn({ primaryKeyConstraintName: 'PK_MaBCPHPT' })
   @Field()
-  MaPT: number;
+  MaBCPHPT: number;
 
   @Column({ type: 'varbinary', length: 'max', nullable: true }) //encrypt
   @Field({ nullable: true })
@@ -27,23 +27,23 @@ export default class PhuongTienNV {
   DiaDiemPH: string;
 
   // relation
-  @ManyToOne(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.PhuongTienNVs, { cascade: true, eager: true })
+  @ManyToOne(() => KetQuaTSNT, ketquaTSNT => ketquaTSNT.BaoCaoPHPTs, { cascade: true, eager: true })
   @JoinColumn({
     name: "MaKQ",
-    foreignKeyConstraintName: "FK_MaKQ_PhuongTienNV"
+    foreignKeyConstraintName: "FK_MaKQ_BaoCaoPHPT"
   })
   KetQuaTSNT: KetQuaTSNT
 
-  @ManyToMany(() => CBCS, cbcs => cbcs.TSThucHien_PhuongTienNVs, { cascade: true, eager: true })
+  @ManyToMany(() => CBCS, cbcs => cbcs.TSThucHien_BaoCaoPHPTs, { cascade: true, eager: true })
   @JoinTable({
-    name: 'PhuongTienNVs_CBCSs',
+    name: 'BaoCaoPHPTs_CBCSs',
     joinColumn: {
-      name: 'MaPT',
-      foreignKeyConstraintName: 'FK_MaPT_PhuongTienNVs_CBCSs',
+      name: 'MaBCPHPT',
+      foreignKeyConstraintName: 'FK_MaBCPHPT_BaoCaoPHPTs_CBCSs',
     },
     inverseJoinColumn: {
       name: 'MaCBCS',
-      foreignKeyConstraintName: 'FK_MaCBCS_PhuongTienNVs_CBCSs',
+      foreignKeyConstraintName: 'FK_MaCBCS_BaoCaoPHPTs_CBCSs',
     },
   })
   TSThucHiens: [CBCS]

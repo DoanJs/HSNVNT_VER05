@@ -66,27 +66,16 @@ export class BaoCaoKQGH {
   @Field({ nullable: true })
   KetQuaTSNT: KetQuaTSNT;
 
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.BaoCaoKQGHs, {
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoKQGHs, {
     cascade: true,
     eager: true,
   })
   @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_BaoCaoKQGH',
+    name: 'MaLanhDaoPD',
+    foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoKQGH',
   })
   @Field({ nullable: true })
-  CAQHvaTD: CAQHvaTD;
-
-  @ManyToOne(() => Doi, (doi) => doi.BaoCaoKQGHs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_BaoCaoKQGH',
-  })
-  @Field({ nullable: true })
-  Doi: Doi;
+  LanhDaoPD: CBCS;
 
   @ManyToMany(() => CBCS, (cbcs) => cbcs.TSThucHien_BaoCaoKQGHs, {
     cascade: true,
@@ -104,26 +93,7 @@ export class BaoCaoKQGH {
     },
   })
   TSThucHiens: [CBCS];
-
-  @ManyToOne(() => DoiTuong, (doituong) => doituong.BaoCaoKQGHs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDoiTuong',
-    foreignKeyConstraintName: 'FK_MaDoiTuong_BaoCaoKQGH',
-  })
-  @Field({ nullable: true })
-  DoiTuong: DoiTuong;
-
-  @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_BaoCaoKQGHs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaLanhDaoPD',
-    foreignKeyConstraintName: 'FK_MaLanhDaoPD_BaoCaoKQGH',
-  })
-  @Field({ nullable: true })
-  LanhDaoPD: CBCS;
+  
+  // chua duyet lai
+  
 }

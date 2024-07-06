@@ -18,7 +18,7 @@ export class HinhThucHD {
 
 
 
-  
+  // chua duyet lai
   @OneToMany(() => DeNghiTSNT, denghiTSNT=> denghiTSNT.HinhThucHD)
   DeNghiTSNTs: [DeNghiTSNT]
 }

@@ -4,6 +4,8 @@ import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
@@ -12,12 +14,10 @@ import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
 import { QuocTich } from 'src/quoctichs/QuocTich.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
@@ -270,22 +270,22 @@ export class CBCSsService {
     return await Promise.all(resultLoader);
   }
 
-  async TSThucHien_PhuongTienNVs(MaCBCS: number): Promise<PhuongTienNV[]> {
+  async TSThucHien_BaoCaoPHPTs(MaCBCS: number): Promise<BaoCaoPHPT[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('PhuongTienNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaPT', 0, 0),
-    )) as [{ MaPT: number }];
+      SP_GET_DATA('BaoCaoPHPTs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCPHPT', 0, 0),
+    )) as [{ MaBCPHPT: number }];
     const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderPhuongTienNV.load(obj.MaPT),
+      this.dataloaderService.loaderBaoCaoPHPT.load(obj.MaBCPHPT),
     );
     return await Promise.all(resultLoader);
   }
 
-  async TSThucHien_DiaChiNVs(MaCBCS: number): Promise<DiaChiNV[]> {
+  async TSThucHien_BaoCaoPHDCs(MaCBCS: number): Promise<BaoCaoPHDC[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('DiaChiNVs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaDC', 0, 0),
+      SP_GET_DATA('BaoCaoPHDCs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaDC', 0, 0),
     )) as [{ MaDC: number }];
     const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderDiaChiNV.load(obj.MaDC),
+      this.dataloaderService.loaderBaoCaoPHDC.load(obj.MaDC),
     );
     return await Promise.all(resultLoader);
   }

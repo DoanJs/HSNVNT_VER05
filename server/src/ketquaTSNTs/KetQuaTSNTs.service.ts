@@ -3,13 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DDNB } from 'src/ddnbs/DDNB.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
@@ -21,6 +19,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KetQuaTSNT } from './KetQuaTSNT.model';
 import { KetQuaTSNTInput } from './type/KetQuaTSNT.input';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 
 @Injectable()
 export class KetQuaTSNTsService {
@@ -186,17 +185,6 @@ export class KetQuaTSNTsService {
     );
     return result[0];
   }
-
-  async DDNBs(MaKQ: number): Promise<DDNB[]> {
-    const result = (await this.ketquaTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs_DDNBs', `'MaKQ = ${MaKQ}'`, 'MaDDNB', 0, 0),
-    )) as [{ MaDDNB: number }];
-    const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderDDNB.load(obj.MaDDNB),
-    );
-    return await Promise.all(resultLoader);
-  }
-
   async PhamViTSs(MaKQ: number): Promise<TinhTP[]> {
     const result = (await this.ketquaTSNTRepository.query(
       SP_GET_DATA(
@@ -239,15 +227,15 @@ export class KetQuaTSNTsService {
     );
   }
 
-  async DiaChiNVs(MaKQ: number): Promise<DiaChiNV[]> {
+  async BaoCaoPHDCs(MaKQ: number): Promise<BaoCaoPHDC[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('DiaChiNVs', `'MaKQ = ${MaKQ}'`, 0, 0),
+      SP_GET_DATA_DECRYPT('BaoCaoPHDCs', `'MaKQ = ${MaKQ}'`, 0, 0),
     );
   }
 
-  async PhuongTienNVs(MaKQ: number): Promise<PhuongTienNV[]> {
+  async BaoCaoPHPTs(MaKQ: number): Promise<BaoCaoPHPT[]> {
     return this.ketquaTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('PhuongTienNVs', `'MaKQ = ${MaKQ}'`, 0, 0),
+      SP_GET_DATA_DECRYPT('BaoCaoPHPTs', `'MaKQ = ${MaKQ}'`, 0, 0),
     );
   }
 }

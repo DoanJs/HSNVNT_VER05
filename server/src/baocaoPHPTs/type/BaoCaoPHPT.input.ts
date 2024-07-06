@@ -1,12 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class DiaChiNVInput {
+export class BaoCaoPHPTInput {
   @Field({ nullable: true })
   ThoiGianPH?: string;
 
   @Field({ nullable: true })
-  DiaChi?: string;
+  DiaDiemPH?: string;
+
+  @Field({ nullable: true })
+  BKS?: string;
 
   @Field({ nullable: true })
   HinhAnh?: string;

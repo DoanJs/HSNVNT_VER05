@@ -3,15 +3,15 @@ import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
@@ -19,7 +19,6 @@ import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
-import PhuongTienNV from 'src/phuongtienNVs/PhuongTienNV.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
@@ -118,7 +117,7 @@ export class CBCS {
   })
   @Field({ nullable: true })
   Doi: Doi;
-  
+
   @ManyToOne(() => CapBac, (capbac) => capbac.CBCSs, {
     cascade: true,
     eager: true,
@@ -141,6 +140,17 @@ export class CBCS {
   @Field({ nullable: true })
   ChucVu: ChucVu;
 
+  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.LanhDaoPD)
+  KetQuaXMDiaChis: [KetQuaXMDiaChi];
+
+  @OneToMany(
+    () => BaoCaoKQXMDiaChi,
+    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.TSXacMinh,
+  )
+  TSXacMinh_BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
+
+  @ManyToMany(() => BaoCaoPHDC, (baocaoPHDC) => baocaoPHDC.TSThucHiens)
+  TSThucHien_BaoCaoPHDCs: [BaoCaoPHDC];
 
 
 
@@ -148,6 +158,14 @@ export class CBCS {
 
 
 
+
+
+
+
+
+
+
+  
   // chua duyet lai
 
   @OneToMany(() => DauMoiPH_DN, (dauMoiPH_DN) => dauMoiPH_DN.LDDonViDN)
@@ -207,18 +225,6 @@ export class CBCS {
   @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.LanhDaoPD)
   KetQuaXMQuanHes: [KetQuaXMQuanHe];
 
-  @OneToMany(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.LanhDaoPD)
-  KetQuaXMDiaChis: [KetQuaXMDiaChi];
-
-  @ManyToMany(() => DiaChiNV, (diachiNV) => diachiNV.TSThucHiens)
-  TSThucHien_DiaChiNVs: [DiaChiNV];
-
-  @OneToMany(
-    () => BaoCaoKQXMDiaChi,
-    (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.TSXacMinh,
-  )
-  TSXacMinh_BaoCaoKQXMDiaChis: [BaoCaoKQXMDiaChi];
-
   @OneToMany(
     () => BaoCaoKQXMDiaChi,
     (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.LanhDaoPD,
@@ -261,21 +267,11 @@ export class CBCS {
   @OneToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThuKy)
   ThuKy_BienBanRKNs: [BienBanRKN];
 
-  @ManyToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.LanhDaoTGs)
+  @ManyToMany(() => BienBanRKN, (bienbanRKN) => bienbanRKN.ThanhPhanTDs)
   BienBanRKNs: [BienBanRKN];
 
-  @ManyToMany(() => PhuongTienNV, (phuongtienNV) => phuongtienNV.TSThucHiens)
-  TSThucHien_PhuongTienNVs: [PhuongTienNV];
-
-
-  
-
-  
-
-  
-
-  
-
+  @ManyToMany(() => BaoCaoPHPT, (baocaoPHPT) => baocaoPHPT.TSThucHiens)
+  TSThucHien_BaoCaoPHPTs: [BaoCaoPHPT];
 
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.LanhDaoPD)
   LanhDaoPD_QuyetDinhTSNTs: [QuyetDinhTSNT];

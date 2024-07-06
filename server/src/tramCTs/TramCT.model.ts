@@ -50,29 +50,6 @@ export class TramCT {
   QuyDinh: string;
 
   // relation
-
-  @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.TramCT)
-  KeHoachTSNTs: [KeHoachTSNT];
-
-  @ManyToOne(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.TramCTs, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaCAQHvaTD',
-    foreignKeyConstraintName: 'FK_MaCAQHvaTD_TramCT',
-  })
-  @Field((type) => CAQHvaTD, { nullable: true })
-  CAQHvaTD: CAQHvaTD;
-
-  @ManyToOne(() => Doi, (doi) => doi.TramCTs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: 'MaDoi',
-    foreignKeyConstraintName: 'FK_MaDoi_TramCT',
-  })
-  @Field((type) => Doi, { nullable: true })
-  Doi: Doi;
-
   @ManyToOne(() => CBCS, (cbcs) => cbcs.TSXayDung_TramCTs, {
     cascade: true,
     eager: true,
@@ -84,11 +61,6 @@ export class TramCT {
   @Field((type) => CBCS, { nullable: true })
   TSXayDung: CBCS;
 
-  
-
-  // @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
-  // QuyetDinhTSNTs: [QuyetDinhTSNT]
-
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_TramCTs, {
     cascade: true,
     eager: true,
@@ -99,4 +71,23 @@ export class TramCT {
   })
   @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
+
+
+
+
+
+
+
+
+  @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.TramCT)
+  KeHoachTSNTs: [KeHoachTSNT];
+  // chua duyet lai
+
+  
+
+  
+
+  // @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
+  // QuyetDinhTSNTs: [QuyetDinhTSNT]
+
 }

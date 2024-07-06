@@ -1,14 +1,14 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { PhuongTienNVInput } from "src/phuongtienNVs/type/PhuongTienNV.input";
+import { BaoCaoPHPTInput } from "src/baocaoPHPTs/type/BaoCaoPHPT.input";
 
 @InputType()
-export class SP_CHANGE_PHUONGTIENNV_Input {
+export class SP_CHANGE_BAOCAOPHPT_Input {
     @Field({ nullable: true })
     Type?: string;
   
     @Field({ nullable: true })
-    MaPT?: number;
+    MaBCPHPT?: number;
   
     @Field({ nullable: true })
-    PhuongTienNVInput?: PhuongTienNVInput;
+    BaoCaoPHPTInput?: BaoCaoPHPTInput;
 }

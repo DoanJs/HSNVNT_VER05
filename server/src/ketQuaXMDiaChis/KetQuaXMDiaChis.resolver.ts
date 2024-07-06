@@ -10,7 +10,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KetQuaXMDiaChi } from './KetQuaXMDiaChi.model';
 import { KetQuaXMDiaChisService } from './KetQuaXMDiaChis.service';
 import { KetQuaXMDiaChiInput } from './type/KetQuaXMDiaChi.input';
-import { DiaChiNV } from 'src/diachiNVs/DiaChiNV.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
@@ -23,6 +22,7 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
 
 @Resolver(() => KetQuaXMDiaChi)
 @UseGuards(GraphQLGuard)
@@ -77,9 +77,9 @@ export class KetQuaXMDiaChisResolver {
   }
 
   //ResolveField
-  @ResolveField((returns) => DiaChiNV)
-  DiaChiNV(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<DiaChiNV> {
-    return this.ketQuaXMDiaChisService.DiaChiNV(ketquaXMDiaChi);
+  @ResolveField((returns) => BaoCaoPHDC)
+  BaoCaoPHDC(@Parent() ketquaXMDiaChi: KetQuaXMDiaChi): Promise<BaoCaoPHDC> {
+    return this.ketQuaXMDiaChisService.BaoCaoPHDC(ketquaXMDiaChi);
   }
 
   @ResolveField((returns) => DeNghiTSNT)
