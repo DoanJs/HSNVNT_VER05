@@ -42,15 +42,6 @@ export class DoiTuongCAsService {
     );
   }
 
-  // async doituongCAsOpen(
-  //   conditionCol: string,
-  //   value: string,
-  // ): Promise<DoiTuongCA[]> {
-  //   return await this.doituongCARepository.query(
-  //     `SELECT * FROM DoiTuongCAs WHERE ${conditionCol} = ${value}`,
-  //   );
-  // }
-
   async doituongCA(id: number): Promise<DoiTuongCA> {
     const result = await this.doituongCARepository.query(
       SP_GET_DATA('DoiTuongCAs', `'MaDTCA = ${id}'`, 'MaDTCA', 0, 1),
@@ -139,10 +130,14 @@ export class DoiTuongCAsService {
   // ResolveField
 
   async ChuyenAn(doituongCA: any): Promise<ChuyenAn> {
-    return this.dataloaderService.loaderChuyenAn.load(doituongCA.MaCA);
+    if (doituongCA.MaCA) {
+      return this.dataloaderService.loaderChuyenAn.load(doituongCA.MaCA);
+    }
   }
 
   async DoiTuong(doituongCA: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(doituongCA.MaDoiTuong);
+    if (doituongCA.MaDoiTuong) {
+      return this.dataloaderService.loaderDoiTuong.load(doituongCA.MaDoiTuong);
+    }
   }
 }

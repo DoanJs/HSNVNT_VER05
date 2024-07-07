@@ -1,12 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { HinhThucHD } from 'src/hinhthucHDs/HinhThucHD.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
-import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
@@ -17,7 +13,6 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -104,26 +99,13 @@ export class DeNghiTSNT {
     },
   })
   DiaBanDNs: [TinhTP];
-// ------------------------------------------------------------------------------------------------------------
+
   @OneToOne(() => DauMoiPH_DN, (dauMoiPH) => dauMoiPH.DeNghiTSNT)
-  @Field({ nullable: true })
   DauMoiPH_DN: DauMoiPH_DN;
 
   @OneToOne(() => KyDuyet_DN, (kyDuyet_DN) => kyDuyet_DN.DeNghiTSNT)
   KyDuyet_DN: KyDuyet_DN;
 
-
-
-
-
-
-
-
-  // chua duyet lai
-
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.DeNghiTSNT)
   QuyetDinhTSNT: QuyetDinhTSNT;
-
-
-  
 }

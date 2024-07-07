@@ -113,11 +113,7 @@ export class BienBanRKNsResolver {
     @Args('MaBBRKN') MaBBRKN: number,
     @Args('MaCBCS') MaCBCS: number,
   ): Promise<BienBanRKN_CBCSType> {
-    return this.bienbanRKNsService.deleteBienBanRKN_CBCS(
-      MaBBRKN,
-      MaCBCS,
-      user,
-    );
+    return this.bienbanRKNsService.deleteBienBanRKN_CBCS(MaBBRKN, MaCBCS, user);
   }
 
   //ResolveField

@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
@@ -22,8 +18,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { KeHoachTSNT } from './KeHoachTSNT.model';
 import { KeHoachTSNTInput } from './type/KeHoachTSNT.input';
-import { KeHoachTSNT_LLDBType } from './type/KeHoachTSNT_LLDB.type';
 import { KeHoachTSNT_LLDBInput } from './type/KeHoachTSNT_LLDB.input';
+import { KeHoachTSNT_LLDBType } from './type/KeHoachTSNT_LLDB.type';
 
 @Injectable()
 export class KeHoachTSNTsService {
@@ -47,13 +43,6 @@ export class KeHoachTSNTsService {
         VanDeChuY: `N'${kehoachTSNTInput.VanDeChuY}'`, // crypto
         NoiDung: `N'${kehoachTSNTInput.NoiDung}'`, // crypto
         MaQD: kehoachTSNTInput.MaQD ? kehoachTSNTInput.MaQD : null,
-        MaCAQHvaTD: kehoachTSNTInput.MaCAQHvaTD
-          ? kehoachTSNTInput.MaCAQHvaTD
-          : null,
-        MaDoi: kehoachTSNTInput.MaDoi ? kehoachTSNTInput.MaDoi : null,
-        MaDoiTuong: kehoachTSNTInput.MaDoiTuong
-          ? kehoachTSNTInput.MaDoiTuong
-          : null,
         MaTramCT: kehoachTSNTInput.MaTramCT ? kehoachTSNTInput.MaTramCT : null,
         MaLanhDaoPD: kehoachTSNTInput.MaLanhDaoPD
           ? kehoachTSNTInput.MaLanhDaoPD
@@ -242,9 +231,14 @@ export class KeHoachTSNTsService {
 
   // ResolveField
 
-  async KetQuaTSNT(MaKH: number): Promise<KetQuaTSNT> {
+  async QuyetDinhTSNT(kehoachTSNT: any): Promise<QuyetDinhTSNT> {
     const result = await this.kehoachTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs', `'MaKH = ${MaKH}'`, 'MaKQ', 0, 0),
+      SP_GET_DATA_DECRYPT(
+        'QuyetDinhTSNTs',
+        `'MaQD = ${kehoachTSNT.MaQD}'`,
+        0,
+        1,
+      ),
     );
     return result[0];
   }
@@ -253,16 +247,6 @@ export class KeHoachTSNTsService {
     if (kehoachTSNT.MaTramCT) {
       return this.dataloaderService.loaderTramCT.load(kehoachTSNT.MaTramCT);
     }
-  }
-
-  async LLDBs(MaKH: number): Promise<LLDB[]> {
-    const result = (await this.kehoachTSNTRepository.query(
-      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaKH', 0, 0),
-    )) as [{ MaLLDB: number }];
-    const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderLLDB.load(obj.MaLLDB),
-    );
-    return await Promise.all(resultLoader);
   }
 
   async LanhDaoPD(kehoachTSNT: any): Promise<CBCS> {
@@ -277,10 +261,14 @@ export class KeHoachTSNTsService {
     }
   }
 
-  async DoiTuong(kehoachTSNT: any): Promise<DoiTuong> {
-    if (kehoachTSNT.MaDoiTuong) {
-      return this.dataloaderService.loaderDoiTuong.load(kehoachTSNT.MaDoiTuong);
-    }
+  async LLDBs(MaKH: number): Promise<LLDB[]> {
+    const result = (await this.kehoachTSNTRepository.query(
+      SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaKH = ${MaKH}'`, 'MaKH', 0, 0),
+    )) as [{ MaLLDB: number }];
+    const resultLoader = result.map((obj) =>
+      this.dataloaderService.loaderLLDB.load(obj.MaLLDB),
+    );
+    return await Promise.all(resultLoader);
   }
 
   async LLTGKeHoachs(MaKH: number): Promise<LucLuongThamGiaKH[]> {
@@ -289,34 +277,10 @@ export class KeHoachTSNTsService {
     );
   }
 
-  async DeNghiTSNT(kehoachTSNT: any): Promise<DeNghiTSNT> {
+  async KetQuaTSNT(MaKH: number): Promise<KetQuaTSNT> {
     const result = await this.kehoachTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('DeNghiTSNTs', `'MaDN = ${kehoachTSNT.MaDN}'`, 0, 1),
+      SP_GET_DATA('KetQuaTSNTs', `'MaKH = ${MaKH}'`, 'MaKQ', 0, 0),
     );
     return result[0];
-  }
-
-  async QuyetDinhTSNT(kehoachTSNT: any): Promise<QuyetDinhTSNT> {
-    const result = await this.kehoachTSNTRepository.query(
-      SP_GET_DATA_DECRYPT(
-        'QuyetDinhTSNTs',
-        `'MaQD = ${kehoachTSNT.MaQD}'`,
-        0,
-        1,
-      ),
-    );
-    return result[0];
-  }
-
-  async DonVi(kehoachTSNT: any): Promise<CAQHvaTD> {
-    if (kehoachTSNT.MaDonVi) {
-      return this.dataloaderService.loaderCAQHvaTD.load(kehoachTSNT.MaDonVi);
-    }
-  }
-
-  async Doi(kehoachTSNT: any): Promise<Doi> {
-    if (kehoachTSNT.MaDoi) {
-      return this.dataloaderService.loaderDoi.load(kehoachTSNT.MaDoi);
-    }
   }
 }

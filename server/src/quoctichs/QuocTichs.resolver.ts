@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,18 +7,15 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { CBCS } from 'src/cbcss/CBCS.model';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { DanToc } from 'src/dantocs/DanToc.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { QuocTich } from './QuocTich.model';
 import { QuocTichsService } from './QuocTichs.service';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => QuocTich)
 @UseGuards(GraphQLGuard)
@@ -68,15 +66,5 @@ export class QuocTichsResolver {
   @ResolveField((returns) => [DanToc])
   DanTocs(@Parent() quoctich: QuocTich): Promise<DanToc[]> {
     return this.quoctichsService.DanTocs(quoctich.MaQT);
-  }
-
-  @ResolveField((returns) => [DoiTuong])
-  DoiTuongs(@Parent() quoctich: QuocTich): Promise<DoiTuong[]> {
-    return this.quoctichsService.DoiTuongs(quoctich.MaQT);
-  }
-
-  @ResolveField((returns) => [CBCS])
-  CBCSs(@Parent() quoctich: QuocTich): Promise<CBCS[]> {
-    return this.quoctichsService.CBCSs(quoctich.MaQT);
   }
 }

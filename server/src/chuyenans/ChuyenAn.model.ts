@@ -42,6 +42,7 @@ export class ChuyenAn {
     name: 'MaTCDT',
     foreignKeyConstraintName: 'FK_MaTCDT_ChuyenAn',
   })
+  @Field({ nullable: true })
   TinhChatDT: TinhChatDT;
 
   @OneToMany(() => DoiTuongCA, (doituongCA) => doituongCA.ChuyenAn)

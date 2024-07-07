@@ -13,7 +13,7 @@ import {
 
 @Entity({ name: 'BaoCaoPHPTs' })
 @ObjectType()
-export default class BaoCaoPHPT {
+export class BaoCaoPHPT {
   @PrimaryGeneratedColumn({ primaryKeyConstraintName: 'PK_MaBCPHPT' })
   @Field()
   MaBCPHPT: number;

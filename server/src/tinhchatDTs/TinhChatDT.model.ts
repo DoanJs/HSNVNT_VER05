@@ -19,12 +19,6 @@ export class TinhChatDT {
   @OneToMany(() => ChuyenAn, (chuyenan) => chuyenan.TinhChatDT)
   ChuyenAns: [ChuyenAn];
 
-
-
-
-
-  // chua duyet lai
   @OneToMany(() => DoiTuong, (doituong) => doituong.TinhChatDT)
   DoiTuongs: [DoiTuong];
-
 }

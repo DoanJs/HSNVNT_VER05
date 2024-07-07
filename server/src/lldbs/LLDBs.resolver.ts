@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,6 +7,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { LoaiLLDB } from 'src/loaiLLDBs/LoaiLLDB.model';
@@ -13,12 +19,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { LLDB } from './LLDB.model';
 import { LLDBsService } from './LLDBs.service';
 import { LLDBInput } from './type/LLDB.Input';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { UseGuards } from '@nestjs/common';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => LLDB)
 @UseGuards(GraphQLGuard)
@@ -67,13 +67,13 @@ export class LLDBsResolver {
     return this.lldbsService.LoaiLLDB(lldb);
   }
 
-  @ResolveField((returns) => [KeHoachTSNT])
-  KeHoachTSNTs(@Parent() lldb: LLDB): Promise<KeHoachTSNT[]> {
-    return this.lldbsService.KeHoachTSNTs(lldb.MaLLDB);
-  }
-
   @ResolveField((returns) => CBCS)
   TSQuanLy(@Parent() lldb: LLDB): Promise<CBCS> {
     return this.lldbsService.TSQuanLy(lldb);
+  }
+
+  @ResolveField((returns) => [KeHoachTSNT])
+  KeHoachTSNTs(@Parent() lldb: LLDB): Promise<KeHoachTSNT[]> {
+    return this.lldbsService.KeHoachTSNTs(lldb.MaLLDB);
   }
 }

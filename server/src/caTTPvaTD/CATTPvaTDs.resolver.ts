@@ -14,8 +14,6 @@ import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CapCA } from 'src/capCAs/CapCA.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CATTPvaTD } from './CATTPvaTD.model';
 import { CATTPvaTDsService } from './CATTPvaTDs.service';

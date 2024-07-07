@@ -18,6 +18,17 @@ export class DauMoiPH_DN {
 
   // relation
 
+  @OneToOne(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DauMoiPH_DN, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaDN',
+    foreignKeyConstraintName: 'FK_MaDN_DauMoiPH_DN',
+  })
+  @Field((type) => DeNghiTSNT, { nullable: true })
+  DeNghiTSNT: DeNghiTSNT;
+
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LDDonViDN_DauMoiPHs, {
     cascade: true,
     eager: true,
@@ -28,7 +39,7 @@ export class DauMoiPH_DN {
   })
   @Field((type) => CBCS, { nullable: true })
   LDDonViDN: CBCS;
-  
+
   @ManyToOne(() => CBCS, (cbcs) => cbcs.CBTrucTiepPH_DauMoiPHs, {
     cascade: true,
     eager: true,
@@ -39,22 +50,4 @@ export class DauMoiPH_DN {
   })
   @Field((type) => CBCS, { nullable: true })
   CBTrucTiepPH: CBCS;
-
-
-
-
-
-  
-  // chua duyet lai
-  @OneToOne(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DauMoiPH_DN, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinColumn({
-    name: 'MaDN',
-    foreignKeyConstraintName: 'FK_MaDN_DauMoiPH_DN',
-  })
-  DeNghiTSNT: DeNghiTSNT;
-
-
 }

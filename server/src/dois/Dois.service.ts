@@ -1,16 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   SP_CHANGE_DATA,
   SP_GET_DATA,
@@ -128,49 +122,15 @@ export class DoisService {
     }
   }
 
-  QuyetDinhTSNTs(MaDoi: number): Promise<QuyetDinhTSNT[]> {
-    return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaDoi = ${MaDoi}'`, 0, 0),
-    );
-  }
-
   CBCSs(MaDoi: number): Promise<CBCS[]> {
     return this.doiRepository.query(
       SP_GET_DATA_DECRYPT('CBCSs', `'MaDoi = ${MaDoi}'`, 0, 0),
     );
   }
 
-  KeHoachTSNTs(MaDoi: number): Promise<KeHoachTSNT[]> {
+  QuyetDinhTSNTs(MaDoi: number): Promise<QuyetDinhTSNT[]> {
     return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaDoi = ${MaDoi}'`, 0, 0),
-    );
-  }
-
-  TramCTs(MaDoi: number): Promise<TramCT[]> {
-    return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('TramCTs', `'MaDoi = ${MaDoi}'`, 0, 0),
-    );
-  }
-
-  BaoCaoPHQHs(MaDoi: number): Promise<BaoCaoPHQH[]> {
-    return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoPHQHs', `'MaDoi = ${MaDoi}'`, 0, 0),
-    );
-  }
-
-  BaoCaoKQGHs(MaDoi: number): Promise<BaoCaoKQGH[]> {
-    return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQGHs', `'MaDoi = ${MaDoi}'`, 0, 0),
-    );
-  }
-  BaoCaoKQXMQuanHes(MaDoi: number): Promise<BaoCaoKQXMQuanHe[]> {
-    return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQXMQuanHes', `'MaDoi = ${MaDoi}'`, 0, 0),
-    );
-  }
-  BaoCaoKQXMDiaChis(MaDoi: number): Promise<BaoCaoKQXMDiaChi[]> {
-    return this.doiRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQXMDiaChis', `'MaDoi = ${MaDoi}'`, 0, 0),
+      SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaDoi = ${MaDoi}'`, 0, 0),
     );
   }
 }

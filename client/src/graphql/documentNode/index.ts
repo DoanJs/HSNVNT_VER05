@@ -1,5 +1,179 @@
 import { gql } from "@apollo/client";
 
+export const QUERY_cbcss = gql`
+  query QUERY_cbcss($utilsParams: UtilsParamsInput!) {
+    cbcss(utilsParams: $utilsParams) {
+      MaCBCS
+      HoTen
+      TenKhac
+      NgaySinh
+      GioiTinh
+      NoiO
+      QueQuan
+      HKTT
+      SDT
+      CMCCHC
+      DanToc {
+        MaDT
+        TenDT
+      }
+      TonGiao {
+        MaTG
+        TenTG
+      }
+      CapBac {
+        MaCB
+        CapBac
+      }
+      ChucVu {
+        MaCV
+        ChucVu
+      }
+      Doi {
+        MaDoi
+        TenDoi
+      }
+    }
+  }
+`;
+export const QUERY_doituongs = gql`
+  query QUERY_doituongs($utilsParams: UtilsParamsInput!) {
+    doituongs(utilsParams: $utilsParams) {
+      MaDoiTuong
+      TenDT
+      TenKhac
+      GioiTinh
+      NgaySinh
+      NoiSinh
+      CMCCHC
+      AnhDD
+      QueQuan
+      HKTT
+      NoiO
+      NgheNghiep
+      ChucVu
+      NoiLamViec
+      PhuongTien
+      SDT
+      ThongTinKhac
+      DanToc {
+        MaDT
+        TenDT
+      }
+      TonGiao {
+        MaTG
+        TenTG
+      }
+      TinhChatDT {
+        MaTCDT
+        TinhChat
+      }
+      LoaiDT {
+        MaLoaiDT
+        LoaiDT
+      }
+      DeNghiTSNTs {
+        MaDN
+      }
+    }
+  }
+`;
+export const QUERY_doituong = gql`
+  query QUERY_doituong($id: Float!) {
+    doituong(id: $id) {
+      MaDoiTuong
+      TenDT
+      TenKhac
+      AnhDD
+      NgaySinh
+      GioiTinh
+      NoiSinh
+      QueQuan
+      HKTT
+      CMCCHC
+      NoiO
+      NgheNghiep
+      ChucVu
+      NoiLamViec
+      SDT
+      PhuongTien
+      ThongTinKhac
+      DanToc {
+        MaDT
+        TenDT
+        QuocTich {
+          MaQT
+          TenQT
+        }
+      }
+      TonGiao {
+        MaTG
+        TenTG
+      }
+      LoaiDT {
+        MaLoaiDT
+        LoaiDT
+      }
+      TinhChatDT {
+        MaTCDT
+        TinhChat
+      }
+      DeNghiTSNTs {
+        MaDN
+        QuyetDinhTSNT {
+          MaQD
+          BiDanh
+          ThoiGianBD
+          ThoiGianKT
+          NhiemVuCT
+          KeHoachTSNT {
+            MaKH
+            VanDeChuY
+            KetQuaTSNT {
+              MaKQ
+              BaoCaoKTDN {
+                MaBCKTDN
+                TinhHinhDT
+              }
+              BaoCaoPHQHs {
+                MaBCPHQH
+                BiDanh
+              }
+              BaoCaoPHPTs {
+                MaBCPHPT
+                BKS
+              }
+              BaoCaoKQGHs {
+                MaBCKQGH
+                HinhAnh
+              }
+              BaoCaoPHDCs {
+                MaBCPHDC
+                DiaChi
+              }
+            }
+          }
+        }
+      }
+      BienPhapDTs {
+        MaBPDT
+        BienPhapDT
+      }
+    }
+  }
+`;
+
+
+
+
+
+
+
+
+
+
+// chua duyet lai
+
 export const QUERY_quyetdinhTSNTs = gql`
   query QUERY_quyetdinhTSNTs($utilsParams: UtilsParamsInput!) {
     quyetdinhTSNTs(utilsParams: $utilsParams) {
@@ -47,158 +221,7 @@ export const QUERY_quyetdinhTSNTs = gql`
     }
   }
 `;
-export const QUERY_doituongs = gql`
-  query QUERY_doituongs($utilsParams: UtilsParamsInput!) {
-    doituongs(utilsParams: $utilsParams) {
-      MaDoiTuong
-      TenDT
-      TenKhac
-      GioiTinh
-      NgaySinh
-      NoiSinh
-      CCCD
-      CMND
-      SHC
-      AnhDD
-      QueQuan
-      HKTT
-      NoiO
-      NgheNghiep
-      ChucVu
-      NoiLamViec
-      PhuongTien
-      SDT
-      ThongTinKhac
-      QuocTich {
-        MaQT
-        TenQT
-      }
-      DanToc {
-        MaDT
-        TenDT
-      }
-      TonGiao {
-        MaTG
-        TenTG
-      }
-      TinhChatDT {
-        MaTCDT
-        TinhChat
-      }
-      LoaiDT {
-        MaLoaiDT
-        LoaiDT
-      }
-      TramCT {
-        MaTramCT
-      }
-      BienPhapDTs {
-        MaBPDT
-        BienPhapDT
-      }
-      QuyetDinhTSNTs {
-        MaQD
-      }
-    }
-  }
-`;
-export const QUERY_doituong = gql`
-  query QUERY_doituong($id: Float!) {
-    doituong(id: $id) {
-      MaDoiTuong
-      TenDT
-      TenKhac
-      AnhDD
-      NgaySinh
-      GioiTinh
-      NoiSinh
-      QuocTich {
-        TenQT
-      }
-      DanToc {
-        TenDT
-      }
-      TonGiao {
-        TenTG
-      }
-      QueQuan
-      HKTT
-      CCCD
-      CMND
-      SHC
-      NoiO
-      NgheNghiep
-      NoiLamViec
-      SDT
-      PhuongTien
-      BienPhapDTs {
-        BienPhapDT
-      }
-      LoaiDT {
-        MaLoaiDT
-        LoaiDT
-      }
-      TinhChatDT {
-        MaTCDT
-        TinhChat
-      }
-      QuyetDinhTSNTs {
-        MaQD
-        BiDanh
-        NhiemVuCT
-        KetQuaTSNT {
-          MaKQ
-          ThoiGianBD
-          ThoiGianKT
-          BaoCaoKTDN {
-            MaBCKTDN
-            TinhHinhDT
-            VanDeRKN
-          }
-          DanhGiaTSTHs {
-            MaDanhGiaTSTH
-            VaiTro
-            DanhGia
-            LyDo
-            CBCS {
-              MaCBCS
-              HoTen
-              ChucVu {
-                ChucVu
-              }
-            }
-          }
-          BaoCaoPHQHs {
-            MaBCPHQH
-            BiDanh
-          }
-          PhuongTienNVs {
-            MaPT
-            BKS
-          }
-          BaoCaoKQGHs {
-            MaBCKQGH
-            MucDich
-          }
-          DiaChiNVs {
-            MaDC
-            DiaChi
-          }
-        }
-        KeHoachTSNT {
-          MaKH
-          VanDeChuY
-          TramCT {
-            MaTramCT
-            DiaDiem
-            VanDeChuY
-            QuyDinh
-          }
-        }
-      }
-    }
-  }
-`;
+
 export const QUERY_chuyenans = gql`
   query QUERY_chuyenans($utilsParams: UtilsParamsInput!) {
     chuyenans(utilsParams: $utilsParams) {
@@ -238,80 +261,7 @@ export const QUERY_chuyenan = gql`
     }
   }
 `;
-export const QUERY_cbcss = gql`
-  query QUERY_cbcss($utilsParams: UtilsParamsInput!) {
-    cbcss(utilsParams: $utilsParams) {
-      MaCBCS
-      HoTen
-      TenKhac
-      NgaySinh
-      GioiTinh
-      NoiO
-      QueQuan
-      HKTT
-      SDT
-      CMND
-      CCCD
-      SHC
-      QuocTich {
-        MaQT
-        TenQT
-      }
-      DanToc {
-        MaDT
-        TenDT
-      }
-      TonGiao {
-        MaTG
-        TenTG
-      }
-      CapBac {
-        MaCB
-        CapBac
-      }
-      ChucVu {
-        MaCV
-        ChucVu
-      }
-      Doi {
-        MaDoi
-        TenDoi
-      }
-      CAQHvaTD {
-        MaCAQHvaTD
-        CAQHvaTD
-        CATTPvaTD {
-          MaCATTPvaTD
-          CATTPvaTD
-        }
-      }
-      DanhGiaTSTHs {
-        MaDanhGiaTSTH
-        VaiTro
-        DanhGia
-        LyDo
-        KetQuaTSNT {
-          MaKQ
-          ThoiGianBD
-          ThoiGianKT
-          KeHoachTSNT {
-            MaKH
-            DoiTuong {
-              MaDoiTuong
-              TenDT
-            }
-            QuyetDinhTSNT {
-              MaQD
-              BiDanh
-              ThoiGianBD
-              ThoiGianKT
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+
 export const QUERY_account = gql`
   query QUERY_account($id: Float!) {
     account(accountID: $id) {
@@ -2019,9 +1969,7 @@ export const MUTATION_deleteBienBanRKN_LanhDaoTG = gql`
   }
 `;
 export const MUTATION_createBaoCaoKQGH = gql`
-  mutation MUTATION_createBaoCaoKQGH(
-    $baocaoKQGHInput: BaoCaoKQGHInput!
-  ) {
+  mutation MUTATION_createBaoCaoKQGH($baocaoKQGHInput: BaoCaoKQGHInput!) {
     createBaoCaoKQGH(baocaoKQGHInput: $baocaoKQGHInput) {
       MaBCKQGH
       Ngay

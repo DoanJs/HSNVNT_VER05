@@ -13,10 +13,7 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -84,7 +81,6 @@ export class BaoCaoPHQHsResolver {
   ToTruongTS(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS> {
     return this.baocaoPHQHsService.ToTruongTS(baocaoPHQH);
   }
-
 
   @ResolveField((returns) => [CBCS])
   TSThucHiens(@Parent() baocaoPHQH: BaoCaoPHQH): Promise<CBCS[]> {

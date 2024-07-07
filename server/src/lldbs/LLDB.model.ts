@@ -18,7 +18,7 @@ export class LLDB {
   @Field()
   MaLLDB: number;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   BiDanh: string;
 
@@ -35,9 +35,6 @@ export class LLDB {
   @Field({ nullable: true })
   LoaiLLDB: LoaiLLDB;
 
-  @ManyToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.LLDBs)
-  KeHoachTSNTs: [KeHoachTSNT];
-
   @ManyToOne(() => CBCS, (cbcs) => cbcs.TSQuanLy_LLDBs, {
     cascade: true,
     eager: true,
@@ -48,4 +45,7 @@ export class LLDB {
   })
   @Field((type) => CBCS, { nullable: true })
   TSQuanLy: CBCS;
+  
+  @ManyToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.LLDBs)
+  KeHoachTSNTs: [KeHoachTSNT];
 }

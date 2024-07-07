@@ -1,7 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'LucLuongThamGiaKHs' })
 @ObjectType()
@@ -16,21 +22,25 @@ export class LucLuongThamGiaKH {
 
   //relation
 
-  @ManyToOne(() => KeHoachTSNT, kehoachTSNT => kehoachTSNT.LLTGKeHoachs, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaKH",
-    foreignKeyConstraintName: "FK_MaKH_LucLuongThamGiaKH"
+  @ManyToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.LLTGKeHoachs, {
+    cascade: true,
+    eager: true,
   })
-  @Field(type => KeHoachTSNT, { nullable: true })
-  KeHoachTSNT: KeHoachTSNT
-
-  @ManyToOne(() => CBCS, cbcs => cbcs.LucLuongThamGiaKHs, { cascade: true, eager: true })
   @JoinColumn({
-    name: "MaCBCS",
-    foreignKeyConstraintName: "FK_MaCBCS_LucLuongThamGiaKH"
+    name: 'MaKH',
+    foreignKeyConstraintName: 'FK_MaKH_LucLuongThamGiaKH',
   })
-  @Field(type => CBCS, { nullable: true })
-  CBCS: CBCS
+  @Field((type) => KeHoachTSNT, { nullable: true })
+  KeHoachTSNT: KeHoachTSNT;
 
-  // chua duyet lai
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.LucLuongThamGiaKHs, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaCBCS',
+    foreignKeyConstraintName: 'FK_MaCBCS_LucLuongThamGiaKH',
+  })
+  @Field((type) => CBCS, { nullable: true })
+  CBCS: CBCS;
 }

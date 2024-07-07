@@ -12,11 +12,11 @@ import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CapCA } from './CapCA.model';
 import { CapCAsService } from './CapCAs.service';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 
 @Resolver(() => CapCA)
 @UseGuards(GraphQLGuard)

@@ -17,6 +17,4 @@ export class QuocTich {
 
   @OneToMany(() => DanToc, (dantoc) => dantoc.QuocTich)
   DanTocs: [DanToc];
-
-  // chua duyet lai
 }

@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import {
   SP_CHANGE_DATA,
@@ -21,8 +17,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { QuyetDinhTSNT } from './QuyetDinhTSNT.model';
 import { QuyetDinhTSNTInput } from './type/QuyetDinhTSNT.input';
-import { QuyetDinhTSNT_TinhTPType } from './type/QuyetDinhTSNT_TinhTP.type';
 import { QuyetDinhTSNT_TinhTPInput } from './type/QuyetDinhTSNT_TinhTP.input';
+import { QuyetDinhTSNT_TinhTPType } from './type/QuyetDinhTSNT_TinhTP.type';
 
 @Injectable()
 export class QuyetDinhTSNTsService {
@@ -53,20 +49,11 @@ export class QuyetDinhTSNTsService {
           ? `N'${quyetdinhTSNTInput.ThoiGianKT}'`
           : null,
         NhiemVuCT: `N'${quyetdinhTSNTInput.NhiemVuCT}'`, // crypto
-        MaDoiTuong: quyetdinhTSNTInput.MaDoiTuong
-          ? quyetdinhTSNTInput.MaDoiTuong
-          : null,
         MaDN: quyetdinhTSNTInput.MaDN ? quyetdinhTSNTInput.MaDN : null,
         MaLanhDaoPD: quyetdinhTSNTInput.MaLanhDaoPD
           ? quyetdinhTSNTInput.MaLanhDaoPD
           : null,
         MaDoi: quyetdinhTSNTInput.MaDoi ? quyetdinhTSNTInput.MaDoi : null,
-        MaCATTPvaTD: quyetdinhTSNTInput.MaCATTPvaTD
-          ? quyetdinhTSNTInput.MaCATTPvaTD
-          : null,
-        MaCAQHvaTD: quyetdinhTSNTInput.MaCAQHvaTD
-          ? quyetdinhTSNTInput.MaCAQHvaTD
-          : null,
       },
     };
   };
@@ -249,14 +236,6 @@ export class QuyetDinhTSNTsService {
 
   // ResolveField
 
-  async DoiTuong(quyetdinhTSNT: any): Promise<DoiTuong> {
-    if (quyetdinhTSNT.MaDoiTuong) {
-      return this.dataloaderService.loaderDoiTuong.load(
-        quyetdinhTSNT.MaDoiTuong,
-      );
-    }
-  }
-
   async DeNghiTSNT(quyetdinhTSNT: any): Promise<DeNghiTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
       SP_GET_DATA_DECRYPT(
@@ -269,38 +248,15 @@ export class QuyetDinhTSNTsService {
     return result[0];
   }
 
-  async LanhDaoPD(quyetdinhTSNT: any): Promise<CBCS> {
-    if (quyetdinhTSNT.MaLanhDaoPD) {
-      return this.dataloaderService.loaderCBCS.load(quyetdinhTSNT.MaLanhDaoPD);
-    }
-  }
-
   async Doi(quyetdinhTSNT: any): Promise<Doi> {
     if (quyetdinhTSNT.MaDoi) {
       return this.dataloaderService.loaderDoi.load(quyetdinhTSNT.MaDoi);
     }
   }
 
-  async KeHoachTSNT(MaQD: number): Promise<KeHoachTSNT> {
-    const result = await this.quyetdinhTSNTRepository.query(
-      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaQD = ${MaQD}'`, 0, 1),
-    );
-    return result[0];
-  }
-
-  async CATTPvaTD(quyetdinhTSNT: any): Promise<CATTPvaTD> {
-    if (quyetdinhTSNT.MaCATTPvaTD) {
-      return this.dataloaderService.loaderCATTPvaTD.load(
-        quyetdinhTSNT.MaCATTPvaTD,
-      );
-    }
-  }
-
-  async CAQHvaTD(quyetdinhTSNT: any): Promise<CAQHvaTD> {
-    if (quyetdinhTSNT.MaCAQHvaTD) {
-      return this.dataloaderService.loaderCAQHvaTD.load(
-        quyetdinhTSNT.MaCAQHvaTD,
-      );
+  async LanhDaoPD(quyetdinhTSNT: any): Promise<CBCS> {
+    if (quyetdinhTSNT.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(quyetdinhTSNT.MaLanhDaoPD);
     }
   }
 
@@ -320,9 +276,9 @@ export class QuyetDinhTSNTsService {
     return await Promise.all(resultLoader);
   }
 
-  async KetQuaTSNT(MaQD: number): Promise<KetQuaTSNT> {
+  async KeHoachTSNT(MaQD: number): Promise<KeHoachTSNT> {
     const result = await this.quyetdinhTSNTRepository.query(
-      SP_GET_DATA('KetQuaTSNTs', `'MaQD = ${MaQD}'`, 'MaKQ', 0, 0),
+      SP_GET_DATA_DECRYPT('KeHoachTSNTs', `'MaQD = ${MaQD}'`, 0, 1),
     );
     return result[0];
   }

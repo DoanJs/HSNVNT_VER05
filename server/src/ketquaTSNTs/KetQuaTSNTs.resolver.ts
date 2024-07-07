@@ -14,11 +14,12 @@ import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import { BaoCaoPHPT } from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KetQuaTSNT } from './KetQuaTSNT.model';
@@ -76,29 +77,14 @@ export class KetQuaTSNTsResolver {
     return this.ketquaTSNTsService.KeHoachTSNT(ketquaTSNT);
   }
 
-  @ResolveField((returns) => QuyetDinhTSNT)
-  QuyetDinhTSNT(@Parent() ketquaTSNT: KetQuaTSNT): Promise<QuyetDinhTSNT> {
-    return this.ketquaTSNTsService.QuyetDinhTSNT(ketquaTSNT);
-  }
-
   @ResolveField((returns) => [TinhTP])
   PhamViTSs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<TinhTP[]> {
     return this.ketquaTSNTsService.PhamViTSs(ketquaTSNT.MaKQ);
   }
 
-  @ResolveField((returns) => [DanhGiaTSTH])
-  DanhGiaTSTHs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<DanhGiaTSTH[]> {
-    return this.ketquaTSNTsService.DanhGiaTSTHs(ketquaTSNT.MaKQ);
-  }
-
-  @ResolveField((returns) => BaoCaoKTDN)
-  BaoCaoKTDN(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoKTDN> {
-    return this.ketquaTSNTsService.BaoCaoKTDN(ketquaTSNT.MaKQ);
-  }
-
-  @ResolveField((returns) => [BaoCaoPHQH])
-  BaoCaoPHQHs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHQH[]> {
-    return this.ketquaTSNTsService.BaoCaoPHQHs(ketquaTSNT.MaKQ);
+  @ResolveField((returns) => [BaoCaoPHDC])
+  BaoCaoPHDCs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHDC[]> {
+    return this.ketquaTSNTsService.BaoCaoPHDCs(ketquaTSNT.MaKQ);
   }
 
   @ResolveField((returns) => [BaoCaoKQGH])
@@ -106,13 +92,28 @@ export class KetQuaTSNTsResolver {
     return this.ketquaTSNTsService.BaoCaoKQGHs(ketquaTSNT.MaKQ);
   }
 
-  // @ResolveField((returns) => [BaoCaoPHDC])
-  // BaoCaoPHDCs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHDC[]> {
-  //   return this.ketquaTSNTsService.BaoCaoPHDCs(ketquaTSNT.MaKQ);
-  // }
+  @ResolveField((returns) => BienBanRKN)
+  BienBanRKN(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BienBanRKN> {
+    return this.ketquaTSNTsService.BienBanRKN(ketquaTSNT.MaKQ);
+  }
+
+  @ResolveField((returns) => [BaoCaoPHQH])
+  BaoCaoPHQHs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHQH[]> {
+    return this.ketquaTSNTsService.BaoCaoPHQHs(ketquaTSNT.MaKQ);
+  }
 
   @ResolveField((returns) => [BaoCaoPHPT])
   BaoCaoPHPTs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoPHPT[]> {
     return this.ketquaTSNTsService.BaoCaoPHPTs(ketquaTSNT.MaKQ);
+  }
+
+  @ResolveField((returns) => BaoCaoKTDN)
+  BaoCaoKTDN(@Parent() ketquaTSNT: KetQuaTSNT): Promise<BaoCaoKTDN> {
+    return this.ketquaTSNTsService.BaoCaoKTDN(ketquaTSNT.MaKQ);
+  }
+
+  @ResolveField((returns) => [DanhGiaTSTH])
+  DanhGiaTSTHs(@Parent() ketquaTSNT: KetQuaTSNT): Promise<DanhGiaTSTH[]> {
+    return this.ketquaTSNTsService.DanhGiaTSTHs(ketquaTSNT.MaKQ);
   }
 }

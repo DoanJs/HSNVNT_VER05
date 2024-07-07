@@ -17,7 +17,7 @@ import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import { BaoCaoPHPT } from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
@@ -27,18 +27,18 @@ import { DanToc } from 'src/dantocs/DanToc.model';
 import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
 import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
+import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
+import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CBCS } from './CBCS.model';
 import { CBCSsService } from './CBCSs.service';
 import { CBCSInput } from './type/CBCS.Input';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 
 @Resolver(() => CBCS)
 @UseGuards(GraphQLGuard)
@@ -154,12 +154,12 @@ export class CBCSsResolver {
   ThanhPhanTD_BienBanRKNs(@Parent() cbcs: CBCS): Promise<BienBanRKN[]> {
     return this.cbcssService.ThanhPhanTD_BienBanRKNs(cbcs.MaCBCS);
   }
-  
+
   @ResolveField((returns) => [BienBanRKN])
   ThuKy_BienBanRKNs(@Parent() cbcs: CBCS): Promise<BienBanRKN[]> {
     return this.cbcssService.ThuKy_BienBanRKNs(cbcs.MaCBCS);
   }
-  
+
   @ResolveField((returns) => [BienBanRKN])
   ChuToa_BienBanRKNs(@Parent() cbcs: CBCS): Promise<BienBanRKN[]> {
     return this.cbcssService.ChuToa_BienBanRKNs(cbcs.MaCBCS);
@@ -201,7 +201,7 @@ export class CBCSsResolver {
   ): Promise<BaoCaoKQXMQuanHe[]> {
     return this.cbcssService.LanhDaoPD_BaoCaoKQXMQuanHes(cbcs.MaCBCS);
   }
-  
+
   @ResolveField((returns) => [BaoCaoKQXMQuanHe])
   BCHPhuTrach_BaoCaoKQXMQuanHes(
     @Parent() cbcs: CBCS,
@@ -217,37 +217,27 @@ export class CBCSsResolver {
   }
 
   @ResolveField((returns) => [DauMoiPH_DN])
-  LDDonViDN_DauMoiPHs(
-    @Parent() cbcs: CBCS,
-  ): Promise<DauMoiPH_DN[]> {
+  LDDonViDN_DauMoiPHs(@Parent() cbcs: CBCS): Promise<DauMoiPH_DN[]> {
     return this.cbcssService.LDDonViDN_DauMoiPHs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [DauMoiPH_DN])
-  CBTrucTiepPH_DauMoiPHs(
-    @Parent() cbcs: CBCS,
-  ): Promise<DauMoiPH_DN[]> {
+  CBTrucTiepPH_DauMoiPHs(@Parent() cbcs: CBCS): Promise<DauMoiPH_DN[]> {
     return this.cbcssService.CBTrucTiepPH_DauMoiPHs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [KyDuyet_DN])
-  DaiDienCATTPvaTD_KyDuyet_DNs(
-    @Parent() cbcs: CBCS,
-  ): Promise<KyDuyet_DN[]> {
+  DaiDienCATTPvaTD_KyDuyet_DNs(@Parent() cbcs: CBCS): Promise<KyDuyet_DN[]> {
     return this.cbcssService.DaiDienCATTPvaTD_KyDuyet_DNs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [KyDuyet_DN])
-  DaiDienDonViDN_KyDuyet_DNs(
-    @Parent() cbcs: CBCS,
-  ): Promise<KyDuyet_DN[]> {
+  DaiDienDonViDN_KyDuyet_DNs(@Parent() cbcs: CBCS): Promise<KyDuyet_DN[]> {
     return this.cbcssService.DaiDienDonViDN_KyDuyet_DNs(cbcs.MaCBCS);
   }
 
   @ResolveField((returns) => [KyDuyet_DN])
-  DaiDienDonViTSNT_KyDuyet_DNs(
-    @Parent() cbcs: CBCS,
-  ): Promise<KyDuyet_DN[]> {
+  DaiDienDonViTSNT_KyDuyet_DNs(@Parent() cbcs: CBCS): Promise<KyDuyet_DN[]> {
     return this.cbcssService.DaiDienDonViTSNT_KyDuyet_DNs(cbcs.MaCBCS);
   }
 

@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,17 +7,16 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { LoaiLLDB } from './LoaiLLDB.model';
 import { LoaiLLDBsService } from './LoaiLLDBs.service';
 import { LoaiLLDBInput } from './type/LoaiLLDB.Input';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { UseGuards } from '@nestjs/common';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 
 @Resolver(() => LoaiLLDB)
 @UseGuards(GraphQLGuard)

@@ -15,7 +15,7 @@ import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
-import BaoCaoPHPT from './BaoCaoPHPT.model';
+import { BaoCaoPHPT } from './BaoCaoPHPT.model';
 import { BaoCaoPHPTsService } from './BaoCaoPHPTs.service';
 import { BaoCaoPHPTInput } from './type/BaoCaoPHPT.input';
 
@@ -41,10 +41,7 @@ export class BaoCaoPHPTsResolver {
     @CurrentUser() user: any,
     @Args('baocaoPHPTInput') baocaoPHPTInput: BaoCaoPHPTInput,
   ): Promise<BaoCaoPHPT> {
-    return this.baocaoPHPTsService.createBaoCaoPHPT(
-      baocaoPHPTInput,
-      user,
-    );
+    return this.baocaoPHPTsService.createBaoCaoPHPT(baocaoPHPTInput, user);
   }
 
   @Mutation((returns) => BaoCaoPHPT)
@@ -54,11 +51,7 @@ export class BaoCaoPHPTsResolver {
     @Args('baocaoPHPTInput') baocaoPHPTInput: BaoCaoPHPTInput,
     @Args('id') id: number,
   ): Promise<BaoCaoPHPT> {
-    return this.baocaoPHPTsService.editBaoCaoPHPT(
-      baocaoPHPTInput,
-      id,
-      user,
-    );
+    return this.baocaoPHPTsService.editBaoCaoPHPT(baocaoPHPTInput, id, user);
   }
 
   @Mutation((returns) => BaoCaoPHPT)
@@ -68,11 +61,7 @@ export class BaoCaoPHPTsResolver {
     @Args('baocaoPHPTInput') baocaoPHPTInput: BaoCaoPHPTInput,
     @Args('id') id: number,
   ): Promise<BaoCaoPHPT> {
-    return this.baocaoPHPTsService.deleteBaoCaoPHPT(
-      baocaoPHPTInput,
-      id,
-      user,
-    );
+    return this.baocaoPHPTsService.deleteBaoCaoPHPT(baocaoPHPTInput, id, user);
   }
 
   // ResolveField

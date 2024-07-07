@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOKQGH,
@@ -17,8 +14,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoKQGH } from './BaoCaoKQGH.model';
 import { BaoCaoKQGHInput } from './type/BaoCaoKQGH.input';
-import { BaoCaoKQGH_CBCSType } from './type/BaoCaoKQGH_CBCS.type';
 import { BaoCaoKQGH_CBCSInput } from './type/BaoCaoKQGH_CBCS.input';
+import { BaoCaoKQGH_CBCSType } from './type/BaoCaoKQGH_CBCS.type';
 
 @Injectable()
 export class BaoCaoKQGHsService {

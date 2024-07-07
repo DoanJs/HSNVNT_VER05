@@ -16,11 +16,9 @@ export class TonGiao {
 
   //relation
 
-
-  // chua duyet lai
-  @OneToMany(() => CBCS, cbcs => cbcs.TonGiao)
-  CBCSs: [CBCS]
-
   @OneToMany(() => DoiTuong, (doituong) => doituong.TonGiao)
   DoiTuongs: [DoiTuong];
+
+  @OneToMany(() => CBCS, (cbcs) => cbcs.TonGiao)
+  CBCSs: [CBCS];
 }

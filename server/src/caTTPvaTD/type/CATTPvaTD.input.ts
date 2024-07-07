@@ -1,13 +1,13 @@
-import { Field, InputType } from "@nestjs/graphql";
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CATTPvaTDInput {
-    @Field({ nullable: true })
-    CATTPvaTD?: string
+  @Field({ nullable: true })
+  CATTPvaTD?: string;
 
-    @Field({ nullable: true })
-    KyHieu?: string
+  @Field({ nullable: true })
+  KyHieu?: string;
 
-    @Field({ nullable: true })
-    MaCapCA?: number
+  @Field({ nullable: true })
+  MaCapCA?: number;
 }

@@ -153,13 +153,13 @@ export class TinhTPsService {
       SP_GET_DATA(
         'KetQuaTSNTs_TinhTPs',
         `'MaTinhTP = ${MaTinhTP}'`,
-        'MaKQTSNT',
+        'MaKQ',
         0,
         0,
       ),
-    )) as [{ MaKQTSNT: number }];
+    )) as [{ MaKQ: number }];
     const resultLoader = result.map((obj) =>
-      this.dataloaderService.loaderKetQuaTSNT.load(obj.MaKQTSNT),
+      this.dataloaderService.loaderKetQuaTSNT.load(obj.MaKQ),
     );
     return await Promise.all(resultLoader);
   }

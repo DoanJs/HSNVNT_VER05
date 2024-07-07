@@ -15,7 +15,6 @@ export class LoaiDT {
 
   // relation
 
-  // chua duyet lai
   @OneToMany(() => DoiTuong, (doituong) => doituong.LoaiDT)
   DoiTuongs: [DoiTuong];
 }

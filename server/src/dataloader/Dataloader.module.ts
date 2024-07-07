@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import {BaoCaoPHPT} from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CapCA } from 'src/capCAs/CapCA.model';
@@ -27,7 +28,6 @@ import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import { DataLoaderService } from './Dataloader.service';
-import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 
 @Module({
   imports: [
@@ -58,10 +58,10 @@ import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
       LLDB,
       CapCA,
       BienPhapDT,
-      BienBanRKN
+      BienBanRKN,
     ]),
   ],
   providers: [DataLoaderService],
   exports: [DataLoaderService],
 })
-export class DataLoaderModule { }
+export class DataLoaderModule {}

@@ -2,13 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import {
   SP_CHANGE_DATA,
   SP_GET_DATA,
@@ -35,17 +30,6 @@ export class KetQuaXMQuanHesService {
       So: ketquaXMQuanHeInput.So ? `N''${ketquaXMQuanHeInput.So}''` : null,
       Ngay: ketquaXMQuanHeInput.Ngay
         ? `N''${ketquaXMQuanHeInput.Ngay}''`
-        : null,
-      MaQD: ketquaXMQuanHeInput.MaQD ? ketquaXMQuanHeInput.MaQD : null,
-      MaDN: ketquaXMQuanHeInput.MaDN ? ketquaXMQuanHeInput.MaDN : null,
-      MaCATTPvaTD: ketquaXMQuanHeInput.MaCATTPvaTD
-        ? ketquaXMQuanHeInput.MaCATTPvaTD
-        : null,
-      MaCAQHvaTD: ketquaXMQuanHeInput.MaCAQHvaTD
-        ? ketquaXMQuanHeInput.MaCAQHvaTD
-        : null,
-      MaDoiTuong: ketquaXMQuanHeInput.MaDoiTuong
-        ? ketquaXMQuanHeInput.MaDoiTuong
         : null,
       MaLanhDaoPD: ketquaXMQuanHeInput.MaLanhDaoPD
         ? ketquaXMQuanHeInput.MaLanhDaoPD
@@ -83,14 +67,9 @@ export class KetQuaXMQuanHesService {
       SP_CHANGE_DATA(
         "'CREATE'",
         'KetQuaXMQuanHes',
-        "'So, Ngay, MaCATTPvaTD, MaCAQHvaTD, MaDoiTuong, MaQD, MaDN, MaLanhDaoPD, MaBCPHQH'",
+        "'So, Ngay, MaLanhDaoPD, MaBCPHQH'",
         `N' ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).So},
             ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).Ngay},
-            ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaCATTPvaTD},
-            ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaCAQHvaTD},
-            ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaDoiTuong},
-            ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaQD},
-            ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaDN},
             ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaLanhDaoPD},
             ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaBCPHQH}
         '`,
@@ -120,17 +99,6 @@ export class KetQuaXMQuanHesService {
         null,
         `N' So = ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).So},
             Ngay = ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).Ngay},
-            MaCATTPvaTD = ${
-              this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaCATTPvaTD
-            },
-            MaCAQHvaTD = ${
-              this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaCAQHvaTD
-            },
-            MaDoiTuong = ${
-              this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaDoiTuong
-            },
-            MaQD = ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaQD},
-            MaDN = ${this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaDN},
             MaLanhDaoPD = ${
               this.ketquaXMQuanHe_DataInput(ketQuaXMQuanHe).MaLanhDaoPD
             },
@@ -183,28 +151,9 @@ export class KetQuaXMQuanHesService {
     return result[0];
   }
 
-  async DeNghiTSNT(ketquaXMDiaChi: any): Promise<DeNghiTSNT> {
-    return this.dataloaderService.loaderDeNghiTSNT.load(ketquaXMDiaChi.MaDN);
-  }
-  async QuyetDinhTSNT(ketquaXMDiaChi: any): Promise<QuyetDinhTSNT> {
-    return this.dataloaderService.loaderQuyetDinhTSNT.load(ketquaXMDiaChi.MaQD);
-  }
-  async CATTPvaTD(ketquaXMDiaChi: any): Promise<CATTPvaTD> {
-    return this.dataloaderService.loaderCATTPvaTD.load(
-      ketquaXMDiaChi.MaCATTPvaTD,
-    );
-  }
-  async CAQHvaTD(ketquaXMDiaChi: any): Promise<CAQHvaTD> {
-    return this.dataloaderService.loaderCAQHvaTD.load(
-      ketquaXMDiaChi.MaCAQHvaTD,
-    );
-  }
-  async DoiTuong(ketquaXMDiaChi: any): Promise<DoiTuong> {
-    return this.dataloaderService.loaderDoiTuong.load(
-      ketquaXMDiaChi.MaDoiTuong,
-    );
-  }
   async LanhDaoPD(ketquaXMDiaChi: any): Promise<CBCS> {
-    return this.dataloaderService.loaderCBCS.load(ketquaXMDiaChi.MaLanhDaoPD);
+    if (ketquaXMDiaChi.MaLanhDaoPD) {
+      return this.dataloaderService.loaderCBCS.load(ketquaXMDiaChi.MaLanhDaoPD);
+    }
   }
 }

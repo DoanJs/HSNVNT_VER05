@@ -1,18 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
+import { CapCA } from 'src/capCAs/CapCA.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   SP_CHANGE_DATA,
   SP_GET_DATA,
@@ -22,7 +15,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
-import { CapCA } from 'src/capCAs/CapCA.model';
 
 @Injectable()
 export class CAQHvaTDsService {

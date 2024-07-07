@@ -20,7 +20,7 @@ export class DoiTuongCA {
   @Field({ nullable: true })
   BiSo: string;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
   ViTri: string;
 
@@ -33,6 +33,7 @@ export class DoiTuongCA {
     name: 'MaCA',
     foreignKeyConstraintName: 'FK_MaCA_DoiTuongCA',
   })
+  @Field({ nullable: true })
   ChuyenAn: ChuyenAn;
 
   @ManyToOne(() => DoiTuong, (doituong) => doituong.DoiTuongCAs, {
@@ -43,5 +44,6 @@ export class DoiTuongCA {
     name: 'MaDoiTuong',
     foreignKeyConstraintName: 'FK_MaDoiTuong_DoiTuongCA',
   })
+  @Field((type) => DoiTuong, { nullable: true })
   DoiTuong: DoiTuong;
 }

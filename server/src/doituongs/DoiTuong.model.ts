@@ -1,22 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
-import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { LoaiDT } from 'src/loaiDTs/LoaiDT.model';
-import { QuocTich } from 'src/quoctichs/QuocTich.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   Column,
   Entity,
@@ -40,7 +29,7 @@ export class DoiTuong {
   @Field()
   TenDT: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   TenKhac: string;
 
@@ -76,11 +65,11 @@ export class DoiTuong {
   @Field({ nullable: true })
   NoiO: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   NgheNghiep: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   ChucVu: string;
 
@@ -88,7 +77,7 @@ export class DoiTuong {
   @Field({ nullable: true })
   NoiLamViec: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   PhuongTien: string;
 
@@ -143,15 +132,6 @@ export class DoiTuong {
   @ManyToMany(() => BienPhapDT, (bienPhapDT) => bienPhapDT.DoiTuongs)
   BienPhapDTs: [BienPhapDT];
 
-
-
-
-
-
-
-
-
-  // chua duyet lai
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.DoiTuong)
   DeNghiTSNTs: [DeNghiTSNT];
 

@@ -30,14 +30,6 @@ export class DoiTuongCAsResolver {
     return this.doituongCAsService.doituongCAs(utilsParams);
   }
 
-  // @Query((returns) => [DoiTuongCA])
-  // doituongCAsOpen(
-  //   @Args('conditionCol') conditionCol: string,
-  //   @Args('value') value: string,
-  // ): Promise<DoiTuongCA[]> {
-  //   return this.doituongCAsService.doituongCAsOpen(conditionCol, value);
-  // }
-
   @Query((returns) => DoiTuongCA)
   doituongCA(@Args('id') id: number): Promise<DoiTuongCA> {
     return this.doituongCAsService.doituongCA(id);

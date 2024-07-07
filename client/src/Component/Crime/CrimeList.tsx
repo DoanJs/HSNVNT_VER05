@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Spinner } from "..";
 import { QUERY_doituongs } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 import Crime from "./Crime";
@@ -54,7 +55,7 @@ const CrimeListStyled = styled.div`
   }
 `;
 export default function CrimeList() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { data: Data_doituongs, error } = useQuery(QUERY_doituongs, {
     variables: { utilsParams: {} },
   });
@@ -80,10 +81,11 @@ export default function CrimeList() {
 
   const onFilterCrime = (e: ChangeEvent<HTMLInputElement>) => {
     set_doituongs(
-      handleSearch("doituongs", Data_doituongs.doituongs, e.target.value)
+      handleSearch("DoiTuongs", Data_doituongs.doituongs, e.target.value)
     );
   };
 
+  if (!Data_doituongs) return <Spinner />;
   return (
     <CrimeListStyled>
       <div className="crimes-title">

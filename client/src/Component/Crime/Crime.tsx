@@ -63,26 +63,13 @@ export default function Crime({ crime, ind }: { crime: any; ind: number }) {
             Nơi ở: <b>{crime.NoiO}</b>
           </p>
           <p className="card-text">
-            Tính chất: <b>{crime.TinhChatDT?.TinhChat}</b>
+            Tính chất DT: <b>{crime.TinhChatDT?.TinhChat}</b>
           </p>
           <p className="card-text">
-            Số lần trinh sát: <b>{crime.QuyetDinhTSNTs.length}</b>
+            Số lần trinh sát: <b>{crime.DeNghiTSNTs?.length}</b>
           </p>
         </div>
       </Link>
-      {/* {handleAuthorization(accountLogin.role, [
-        "admin",
-        "leader",
-        "manager",
-      ]) && (
-        <Link
-          to={`/createPlan/${crime.id}`}
-          type="button"
-          className="btn btn-success crime-addmore"
-        >
-          Bổ sung
-        </Link>
-      )} */}
     </CrimeStyled>
   );
 }

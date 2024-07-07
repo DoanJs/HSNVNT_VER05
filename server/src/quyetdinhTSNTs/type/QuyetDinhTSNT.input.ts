@@ -21,20 +21,11 @@ export class QuyetDinhTSNTInput {
   NhiemVuCT?: string;
 
   @Field({ nullable: true })
-  MaDoiTuong?: number;
-
-  @Field({ nullable: true })
   MaDN?: number;
-
-  @Field({ nullable: true })
-  MaLanhDaoPD?: number;
 
   @Field({ nullable: true })
   MaDoi?: number;
 
   @Field({ nullable: true })
-  MaCATTPvaTD?: number;
-
-  @Field({ nullable: true })
-  MaCAQHvaTD?: number;
+  MaLanhDaoPD?: number;
 }

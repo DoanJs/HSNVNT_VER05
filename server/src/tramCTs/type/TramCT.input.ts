@@ -24,12 +24,6 @@ export class TramCTInput {
   QuyDinh?: string;
 
   @Field({ nullable: true })
-  MaCAQHvaTD?: number;
-
-  @Field({ nullable: true })
-  MaDoi?: number;
-
-  @Field({ nullable: true })
   MaTSXayDung?: number;
 
   @Field({ nullable: true })

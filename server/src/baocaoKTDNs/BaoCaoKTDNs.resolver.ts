@@ -1,16 +1,23 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
+import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
+import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
+import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoKTDN } from './BaoCaoKTDN.model';
 import { BaoCaoKTDNsService } from './BaoCaoKTDNs.service';
 import { BaoCaoKTDNInput } from './type/BaoCaoKTDN.input';
-import { UseGuards } from '@nestjs/common';
-import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
-import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
-import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
-import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
-import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
 
 @Resolver(() => BaoCaoKTDN)
 @UseGuards(GraphQLGuard)

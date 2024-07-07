@@ -1,19 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CapCA } from 'src/capCAs/CapCA.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
-import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   Column,
   Entity,
@@ -61,7 +50,7 @@ export class CAQHvaTD {
   })
   @Field({ nullable: true })
   CapCA: CapCA;
-  
+
   @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.CAQHvaTD)
   DeNghiTSNTs: [DeNghiTSNT];
 

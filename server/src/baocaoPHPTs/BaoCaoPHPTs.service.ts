@@ -11,7 +11,7 @@ import {
 } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
-import BaoCaoPHPT from './BaoCaoPHPT.model';
+import { BaoCaoPHPT } from './BaoCaoPHPT.model';
 import { BaoCaoPHPTInput } from './type/BaoCaoPHPT.input';
 
 @Injectable()
@@ -126,7 +126,13 @@ export class BaoCaoPHPTsService {
 
   async TSThucHiens(MaBCPHPT: number): Promise<CBCS[]> {
     const result = (await this.baocaoPHPTRepository.query(
-      SP_GET_DATA('BaoCaoPHPTs_CBCSs', `'MaBCPHPT = ${MaBCPHPT}'`, 'MaCBCS', 0, 0),
+      SP_GET_DATA(
+        'BaoCaoPHPTs_CBCSs',
+        `'MaBCPHPT = ${MaBCPHPT}'`,
+        'MaCBCS',
+        0,
+        0,
+      ),
     )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),

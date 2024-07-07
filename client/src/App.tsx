@@ -74,6 +74,8 @@ export default function App() {
           <Route path="/hoso/:category" element={<FileList />} />
           <Route path="/doituong" element={<CrimeList />} />
           <Route path="/doituong/:id" element={<CrimeItem />} />
+
+          
           <Route path="/chuyenan" element={<ProjectList />} />
           <Route path="/chuyenan/:id" element={<ProjectItem />} />
           <Route path="/cbcs" element={<CBCSList />} />

@@ -1,11 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CapCA } from 'src/capCAs/CapCA.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
-import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import {
   Column,
   Entity,
@@ -31,7 +26,7 @@ export class CATTPvaTD {
   KyHieu: string;
 
   // relation
-  
+
   @OneToMany(() => CAQHvaTD, (caQHvaTD) => caQHvaTD.CATTPvaTD)
   CAQHvaTDs: [CAQHvaTD];
 

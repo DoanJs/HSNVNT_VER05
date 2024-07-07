@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
+import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 import {
   SP_CHANGE_BAOCAOPHDC,
   SP_GET_DATA,
@@ -13,8 +15,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoPHDC } from './BaoCaoPHDC.model';
 import { BaoCaoPHDCInput } from './type/BaoCaoPHDC.Input';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
 
 @Injectable()
 export class BaoCaoPHDCsService {
@@ -33,7 +33,9 @@ export class BaoCaoPHDCsService {
       Type,
       MaBCPHDC,
       BaoCaoPHDCInput: {
-        ThoiGianPH: baocaoPHDCInput.ThoiGianPH ? baocaoPHDCInput.ThoiGianPH : null,
+        ThoiGianPH: baocaoPHDCInput.ThoiGianPH
+          ? baocaoPHDCInput.ThoiGianPH
+          : null,
         DiaChi: `N'${baocaoPHDCInput.DiaChi}'`, //crypto,
         HinhAnh: `N'${baocaoPHDCInput.HinhAnh}'`, //crypto,
         MaKQ: baocaoPHDCInput.MaKQ ? baocaoPHDCInput.MaKQ : null,
@@ -83,7 +85,9 @@ export class BaoCaoPHDCsService {
     user: any,
   ): Promise<BaoCaoPHDC> {
     const result = await this.baocaoPHDCRepository.query(
-      SP_CHANGE_BAOCAOPHDC(this.BaoCaoPHDC_DataInput('EDIT', id, baocaoPHDCInput)),
+      SP_CHANGE_BAOCAOPHDC(
+        this.BaoCaoPHDC_DataInput('EDIT', id, baocaoPHDCInput),
+      ),
     );
     this.actionDBsService.createActionDB({
       MaHistory: user.MaHistory,
@@ -100,7 +104,9 @@ export class BaoCaoPHDCsService {
     user: any,
   ): Promise<BaoCaoPHDC> {
     const result = await this.baocaoPHDCRepository.query(
-      SP_CHANGE_BAOCAOPHDC(this.BaoCaoPHDC_DataInput('DELETE', id, baocaoPHDCInput)),
+      SP_CHANGE_BAOCAOPHDC(
+        this.BaoCaoPHDC_DataInput('DELETE', id, baocaoPHDCInput),
+      ),
     );
     this.actionDBsService.createActionDB({
       MaHistory: user.MaHistory,
@@ -118,7 +124,13 @@ export class BaoCaoPHDCsService {
 
   async TSThucHiens(MaBCPHDC: number): Promise<CBCS[]> {
     const result = (await this.baocaoPHDCRepository.query(
-      SP_GET_DATA('BaoCaoPHDCs_CBCSs', `'MaBCPHDC = ${MaBCPHDC}'`, 'MaCBCS', 0, 0),
+      SP_GET_DATA(
+        'BaoCaoPHDCs_CBCSs',
+        `'MaBCPHDC = ${MaBCPHDC}'`,
+        'MaCBCS',
+        0,
+        0,
+      ),
     )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),
@@ -128,14 +140,25 @@ export class BaoCaoPHDCsService {
 
   async BaoCaoKQXMDiaChi(MaBCPHDC: number): Promise<BaoCaoKQXMDiaChi> {
     const result = await this.baocaoPHDCRepository.query(
-      SP_GET_DATA_DECRYPT('BaoCaoKQXMDiaChis', `'MaBCPHDC = ${MaBCPHDC}'`, 0, 1),
+      SP_GET_DATA_DECRYPT(
+        'BaoCaoKQXMDiaChis',
+        `'MaBCPHDC = ${MaBCPHDC}'`,
+        0,
+        1,
+      ),
     );
     return result[0];
   }
 
   async KetQuaXMDiaChi(MaBCPHDC: number): Promise<KetQuaXMDiaChi> {
     const result = await this.baocaoPHDCRepository.query(
-      SP_GET_DATA('KetQuaXMDiaChis', `'MaBCPHDC = ${MaBCPHDC}'`, 'MaKQXMDC', 0, 1),
+      SP_GET_DATA(
+        'KetQuaXMDiaChis',
+        `'MaBCPHDC = ${MaBCPHDC}'`,
+        'MaKQXMDC',
+        0,
+        1,
+      ),
     );
     return result[0];
   }

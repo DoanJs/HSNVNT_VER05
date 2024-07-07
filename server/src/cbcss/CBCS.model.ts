@@ -4,7 +4,7 @@ import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import { BaoCaoPHPT } from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
@@ -241,7 +241,6 @@ export class CBCS {
 
   @OneToMany(() => KetQuaXMQuanHe, (ketquaXMQuanHe) => ketquaXMQuanHe.LanhDaoPD)
   LanhDaoPD_KetQuaXMQuanHes: [KetQuaXMQuanHe];
-
 
   @OneToMany(
     () => LucLuongThamGiaKH,

@@ -12,11 +12,7 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
@@ -26,8 +22,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KeHoachTSNT } from './KeHoachTSNT.model';
 import { KeHoachTSNTsService } from './KeHoachTSNTs.service';
 import { KeHoachTSNTInput } from './type/KeHoachTSNT.input';
-import { KeHoachTSNT_LLDBType } from './type/KeHoachTSNT_LLDB.type';
 import { KeHoachTSNT_LLDBInput } from './type/KeHoachTSNT_LLDB.input';
+import { KeHoachTSNT_LLDBType } from './type/KeHoachTSNT_LLDB.type';
 
 @Resolver(() => KeHoachTSNT)
 @UseGuards(GraphQLGuard)
@@ -80,7 +76,6 @@ export class KeHoachTSNTsResolver {
 
   // many-to-many
 
-  
   @Query((returns) => [KeHoachTSNT_LLDBType])
   kehoachTSNTs_lldbs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
@@ -125,28 +120,19 @@ export class KeHoachTSNTsResolver {
     @Args('MaLLDB') MaLLDB: number,
     @Args('MaKH') MaKH: number,
   ): Promise<KeHoachTSNT_LLDBType> {
-    return this.kehoachTSNTsService.deleteKeHoachTSNT_LLDB(
-      MaLLDB,
-      MaKH,
-      user,
-    );
+    return this.kehoachTSNTsService.deleteKeHoachTSNT_LLDB(MaLLDB, MaKH, user);
   }
 
   // ResolveField
 
-  @ResolveField((returns) => KetQuaTSNT)
-  KetQuaTSNT(@Parent() kehoachTSNT: KeHoachTSNT): Promise<KetQuaTSNT> {
-    return this.kehoachTSNTsService.KetQuaTSNT(kehoachTSNT.MaKH);
+  @ResolveField((returns) => QuyetDinhTSNT)
+  QuyetDinhTSNT(@Parent() kehoachTSNT: KeHoachTSNT): Promise<QuyetDinhTSNT> {
+    return this.kehoachTSNTsService.QuyetDinhTSNT(kehoachTSNT);
   }
 
   @ResolveField((returns) => TramCT)
   TramCT(@Parent() kehoachTSNT: KeHoachTSNT): Promise<TramCT> {
     return this.kehoachTSNTsService.TramCT(kehoachTSNT);
-  }
-
-  @ResolveField((returns) => [LLDB])
-  LLDBs(@Parent() kehoachTSNT: KeHoachTSNT): Promise<LLDB[]> {
-    return this.kehoachTSNTsService.LLDBs(kehoachTSNT.MaKH);
   }
 
   @ResolveField((returns) => CBCS)
@@ -159,9 +145,9 @@ export class KeHoachTSNTsResolver {
     return this.kehoachTSNTsService.BCHPhuTrach(kehoachTSNT);
   }
 
-  @ResolveField((returns) => DoiTuong)
-  DoiTuong(@Parent() kehoachTSNT: KeHoachTSNT): Promise<DoiTuong> {
-    return this.kehoachTSNTsService.DoiTuong(kehoachTSNT);
+  @ResolveField((returns) => [LLDB])
+  LLDBs(@Parent() kehoachTSNT: KeHoachTSNT): Promise<LLDB[]> {
+    return this.kehoachTSNTsService.LLDBs(kehoachTSNT.MaKH);
   }
 
   @ResolveField((returns) => [LucLuongThamGiaKH])
@@ -171,23 +157,8 @@ export class KeHoachTSNTsResolver {
     return this.kehoachTSNTsService.LLTGKeHoachs(kehoachTSNT.MaKH);
   }
 
-  @ResolveField((returns) => DeNghiTSNT)
-  DeNghiTSNT(@Parent() kehoachTSNT: KeHoachTSNT): Promise<DeNghiTSNT> {
-    return this.kehoachTSNTsService.DeNghiTSNT(kehoachTSNT);
-  }
-
-  @ResolveField((returns) => QuyetDinhTSNT)
-  QuyetDinhTSNT(@Parent() kehoachTSNT: KeHoachTSNT): Promise<QuyetDinhTSNT> {
-    return this.kehoachTSNTsService.QuyetDinhTSNT(kehoachTSNT);
-  }
-
-  @ResolveField((returns) => CAQHvaTD)
-  DonVi(@Parent() kehoachTSNT: KeHoachTSNT): Promise<CAQHvaTD> {
-    return this.kehoachTSNTsService.DonVi(kehoachTSNT);
-  }
-
-  @ResolveField((returns) => Doi)
-  Doi(@Parent() kehoachTSNT: KeHoachTSNT): Promise<Doi> {
-    return this.kehoachTSNTsService.Doi(kehoachTSNT);
+  @ResolveField((returns) => KetQuaTSNT)
+  KetQuaTSNT(@Parent() kehoachTSNT: KeHoachTSNT): Promise<KetQuaTSNT> {
+    return this.kehoachTSNTsService.KetQuaTSNT(kehoachTSNT.MaKH);
   }
 }

@@ -13,20 +13,18 @@ import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
+import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { HinhThucHD } from 'src/hinhthucHDs/HinhThucHD.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
+import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { DeNghiTSNT } from './DeNghiTSNT.model';
 import { DeNghiTSNTsService } from './DeNghiTSNTs.service';
 import { DeNghiTSNTInput } from './type/DeNghiTSNT.input';
-import { DeNghiTSNT_TinhTPType } from './type/DeNghiTSNT_TinhTP.type';
 import { DeNghiTSNT_TinhTPInput } from './type/DeNghiTSNT_TinhTP.input';
-import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
+import { DeNghiTSNT_TinhTPType } from './type/DeNghiTSNT_TinhTP.type';
 
 @Resolver(() => DeNghiTSNT)
 @UseGuards(GraphQLGuard)
@@ -128,26 +126,9 @@ export class DeNghiTSNTsResolver {
 
   // ResolveField
 
-  @ResolveField((returns) => DauMoiPH_DN)
-  DauMoiPH_DN(@Parent() denghiTSNT: DeNghiTSNT): Promise<DauMoiPH_DN> {
-    return this.denghiTSNTsService.DauMoiPH_DN(denghiTSNT.MaDN);
-  }
-
-  @ResolveField((returns) => CATTPvaTD)
-  CATTPvaTD(@Parent() denghiTSNT: DeNghiTSNT): Promise<CATTPvaTD> {
-    return this.denghiTSNTsService.CATTPvaTD(denghiTSNT);
-  }
-
   @ResolveField((returns) => CAQHvaTD)
   CAQHvaTD(@Parent() denghiTSNT: DeNghiTSNT): Promise<CAQHvaTD> {
     return this.denghiTSNTsService.CAQHvaTD(denghiTSNT);
-  }
-
-  // KyDuyet_DN ?
-
-  @ResolveField((returns) => [TinhTP])
-  DiaBanDNs(@Parent() denghiTSNT: DeNghiTSNT): Promise<TinhTP[]> {
-    return this.denghiTSNTsService.DiaBanDNs(denghiTSNT.MaDN);
   }
 
   @ResolveField((returns) => DoiTuong)
@@ -155,54 +136,28 @@ export class DeNghiTSNTsResolver {
     return this.denghiTSNTsService.DoiTuong(denghiTSNT);
   }
 
-  @ResolveField((returns) => QuyetDinhTSNT)
-  QuyetDinhTSNT(@Parent() denghiTSNT: DeNghiTSNT): Promise<QuyetDinhTSNT> {
-    return this.denghiTSNTsService.QuyetDinhTSNT(denghiTSNT.MaDN);
-  }
-
-  @ResolveField((returns) => KeHoachTSNT)
-  KeHoachTSNT(@Parent() denghiTSNT: DeNghiTSNT): Promise<KeHoachTSNT> {
-    return this.denghiTSNTsService.KeHoachTSNT(denghiTSNT.MaDN);
-  }
-
-  
   @ResolveField((returns) => HinhThucHD)
   HinhThucHD(@Parent() denghiTSNT: DeNghiTSNT): Promise<HinhThucHD> {
     return this.denghiTSNTsService.HinhThucHD(denghiTSNT);
   }
 
-// KetQuaXMQuanHes ?
-// KetQuaXMDiaChis ?
-
-
-
-
-
-
-
-// Phần dư chưa có bên model ---> từ version trk chưa xóa
-  @ResolveField((returns) => CBCS)
-  LanhDaoDVDN(@Parent() denghiTSNT: DeNghiTSNT): Promise<CBCS> {
-    return this.denghiTSNTsService.LanhDaoDVDN(denghiTSNT);
+  @ResolveField((returns) => [TinhTP])
+  DiaBanDNs(@Parent() denghiTSNT: DeNghiTSNT): Promise<TinhTP[]> {
+    return this.denghiTSNTsService.DiaBanDNs(denghiTSNT.MaDN);
   }
 
-  @ResolveField((returns) => CBCS)
-  CBPhuTrachDN(@Parent() denghiTSNT: DeNghiTSNT): Promise<CBCS> {
-    return this.denghiTSNTsService.CBPhuTrachDN(denghiTSNT);
+  @ResolveField((returns) => DauMoiPH_DN)
+  DauMoiPH_DN(@Parent() denghiTSNT: DeNghiTSNT): Promise<DauMoiPH_DN> {
+    return this.denghiTSNTsService.DauMoiPH_DN(denghiTSNT.MaDN);
   }
 
-  @ResolveField((returns) => CBCS)
-  LanhDaoCapTren(@Parent() denghiTSNT: DeNghiTSNT): Promise<CBCS> {
-    return this.denghiTSNTsService.LanhDaoCapTren(denghiTSNT);
+  @ResolveField((returns) => KyDuyet_DN)
+  KyDuyet_DN(@Parent() denghiTSNT: DeNghiTSNT): Promise<KyDuyet_DN> {
+    return this.denghiTSNTsService.KyDuyet_DN(denghiTSNT.MaDN);
   }
 
-  @ResolveField((returns) => CBCS)
-  DaiDienDonViTSNT(@Parent() denghiTSNT: DeNghiTSNT): Promise<CBCS> {
-    return this.denghiTSNTsService.DaiDienDonViTSNT(denghiTSNT);
-  }
-
-  @ResolveField((returns) => CAQHvaTD)
-  DonViDN(@Parent() denghiTSNT: DeNghiTSNT): Promise<CAQHvaTD> {
-    return this.denghiTSNTsService.DonViDN(denghiTSNT);
+  @ResolveField((returns) => QuyetDinhTSNT)
+  QuyetDinhTSNT(@Parent() denghiTSNT: DeNghiTSNT): Promise<QuyetDinhTSNT> {
+    return this.denghiTSNTsService.QuyetDinhTSNT(denghiTSNT.MaDN);
   }
 }

@@ -120,6 +120,12 @@ export class LLDBsService {
     }
   }
 
+  async TSQuanLy(lldb: any): Promise<CBCS> {
+    if (lldb.MaTSQuanLy) {
+      return this.dataloaderService.loaderCBCS.load(lldb.MaTSQuanLy);
+    }
+  }
+
   async KeHoachTSNTs(MaLLDB: number): Promise<KeHoachTSNT[]> {
     const result = (await this.lldbRepository.query(
       SP_GET_DATA('KeHoachTSNTs_LLDBs', `'MaLLDB = ${MaLLDB}'`, 'MaKH', 0, 0),
@@ -128,11 +134,5 @@ export class LLDBsService {
       this.dataloaderService.loaderKeHoachTSNT.load(obj.MaKH),
     );
     return await Promise.all(resultLoader);
-  }
-
-  async TSQuanLy(lldb: any): Promise<CBCS> {
-    if (lldb.MaTSQuanLy) {
-      return this.dataloaderService.loaderCBCS.load(lldb.MaTSQuanLy);
-    }
   }
 }

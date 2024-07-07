@@ -5,7 +5,7 @@ import { ActionDB } from 'src/actionDBs/ActionDB.model';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { AuthPassportModule } from 'src/authPassport/AuthPassport.module';
 import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
-import BaoCaoPHPT from './BaoCaoPHPT.model';
+import { BaoCaoPHPT } from './BaoCaoPHPT.model';
 import { BaoCaoPHPTsResolver } from './BaoCaoPHPTs.resolver';
 import { BaoCaoPHPTsService } from './BaoCaoPHPTs.service';
 

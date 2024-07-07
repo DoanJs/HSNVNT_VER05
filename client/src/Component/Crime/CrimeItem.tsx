@@ -11,20 +11,20 @@ const CrimeItemStyled = styled.div`
   p {
     margin: 0;
   }
+  .crimeDetails-info::-webkit-scrollbar {
+    background-color: #e4e6eb;
+    width: 4px;
+  }
+  .crimeDetails-info::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+  }
   .crimeDetails-info {
     left: 25px;
     padding-bottom: 20px;
     position: fixed;
     height: 710px;
     overflow-y: scroll;
-    ::-webkit-scrollbar {
-      background-color: #e4e6eb;
-      width: 4px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: #007bff;
-      border-radius: 10px;
-    }
     .crimeDetails-name {
       text-align: center;
       h5 {
@@ -55,7 +55,7 @@ const CrimeItemStyled = styled.div`
     }
   }
   .crimeDetails-main {
-    margin-left: 400px;
+    margin-left: 26%;
     p {
       padding-left: 15px;
     }
@@ -68,19 +68,6 @@ const CrimeItemStyled = styled.div`
     top: 136px;
     right: 10px;
   }
-  .crimeDetails-edit {
-    display: flex;
-    justify-content: flex-end;
-    text-decoration: none;
-    .fa-edit {
-      color: orange;
-      cursor: pointer;
-    }
-    .fa-trash {
-      color: red;
-      cursor: pointer;
-    }
-  }
 `;
 export default function CrimeItem() {
   const { id } = useParams();
@@ -88,7 +75,7 @@ export default function CrimeItem() {
     variables: { id: Number(id) },
   });
   const doituong = Data_doituong?.doituong;
-
+  console.log(doituong);
   if (!Data_doituong) return <Spinner />;
   return (
     <CrimeItemStyled>
@@ -102,18 +89,18 @@ export default function CrimeItem() {
             <h6>"{doituong.TenKhac}"</h6>
             <p>
               Số lần TSNT:
-              <b>{doituong.QuyetDinhTSNTs.length}</b>
+              <b>{doituong.DeNghiTSNTs?.length}</b>
             </p>
             <div className="crimeDetails-planExtend">
-              {doituong.QuyetDinhTSNTs?.map((obj: any, ind: number) => (
+              {doituong.DeNghiTSNTs?.map((obj: any, ind: number) => (
                 <a
                   key={ind}
-                  title={`${handleTime(obj.KetQuaTSNT.ThoiGianBD)}_${handleTime(
-                    obj.KetQuaTSNT.ThoiGianKT
-                  )}`}
-                  href={`#plan-${obj.MaQD}`}
+                  title={`${handleTime(
+                    obj.QuyetDinhTSNT?.ThoiGianBD
+                  )}_${handleTime(obj.QuyetDinhTSNT?.ThoiGianKT)}`}
+                  href={`#plan-${obj.MaDN}`}
                 >
-                  {obj.BiDanh}
+                  {obj.QuyetDinhTSNT?.BiDanh}
                 </a>
               ))}
             </div>
@@ -124,19 +111,19 @@ export default function CrimeItem() {
               Ngày sinh: <b>{handleTime(doituong.NgaySinh)}</b>
             </p>
             <p>
-              Giới tính: <b>{doituong.GioiTinh === 0 ? "Nam" : "Nữ"}</b>
+              Giới tính: <b>{doituong.GioiTinh === 2 ? "Nam" : "Nữ"}</b>
             </p>
             <p>
               Nơi sinh: <b>{doituong.NoiSinh}</b>
             </p>
             <p>
-              Quốc tịch: <b>{doituong.QuocTich.TenQT}</b>
+              Quốc tịch: <b>{doituong.DanToc?.QuocTich?.TenQT}</b>
             </p>
             <p>
-              Dân tộc: <b>{doituong.DanToc.TenDT}</b>
+              Dân tộc: <b>{doituong.DanToc?.TenDT}</b>
             </p>
             <p>
-              Tôn giáo: <b>{doituong.TonGiao.TenTG}</b>
+              Tôn giáo: <b>{doituong.TonGiao?.TenTG}</b>
             </p>
             <p>
               Quê quán: <b>{doituong.QueQuan}</b>
@@ -145,10 +132,7 @@ export default function CrimeItem() {
               HKTT: <b>{doituong.HKTT}</b>
             </p>
             <p>
-              CCCD/CMND/SHC:{" "}
-              <b>
-                {doituong.CCCD}/{doituong.CMND}/{doituong.SHC}
-              </b>
+              CMCCHC: <b>{doituong.CMCCHC}</b>
             </p>
             <p>
               Nơi ở: <b>{doituong.NoiO}</b>
@@ -169,15 +153,15 @@ export default function CrimeItem() {
               Áp dụng biện pháp điều tra:{" "}
               <b>
                 {doituong.BienPhapDTs?.map((obj: any, ind: number) => (
-                    <span key={ind}>{obj.BienPhapDT}&ensp;</span>
+                  <span key={ind}>{obj.BienPhapDT}&ensp;</span>
                 ))}
               </b>
             </p>
             <p>
-              Tính chất đối tượng: <b>{doituong.TinhChatDT.TinhChat}</b>
+              Tính chất đối tượng: <b>{doituong.TinhChatDT?.TinhChat}</b>
             </p>
             <p>
-              Loại đối tượng: <b>{doituong.LoaiDT.LoaiDT}</b>
+              Loại đối tượng: <b>{doituong.LoaiDT?.LoaiDT}</b>
             </p>
           </div>
           <hr />
@@ -197,45 +181,19 @@ export default function CrimeItem() {
           <div>
             <p>Hiểu biết về đối tượng:</p>
             {/* {handleEnterRow_BOTConnect(crime.GDvsXH, true)} */}
-            <div className="crimeDetails-edit">
-              {/* {handleAuthorization(accountLogin.role, ["admin","leader", "manager"]) && (
-                <Link
-                  to={`/editCrime/${crime.id}`}
-                  title="Chỉnh sửa"
-                  className="fas fa-edit me-4"
-                ></Link>
-              )}
-              {handleAuthorization(accountLogin.role, ["admin"]) && (
-                <span
-                  onClick={() => takeData(crime)}
-                  data-bs-toggle="modal"
-                  data-bs-target="#modal-delete-object"
-                  title="Xóa"
-                  className="fas fa-trash"
-                ></span>
-              )} */}
-            </div>
+            {doituong.ThongTinKhac}
           </div>
         </div>
         <div className="col col-9 crimeDetails-main">
-          {doituong.QuyetDinhTSNTs?.map((obj: any, ind: number) => (
-            <PlanItem quyetdinhTSNT={obj} key={ind} numberAction={ind} />
+          {doituong.DeNghiTSNTs?.map((obj: any, ind: number) => (
+            <PlanItem
+              quyetdinhTSNT={obj.QuyetDinhTSNT}
+              key={ind}
+              numberAction={ind}
+            />
           ))}
         </div>
       </div>
     </CrimeItemStyled>
   );
 }
-
-/* {handleAuthorization(accountLogin.role, ["admin","leader", "manager"]) && (
-        <Link
-          to={`/createPlan/${crime.id}`}
-          title="Bổ sung thông tin"
-          type="button"
-          className="btn btn-primary crimeDetails-extend"
-        >
-          Bổ sung
-        </Link>
-      )} */
-
-/* <ModalDelete /> */

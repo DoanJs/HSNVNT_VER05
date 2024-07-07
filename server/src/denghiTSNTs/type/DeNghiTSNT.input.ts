@@ -21,9 +21,6 @@ export class DeNghiTSNTInput {
   NoiDungTN?: string;
 
   @Field({ nullable: true })
-  MaCATTPvaTD?: number;
-
-  @Field({ nullable: true })
   MaCAQHvaTD?: number;
 
   @Field({ nullable: true })

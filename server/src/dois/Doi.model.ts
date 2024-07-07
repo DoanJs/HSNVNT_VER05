@@ -1,14 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   Column,
   Entity,
@@ -42,16 +35,9 @@ export class Doi {
   @Field((type) => CAQHvaTD, { nullable: true })
   CAQHvaTD: CAQHvaTD;
 
-
-
-
-  
-  // chua duyet lai
-
   @OneToMany(() => CBCS, (cbcs) => cbcs.Doi)
   CBCSs: [CBCS];
 
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.Doi)
   QuyetDinhTSNTs: [QuyetDinhTSNT];
-
 }

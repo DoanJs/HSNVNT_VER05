@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { ChuyenAn } from 'src/chuyenans/ChuyenAn.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import {
@@ -10,7 +11,6 @@ import {
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { TinhChatDT } from './TinhChatDT.model';
-import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class TinhChatDTsService {
@@ -114,13 +114,13 @@ export class TinhChatDTsService {
 
   DoiTuongs(MaTCDT: number): Promise<DoiTuong[]> {
     return this.tinhchatDTRepository.query(
-      SP_GET_DATA_DECRYPT('DoiTuongs', `'MaTC = ${MaTCDT}'`, 0, 0),
+      SP_GET_DATA_DECRYPT('DoiTuongs', `'MaTCDT = ${MaTCDT}'`, 0, 0),
     );
   }
 
   ChuyenAns(MaTCDT: number): Promise<ChuyenAn[]> {
     return this.tinhchatDTRepository.query(
-      SP_GET_DATA_DECRYPT('ChuyenAns', `'MaTC = ${MaTCDT}'`, 0, 0),
+      SP_GET_DATA_DECRYPT('ChuyenAns', `'MaTCDT = ${MaTCDT}'`, 0, 0),
     );
   }
 }

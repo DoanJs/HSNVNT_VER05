@@ -1,10 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import {
   Column,
   Entity,
@@ -72,22 +68,6 @@ export class TramCT {
   @Field((type) => CBCS, { nullable: true })
   LanhDaoPD: CBCS;
 
-
-
-
-
-
-
-
   @OneToMany(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.TramCT)
   KeHoachTSNTs: [KeHoachTSNT];
-  // chua duyet lai
-
-  
-
-  
-
-  // @OneToMany(() => QuyetDinhTSNT, quyetDinhTSNT => quyetDinhTSNT.TramCT)
-  // QuyetDinhTSNTs: [QuyetDinhTSNT]
-
 }

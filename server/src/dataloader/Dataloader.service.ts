@@ -2,8 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as DataLoader from 'dataloader';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
+import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
+import {BaoCaoPHPT} from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
+import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
+import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
+import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
+import { CapCA } from 'src/capCAs/CapCA.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
@@ -11,7 +17,6 @@ import { DanToc } from 'src/dantocs/DanToc.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
 import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
@@ -25,11 +30,6 @@ import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import { SP_GET_DATA, SP_GET_DATA_DECRYPT } from 'src/utils/mssql/query';
 import { Repository } from 'typeorm';
-import { CapCA } from 'src/capCAs/CapCA.model';
-import { BienPhapDT } from 'src/bienPhapDTs/BienPhapDT.model';
-import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
-import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 
 @Injectable()
 export class DataLoaderService {
@@ -92,7 +92,7 @@ export class DataLoaderService {
   public readonly loaderQuocTich = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.quoctichRepository.query(
-        SP_GET_DATA('QuocTichs', `'MaQT = ${id}'`, 'MaQT', 0, 0)
+        SP_GET_DATA('QuocTichs', `'MaQT = ${id}'`, 'MaQT', 0, 0),
       );
       return response[0];
     });
@@ -101,7 +101,7 @@ export class DataLoaderService {
   public readonly loaderDanToc = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.dantocRepository.query(
-        SP_GET_DATA('DanTocs', `'MaDT = ${id}'`, 'MaDT', 0, 0)
+        SP_GET_DATA('DanTocs', `'MaDT = ${id}'`, 'MaDT', 0, 0),
       );
       return response[0];
     });
@@ -110,7 +110,7 @@ export class DataLoaderService {
   public readonly loaderTonGiao = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tongiaoRepository.query(
-        SP_GET_DATA('TonGiaos', `'MaTG = ${id}'`, 'MaTG', 0, 0)
+        SP_GET_DATA('TonGiaos', `'MaTG = ${id}'`, 'MaTG', 0, 0),
       );
       return response[0];
     });
@@ -146,7 +146,7 @@ export class DataLoaderService {
   public readonly loaderDoi = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.doiRepository.query(
-        SP_GET_DATA('Dois', `'MaDoi = ${id}'`, 'MaDoi', 0, 0)
+        SP_GET_DATA('Dois', `'MaDoi = ${id}'`, 'MaDoi', 0, 0),
       );
       return response[0];
     });
@@ -155,7 +155,7 @@ export class DataLoaderService {
   public readonly loaderTinhChatDT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tinhchatRepository.query(
-        SP_GET_DATA('TinhChatDTs', `'MaTCDT = ${id}'`, 'MaTCDT', 0, 0)
+        SP_GET_DATA('TinhChatDTs', `'MaTCDT = ${id}'`, 'MaTCDT', 0, 0),
       );
       return response[0];
     });
@@ -164,7 +164,7 @@ export class DataLoaderService {
   public readonly loaderLoaiDT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.loaiDTRepository.query(
-        SP_GET_DATA('LoaiDTs', `'MaLoaiDT = ${id}'`, 'MaLoaiDT', 0, 0)
+        SP_GET_DATA('LoaiDTs', `'MaLoaiDT = ${id}'`, 'MaLoaiDT', 0, 0),
       );
       return response[0];
     });
@@ -173,7 +173,7 @@ export class DataLoaderService {
   public readonly loaderCATTPvaTD = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.caTTPvaTDRepository.query(
-        SP_GET_DATA('CATTPvaTDs', `'MaCATTPvaTD = ${id}'`, 'MaCATTPvaTD', 0, 0)
+        SP_GET_DATA('CATTPvaTDs', `'MaCATTPvaTD = ${id}'`, 'MaCATTPvaTD', 0, 0),
       );
       return response[0];
     });
@@ -191,7 +191,7 @@ export class DataLoaderService {
   public readonly loaderHinhThucHD = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.cbcsRepository.query(
-        SP_GET_DATA('HinhThucHDs', `'MaHTHD = ${id}'`, 'MaHTHD', 0, 0)
+        SP_GET_DATA('HinhThucHDs', `'MaHTHD = ${id}'`, 'MaHTHD', 0, 0),
       );
       return response[0];
     });
@@ -215,11 +215,11 @@ export class DataLoaderService {
     });
     return Promise.resolve(result);
   });
-  
+
   public readonly loaderTinhTP = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.tinhTPRepository.query(
-        SP_GET_DATA('TinhTPs', `'MaTinhTP = ${id}'`, 'MaTinhTP', 0, 0)
+        SP_GET_DATA('TinhTPs', `'MaTinhTP = ${id}'`, 'MaTinhTP', 0, 0),
       );
       return response[0];
     });
@@ -228,7 +228,7 @@ export class DataLoaderService {
   public readonly loaderLoaiLLDB = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.loaiLLDBRepository.query(
-        SP_GET_DATA('LoaiLLDBs', `'MaLoaiLLDB = ${id}'`, 'MaLoaiLLDB', 0, 0)
+        SP_GET_DATA('LoaiLLDBs', `'MaLoaiLLDB = ${id}'`, 'MaLoaiLLDB', 0, 0),
       );
       return response[0];
     });
@@ -327,7 +327,7 @@ export class DataLoaderService {
   public readonly loaderLLDB = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.lldbRepository.query(
-        SP_GET_DATA('LLDBs', `'MaLLDB = ${id}'`, 'MaLLDB', 0, 0)
+        SP_GET_DATA('LLDBs', `'MaLLDB = ${id}'`, 'MaLLDB', 0, 0),
       );
       return response[0];
     });
@@ -336,7 +336,7 @@ export class DataLoaderService {
   public readonly loaderCapCA = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.capCARepository.query(
-        SP_GET_DATA('CapCAs', `'MaCapCA = ${id}'`, 'MaCapCA', 0, 0)
+        SP_GET_DATA('CapCAs', `'MaCapCA = ${id}'`, 'MaCapCA', 0, 0),
       );
       return response[0];
     });
@@ -345,7 +345,7 @@ export class DataLoaderService {
   public readonly loaderBienPhapDT = new DataLoader((ids: number[]) => {
     const result = ids.map(async (id) => {
       const response = await this.bienPhapDTRepository.query(
-        SP_GET_DATA('BienPhapDTs', `'MaBPDT = ${id}'`, 'MaBPDT', 0, 0)
+        SP_GET_DATA('BienPhapDTs', `'MaBPDT = ${id}'`, 'MaBPDT', 0, 0),
       );
       return response[0];
     });

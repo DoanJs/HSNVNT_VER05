@@ -12,9 +12,7 @@ import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { Doi } from 'src/dois/Doi.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { TramCT } from './TramCT.model';
@@ -68,11 +66,7 @@ export class TramCTsResolver {
   }
 
   // ResolveField
-  @ResolveField((returns) => [KeHoachTSNT])
-  KeHoachTSNTs(@Parent() tramCT: TramCT): Promise<KeHoachTSNT[]> {
-    return this.tramCTsService.KeHoachTSNTs(tramCT.MaTramCT);
-  }
-
+  
   @ResolveField((returns) => CBCS)
   TSXayDung(@Parent() tramCT: TramCT): Promise<CBCS> {
     return this.tramCTsService.TSXayDung(tramCT);
@@ -83,13 +77,8 @@ export class TramCTsResolver {
     return this.tramCTsService.LanhDaoPD(tramCT);
   }
 
-  @ResolveField((returns) => CAQHvaTD)
-  CAQHvaTD(@Parent() tramCT: TramCT): Promise<CAQHvaTD> {
-    return this.tramCTsService.CAQHvaTD(tramCT);
-  }
-
-  @ResolveField((returns) => Doi)
-  Doi(@Parent() tramCT: TramCT): Promise<Doi> {
-    return this.tramCTsService.Doi(tramCT);
+  @ResolveField((returns) => [KeHoachTSNT])
+  KeHoachTSNTs(@Parent() tramCT: TramCT): Promise<KeHoachTSNT[]> {
+    return this.tramCTsService.KeHoachTSNTs(tramCT.MaTramCT);
   }
 }

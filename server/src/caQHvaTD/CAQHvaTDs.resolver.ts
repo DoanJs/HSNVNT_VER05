@@ -12,22 +12,14 @@ import { DeleteGuard } from 'src/authPassport/authorization/delete.guard';
 import { InsertGuard } from 'src/authPassport/authorization/insert.guard';
 import { UpdateGuard } from 'src/authPassport/authorization/update.guard';
 import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
-import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
+import { CapCA } from 'src/capCAs/CapCA.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
-import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CAQHvaTD } from './CAQHvaTD.model';
 import { CAQHvaTDsService } from './CAQHvaTDs.service';
 import { CAQHvaTDInput } from './type/CAQHvaTD.Input';
-import { CapCA } from 'src/capCAs/CapCA.model';
 
 @Resolver(() => CAQHvaTD)
 @UseGuards(GraphQLGuard)
@@ -89,7 +81,6 @@ export class CAQHvaTDsResolver {
   DeNghiTSNTs(@Parent() CAQHvaTD: CAQHvaTD): Promise<DeNghiTSNT[]> {
     return this.caQHvaTDsService.DeNghiTSNTs(CAQHvaTD.MaCAQHvaTD);
   }
-
 
   @ResolveField((returns) => [Doi])
   Dois(@Parent() caQHvaTD: CAQHvaTD): Promise<Doi[]> {

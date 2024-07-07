@@ -25,6 +25,7 @@ export class KyDuyet_DN {
     name: 'MaDN',
     foreignKeyConstraintName: 'FK_MaDN_KyDuyet_DN',
   })
+  @Field((type) => DeNghiTSNT, { nullable: true })
   DeNghiTSNT: DeNghiTSNT;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.DaiDienCATTPvaTD_KyDuyet_DNs, {
@@ -59,6 +60,4 @@ export class KyDuyet_DN {
   })
   @Field((type) => CBCS, { nullable: true })
   DaiDienDonViTSNT: CBCS;
-
-  // chua duyet lai
 }

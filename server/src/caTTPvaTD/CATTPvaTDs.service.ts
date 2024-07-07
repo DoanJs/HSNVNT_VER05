@@ -4,13 +4,7 @@ import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CapCA } from 'src/capCAs/CapCA.model';
 import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import {
-  SP_CHANGE_DATA,
-  SP_GET_DATA,
-  SP_GET_DATA_DECRYPT,
-} from 'src/utils/mssql/query';
+import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CATTPvaTD } from './CATTPvaTD.model';
@@ -138,7 +132,7 @@ export class CATTPvaTDsService {
       ),
     );
   }
-  
+
   async CapCA(caTTPvaTD: any): Promise<CapCA> {
     if (caTTPvaTD.MaCapCA) {
       return this.dataloaderService.loaderCapCA.load(caTTPvaTD.MaCapCA);

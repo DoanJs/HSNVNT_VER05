@@ -9,20 +9,8 @@ export class KetQuaTSNTInput {
   ThoiGianKT?: string;
 
   @Field({ nullable: true })
-  MaQD?: number;
+  DDNB?: string;
   
   @Field({ nullable: true })
   MaKH?: number;
-
-  @Field({ nullable: true })
-  MaCATTPvaTD?: number;
-
-  @Field({ nullable: true })
-  MaCAQHvaTD?: number;
-
-  @Field({ nullable: true })
-  MaDoi?: number;
-
-  @Field({ nullable: true })
-  MaDoiTuong?: number;
 }

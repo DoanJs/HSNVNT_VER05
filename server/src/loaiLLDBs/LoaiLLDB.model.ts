@@ -1,11 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { LLDB } from 'src/lldbs/LLDB.model';
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'LoaiLLDBs' })
 @ObjectType()
@@ -18,14 +13,12 @@ export class LoaiLLDB {
   @Field({ nullable: true })
   TenLLDB: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   KyHieu: string;
 
   //relation
 
-
-  // chua duyet lai
-  @OneToMany(() => LLDB, lldb => lldb.LoaiLLDB)
-  LLDBs: [LLDB]
+  @OneToMany(() => LLDB, (lldb) => lldb.LoaiLLDB)
+  LLDBs: [LLDB];
 }

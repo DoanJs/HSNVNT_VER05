@@ -6,7 +6,7 @@ import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
 import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import { BaoCaoPHPT } from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
@@ -209,7 +209,13 @@ export class CBCSsService {
   }
   async TSThucHien_BaoCaoPHDCs(MaCBCS: number): Promise<BaoCaoPHDC[]> {
     const result = (await this.cbcsRepository.query(
-      SP_GET_DATA('BaoCaoPHDCs_CBCSs', `'MaCBCS = ${MaCBCS}'`, 'MaBCPHDC', 0, 0),
+      SP_GET_DATA(
+        'BaoCaoPHDCs_CBCSs',
+        `'MaCBCS = ${MaCBCS}'`,
+        'MaBCPHDC',
+        0,
+        0,
+      ),
     )) as [{ MaBCPHDC: number }];
     const resultLoader = result.map((obj) =>
       this.dataloaderService.loaderBaoCaoPHDC.load(obj.MaBCPHDC),

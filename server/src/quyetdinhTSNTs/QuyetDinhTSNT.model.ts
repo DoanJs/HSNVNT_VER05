@@ -1,18 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaoCaoKQXMDiaChi } from 'src/baocaoKQXMDiaChis/BaoCaoKQXMDiaChi.model';
-import { BaoCaoKQXMQuanHe } from 'src/baocaoKQXMQuanHes/BaoCaoKQXMQuanHe.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
 import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
 import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KeHoachTSNT } from 'src/kehoachTSNTs/KeHoachTSNT.model';
-import { KetQuaXMDiaChi } from 'src/ketQuaXMDiaChis/KetQuaXMDiaChi.model';
-import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { TinhTP } from 'src/tinhTPs/TinhTP.model';
-import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
   Column,
   Entity,
@@ -20,7 +11,6 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -76,7 +66,7 @@ export class QuyetDinhTSNT {
     name: 'MaDoi',
     foreignKeyConstraintName: 'FK_MaDoi_QuyetDinhTSNT',
   })
-  @Field(type => Doi, { nullable: true })
+  @Field((type) => Doi, { nullable: true })
   Doi: Doi;
 
   @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_QuyetDinhTSNTs, {
@@ -107,22 +97,6 @@ export class QuyetDinhTSNT {
   })
   PhamViTSs: [TinhTP];
 
-
-
-
-
-
-
-
-
-
-
-
-
-  // chua duyet lai
-
-
   @OneToOne(() => KeHoachTSNT, (kehoachTSNT) => kehoachTSNT.QuyetDinhTSNT)
   KeHoachTSNT: KeHoachTSNT;
-
 }

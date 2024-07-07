@@ -1,12 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
-import { CATTPvaTD } from 'src/caTTPvaTD/CATTPvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'KetQuaXMQuanHes' })
 @ObjectType()
@@ -25,19 +27,25 @@ export class KetQuaXMQuanHe {
 
   // relation
 
-  @OneToOne(() => BaoCaoPHQH, baocaoPHQH => baocaoPHQH.KetQuaXMQuanHe, { cascade: true, eager: true })
-  @JoinColumn({
-    name: "MaBCPHQH",
-    foreignKeyConstraintName: "FK_MaBCPHQH_KetQuaXMQuanHe"
+  @OneToOne(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.KetQuaXMQuanHe, {
+    cascade: true,
+    eager: true,
   })
-  BaoCaoPHQH: BaoCaoPHQH
-
-  @ManyToOne(() => CBCS, cbcs => cbcs.LanhDaoPD_KetQuaXMQuanHes, { cascade: true, eager: true })
   @JoinColumn({
-    name: "MaLanhDaoPD",
-    foreignKeyConstraintName: "FK_MaLanhDaoPD_KetQuaXMQuanHe"
+    name: 'MaBCPHQH',
+    foreignKeyConstraintName: 'FK_MaBCPHQH_KetQuaXMQuanHe',
   })
-  LanhDaoPD: CBCS
+  @Field((type) => BaoCaoPHQH, { nullable: true })
+  BaoCaoPHQH: BaoCaoPHQH;
 
-  // chua duyet lai
+  @ManyToOne(() => CBCS, (cbcs) => cbcs.LanhDaoPD_KetQuaXMQuanHes, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({
+    name: 'MaLanhDaoPD',
+    foreignKeyConstraintName: 'FK_MaLanhDaoPD_KetQuaXMQuanHe',
+  })
+  @Field((type) => CBCS, { nullable: true })
+  LanhDaoPD: CBCS;
 }

@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
+import { CBCS } from 'src/cbcss/CBCS.model';
+import { DataLoaderService } from 'src/dataloader/Dataloader.service';
+import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BIENBANRKN,
   SP_CHANGE_DATA,
@@ -11,11 +14,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BienBanRKN } from './BienBanRKN.model';
 import { BienBanRKNInput } from './type/BienBanRKN.Input';
-import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
-import { CBCS } from 'src/cbcss/CBCS.model';
-import { DataLoaderService } from 'src/dataloader/Dataloader.service';
-import { BienBanRKN_CBCSType } from './type/BienBanRKN_CBCS.type';
 import { BienBanRKN_CBCSInput } from './type/BienBanRKN_CBCS.input';
+import { BienBanRKN_CBCSType } from './type/BienBanRKN_CBCS.type';
 
 @Injectable()
 export class BienBanRKNsService {
@@ -248,9 +248,15 @@ export class BienBanRKNsService {
   }
 
   async ThanhPhanTDs(MaBBRKN: number): Promise<CBCS[]> {
-    const result = await this.bienbanRKNRepository.query(
-      SP_GET_DATA('BienBanRKNs_CBCSs', `'MaBBRKN = ${MaBBRKN}'`, 'MaBBRKN', 0, 0),
-    ) as [{ MaCBCS: number }];
+    const result = (await this.bienbanRKNRepository.query(
+      SP_GET_DATA(
+        'BienBanRKNs_CBCSs',
+        `'MaBBRKN = ${MaBBRKN}'`,
+        'MaBBRKN',
+        0,
+        0,
+      ),
+    )) as [{ MaCBCS: number }];
     const resultLoader = result.map((obj: any) =>
       this.dataloaderService.loaderCBCS.load(obj.MaCBCS),
     );

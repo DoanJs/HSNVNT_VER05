@@ -1,14 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
-import { CBCS } from 'src/cbcss/CBCS.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
-import {
-  SP_CHANGE_DATA,
-  SP_GET_DATA,
-  SP_GET_DATA_DECRYPT,
-} from 'src/utils/mssql/query';
+import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { QuocTich } from './QuocTich.model';
@@ -112,18 +106,6 @@ export class QuocTichsService {
   async DanTocs(MaQT: number): Promise<DanToc[]> {
     return await this.quoctichRepository.query(
       SP_GET_DATA('DanTocs', `'MaQT = ${MaQT}'`, 'MaDT', 0, 0),
-    );
-  }
-
-  DoiTuongs(MaQT: any): Promise<DoiTuong[]> {
-    return this.quoctichRepository.query(
-      SP_GET_DATA_DECRYPT('DoiTuongs', `'MaQT = ${MaQT}'`, 0, 0),
-    );
-  }
-
-  CBCSs(MaQT: any): Promise<CBCS[]> {
-    return this.quoctichRepository.query(
-      SP_GET_DATA_DECRYPT('CBCSs', `'MaQT = ${MaQT}'`, 0, 0),
     );
   }
 }

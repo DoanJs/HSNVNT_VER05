@@ -199,6 +199,24 @@ export const SP_GET_DATA = (
         @Skip = ${Skip}, 
         @Take = ${Take}`;
 
+export const SP_CHANGE_DATA = (
+  Type?: string,
+  NameTable?: string,
+  NameColumns?: string,
+  ValueCreates?: string,
+  ConditionCreate?: string,
+  ValueUpdates?: string,
+  Condition?: string,
+) =>
+  `SP_CHANGE_DATA
+          @Type = ${Type},
+          @NameTable = ${NameTable},
+          @NameColumns = ${NameColumns},
+          @ValueCreates = ${ValueCreates},
+          @ConditionCreate = ${ConditionCreate},
+          @ValueUpdates = ${ValueUpdates},
+          @Condition = ${Condition}`;
+
 export const SP_CHANGE_BAOCAOPHDC = (
   spCHANGEBAOCAOPHDCInput: SP_CHANGE_BAOCAOPHDC_Input,
 ) =>
@@ -410,64 +428,6 @@ export const SP_CHANGE_CHUYENAN = (
   '@MaTCDT=' +
   spCHANGECHUYENANInput.ChuyenAnInput.MaTCDT;
 
-
-
-
-
-
-
-
-
-
-  
-// chua duyet lai
-
-export const SP_CHANGE_DATA = (
-  Type?: string,
-  NameTable?: string,
-  NameColumns?: string,
-  ValueCreates?: string,
-  ConditionCreate?: string,
-  ValueUpdates?: string,
-  Condition?: string,
-) =>
-  `SP_CHANGE_DATA
-  @Type = ${Type},
-  @NameTable = ${NameTable},
-  @NameColumns = ${NameColumns},
-  @ValueCreates = ${ValueCreates},
-  @ConditionCreate = ${ConditionCreate},
-  @ValueUpdates = ${ValueUpdates},
-  @Condition = ${Condition}`;
-
-export const SP_CHANGE_BAOCAOKTDN = (
-  spCHANGEBAOCAOKTDNInput: SP_CHANGE_BAOCAOKTDN_Input,
-) =>
-  'SP_CHANGE_BAOCAOKTDN ' +
-  '@Type= "' +
-  spCHANGEBAOCAOKTDNInput.Type +
-  '",' +
-  '@MaBCKTDN=' +
-  spCHANGEBAOCAOKTDNInput.MaBCKTDN +
-  ',' +
-  '@Ngay=' +
-  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.Ngay +
-  ',' +
-  '@TinhHinhDT=' +
-  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.TinhHinhDT +
-  ',' +
-  '@VanDeRKN=' +
-  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.VanDeRKN +
-  ',' +
-  '@MaKQ=' +
-  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaKQ +
-  ',' +
-  '@MaLanhDaoPD=' +
-  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaLanhDaoPD +
-  ',' +
-  '@MaCBTongHop=' +
-  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaCBTongHop;
-
 export const SP_CHANGE_DENGHITSNT = (
   spCHANGEDENGHITSNTInput: SP_CHANGE_DENGHITSNT_Input,
 ) =>
@@ -503,140 +463,7 @@ export const SP_CHANGE_DENGHITSNT = (
   spCHANGEDENGHITSNTInput.DeNghiTSNTInput.MaCAQHvaTD +
   ',' +
   '@MaHTHD=' +
-  spCHANGEDENGHITSNTInput.DeNghiTSNTInput.MaHTHD +
-  ',' +
-  '@MaCATTPvaTD=' +
-  spCHANGEDENGHITSNTInput.DeNghiTSNTInput.MaCATTPvaTD;
-
-export const SP_CHANGE_KEHOACHTSNT = (
-  spCHANGEKEHOACHTSNTInput: SP_CHANGE_KEHOACHTSNT_Input,
-) =>
-  'SP_CHANGE_KEHOACHTSNT ' +
-  '@Type= "' +
-  spCHANGEKEHOACHTSNTInput.Type +
-  '",' +
-  '@MaKH=' +
-  spCHANGEKEHOACHTSNTInput.MaKH +
-  ',' +
-  '@So=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.So +
-  ',' +
-  '@Ngay=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.Ngay +
-  ',' +
-  '@MaTramCT=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaTramCT +
-  ',' +
-  '@MaLanhDaoPD=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaLanhDaoPD +
-  ',' +
-  '@MaBCHPhuTrach=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaBCHPhuTrach +
-  ',' +
-  '@MaDoiTuong=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaDoiTuong +
-  ',' +
-  '@MaQD=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaQD +
-  ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaCAQHvaTD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaDoi +
-  ',' +
-  '@VanDeChuY=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.VanDeChuY +
-  ',' +
-  '@NoiDung=' +
-  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.NoiDung;
-
-export const SP_CHANGE_QUYETDINHTSNT = (
-  spCHANGEQUYETDINHTSNTInput: SP_CHANGE_QUYETDINHTSNT_Input,
-) =>
-  'SP_CHANGE_QUYETDINHTSNT ' +
-  '@Type= "' +
-  spCHANGEQUYETDINHTSNTInput.Type +
-  '",' +
-  '@MaQD=' +
-  spCHANGEQUYETDINHTSNTInput.MaQD +
-  ',' +
-  '@So=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.So +
-  ',' +
-  '@Ngay=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.Ngay +
-  ',' +
-  '@BiDanh=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.BiDanh +
-  ',' +
-  '@ThoiGianBD=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.ThoiGianBD +
-  ',' +
-  '@ThoiGianKT=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.ThoiGianKT +
-  ',' +
-  '@NhiemVuCT=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.NhiemVuCT +
-  ',' +
-  '@MaDoiTuong=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaDoiTuong +
-  ',' +
-  '@MaDN=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaDN +
-  ',' +
-  '@MaLanhDaoPD=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaLanhDaoPD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaDoi +
-  ',' +
-  '@MaCATTPvaTD=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaCATTPvaTD +
-  ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaCAQHvaTD;
-
-export const SP_CHANGE_TRAMCT = (spCHANGETRAMCTInput: SP_CHANGE_TRAMCT_Input) =>
-  'SP_CHANGE_TRAMCT ' +
-  '@Type= "' +
-  spCHANGETRAMCTInput.Type +
-  '",' +
-  '@MaTramCT=' +
-  spCHANGETRAMCTInput.MaTramCT +
-  ',' +
-  '@Ngay=' +
-  spCHANGETRAMCTInput.TramCTInput.Ngay +
-  ',' +
-  '@TinhHinhDB=' +
-  spCHANGETRAMCTInput.TramCTInput.TinhHinhDB +
-  ',' +
-  '@VanDeChuY=' +
-  spCHANGETRAMCTInput.TramCTInput.VanDeChuY +
-  ',' +
-  '@QuyDinh=' +
-  spCHANGETRAMCTInput.TramCTInput.QuyDinh +
-  ',' +
-  '@MaTSXayDung=' +
-  spCHANGETRAMCTInput.TramCTInput.MaTSXayDung +
-  ',' +
-  '@MaLanhDaoPD=' +
-  spCHANGETRAMCTInput.TramCTInput.MaLanhDaoPD +
-  ',' +
-  '@MaCAQHvaTD=' +
-  spCHANGETRAMCTInput.TramCTInput.MaCAQHvaTD +
-  ',' +
-  '@MaDoi=' +
-  spCHANGETRAMCTInput.TramCTInput.MaDoi +
-  ',' +
-  '@DiaDiem=' +
-  spCHANGETRAMCTInput.TramCTInput.DiaDiem +
-  ',' +
-  '@SoDoTram=' +
-  spCHANGETRAMCTInput.TramCTInput.SoDoTram +
-  ',' +
-  '@LyLichTram=' +
-  spCHANGETRAMCTInput.TramCTInput.LyLichTram;
+  spCHANGEDENGHITSNTInput.DeNghiTSNTInput.MaHTHD;
 
 export const SP_CHANGE_DOITUONG = (
   spCHANGEDOITUONGInput: SP_CHANGE_DOITUONG_Input,
@@ -681,17 +508,14 @@ export const SP_CHANGE_DOITUONG = (
   '@ThongTinKhac=' +
   spCHANGEDOITUONGInput.DoiTuongInput.ThongTinKhac +
   ',' +
-  '@MaQT=' +
-  spCHANGEDOITUONGInput.DoiTuongInput.MaQT +
-  ',' +
   '@MaDT=' +
   spCHANGEDOITUONGInput.DoiTuongInput.MaDT +
   ',' +
   '@MaTG=' +
   spCHANGEDOITUONGInput.DoiTuongInput.MaTG +
   ',' +
-  '@MaTC=' +
-  spCHANGEDOITUONGInput.DoiTuongInput.MaTC +
+  '@MaTCDT=' +
+  spCHANGEDOITUONGInput.DoiTuongInput.MaTCDT +
   ',' +
   '@MaLoai=' +
   spCHANGEDOITUONGInput.DoiTuongInput.MaLoai +
@@ -699,14 +523,8 @@ export const SP_CHANGE_DOITUONG = (
   '@TenDT=' +
   spCHANGEDOITUONGInput.DoiTuongInput.TenDT +
   ',' +
-  '@CCCD=' +
-  spCHANGEDOITUONGInput.DoiTuongInput.CCCD +
-  ',' +
-  '@CMND=' +
-  spCHANGEDOITUONGInput.DoiTuongInput.CMND +
-  ',' +
-  '@SHC=' +
-  spCHANGEDOITUONGInput.DoiTuongInput.SHC +
+  '@CMCCHC=' +
+  spCHANGEDOITUONGInput.DoiTuongInput.CMCCHC +
   ',' +
   '@AnhDD=' +
   spCHANGEDOITUONGInput.DoiTuongInput.AnhDD +
@@ -716,3 +534,137 @@ export const SP_CHANGE_DOITUONG = (
   ',' +
   '@SDT=' +
   spCHANGEDOITUONGInput.DoiTuongInput.SDT;
+
+export const SP_CHANGE_KEHOACHTSNT = (
+  spCHANGEKEHOACHTSNTInput: SP_CHANGE_KEHOACHTSNT_Input,
+) =>
+  'SP_CHANGE_KEHOACHTSNT ' +
+  '@Type= "' +
+  spCHANGEKEHOACHTSNTInput.Type +
+  '",' +
+  '@MaKH=' +
+  spCHANGEKEHOACHTSNTInput.MaKH +
+  ',' +
+  '@So=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.So +
+  ',' +
+  '@Ngay=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.Ngay +
+  ',' +
+  '@MaTramCT=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaTramCT +
+  ',' +
+  '@MaLanhDaoPD=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaLanhDaoPD +
+  ',' +
+  '@MaBCHPhuTrach=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaBCHPhuTrach +
+  ',' +
+  '@MaQD=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.MaQD +
+  ',' +
+  '@VanDeChuY=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.VanDeChuY +
+  ',' +
+  '@NoiDung=' +
+  spCHANGEKEHOACHTSNTInput.KeHoachTSNTInput.NoiDung;
+
+export const SP_CHANGE_QUYETDINHTSNT = (
+  spCHANGEQUYETDINHTSNTInput: SP_CHANGE_QUYETDINHTSNT_Input,
+) =>
+  'SP_CHANGE_QUYETDINHTSNT ' +
+  '@Type= "' +
+  spCHANGEQUYETDINHTSNTInput.Type +
+  '",' +
+  '@MaQD=' +
+  spCHANGEQUYETDINHTSNTInput.MaQD +
+  ',' +
+  '@So=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.So +
+  ',' +
+  '@Ngay=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.Ngay +
+  ',' +
+  '@BiDanh=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.BiDanh +
+  ',' +
+  '@ThoiGianBD=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.ThoiGianBD +
+  ',' +
+  '@ThoiGianKT=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.ThoiGianKT +
+  ',' +
+  '@NhiemVuCT=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.NhiemVuCT +
+  ',' +
+  '@MaDN=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaDN +
+  ',' +
+  '@MaLanhDaoPD=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaLanhDaoPD +
+  ',' +
+  '@MaDoi=' +
+  spCHANGEQUYETDINHTSNTInput.QuyetDinhTSNTInput.MaDoi;
+
+export const SP_CHANGE_TRAMCT = (spCHANGETRAMCTInput: SP_CHANGE_TRAMCT_Input) =>
+  'SP_CHANGE_TRAMCT ' +
+  '@Type= "' +
+  spCHANGETRAMCTInput.Type +
+  '",' +
+  '@MaTramCT=' +
+  spCHANGETRAMCTInput.MaTramCT +
+  ',' +
+  '@Ngay=' +
+  spCHANGETRAMCTInput.TramCTInput.Ngay +
+  ',' +
+  '@TinhHinhDB=' +
+  spCHANGETRAMCTInput.TramCTInput.TinhHinhDB +
+  ',' +
+  '@VanDeChuY=' +
+  spCHANGETRAMCTInput.TramCTInput.VanDeChuY +
+  ',' +
+  '@QuyDinh=' +
+  spCHANGETRAMCTInput.TramCTInput.QuyDinh +
+  ',' +
+  '@MaTSXayDung=' +
+  spCHANGETRAMCTInput.TramCTInput.MaTSXayDung +
+  ',' +
+  '@MaLanhDaoPD=' +
+  spCHANGETRAMCTInput.TramCTInput.MaLanhDaoPD +
+  ',' +
+  '@DiaDiem=' +
+  spCHANGETRAMCTInput.TramCTInput.DiaDiem +
+  ',' +
+  '@SoDoTram=' +
+  spCHANGETRAMCTInput.TramCTInput.SoDoTram +
+  ',' +
+  '@LyLichTram=' +
+  spCHANGETRAMCTInput.TramCTInput.LyLichTram;
+
+export const SP_CHANGE_BAOCAOKTDN = (
+  spCHANGEBAOCAOKTDNInput: SP_CHANGE_BAOCAOKTDN_Input,
+) =>
+  'SP_CHANGE_BAOCAOKTDN ' +
+  '@Type= "' +
+  spCHANGEBAOCAOKTDNInput.Type +
+  '",' +
+  '@MaBCKTDN=' +
+  spCHANGEBAOCAOKTDNInput.MaBCKTDN +
+  ',' +
+  '@Ngay=' +
+  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.Ngay +
+  ',' +
+  '@TinhHinhDT=' +
+  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.TinhHinhDT +
+  ',' +
+  '@VanDeRKN=' +
+  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.VanDeRKN +
+  ',' +
+  '@MaKQ=' +
+  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaKQ +
+  ',' +
+  '@MaLanhDaoPD=' +
+  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaLanhDaoPD +
+  ',' +
+  '@MaCBTongHop=' +
+  spCHANGEBAOCAOKTDNInput.BaoCaoKTDNInput.MaCBTongHop;

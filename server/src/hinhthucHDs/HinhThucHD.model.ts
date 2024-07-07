@@ -9,16 +9,12 @@ export class HinhThucHD {
   @Field()
   MaHTHD: number;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'nvarchar', length: 50, nullable: true })
   @Field({ nullable: true })
   HinhThuc: string;
 
-
   // relation
 
-
-
-  // chua duyet lai
-  @OneToMany(() => DeNghiTSNT, denghiTSNT=> denghiTSNT.HinhThucHD)
-  DeNghiTSNTs: [DeNghiTSNT]
+  @OneToMany(() => DeNghiTSNT, (denghiTSNT) => denghiTSNT.HinhThucHD)
+  DeNghiTSNTs: [DeNghiTSNT];
 }

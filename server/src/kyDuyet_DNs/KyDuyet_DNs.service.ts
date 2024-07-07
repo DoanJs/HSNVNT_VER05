@@ -151,7 +151,6 @@ export class KyDuyet_DNsService {
     );
     return result[0];
   }
-
   async DaiDienCATTPvaTD(kyduyet_DNInput: any): Promise<CBCS> {
     if (kyduyet_DNInput.MaDaiDienCATTPvaTD) {
       return this.dataloaderService.loaderCBCS.load(
@@ -159,7 +158,6 @@ export class KyDuyet_DNsService {
       );
     }
   }
-
   async DaiDienDonViDN(kyduyet_DNInput: any): Promise<CBCS> {
     if (kyduyet_DNInput.MaDaiDienDonViDN) {
       return this.dataloaderService.loaderCBCS.load(
@@ -167,7 +165,6 @@ export class KyDuyet_DNsService {
       );
     }
   }
-
   async DaiDienDonViTSNT(kyduyet_DNInput: any): Promise<CBCS> {
     if (kyduyet_DNInput.MaDaiDienDonViTSNT) {
       return this.dataloaderService.loaderCBCS.load(

@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { BaoCaoKQGH } from 'src/baocaoKQGHs/BaoCaoKQGH.model';
 import { BaoCaoKTDN } from 'src/baocaoKTDNs/BaoCaoKTDN.model';
 import { BaoCaoPHDC } from 'src/baocaoPHDCs/BaoCaoPHDC.model';
-import BaoCaoPHPT from 'src/baocaoPHPTs/BaoCaoPHPT.model';
+import { BaoCaoPHPT } from 'src/baocaoPHPTs/BaoCaoPHPT.model';
 import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
@@ -16,7 +16,7 @@ import {
   ManyToMany,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity({ name: 'KetQuaTSNTs' })
@@ -47,6 +47,7 @@ export class KetQuaTSNT {
     name: 'MaKH',
     foreignKeyConstraintName: 'FK_MaKH_KetQuaTSNT',
   })
+  @Field({ nullable: true })
   KeHoachTSNT: KeHoachTSNT;
 
   @ManyToMany(() => TinhTP, (tinhTP) => tinhTP.KetQuaTSNTs, {
@@ -66,22 +67,16 @@ export class KetQuaTSNT {
   })
   PhamViTSs: [TinhTP];
 
-
-
-
-  
-
-
   @OneToMany(() => BaoCaoPHDC, (baocaoPHDC) => baocaoPHDC.KetQuaTSNT)
   BaoCaoPHDCs: [BaoCaoPHDC];
-  
+
   @OneToMany(() => BaoCaoKQGH, (baocaoKQGH) => baocaoKQGH.KetQuaTSNT)
   BaoCaoKQGHs: [BaoCaoKQGH];
-  
+
   @OneToOne(() => BienBanRKN, (bienbanRKN) => bienbanRKN.KetQuaTSNT)
   BienBanRKN: BienBanRKN;
 
-  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH)
+  @OneToMany(() => BaoCaoPHQH, (baocaoPHQH) => baocaoPHQH.KetQuaTSNT)
   BaoCaoPHQHs: [BaoCaoPHQH];
 
   @OneToMany(() => BaoCaoPHPT, (baocaoPHPT) => baocaoPHPT.KetQuaTSNT)
@@ -89,8 +84,6 @@ export class KetQuaTSNT {
 
   @OneToOne(() => BaoCaoKTDN, (baocaoKTDN) => baocaoKTDN.KetQuaTSNT)
   BaoCaoKTDN: BaoCaoKTDN;
-  
-  // chua duyet lai
 
   @OneToMany(() => DanhGiaTSTH, (danhgiaTSTH) => danhgiaTSTH.KetQuaTSNT)
   DanhGiaTSTHs: [DanhGiaTSTH];

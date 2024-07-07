@@ -18,13 +18,7 @@ export class DoiTuongInput {
   NoiSinh?: string;
 
   @Field({ nullable: true })
-  CCCD?: string;
-
-  @Field({ nullable: true })
-  CMND?: string;
-
-  @Field({ nullable: true })
-  SHC?: string;
+  CMCCHC?: string;
 
   @Field({ nullable: true })
   AnhDD?: string;
@@ -58,20 +52,14 @@ export class DoiTuongInput {
   
 
   @Field({ nullable: true })
-  MaQT?: number;
-
-  @Field({ nullable: true })
   MaDT?: number;
 
   @Field({ nullable: true })
   MaTG?: number;
 
   @Field({ nullable: true })
-  MaTC?: number;
+  MaTCDT?: number;
 
   @Field({ nullable: true })
   MaLoai?: number;
-
-  @Field({ nullable: true })
-  MaTramCT?: number;
 }

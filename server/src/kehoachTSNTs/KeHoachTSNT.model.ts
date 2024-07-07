@@ -1,9 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CAQHvaTD } from 'src/caQHvaTD/CAQHvaTD.model';
 import { CBCS } from 'src/cbcss/CBCS.model';
-import { DeNghiTSNT } from 'src/denghiTSNTs/DeNghiTSNT.model';
-import { Doi } from 'src/dois/Doi.model';
-import { DoiTuong } from 'src/doituongs/DoiTuong.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
@@ -111,11 +107,7 @@ export class KeHoachTSNT {
     (lucluongthamgiaKH) => lucluongthamgiaKH.KeHoachTSNT,
   )
   LLTGKeHoachs: [LucLuongThamGiaKH];
-  
-  // relation forward
 
   @OneToOne(() => KetQuaTSNT, (ketquaTSNT) => ketquaTSNT.KeHoachTSNT)
   KetQuaTSNT: KetQuaTSNT;
-
-  // chua duyet lai
 }
