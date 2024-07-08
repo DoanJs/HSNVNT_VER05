@@ -102,7 +102,7 @@ export default function InputLLDB() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editLLDB.BiDanh}" thành công`,
+              `Cập nhật lực lượng đặc biệt "${data.editLLDB.BiDanh}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -125,7 +125,7 @@ export default function InputLLDB() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createLLDB.BiDanh}" thành công`,
+              `Thêm mới lực lượng đặc biệt "${data.createLLDB.BiDanh}" thành công`,
               "success"
             );
             setForm(FI_LLDB)

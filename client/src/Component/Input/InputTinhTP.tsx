@@ -90,7 +90,7 @@ export default function InputTinhTP() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editTinhTP.TinhTP}" thành công`,
+              `Cập nhật tỉnh, thành phố "${data.editTinhTP.TinhTP}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -112,7 +112,7 @@ export default function InputTinhTP() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createTinhTP.TinhTP}" thành công`,
+              `Thêm mới tỉnh, thành phố "${data.createTinhTP.TinhTP}" thành công`,
               "success"
             );
             setForm(FI_TinhTP);

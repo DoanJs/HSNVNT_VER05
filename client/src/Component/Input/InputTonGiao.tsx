@@ -89,7 +89,7 @@ export default function InputTonGiao() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editTonGiao.TenTG}" thành công`,
+              `Cập nhật tôn giáo "${data.editTonGiao.TenTG}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -108,7 +108,7 @@ export default function InputTonGiao() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createTonGiao.TenTG}" thành công`,
+              `Thêm mới tôn giáo "${data.createTonGiao.TenTG}" thành công`,
               "success"
             );
             setForm(FI_TonGiao);

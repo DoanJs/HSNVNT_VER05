@@ -86,38 +86,32 @@ export const FI_BienPhapDT_DoiTuong = {
 export const FI_CBCS = {
   MaCBCS: 0,
   HoTen: "",
-  TenKhac: "",
-  AnhDD: "",
   NgaySinh: "",
   GioiTinh: 0,
+  AnhDD: "",
   QueQuan: "",
   HKTT: "",
   NoiO: "",
   SDT: "",
-  CCCD: "",
-  CMND: "",
-  SHC: "",
+  TenKhac: "",
   PhuongTien: "",
   ThongTinChiTiet: "",
-  MaQT: null,
+  CMCCHC: "",
   MaDT: null,
   MaTG: null,
-  MaCAQHvaTD: null,
-  MaDoi: null,
   MaCB: null,
   MaCV: null,
+  MaDoi: null
 };
 
 export const FI_DoiTuong = {
   MaDoiTuong: 0,
   TenDT: "",
   TenKhac: "",
-  GioiTinh: null,
+  GioiTinh: 0,
   NgaySinh: "",
   NoiSinh: "",
-  CCCD: "",
-  CMND: "",
-  SHC: "",
+  CMCCHC: "",
   AnhDD: "",
   QueQuan: "",
   HKTT: "",
@@ -129,12 +123,10 @@ export const FI_DoiTuong = {
   SDT: "",
   ThongTinKhac: "",
 
-  MaQT: null,
   MaDT: null,
   MaTG: null,
-  MaTC: null,
+  MaTCDT: null,
   MaLoai: null,
-  MaTramCT: null,
 };
 // ----------------------
 export const FI_DeNghiTSNT = {
@@ -146,7 +138,6 @@ export const FI_DeNghiTSNT = {
   NoiDungDN: "",
   NoiDungTN: "",
 
-  MaCATTPvaTD: null,
   MaCAQHvaTD: null,
   MaDoiTuong: null,
   MaHTHD: null,

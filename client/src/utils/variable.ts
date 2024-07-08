@@ -103,11 +103,6 @@ export const CSDLInput = [
   },
   {
     cap: 1,
-    to: "/nhaplieu/ddnb",
-    label: "Đặc điểm nổi bật",
-  },
-  {
-    cap: 1,
     to: "/nhaplieu/hinhthuchd",
     label: "Hình thức hoạt động",
   },

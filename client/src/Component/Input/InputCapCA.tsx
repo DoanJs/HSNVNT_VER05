@@ -87,7 +87,7 @@ export default function InputCapCA() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCapCA.CapCA}" thành công`,
+              `Cập nhật cấp công an "${data.editCapCA.CapCA}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -106,7 +106,7 @@ export default function InputCapCA() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCapCA.CapCA}" thành công`,
+              `Thêm mới cấp công an "${data.createCapCA.CapCA}" thành công`,
               "success"
             );
             setForm(FI_CapCA)

@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PlaceItem, Spinner } from "..";
-import { QUERY_diachiNVs } from "../../graphql/documentNode";
+import { QUERY_baocaoPHDCs } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
 const PlaceListStyled = styled.div`
@@ -49,10 +49,10 @@ const PlaceListStyled = styled.div`
 `;
 export default function PlaceList() {
   const navigate = useNavigate();
-  const { data: Data_diachiNVs, error } = useQuery(QUERY_diachiNVs, {
+  const { data: Data_baocaoPHDCs, error } = useQuery(QUERY_baocaoPHDCs, {
     variables: { utilsParams: {} },
   });
-  const [diachiNVs, setDiachiNVs] = useState([]);
+  const [baocaoPHDCs, setbaocaoPHDCs] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -67,23 +67,23 @@ export default function PlaceList() {
   }, [error]);
 
   useEffect(() => {
-    if (Data_diachiNVs) {
-      setDiachiNVs(Data_diachiNVs.diachiNVs);
+    if (Data_baocaoPHDCs) {
+      setbaocaoPHDCs(Data_baocaoPHDCs.baocaoPHDCs);
     }
-  }, [Data_diachiNVs]);
+  }, [Data_baocaoPHDCs]);
 
   const onFilterPlace = (e: ChangeEvent<HTMLInputElement>) => {
-    setDiachiNVs(
-      handleSearch("diachiNVs", Data_diachiNVs.diachiNVs, e.target.value)
+    setbaocaoPHDCs(
+      handleSearch("baocaoPHDCs", Data_baocaoPHDCs.baocaoPHDCs, e.target.value)
     );
   };
 
-  if (!Data_diachiNVs) return <Spinner />;
+  if (!Data_baocaoPHDCs) return <Spinner />;
   return (
     <PlaceListStyled>
       <div className="place-ls-title">
         <h5>DANH SÁCH CÁC ĐỊA CHỈ NGHI VẤN TRONG CSDL</h5>
-        <span>Số lượng: {diachiNVs.length} địa chỉ nghi vấn</span>
+        <span>Số lượng: {baocaoPHDCs.length} địa chỉ nghi vấn</span>
         <div className="place-ls-tt-search">
           <form className="form-inline">
             <i className="fas fa-search"></i>
@@ -113,8 +113,8 @@ export default function PlaceList() {
             </tr>
           </thead>
           <tbody>
-            {diachiNVs.map((diachinv: any, ind: number) => (
-              <PlaceItem diachinv={diachinv} ind={ind} key={ind} />
+            {baocaoPHDCs.map((baocaophdc: any, ind: number) => (
+              <PlaceItem baocaophdc={baocaophdc} ind={ind} key={ind} />
             ))}
           </tbody>
         </table>

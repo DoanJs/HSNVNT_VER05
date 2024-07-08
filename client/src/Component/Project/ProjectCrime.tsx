@@ -9,13 +9,13 @@ export default function ProjectCrime({ doituongCA }: { doituongCA: any }) {
           to={`/doituong/${doituongCA.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {doituongCA.DoiTuong.TenDT}
+          {doituongCA.DoiTuong?.TenDT}
         </Link>
       </td>
       <td>{doituongCA.BiSo}</td>
       <td>{handleTime(doituongCA.DoiTuong?.NgaySinh)}</td>
       <td>{doituongCA.DoiTuong?.NoiO}</td>
-      <td>{`${doituongCA.DoiTuong?.CMND}/${doituongCA.DoiTuong?.CCCD}/${doituongCA.DoiTuong?.SHC}`}</td>
+      <td>{doituongCA.DoiTuong?.CMCCHC}</td>
       <td>
         <i
           data-bs-toggle="modal"

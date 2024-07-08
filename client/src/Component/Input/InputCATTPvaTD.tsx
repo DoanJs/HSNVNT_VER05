@@ -101,7 +101,7 @@ export default function InputCATTPvaTD() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCATTPvaTD.CATTPvaTD}" thành công`,
+              `Cập nhật CATTPvaTD "${data.editCATTPvaTD.CATTPvaTD}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -123,7 +123,7 @@ export default function InputCATTPvaTD() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCATTPvaTD.CATTPvaTD}" thành công`,
+              `Thêm mới CATTPvaTD "${data.createCATTPvaTD.CATTPvaTD}" thành công`,
               "success"
             );
             setForm(FI_CATTPvaTD)

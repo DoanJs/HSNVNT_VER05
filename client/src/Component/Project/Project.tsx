@@ -59,14 +59,12 @@ export default function Project({ ca, ind }: { ca: any; ind: number }) {
           alt="..."
         />
         <div className="card-body ca-body">
-          <h5 title={ca.TenCA} className="card-title">
-            {ca.TenCA}
-          </h5>
+          <h5 className="card-title">{ca.TenCA}</h5>
           <p className="card-text">
-            Bí danh: <b>{ca.BiSo}</b>
+            Bí số: <b>{ca.BiSo}</b>
           </p>
           <p className="card-text">
-            Tính chất: <b>{ca.TinhChat.TinhChat}</b>
+            Tính chất: <b>{ca.TinhChatDT?.TinhChat}</b>
           </p>
           <p className="card-text">
             Thời gian: <b>{handleTime(ca.ThoiGianBD)}</b>
@@ -82,13 +80,13 @@ export default function Project({ ca, ind }: { ca: any; ind: number }) {
         Chỉnh sửa
       </Link>
     )} */}
-      <Link
+      {/* <Link
         to={`/chuyenan/${ca.MaCA}/edit`}
         type="button"
         className="btn btn-success ca-addmore"
       >
         Chỉnh sửa
-      </Link>
+      </Link> */}
     </CaStyled>
   );
 }

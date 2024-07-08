@@ -38,7 +38,7 @@ export default function ProjectItem() {
     variables: { id: Number(id) },
   });
   const chuyenan = Data_chuyenan?.chuyenan;
-
+console.log(chuyenan)
   if (!Data_chuyenan) return <Spinner />;
   return (
     <ProjectItemStyled>

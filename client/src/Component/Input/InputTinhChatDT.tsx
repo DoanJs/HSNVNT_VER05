@@ -93,7 +93,7 @@ export default function InputTinhChatDT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editTinhChatDT.TinhChat}" thành công`,
+              `Cập nhật tính chất đối tượng "${data.editTinhChatDT.TinhChat}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -112,7 +112,7 @@ export default function InputTinhChatDT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createTinhChatDT.TinhChat}" thành công`,
+              `Thêm mới tính chất đối tượng "${data.createTinhChatDT.TinhChat}" thành công`,
               "success"
             );
             setForm(FI_TinhChatDT)

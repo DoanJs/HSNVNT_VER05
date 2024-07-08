@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner, VehicleItem } from "..";
-import { QUERY_phuongtienNVs } from "../../graphql/documentNode";
+import { QUERY_baocaoPHPTs } from "../../graphql/documentNode";
 import { handleSearch, showNotification } from "../../utils/functions";
 
 const VehicleListStyled = styled.div`
@@ -49,11 +49,10 @@ const VehicleListStyled = styled.div`
 `;
 export default function VehicleList() {
   const navigate = useNavigate();
-  const { data: Data_phuongtienNVs, error } = useQuery(QUERY_phuongtienNVs, {
+  const { data: Data_baocaoPHPTs, error } = useQuery(QUERY_baocaoPHPTs, {
     variables: { utilsParams: {} },
   });
-  const [phuongtienNVs, setPhuongtienNVs] = useState([]);
-
+  const [baocaoPHPTs, setbaocaoPHPTs] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -68,27 +67,23 @@ export default function VehicleList() {
   }, [error]);
 
   useEffect(() => {
-    if (Data_phuongtienNVs) {
-      setPhuongtienNVs(Data_phuongtienNVs.phuongtienNVs);
+    if (Data_baocaoPHPTs) {
+      setbaocaoPHPTs(Data_baocaoPHPTs.baocaoPHPTs);
     }
-  }, [Data_phuongtienNVs]);
+  }, [Data_baocaoPHPTs]);
 
   const onFilterVehicle = (e: ChangeEvent<HTMLInputElement>) => {
-    setPhuongtienNVs(
-      handleSearch(
-        "phuongtienNVs",
-        Data_phuongtienNVs.phuongtienNVs,
-        e.target.value
-      )
+    setbaocaoPHPTs(
+      handleSearch("baocaoPHPTs", Data_baocaoPHPTs.baocaoPHPTs, e.target.value)
     );
   };
 
-  if (!Data_phuongtienNVs) return <Spinner />;
+  if (!Data_baocaoPHPTs) return <Spinner />;
   return (
     <VehicleListStyled>
       <div className="vehicle-ls-title">
         <h5>DANH SÁCH CÁC PHƯƠNG TIỆN LIÊN QUAN TRONG CSDL</h5>
-        <span>Số lượng: {phuongtienNVs.length} phương tiện liên quan</span>
+        <span>Số lượng: {baocaoPHPTs.length} phương tiện liên quan</span>
         <div className="vehicle-ls-tt-search">
           <form className="form-inline">
             <i className="fas fa-search"></i>
@@ -119,9 +114,20 @@ export default function VehicleList() {
             </tr>
           </thead>
           <tbody>
-            {phuongtienNVs.map((phuongtiennv: any, ind: number) => (
-              <VehicleItem phuongtiennv={phuongtiennv} ind={ind} key={ind} />
-            ))}
+            {baocaoPHPTs.length === 0 ? (
+              <tr>
+                <td style={{ textAlign: "center" }} colSpan={8}>
+                  <i>
+                    Phương tiện nghi vấn trống !{" "}
+                    <Link to="/nhaplieu/baocaophpt">Thêm mới</Link>
+                  </i>
+                </td>
+              </tr>
+            ) : (
+              baocaoPHPTs.map((baocaophpt: any, ind: number) => (
+                <VehicleItem baocaophpt={baocaophpt} ind={ind} key={ind} />
+              ))
+            )}
           </tbody>
         </table>
       </div>

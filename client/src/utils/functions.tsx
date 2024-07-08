@@ -84,7 +84,7 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         (obj: any) =>
           obj.So.toLowerCase().includes(keysearch) ||
           obj.DoiTuong?.TenDT?.toLowerCase().includes(keysearch) ||
-          obj.CATTPvaTD?.CATTPvaTD?.toLowerCase().includes(keysearch) ||
+          obj.HinhThucHD?.HinhThuc?.toLowerCase().includes(keysearch) ||
           obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch) ||
           moment(obj.Ngay)
             .date()
@@ -103,7 +103,7 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         (obj: any) =>
           obj.So.toLowerCase().includes(keysearch) ||
           obj.DeNghiTSNT?.So.toLowerCase().includes(keysearch) ||
-          obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
+          obj.DeNghiTSNT?.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
           obj.BiDanh?.toLowerCase().includes(keysearch) ||
           moment(obj.Ngay)
             .date()

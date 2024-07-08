@@ -24,18 +24,18 @@ export default function RecordItem({
       </td>
       <td>
         <Link
-          to={`/doituong/${baocaoKQGH.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {baocaoKQGH.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+          {baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
         </Link>
       </td>
       <td>
         <Link
-          to={`/doituong/${baocaoKQGH.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {baocaoKQGH.DoiTuong?.TenDT}
+          {baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
         </Link>
       </td>
       <td>

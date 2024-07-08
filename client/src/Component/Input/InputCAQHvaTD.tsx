@@ -104,7 +104,7 @@ export default function InputCAQHvaTD() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCAQHvaTD.CAQHvaTD}" thành công`,
+              `Cập nhật CAQHvaTD "${data.editCAQHvaTD.CAQHvaTD}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -127,7 +127,7 @@ export default function InputCAQHvaTD() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCAQHvaTD.CAQHvaTD}" thành công`,
+              `Thêm mới CAQHvaTD "${data.createCAQHvaTD.CAQHvaTD}" thành công`,
               "success"
             );
             setForm(FI_CAQHvaTD)

@@ -23,7 +23,6 @@ import {
   InputChucVu,
   InputDanToc,
   InputDauMoiPHDN,
-  InputDDNB,
   InputDeNghiTSNT,
   InputDeNghiTSNTTinhTP,
   InputDoi,
@@ -114,7 +113,6 @@ export default function App() {
           <Route path="/nhaplieu/tinhchatdt" element={<InputTinhChatDT />} />
           <Route path="/nhaplieu/tongiao" element={<InputTonGiao />} />
           <Route path="/nhaplieu/tinhTP" element={<InputTinhTP />} />
-          <Route path="/nhaplieu/ddnb" element={<InputDDNB />} />
           <Route path="/nhaplieu/doi" element={<InputDoi />} />
           <Route path="/nhaplieu/cbcs" element={<InputCBCS />} />
           <Route path="/nhaplieu/doituong" element={<InputDoiTuong />} />

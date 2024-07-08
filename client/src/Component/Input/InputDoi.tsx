@@ -97,7 +97,7 @@ export default function InputDoi() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editDoi.TenDoi}" thành công`,
+              `Cập nhật đội "${data.editDoi.TenDoi}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -119,7 +119,7 @@ export default function InputDoi() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createDoi.TenDoi}" thành công`,
+              `Thêm mới đội "${data.createDoi.TenDoi}" thành công`,
               "success"
             );
             setForm(FI_Doi)

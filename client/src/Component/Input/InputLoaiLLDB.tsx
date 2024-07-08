@@ -96,7 +96,7 @@ export default function InputLoaiLLDB() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editLoaiLLDB.TenLLDB}" thành công`,
+              `Cập nhật loại LLDB "${data.editLoaiLLDB.TenLLDB}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -118,7 +118,7 @@ export default function InputLoaiLLDB() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createLoaiLLDB.TenLLDB}" thành công`,
+              `Thêm mới loại LLDB "${data.createLoaiLLDB.TenLLDB}" thành công`,
               "success"
             );
             setForm(FI_LoaiLLDB)

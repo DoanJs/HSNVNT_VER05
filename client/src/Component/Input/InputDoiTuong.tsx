@@ -11,10 +11,8 @@ import {
   QUERY_dantocs,
   QUERY_doituongs,
   QUERY_loaiDTs,
-  QUERY_quocTichs,
   QUERY_tinhChatDTs,
   QUERY_tonGiaos,
-  QUERY_tramCTs,
 } from "../../graphql/documentNode";
 import {
   handleSearch,
@@ -66,9 +64,6 @@ export default function InputDoiTuong() {
   const { data: Data_doituongs, error } = useQuery(QUERY_doituongs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_quocTichs } = useQuery(QUERY_quocTichs, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_dantocs } = useQuery(QUERY_dantocs, {
     variables: { utilsParams: {} },
   });
@@ -79,9 +74,6 @@ export default function InputDoiTuong() {
     variables: { utilsParams: {} },
   });
   const { data: Data_loaiDTs } = useQuery(QUERY_loaiDTs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_tramCTs } = useQuery(QUERY_tramCTs, {
     variables: { utilsParams: {} },
   });
 
@@ -116,9 +108,7 @@ export default function InputDoiTuong() {
           }`
         : "",
       NoiSinh: obj.NoiSinh,
-      CCCD: obj.CCCD,
-      CMND: obj.CMND,
-      SHC: obj.SHC,
+      CMCCHC: obj.CMCCHC,
       AnhDD: obj.AnhDD,
       QueQuan: obj.QueQuan,
       HKTT: obj.HKTT,
@@ -129,12 +119,11 @@ export default function InputDoiTuong() {
       PhuongTien: obj.PhuongTien,
       SDT: obj.SDT,
       ThongTinKhac: obj.ThongTinKhac,
-      MaQT: obj.QuocTich?.MaQT,
+
       MaDT: obj.DanToc?.MaDT,
       MaTG: obj.TonGiao?.MaTG,
-      MaTC: obj.TinhChatDT?.MaTCDT,
+      MaTCDT: obj.TinhChatDT?.MaTCDT,
       MaLoai: obj.LoaiDT?.MaLoaiDT,
-      MaTramCT: obj.TramCT?.MaTramCT,
     };
   };
 
@@ -151,12 +140,10 @@ export default function InputDoiTuong() {
       ...form,
       [e.target.name]:
         e.target.name === "GioiTinh" ||
-        e.target.name === "MaQT" ||
         e.target.name === "MaDT" ||
         e.target.name === "MaTG" ||
-        e.target.name === "MaTC" ||
-        e.target.name === "MaLoai" ||
-        e.target.name === "MaTramCT"
+        e.target.name === "MaTCDT" ||
+        e.target.name === "MaLoai"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -175,11 +162,11 @@ export default function InputDoiTuong() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editDoiTuong.TenDT}" thành công`,
+              `Cập nhật đối tượng "${data.editDoiTuong.TenDT}" thành công`,
               "success"
             );
             setStatusEdit(false);
-            setForm(FI_DoiTuong)
+            setForm(FI_DoiTuong);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -195,10 +182,10 @@ export default function InputDoiTuong() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createDoiTuong.TenDT}" thành công`,
+              `Thêm mới đối tượng "${data.createDoiTuong.TenDT}" thành công`,
               "success"
             );
-            setForm(FI_DoiTuong)
+            setForm(FI_DoiTuong);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -273,7 +260,7 @@ export default function InputDoiTuong() {
                   <th scope="col">TenDT/TenKhac</th>
                   <th scope="col">NgaySinh/GioiTinh</th>
                   <th scope="col">NoiO</th>
-                  <th scope="col">NgheNghiep/ChucVu/NoiLamViec</th>
+                  <th scope="col">NgheNghiep/NoiLamViec</th>
                   <th scope="col">TinhChatDT</th>
                   <th scope="col">LoaiDT</th>
                   <th scope="col">Action</th>
@@ -325,7 +312,7 @@ export default function InputDoiTuong() {
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Tên đối tượng (TenDT):</label>
+                <label className="form-label">Tên đối tượng:</label>
                 <input
                   required
                   value={form.TenDT ? form.TenDT : ""}
@@ -376,7 +363,7 @@ export default function InputDoiTuong() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Giới tính (GioiTinh):</label>
+                <label className="form-label">Giới tính:</label>
                 <select
                   value={form.GioiTinh ? form.GioiTinh : ""}
                   className="form-select"
@@ -430,30 +417,10 @@ export default function InputDoiTuong() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">CMND:</label>
+                <label className="form-label">CMCCHC:</label>
                 <input
-                  value={form.CMND ? form.CMND : ""}
-                  name="CMND"
-                  onChange={changeForm}
-                  type="text"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">CCCD:</label>
-                <input
-                  value={form.CCCD ? form.CCCD : ""}
-                  name="CCCD"
-                  onChange={changeForm}
-                  type="text"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">SHC:</label>
-                <input
-                  value={form.SHC ? form.SHC : ""}
-                  name="SHC"
+                  value={form.CMCCHC ? form.CMCCHC : ""}
+                  name="CMCCHC"
                   onChange={changeForm}
                   type="text"
                   className="form-control"
@@ -501,44 +468,6 @@ export default function InputDoiTuong() {
               </div>
               {/* --------------------------Ma lien quan----------------------------------- */}
               <div className="col-2 mb-3">
-                <label className="form-label">Mã quốc tịch (MaQT):</label>
-                <select
-                  value={form.MaQT ? form.MaQT : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaQT"
-                >
-                  <option defaultValue={""}>Chọn quốc tịch</option>
-                  {Data_quocTichs &&
-                    Data_quocTichs.quocTichs.map(
-                      (quoctich: any, ind: number) => (
-                        <option key={ind} value={quoctich.MaQT}>
-                          {quoctich.TenQT}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã dân tộc (MaDT):</label>
-                <select
-                  value={form.MaDT ? form.MaDT : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDT"
-                >
-                  <option defaultValue={""}>Chọn dân tộc</option>
-                  {Data_dantocs &&
-                    Data_dantocs.dantocs.map((dantoc: any, ind: number) => (
-                      <option key={ind} value={dantoc.MaDT}>
-                        {dantoc.TenDT}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
                 <label className="form-label">Mã tôn giáo (MaTG):</label>
                 <select
                   value={form.MaTG ? form.MaTG : ""}
@@ -557,15 +486,13 @@ export default function InputDoiTuong() {
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">
-                  Mã tính chất đối tượng (MaTC):
-                </label>
+                <label className="form-label">Mã TCDT (MaTCDT):</label>
                 <select
-                  value={form.MaTC ? form.MaTC : ""}
+                  value={form.MaTCDT ? form.MaTCDT : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaTC"
+                  name="MaTCDT"
                 >
                   <option defaultValue={""}>Chọn tính chất đối tượng</option>
                   {Data_tinhChatDTs &&
@@ -598,29 +525,25 @@ export default function InputDoiTuong() {
                     ))}
                 </select>
               </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">
-                  Mã trạm công tác (MaTramCT):
-                </label>
+              <div className="col-3 mb-3">
+                <label className="form-label">Mã dân tộc (MaDT):</label>
                 <select
-                  value={form.MaTramCT ? form.MaTramCT : ""}
+                  value={form.MaDT ? form.MaDT : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaTramCT"
+                  name="MaDT"
                 >
-                  <option defaultValue={""}>Chọn trạm công tác</option>
-                  {Data_tramCTs &&
-                    Data_tramCTs.tramCTs.map((tramCT: any, ind: number) => (
-                      <option key={ind} value={tramCT.MaTramCT}>
-                        {tramCT.DiaDiem}
+                  <option defaultValue={""}>Chọn dân tộc</option>
+                  {Data_dantocs &&
+                    Data_dantocs.dantocs.map((dantoc: any, ind: number) => (
+                      <option key={ind} value={dantoc.MaDT}>
+                        {dantoc.TenDT} - {dantoc.QuocTich?.TenQT}
                       </option>
                     ))}
                 </select>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-6 mb-3">
+              <div className="col-9 mb-3">
                 <label className="form-label">Thông tin khác:</label>
                 <textarea
                   value={form.ThongTinKhac ? form.ThongTinKhac : ""}

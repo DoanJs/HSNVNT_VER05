@@ -121,7 +121,7 @@ export default function InputBienPhapDTDoiTuong() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật "{ MaBPDT: ${form.MaBPDT}, MaDoiTuong: ${form.MaDoiTuong} }" thành công`,
+                `Cập nhật biện pháp điều tra - đối tượng "{ MaBPDT: ${form.MaBPDT}, MaDoiTuong: ${form.MaDoiTuong} }" thành công`,
                 "success"
               );
               setStatusEdit(false);
@@ -143,7 +143,7 @@ export default function InputBienPhapDTDoiTuong() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới "{ MaBPDT: ${form.MaBPDT}, MaDoiTuong: ${form.MaDoiTuong} }" thành công`,
+                `Thêm mới biện pháp điều tra - đối tượng "{ MaBPDT: ${form.MaBPDT}, MaDoiTuong: ${form.MaDoiTuong} }" thành công`,
                 "success"
               );
               setForm(FI_BienPhapDT_DoiTuong);

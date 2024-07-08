@@ -75,7 +75,7 @@ export default function DecisionList() {
   const onFilterDecision = (e: ChangeEvent<HTMLInputElement>) => {
     setQuyetdinhTSNTs(
       handleSearch(
-        "quyetdinhTSNTs",
+        "QuyetDinhTSNTs",
         Data_quyetdinhTSNTs.quyetdinhTSNTs,
         e.target.value
       )

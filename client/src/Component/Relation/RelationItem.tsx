@@ -20,16 +20,18 @@ export default function RelationItem({
       <td>{baocaoPHQH.HinhAnh}</td>
       <td>{baocaoPHQH.DiaChiCC}</td>
       <td>
-        <Link to={`/doituong/${baocaoPHQH.DoiTuong?.MaDoiTuong}`}>
-          {baocaoPHQH.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+        <Link
+          to={`/doituong/${baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
+        >
+          {baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
         </Link>
       </td>
       <td>
         <Link
-          to={`/doituong/${baocaoPHQH.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {baocaoPHQH.DoiTuong?.TenDT}
+          {baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
         </Link>
       </td>
       <td>

@@ -1,6 +1,6 @@
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { handleDanhGiaTSTH } from "../../utils/functions";
-import { Fragment } from "react";
 
 export default function CBCS({ cbcs, ind }: { cbcs: any; ind: number }) {
   return (
@@ -11,7 +11,7 @@ export default function CBCS({ cbcs, ind }: { cbcs: any; ind: number }) {
         </Link>
       </td>
       <td>
-        {cbcs.DanhGiaTSTHs.length}/
+        {cbcs.DanhGiaTSTHs?.length}/
         <span style={{ color: "green" }}>
           {handleDanhGiaTSTH(cbcs.DanhGiaTSTHs).arrBD.length}
         </span>
@@ -25,7 +25,7 @@ export default function CBCS({ cbcs, ind }: { cbcs: any; ind: number }) {
           {cbcs.DanhGiaTSTHs?.map((obj: any, ind: number) => (
             <Fragment key={ind}>
               <Link
-                to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.DoiTuong?.MaDoiTuong}`}
+                to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
               >
                 <span>
                   {obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
@@ -42,7 +42,7 @@ export default function CBCS({ cbcs, ind }: { cbcs: any; ind: number }) {
             (obj: any, ind: number) => (
               <Fragment key={ind}>
                 <Link
-                  to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.DoiTuong?.MaDoiTuong}`}
+                  to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
                 >
                   <span>
                     {obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
@@ -60,7 +60,7 @@ export default function CBCS({ cbcs, ind }: { cbcs: any; ind: number }) {
             (obj: any, ind: number) => (
               <Fragment key={ind}>
                 <Link
-                  to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.DoiTuong?.MaDoiTuong}`}
+                  to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
                 >
                   <span>
                     {obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}

@@ -95,7 +95,7 @@ export default function InputDanToc() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editDanToc.TenDT}" thành công`,
+              `Cập nhật dân tộc "${data.editDanToc.TenDT}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -117,7 +117,7 @@ export default function InputDanToc() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createDanToc.TenDT}" thành công`,
+              `Thêm mới dân tộc "${data.createDanToc.TenDT}" thành công`,
               "success"
             );
             setForm(FI_DanToc)

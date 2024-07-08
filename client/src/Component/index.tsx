@@ -31,7 +31,6 @@ export { default as InputQuocTich } from "./Input/InputQuocTich";
 export { default as InputTinhChatDT } from "./Input/InputTinhChatDT";
 export { default as InputTonGiao } from "./Input/InputTonGiao";
 export { default as InputTinhTP } from "./Input/InputTinhTP";
-export { default as InputDDNB } from "./Input/InputDDNB";
 export { default as InputDoi } from "./Input/InputDoi";
 export { default as InputCBCS } from "./Input/InputCBCS";
 export { default as InputDoiTuong } from "./Input/InputDoiTuong";

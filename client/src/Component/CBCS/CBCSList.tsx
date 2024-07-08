@@ -93,6 +93,7 @@ export default function CBCSList() {
   const { data: Data_cbcss, error } = useQuery(QUERY_cbcss, {
     variables: { utilsParams: {} },
   });
+
   const [cbcss, setCbcss] = useState([]);
   const [formInputDetails, setFormInputDetails] = useState({
     startDate: "",
@@ -283,7 +284,7 @@ export default function CBCSList() {
             <tr>
               <td colSpan={5} className="text-center">
                 CSDL về CBCS trống!{" "}
-                <Link style={{ marginLeft: "10px" }} to="/them/cbcs">
+                <Link style={{ marginLeft: "10px" }} to="/nhaplieu/cbcs">
                   Thêm CBCS mới
                 </Link>
               </td>

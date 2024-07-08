@@ -2,45 +2,45 @@ import { Link } from "react-router-dom";
 import { handleTime } from "../../utils/functions";
 
 export default function VehicleItem({
-  phuongtiennv,
+  baocaophpt,
   ind,
 }: {
-  phuongtiennv: any;
+  baocaophpt: any;
   ind: number;
 }) {
   return (
     <tr>
       <th>{ind + 1}</th>
-      <th>{handleTime(phuongtiennv.ThoiGianPH)}</th>
+      <th>{handleTime(baocaophpt.ThoiGianPH)}</th>
       <td>
-        <Link to={`/phuongtiennv/${phuongtiennv.MaPT}`} target="_blank">
-          {phuongtiennv.BKS}
+        <Link to={`/baocaophpt/${baocaophpt.MaBCPHPT}`} target="_blank">
+          {baocaophpt.BKS}
         </Link>
       </td>
-      <td>{phuongtiennv.DiaDiemPH}</td>
+      <td>{baocaophpt.DiaDiemPH}</td>
       <td>
-        <Link to={phuongtiennv.HinhAnh} target="_blank">
+        <Link to={baocaophpt.HinhAnh} target="_blank">
           link
         </Link>
       </td>
       <td>
         <Link
-          to={`/doituong/${phuongtiennv.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${baocaophpt.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {phuongtiennv.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+          {baocaophpt.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
         </Link>
       </td>
       <td>
         <Link
-          to={`/doituong/${phuongtiennv.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${baocaophpt.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {phuongtiennv.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}
+          {baocaophpt.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
         </Link>
       </td>
       <td>
-        {phuongtiennv.TSThucHiens?.map((cbcs: any, ind: number) => (
+        {baocaophpt.TSThucHiens?.map((cbcs: any, ind: number) => (
           <Link key={ind} to={`/cbcs/${cbcs?.MaCBCS}`} target="_blank">
             <p>{cbcs?.HoTen}</p>
           </Link>

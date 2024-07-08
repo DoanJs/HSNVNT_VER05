@@ -16,7 +16,7 @@ export default function SuggestItem({
       </td>
       <td>{handleTime(denghiTSNT.Ngay)}</td>
       <td>
-        {denghiTSNT.CAQHvaTD?.CAQHvaTD}-{denghiTSNT.CATTPvaTD?.CATTPvaTD}
+        {denghiTSNT.CAQHvaTD?.CAQHvaTD}-{denghiTSNT.CAQHvaTD?.CATTPvaTD?.CATTPvaTD}
       </td>
       <td>
         <Link to={`/doituong/${denghiTSNT.DoiTuong?.MaDoiTuong}`} target="_blank">

@@ -8,13 +8,11 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_createCBCS,
   MUTATION_editCBCS,
-  QUERY_caQHvaTDs,
   QUERY_capbacs,
   QUERY_cbcss,
   QUERY_chucvus,
   QUERY_dantocs,
   QUERY_dois,
-  QUERY_quocTichs,
   QUERY_tonGiaos,
 } from "../../graphql/documentNode";
 import {
@@ -64,9 +62,6 @@ export default function InputCBCS() {
   const { data: Data_cbcss, error } = useQuery(QUERY_cbcss, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_quocTichs } = useQuery(QUERY_quocTichs, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_dantocs } = useQuery(QUERY_dantocs, {
     variables: { utilsParams: {} },
   });
@@ -74,9 +69,6 @@ export default function InputCBCS() {
     variables: { utilsParams: {} },
   });
   const { data: Data_dois } = useQuery(QUERY_dois, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
     variables: { utilsParams: {} },
   });
   const { data: Data_capbacs } = useQuery(QUERY_capbacs, {
@@ -117,15 +109,11 @@ export default function InputCBCS() {
       HKTT: obj.HKTT,
       NoiO: obj.NoiO,
       SDT: obj.SDT,
-      CCCD: obj.CCCD,
-      CMND: obj.CMND,
-      SHC: obj.SHC,
+      CMCCHC: obj.CMCCHC,
       PhuongTien: obj.PhuongTien,
       ThongTinChiTiet: obj.ThongTinChiTiet,
-      MaQT: obj.QuocTich?.MaQT,
       MaDT: obj.DanToc?.MaDT,
       MaTG: obj.TonGiao?.MaTG,
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
       MaDoi: obj.Doi?.MaDoi,
       MaCB: obj.CapBac?.MaCB,
       MaCV: obj.ChucVu?.MaCV,
@@ -143,10 +131,8 @@ export default function InputCBCS() {
       ...form,
       [e.target.name]:
         e.target.name === "GioiTinh" ||
-        e.target.name === "MaQT" ||
         e.target.name === "MaDT" ||
         e.target.name === "MaTG" ||
-        e.target.name === "MaCAQHvaTD" ||
         e.target.name === "MaDoi" ||
         e.target.name === "MaCB" ||
         e.target.name === "MaCV"
@@ -168,11 +154,11 @@ export default function InputCBCS() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCBCS.HoTen}" thành công`,
+              `Cập nhật CBCS "${data.editCBCS.HoTen}" thành công`,
               "success"
             );
             setStatusEdit(false);
-            setForm(FI_CBCS)
+            setForm(FI_CBCS);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -188,10 +174,10 @@ export default function InputCBCS() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCBCS.HoTen}" thành công`,
+              `Thêm mới CBCS "${data.createCBCS.HoTen}" thành công`,
               "success"
             );
-            setForm(FI_CBCS)
+            setForm(FI_CBCS);
           },
           onError: (error) => {
             showNotification("Lỗi!", error.message, "danger");
@@ -265,9 +251,8 @@ export default function InputCBCS() {
                 <tr>
                   <th scope="col">HoTen/TenKhac</th>
                   <th scope="col">NgaySinh/GioiTinh</th>
-                  <th scope="col">CapBac/ChucVu</th>
-                  <th scope="col">Doi</th>
-                  <th scope="col">CAQHvaTD</th>
+                  <th scope="col">ChucVu/CapBac</th>
+                  <th scope="col">DonVi</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -287,9 +272,9 @@ export default function InputCBCS() {
                       {cbcs.NgaySinh && handleTime(cbcs.NgaySinh)}
                     </td>
                     <td title={cbcs.CapBac?.CapBac}>{cbcs.ChucVu?.ChucVu}</td>
-                    <td>{cbcs.Doi?.TenDoi}</td>
-                    <td title={cbcs.CATTPvaTD?.CATTPvaTD}>
-                      {cbcs.CAQHvaTD?.CAQHvaTD}
+                    <td>
+                      {cbcs.Doi?.TenDoi} - {cbcs.Doi?.CAQHvaTD?.CAQHvaTD} -{" "}
+                      {cbcs.Doi?.CAQHvaTD?.CATTPvaTD?.CATTPvaTD}
                     </td>
                     <td className="ip-ls-action">
                       <i
@@ -316,7 +301,7 @@ export default function InputCBCS() {
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Họ và tên (HoTen):</label>
+                <label className="form-label">Họ và tên:</label>
                 <input
                   required
                   value={form.HoTen ? form.HoTen : ""}
@@ -361,7 +346,7 @@ export default function InputCBCS() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Giới tính (GioiTinh):</label>
+                <label className="form-label">Giới tính:</label>
                 <select
                   value={form.GioiTinh ? form.GioiTinh : ""}
                   className="form-select"
@@ -419,32 +404,10 @@ export default function InputCBCS() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">CMND:</label>
+                <label className="form-label">CMCCHC:</label>
                 <input
-                  value={form.CMND ? form.CMND : ""}
-                  name="CMND"
-                  onChange={changeForm}
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                />
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">CCCD:</label>
-                <input
-                  value={form.CCCD ? form.CCCD : ""}
-                  name="CCCD"
-                  onChange={changeForm}
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                />
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">SHC:</label>
-                <input
-                  value={form.SHC ? form.SHC : ""}
-                  name="SHC"
+                  value={form.CMCCHC ? form.CMCCHC : ""}
+                  name="CMCCHC"
                   onChange={changeForm}
                   type="text"
                   className="form-control"
@@ -463,100 +426,6 @@ export default function InputCBCS() {
                 />
               </div>
               {/* --------------------------Ma lien quan----------------------------------- */}
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã quốc tịch (MaQT):</label>
-                <select
-                  value={form.MaQT ? form.MaQT : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaQT"
-                >
-                  <option defaultValue={""}>Chọn quốc tịch</option>
-                  {Data_quocTichs &&
-                    Data_quocTichs.quocTichs.map(
-                      (quoctich: any, ind: number) => (
-                        <option key={ind} value={quoctich.MaQT}>
-                          {quoctich.TenQT}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã dân tộc (MaDT):</label>
-                <select
-                  value={form.MaDT ? form.MaDT : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDT"
-                >
-                  <option defaultValue={""}>Chọn dân tộc</option>
-                  {Data_dantocs &&
-                    Data_dantocs.dantocs.map((dantoc: any, ind: number) => (
-                      <option key={ind} value={dantoc.MaDT}>
-                        {dantoc.TenDT}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã tôn giáo (MaTG):</label>
-                <select
-                  value={form.MaTG ? form.MaTG : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaTG"
-                >
-                  <option defaultValue={""}>Chọn tôn giáo</option>
-                  {Data_tonGiaos &&
-                    Data_tonGiaos.tonGiaos.map((tongiao: any, ind: number) => (
-                      <option key={ind} value={tongiao.MaTG}>
-                        {tongiao.TenTG}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đội (MaDoi):</label>
-                <select
-                  value={form.MaDoi ? form.MaDoi : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoi"
-                >
-                  <option defaultValue={""}>Chọn đội</option>
-                  {Data_dois &&
-                    Data_dois.dois.map((doi: any, ind: number) => (
-                      <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
-                <select
-                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCAQHvaTD"
-                >
-                  <option defaultValue={""}>Chọn CAQHvaTD</option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
               <div className="col-2 mb-3">
                 <label className="form-label">Mã cấp bậc (MaCB):</label>
                 <select
@@ -589,6 +458,61 @@ export default function InputCBCS() {
                     Data_chucvus.chucvus.map((chucvu: any, ind: number) => (
                       <option key={ind} value={chucvu.MaCV}>
                         {chucvu.ChucVu}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="col-2 mb-3">
+                <label className="form-label">Mã tôn giáo (MaTG):</label>
+                <select
+                  value={form.MaTG ? form.MaTG : ""}
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={changeForm}
+                  name="MaTG"
+                >
+                  <option defaultValue={""}>Chọn tôn giáo</option>
+                  {Data_tonGiaos &&
+                    Data_tonGiaos.tonGiaos.map((tongiao: any, ind: number) => (
+                      <option key={ind} value={tongiao.MaTG}>
+                        {tongiao.TenTG}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="col-3 mb-3">
+                <label className="form-label">Mã dân tộc (MaDT):</label>
+                <select
+                  value={form.MaDT ? form.MaDT : ""}
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={changeForm}
+                  name="MaDT"
+                >
+                  <option defaultValue={""}>Chọn dân tộc</option>
+                  {Data_dantocs &&
+                    Data_dantocs.dantocs.map((dantoc: any, ind: number) => (
+                      <option key={ind} value={dantoc.MaDT}>
+                        {dantoc.TenDT} - {dantoc.QuocTich?.TenQT}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="col-5 mb-3">
+                <label className="form-label">Mã đội (MaDoi):</label>
+                <select
+                  value={form.MaDoi ? form.MaDoi : ""}
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={changeForm}
+                  name="MaDoi"
+                >
+                  <option defaultValue={""}>Chọn đội</option>
+                  {Data_dois &&
+                    Data_dois.dois.map((doi: any, ind: number) => (
+                      <option key={ind} value={doi.MaDoi}>
+                        {doi.TenDoi} - {doi.CAQHvaTD?.CAQHvaTD} -{" "}
+                        {doi.CAQHvaTD?.CATTPvaTD?.CATTPvaTD}
                       </option>
                     ))}
                 </select>

@@ -112,7 +112,7 @@ export default function InputBienPhapDT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createBienPhapDT.BienPhapDT}" thành công`,
+              `Thêm mới biện pháp điều tra "${data.createBienPhapDT.BienPhapDT}" thành công`,
               "success"
             );
             setForm(FI_BienPhapDT)

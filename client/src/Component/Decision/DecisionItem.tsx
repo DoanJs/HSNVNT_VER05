@@ -19,10 +19,10 @@ export default function DecisionItem({
       <td>{handleTime(quyetdinhTSNT.Ngay)}</td>
       <td>
         <Link
-          to={`/doituong/${quyetdinhTSNT.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${quyetdinhTSNT.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {quyetdinhTSNT.DoiTuong?.TenDT}
+          {quyetdinhTSNT.DeNghiTSNT?.DoiTuong?.TenDT}
         </Link>
       </td>
       <td>

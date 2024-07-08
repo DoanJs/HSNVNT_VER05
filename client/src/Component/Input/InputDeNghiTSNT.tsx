@@ -9,7 +9,6 @@ import {
   MUTATION_createDeNghiTSNT,
   MUTATION_editDeNghiTSNT,
   QUERY_caQHvaTDs,
-  QUERY_caTTPvaTDs,
   QUERY_denghiTSNTs,
   QUERY_doituongs,
   QUERY_hinhthucHDs,
@@ -73,9 +72,6 @@ export default function InputDeNghiTSNT() {
   const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
-    variables: { utilsParams: {} },
-  });
 
   // ----------------------------------------------------
   const [createDeNghiTSNT] = useMutation(MUTATION_createDeNghiTSNT, {
@@ -132,7 +128,6 @@ export default function InputDeNghiTSNT() {
       NoiDungDN: obj.NoiDungDN,
       NoiDungTN: obj.NoiDungTN,
 
-      MaCATTPvaTD: obj.CATTPvaTD?.MaCATTPvaTD,
       MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
       MaDoiTuong: obj.DoiTuong?.MaDoiTuong,
       MaHTHD: obj.HinhThucHD?.MaHTHD,
@@ -153,8 +148,7 @@ export default function InputDeNghiTSNT() {
       [e.target.name]:
         e.target.name === "MaDoiTuong" ||
         e.target.name === "MaHTHD" ||
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaCATTPvaTD"
+        e.target.name === "MaCAQHvaTD"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -173,7 +167,7 @@ export default function InputDeNghiTSNT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editDeNghiTSNT.So}" thành công`,
+              `Cập nhật đề nghị TSNT "${data.editDeNghiTSNT.So}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -193,7 +187,7 @@ export default function InputDeNghiTSNT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createDeNghiTSNT.So}" thành công`,
+              `Thêm mới đề nghị TSNT "${data.createDeNghiTSNT.So}" thành công`,
               "success"
             );
             setForm(FI_DeNghiTSNT);
@@ -381,9 +375,7 @@ export default function InputDeNghiTSNT() {
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">
-                  Mã hình thức HD (MaHTHD):
-                </label>
+                <label className="form-label">Mã hình thức HD (MaHTHD):</label>
                 <select
                   value={form.MaHTHD ? form.MaHTHD : ""}
                   className="form-select"
@@ -402,7 +394,7 @@ export default function InputDeNghiTSNT() {
                     )}
                 </select>
               </div>
-              <div className="col-3 mb-3">
+              <div className="col-4 mb-3">
                 <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
                 <select
                   value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
@@ -418,31 +410,7 @@ export default function InputDeNghiTSNT() {
                     Data_caQHvaTDs.caQHvaTDs.map(
                       (caQHvaTD: any, ind: number) => (
                         <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">
-                  Mã CATTPvaTD (MaCATTPvaTD):
-                </label>
-                <select
-                  value={form.MaCATTPvaTD ? form.MaCATTPvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCATTPvaTD"
-                >
-                  <option defaultValue={""}>
-                    Chọn công an tỉnh thành phố và tương đương
-                  </option>
-                  {Data_caTTPvaTDs &&
-                    Data_caTTPvaTDs.caTTPvaTDs.map(
-                      (caTTPvaTD: any, ind: number) => (
-                        <option key={ind} value={caTTPvaTD.MaCATTPvaTD}>
-                          {caTTPvaTD.CATTPvaTD}
+                          {caQHvaTD.CAQHvaTD} - {caQHvaTD.CATTPvaTD?.CATTPvaTD}
                         </option>
                       )
                     )}

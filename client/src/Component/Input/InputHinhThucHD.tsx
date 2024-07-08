@@ -93,7 +93,7 @@ export default function InputHinhThucHD() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editHinhThucHD.HinhThuc}" thành công`,
+              `Cập nhật hình thức hoạt động "${data.editHinhThucHD.HinhThuc}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -112,7 +112,7 @@ export default function InputHinhThucHD() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createHinhThucHD.HinhThuc}" thành công`,
+              `Thêm mới hình thức hoạt động "${data.createHinhThucHD.HinhThuc}" thành công`,
               "success"
             );
             setForm(FI_HTHD)

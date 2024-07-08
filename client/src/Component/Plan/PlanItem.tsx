@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
-import { handleTime } from "../../utils/functions";
+import { handleDanhGiaTSTH, handleTime } from "../../utils/functions";
 
 export const PlanItemStyled = styled.div`
   h5,
@@ -130,10 +130,14 @@ export default function PlanItem({
         <div className="plan-details-THDT-other">
           <div className="plan-details-THDT-first">
             <div>
-              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs.length === 0 ? (
+              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs.length ===
+              0 ? (
                 <p>
                   Báo cáo phát hiện quan hệ trống!{" "}
-                  <Link title="Thêm báo cáo phát hiện quan hệ" to={`/nhaplieu/baocaophqh`}>
+                  <Link
+                    title="Thêm báo cáo phát hiện quan hệ"
+                    to={`/nhaplieu/baocaophqh`}
+                  >
                     Thêm
                   </Link>
                 </p>
@@ -142,28 +146,39 @@ export default function PlanItem({
                   <h6>
                     Quan hệ của đối tượng:{" "}
                     <span style={{ color: "red" }}>
-                      ({quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs.length})
+                      (
+                      {
+                        quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs
+                          .length
+                      }
+                      )
                     </span>
                   </h6>
                   <div className="plan-details-relationship">
-                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs.map((obj: any) => (
-                      // eslint-disable-line
-                      <Link
-                        key={obj.MaBCPHQH}
-                        to={`/baocaophqh/${obj.MaBCPHQH}`}
-                      >
-                        <p>+ {obj.BiDanh}</p>
-                      </Link>
-                    ))}
+                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs.map(
+                      (obj: any) => (
+                        // eslint-disable-line
+                        <Link
+                          key={obj.MaBCPHQH}
+                          to={`/baocaophqh/${obj.MaBCPHQH}`}
+                        >
+                          <p>+ {obj.BiDanh}</p>
+                        </Link>
+                      )
+                    )}
                   </div>
                 </>
               )}
             </div>
             <div>
-              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs.length === 0 ? (
+              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs.length ===
+              0 ? (
                 <p>
                   Báo cáo phát hiện phương tiện trống!{" "}
-                  <Link title="Thêm báo cáo phát hiện phương tiện" to={`/nhaplieu/baocaophpt`}>
+                  <Link
+                    title="Thêm báo cáo phát hiện phương tiện"
+                    to={`/nhaplieu/baocaophpt`}
+                  >
                     Thêm
                   </Link>
                 </p>
@@ -172,16 +187,26 @@ export default function PlanItem({
                   <h6>
                     Báo cáo phát hiện phương tiện:{" "}
                     <span style={{ color: "red" }}>
-                      ({quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs.length})
+                      (
+                      {
+                        quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs
+                          .length
+                      }
+                      )
                     </span>
                   </h6>
                   <div className="plan-details-vehicle">
-                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs.map((obj: any) => (
-                      // eslint-disable-line
-                      <Link key={obj.MaBCPHPT} to={`/phuongtiennv/${obj.MaBCPHPT}`}>
-                        <p>+ {obj.BKS}</p>
-                      </Link>
-                    ))}
+                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs.map(
+                      (obj: any) => (
+                        // eslint-disable-line
+                        <Link
+                          key={obj.MaBCPHPT}
+                          to={`/baocaophpt/${obj.MaBCPHPT}`}
+                        >
+                          <p>+ {obj.BKS}</p>
+                        </Link>
+                      )
+                    )}
                   </div>
                 </>
               )}
@@ -189,10 +214,14 @@ export default function PlanItem({
           </div>
           <div className="plan-details-THDT-second">
             <div>
-              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs.length === 0 ? (
+              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs.length ===
+              0 ? (
                 <p>
                   Báo cáo kết quả ghi hình trống!{" "}
-                  <Link title="Thêm báo cáo kết quả ghi hình" to={`/nhaplieu/baocaokqgh`}>
+                  <Link
+                    title="Thêm báo cáo kết quả ghi hình"
+                    to={`/nhaplieu/baocaokqgh`}
+                  >
                     Thêm
                   </Link>
                 </p>
@@ -201,45 +230,67 @@ export default function PlanItem({
                   <h6>
                     Báo cáo kết quả ghi hình:{" "}
                     <span style={{ color: "red" }}>
-                      ({quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs.length})
+                      (
+                      {
+                        quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs
+                          .length
+                      }
+                      )
                     </span>
                   </h6>
                   <div className="plan-details-record">
-                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs.map((obj: any) => (
-                      // eslint-disable-line
-                      <Link
-                        key={obj.MaBCKQGH}
-                        to={`/baocaokqgh/${obj.MaBCKQGH}`}
-                      >
-                        <p>+ {obj.HinhAnh}</p>
-                      </Link>
-                    ))}
+                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs.map(
+                      (obj: any, ind: number) => (
+                        // eslint-disable-line
+                        <Link
+                          target="_blank"
+                          key={obj.MaBCKQGH}
+                          to={`/baocaokqgh/${obj.MaBCKQGH}`}
+                        >
+                          <p>+ Hình ảnh {ind + 1}</p>
+                        </Link>
+                      )
+                    )}
                   </div>
                 </>
               )}
             </div>
             <div>
-              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs.length === 0 ? (
+              {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs.length ===
+              0 ? (
                 <p>
-                  Địa chỉ nghi vấn trống!{" "}
-                  <Link title="Thêm địa chỉ nghi vấn" to={`/nhaplieu/baocaophdc`}>
+                  Báo cáo phát hiện địa chỉ trống!{" "}
+                  <Link
+                    title="Thêm báo cáo phát hiện địa chỉ"
+                    to={`/nhaplieu/baocaophdc`}
+                  >
                     Thêm
                   </Link>
                 </p>
               ) : (
                 <>
                   <h6>
-                    Địa chỉ nghi vấn:{" "}
+                    Báo cáo phát hiện địa chỉ:{" "}
                     <span style={{ color: "red" }}>
-                      ({quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs.length})
+                      (
+                      {
+                        quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs
+                          .length
+                      }
+                      )
                     </span>
                   </h6>
                   <div className="plan-details-address">
-                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs.map((obj: any) => (
-                      <Link key={obj.MaBCPHDC} to={`/baocaophdc/${obj.MaBCPHDC}`}>
-                        <p>+ {obj.DiaChi}</p>
-                      </Link>
-                    ))}
+                    {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs.map(
+                      (obj: any) => (
+                        <Link
+                          key={obj.MaBCPHDC}
+                          to={`/baocaophdc/${obj.MaBCPHDC}`}
+                        >
+                          <p>+ {obj.DiaChi}</p>
+                        </Link>
+                      )
+                    )}
                   </div>
                 </>
               )}
@@ -255,16 +306,19 @@ export default function PlanItem({
         <div className="pi-lltgkh-length">
           <h6 style={{ marginRight: "10px" }}>
             Trinh sát tham gia:
-            <span>({`quyetdinhTSNT.KetQuaTSNT?.DanhGiaTSTHs.length`})</span>
+            <span>
+              ({quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.DanhGiaTSTHs.length})
+            </span>
           </h6>
           <h6 style={{ color: "Lime", marginRight: "10px" }}>
             Trinh sát được biểu dương:
             <span>
               (
-              {/* {
-                handleDanhGiaTSTH(quyetdinhTSNT.KetQuaTSNT?.DanhGiaTSTHs).arrBD
-                  .length
-              } */}
+              {
+                handleDanhGiaTSTH(
+                  quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.DanhGiaTSTHs
+                ).arrBD.length
+              }
               )
             </span>
           </h6>
@@ -272,10 +326,11 @@ export default function PlanItem({
             Trinh sát RKN:
             <span>
               (
-              {/* {
-                handleDanhGiaTSTH(quyetdinhTSNT.KetQuaTSNT?.DanhGiaTSTHs).arrRKN
-                  .length
-              } */}
+              {
+                handleDanhGiaTSTH(
+                  quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.DanhGiaTSTHs
+                ).arrRKN.length
+              }
               )
             </span>
           </h6>
@@ -285,7 +340,7 @@ export default function PlanItem({
           {quyetdinhTSNT.KetQuaTSNT?.DanhGiaTSTHs.lengthh === 0 ? (
             <b>
               <i>Lực lượng tham gia yêu cầu trống!&emsp;</i>
-              <Link to={"/"} target="_blank">
+              <Link to={"/nhaplieu/danhgiatsth"} target="_blank">
                 Thêm lực lượng tham gia
               </Link>
             </b>
@@ -302,7 +357,7 @@ export default function PlanItem({
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {quyetdinhTSNT.KetQuaTSNT?.DanhGiaTSTHs.map(
+                  {quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.DanhGiaTSTHs.map(
                     (obj: any, ind: number) => (
                       <tr key={ind}>
                         <th scope="row">{ind + 1}</th>
@@ -330,7 +385,7 @@ export default function PlanItem({
                         <td>{obj.LyDo}</td>
                       </tr>
                     )
-                  )} */}
+                  )}
                 </tbody>
               </table>
             </>
@@ -350,19 +405,19 @@ export default function PlanItem({
                     <i>- Những vấn đề cần chú ý khi sử dụng trạm:</i>
                   </b>
                 </p>
-                {/* <p>{quyetdinhTSNT.KeHoachTSNT?.TramCT?.VanDeChuY}</p> */}
+                <p>{quyetdinhTSNT.KeHoachTSNT?.TramCT?.VanDeChuY}</p>
                 <p>
                   <b>
                     <i>- Một số quy định:</i>
                   </b>
                 </p>
-                {/* <p>{quyetdinhTSNT.KeHoachTSNT?.TramCT?.QuyDinh}</p> */}
+                <p>{quyetdinhTSNT.KeHoachTSNT?.TramCT?.QuyDinh}</p>
               </div>
               <div className="workStation-img">
                 <a target="_blank" href="/">
                   <img src="../../img.jpg" alt="" />
                 </a>
-                {/* <i>{quyetdinhTSNT.KeHoachTSNT?.TramCT?.DiaDiem}</i> */}
+                <i>{quyetdinhTSNT.KeHoachTSNT?.TramCT?.DiaDiem}</i>
               </div>
             </div>
           )}
@@ -371,7 +426,7 @@ export default function PlanItem({
 
       <div className="plan-details-RKN">
         <h5>V. NHỮNG VẤN ĐỀ CẦN RKN</h5>
-        {/* <p>{quyetdinhTSNT?.KetQuaTSNT?.BaoCaoKTDN?.VanDeRKN}</p> */}
+        <p>{quyetdinhTSNT.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKTDN?.VanDeRKN}</p>
       </div>
 
       <div className="planDetails-edit">

@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
 import { QUERY_doituong } from "../../graphql/documentNode";
@@ -75,7 +75,7 @@ export default function CrimeItem() {
     variables: { id: Number(id) },
   });
   const doituong = Data_doituong?.doituong;
-  console.log(doituong);
+
   if (!Data_doituong) return <Spinner />;
   return (
     <CrimeItemStyled>
@@ -111,7 +111,7 @@ export default function CrimeItem() {
               Ngày sinh: <b>{handleTime(doituong.NgaySinh)}</b>
             </p>
             <p>
-              Giới tính: <b>{doituong.GioiTinh === 2 ? "Nam" : "Nữ"}</b>
+              Giới tính: <b>{doituong.GioiTinh === 1 ? "Nữ" : "Nam"}</b>
             </p>
             <p>
               Nơi sinh: <b>{doituong.NoiSinh}</b>
@@ -167,7 +167,7 @@ export default function CrimeItem() {
           <hr />
           <p>
             Thuộc chuyên án:{" "}
-            {/* {doituongCAsOpen.map((obj: any, ind: number) => (
+            {doituong.DoiTuongCAs?.map((obj: any, ind: number) => (
               <Link
                 key={ind}
                 to={`/chuyenan/${obj.ChuyenAn?.MaCA}`}
@@ -175,7 +175,7 @@ export default function CrimeItem() {
               >
                 <b title={obj.ChuyenAn?.TenCA}>{obj.ChuyenAn?.BiSo}</b>
               </Link>
-            ))} */}
+            ))}
           </p>
           <hr />
           <div>

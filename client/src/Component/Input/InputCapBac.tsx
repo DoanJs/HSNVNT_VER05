@@ -87,7 +87,7 @@ export default function InputCapBac() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editCapBac.CapBac}" thành công`,
+              `Cập nhật cấp bậc "${data.editCapBac.CapBac}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -106,7 +106,7 @@ export default function InputCapBac() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createCapBac.CapBac}" thành công`,
+              `Thêm mới cấp bậc "${data.createCapBac.CapBac}" thành công`,
               "success"
             );
             setForm(FI_CapBac)

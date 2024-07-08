@@ -87,7 +87,7 @@ export default function InputChucVu() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editChucVu.ChucVu}" thành công`,
+              `Cập nhật chức vụ "${data.editChucVu.ChucVu}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -106,7 +106,7 @@ export default function InputChucVu() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createChucVu.ChucVu}" thành công`,
+              `Thêm mới chức vụ "${data.createChucVu.ChucVu}" thành công`,
               "success"
             );
             setForm(FI_ChucVu)

@@ -2,44 +2,44 @@ import { Link } from "react-router-dom";
 import { handleTime } from "../../utils/functions";
 
 export default function PlaceItem({
-  diachinv,
+  baocaophdc,
   ind,
 }: {
-  diachinv: any;
+  baocaophdc: any;
   ind: number;
 }) {
   return (
     <tr>
       <th>{ind + 1}</th>
       <td>
-        <Link to={`/diachinv/${diachinv.MaDC}`} target="_blank">
-          {handleTime(diachinv.ThoiGianPH)}
+        <Link to={`/baocaophdc/${baocaophdc.MaBCPHDC}`} target="_blank">
+          {handleTime(baocaophdc.ThoiGianPH)}
         </Link>
       </td>
-      <td>{diachinv.DiaChi}</td>
+      <td>{baocaophdc.DiaChi}</td>
       <td>
-        <Link to={diachinv.HinhAnh} target="_blank">
-          link
-        </Link>
-      </td>
-      <td>
-        <Link
-          to={`/doituong/${diachinv.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
-          target="_blank"
-        >
-          {diachinv.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+        <Link to={baocaophdc.HinhAnh} target="_blank">
+          Hình ảnh
         </Link>
       </td>
       <td>
         <Link
-          to={`/doituong/${diachinv.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+          to={`/doituong/${baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {diachinv.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}
+          {baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
         </Link>
       </td>
       <td>
-        {diachinv.TSThucHiens?.map((cbcs: any, ind: number) => (
+        <Link
+          to={`/doituong/${baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
+          target="_blank"
+        >
+          {baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
+        </Link>
+      </td>
+      <td>
+        {baocaophdc.TSThucHiens?.map((cbcs: any, ind: number) => (
           <Link key={ind} to={`/cbcs/${cbcs?.MaCBCS}`} target="_blank">
             <p>{cbcs?.HoTen}</p>
           </Link>

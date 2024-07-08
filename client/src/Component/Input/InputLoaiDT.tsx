@@ -87,7 +87,7 @@ export default function InputLoaiDT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editLoaiDT.LoaiDT}" thành công`,
+              `Cập nhật loại đối tượng "${data.editLoaiDT.LoaiDT}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -106,7 +106,7 @@ export default function InputLoaiDT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createLoaiDT.LoaiDT}" thành công`,
+              `Thêm mới loại đối tượng "${data.createLoaiDT.LoaiDT}" thành công`,
               "success"
             );
             setForm(FI_LoaiDT)

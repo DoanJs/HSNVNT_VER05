@@ -115,7 +115,9 @@ export class ChuyenAnsService {
   //  ResolveField
 
   async TinhChatDT(chuyenan: any): Promise<TinhChatDT> {
-    return this.dataloaderService.loaderTinhChatDT.load(chuyenan.MaTC);
+    if (chuyenan.MaTCDT) {
+      return this.dataloaderService.loaderTinhChatDT.load(chuyenan.MaTCDT);
+    }
   }
 
   async DoiTuongCAs(MaCA: number): Promise<DoiTuongCA[]> {

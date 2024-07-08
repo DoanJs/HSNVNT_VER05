@@ -93,7 +93,7 @@ export default function InputQuocTich() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editQuocTich.TenQT}" thành công`,
+              `Cập nhật quốc tịch "${data.editQuocTich.TenQT}" thành công`,
               "success"
             );
             setForm(FI_QuocTich)
@@ -112,7 +112,7 @@ export default function InputQuocTich() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createQuocTich.TenQT}" thành công`,
+              `Thêm mới quốc tịch "${data.createQuocTich.TenQT}" thành công`,
               "success"
             );
             setForm(FI_QuocTich)
