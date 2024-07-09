@@ -313,7 +313,7 @@ export default function InputDeNghiTSNT() {
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Số đề nghị (So):</label>
+                <label className="form-label">Số đề nghị:</label>
                 <input
                   required
                   value={form.So ? form.So : ""}
@@ -394,7 +394,7 @@ export default function InputDeNghiTSNT() {
                     )}
                 </select>
               </div>
-              <div className="col-4 mb-3">
+              <div className="col-3 mb-3">
                 <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
                 <select
                   value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}

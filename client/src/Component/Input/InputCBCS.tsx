@@ -480,7 +480,7 @@ export default function InputCBCS() {
                     ))}
                 </select>
               </div>
-              <div className="col-3 mb-3">
+              <div className="col-2 mb-3">
                 <label className="form-label">Mã dân tộc (MaDT):</label>
                 <select
                   value={form.MaDT ? form.MaDT : ""}
@@ -498,7 +498,7 @@ export default function InputCBCS() {
                     ))}
                 </select>
               </div>
-              <div className="col-5 mb-3">
+              <div className="col-2 mb-3">
                 <label className="form-label">Mã đội (MaDoi):</label>
                 <select
                   value={form.MaDoi ? form.MaDoi : ""}

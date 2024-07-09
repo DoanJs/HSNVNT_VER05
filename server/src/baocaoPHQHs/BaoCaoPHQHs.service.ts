@@ -8,6 +8,7 @@ import { KetQuaXMQuanHe } from 'src/ketQuaXMQuanHes/KetQuaXMQuanHe.model';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOPHQH,
+  SP_CHANGE_DATA,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
@@ -15,6 +16,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoPHQH } from './BaoCaoPHQH.model';
 import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
+import { BaoCaoPHQH_CBCSType } from './type/BaoCaoPHQH_CBCS.type';
+import { BaoCaoPHQH_CBCSInput } from './type/BaoCaoPHQH_CBCS.input';
 
 @Injectable()
 export class BaoCaoPHQHsService {
@@ -33,9 +36,11 @@ export class BaoCaoPHQHsService {
       Type,
       MaBCPHQH,
       BaoCaoPHQHInput: {
-        Ngay: baocaoPHQH.Ngay ? baocaoPHQH.Ngay : null,
+        Ngay: baocaoPHQH.Ngay ? `N'${baocaoPHQH.Ngay}'` : null,
         BiDanh: baocaoPHQH.BiDanh ? `N'${baocaoPHQH.BiDanh}'` : null,
-        ThoiGianPH: baocaoPHQH.ThoiGianPH ? baocaoPHQH.ThoiGianPH : null,
+        ThoiGianPH: baocaoPHQH.ThoiGianPH
+          ? `N'${baocaoPHQH.ThoiGianPH}'`
+          : null,
         DiaDiemPH: baocaoPHQH.DiaDiemPH ? `N'${baocaoPHQH.DiaDiemPH}'` : null,
         HinhAnh: `N'${baocaoPHQH.HinhAnh}'`, //crypto
         DDNhanDang: baocaoPHQH.DDNhanDang
@@ -120,6 +125,108 @@ export class BaoCaoPHQHsService {
       Action: 'DELETE',
       Other: `MaBCPHQH: ${result[0].MaBCPHQH};`,
       TableName: 'BaoCaoPHQHs',
+    });
+    return result[0];
+  }
+
+  // many-to-many
+
+  async baocaoPHQHs_cbcss(
+    utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoPHQH_CBCSType[]> {
+    return this.baocaoPHQHRepository.query(
+      SP_GET_DATA(
+        'BaoCaoPHQHs_CBCSs',
+        `'MaBCPHQH != 0'`,
+        'MaBCPHQH',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+
+  async createBaoCaoPHQH_CBCS(
+    baocaoPHQH_cbcsInput: BaoCaoPHQH_CBCSInput,
+    user: any,
+  ): Promise<BaoCaoPHQH_CBCSType> {
+    const result = await this.baocaoPHQHRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'BaoCaoPHQHs_CBCSs',
+        `'MaBCPHQH, MaCBCS'`,
+        `'  ${baocaoPHQH_cbcsInput.MaBCPHQH},
+            ${baocaoPHQH_cbcsInput.MaCBCS}
+        '`,
+        `'MaBCPHQH = ${baocaoPHQH_cbcsInput.MaBCPHQH}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaBCPHQH: ${baocaoPHQH_cbcsInput.MaBCPHQH}, MaCBCS: ${baocaoPHQH_cbcsInput.MaCBCS} };`,
+      TableName: 'BaoCaoPHQHs_CBCSs',
+    });
+    return result[0];
+  }
+
+  async editBaoCaoPHQH_CBCS(
+    baocaoPHQH_cbcsInput: BaoCaoPHQH_CBCSInput,
+    MaBCPHQH: number,
+    MaCBCS: number,
+    user: any,
+  ): Promise<BaoCaoPHQH_CBCSType> {
+    await this.baocaoPHQHRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'BaoCaoPHQHs_CBCSs',
+        null,
+        null,
+        null,
+        `'  MaBCPHQH = ${baocaoPHQH_cbcsInput.MaBCPHQH},
+            MaCBCS = ${baocaoPHQH_cbcsInput.MaCBCS}
+        '`,
+        `'MaBCPHQH = ${MaBCPHQH} AND MaCBCS = ${MaCBCS}'`,
+      ),
+    );
+    const result = await this.baocaoPHQHRepository.query(
+      SP_GET_DATA(
+        'BaoCaoPHQHs_CBCSs',
+        `'MaBCPHQH = ${baocaoPHQH_cbcsInput.MaBCPHQH} AND MaCBCS = ${baocaoPHQH_cbcsInput.MaCBCS}'`,
+        'MaBCPHQH',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaBCPHQH: ${baocaoPHQH_cbcsInput.MaBCPHQH}, MaCBCS: ${baocaoPHQH_cbcsInput.MaCBCS} };`,
+      TableName: 'BaoCaoPHQHs_CBCSs',
+    });
+    return result[0];
+  }
+
+  async deleteBaoCaoPHQH_CBCS(
+    MaBCPHQH: number,
+    MaCBCS: number,
+    user: any,
+  ): Promise<BaoCaoPHQH_CBCSType> {
+    const result = await this.baocaoPHQHRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'BaoCaoPHQHs_CBCSs',
+        null,
+        null,
+        null,
+        null,
+        `'MaBCPHQH = ${MaBCPHQH} AND MaCBCS = ${MaCBCS}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaBCPHQH: ${MaBCPHQH}, MaCBCS: ${MaCBCS} };`,
+      TableName: 'BaoCaoPHQHs_CBCSs',
     });
     return result[0];
   }

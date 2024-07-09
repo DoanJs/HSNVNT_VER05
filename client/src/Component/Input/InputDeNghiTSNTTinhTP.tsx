@@ -53,7 +53,6 @@ export default function InputDenghiTSNTTinhTP() {
   const { data: Data_denghiTSNTs, error } = useQuery(QUERY_denghiTSNTs, {
     variables: { utilsParams: {} },
   });
-
   const { data: Data_tinhTPs } = useQuery(QUERY_tinhTPs, {
     variables: { utilsParams: {} },
   });
@@ -118,7 +117,7 @@ export default function InputDenghiTSNTTinhTP() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật "{ MaTinhTP: ${form.MaTinhTP}, MaDN: ${form.MaDN} }" thành công`,
+                `Cập nhật đề nghị TSNT_tỉnh TP "{ MaTinhTP: ${form.MaTinhTP}, MaDN: ${form.MaDN} }" thành công`,
                 "success"
               );
               setStatusEdit(false);
@@ -140,7 +139,7 @@ export default function InputDenghiTSNTTinhTP() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới "{ MaTinhTP: ${form.MaTinhTP}, MaDN: ${form.MaDN} }" thành công`,
+                `Thêm mới đề nghị TSNT_tỉnh TP "{ MaTinhTP: ${form.MaTinhTP}, MaDN: ${form.MaDN} }" thành công`,
                 "success"
               );
               setForm(FI_DeNghiTSNT_TinhTP);

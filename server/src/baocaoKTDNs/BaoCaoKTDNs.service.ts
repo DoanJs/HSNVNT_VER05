@@ -6,6 +6,7 @@ import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOKTDN,
+  SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
@@ -31,7 +32,7 @@ export class BaoCaoKTDNsService {
       Type,
       MaBCKTDN,
       BaoCaoKTDNInput: {
-        Ngay: baocaoKTDNInput.Ngay ? baocaoKTDNInput.Ngay : null,
+        Ngay: baocaoKTDNInput.Ngay ? `N'${baocaoKTDNInput.Ngay}'` : null,
         TinhHinhDT: `N'${baocaoKTDNInput.TinhHinhDT}'`,
         VanDeRKN: `N'${baocaoKTDNInput.VanDeRKN}'`,
         MaKQ: baocaoKTDNInput.MaKQ ? baocaoKTDNInput.MaKQ : null,
@@ -123,7 +124,7 @@ export class BaoCaoKTDNsService {
 
   async KetQuaTSNT(baocaoKTDN: any): Promise<KetQuaTSNT> {
     const result = await this.baocaoKTDNRepository.query(
-      SP_GET_DATA_DECRYPT('KetQuaTSNTs', `'MaKQ = ${baocaoKTDN.MaKQ}'`, 0, 1),
+      SP_GET_DATA('KetQuaTSNTs', `'MaKQ = ${baocaoKTDN.MaKQ}'`, 'MaKQ', 0, 1),
     );
     return result[0];
   }

@@ -263,9 +263,9 @@ export default function InputBienBanRKN() {
               <thead>
                 <tr>
                   <th scope="col">Ngay</th>
+                  <th scope="col">KeHoachTSNT</th>
                   <th scope="col">ChuToa</th>
                   <th scope="col">ThuKy</th>
-                  <th scope="col">KeHoachTSNT</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -275,9 +275,9 @@ export default function InputBienBanRKN() {
                   .map((bienbanrkn: any, ind: number) => (
                     <tr key={ind} title={`MaBBRKN: ${bienbanrkn.MaBBRKN}`}>
                       <td>{bienbanrkn.Ngay && handleTime(bienbanrkn.Ngay)}</td>
+                      <td>{bienbanrkn.KetQuaTSNT?.KeHoachTSNT?.So}</td>
                       <td>{bienbanrkn.ChuToa?.HoTen}</td>
                       <td>{bienbanrkn.ThuKy?.HoTen}</td>
-                      <td>{bienbanrkn.KetQuaTSNT?.KeHoachTSNT?.So}</td>
                       <td className="ip-ls-action">
                         <i
                           className="fa-solid fa-pen"
@@ -327,7 +327,8 @@ export default function InputBienBanRKN() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
@@ -345,12 +346,13 @@ export default function InputBienBanRKN() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
               </div>
-              <div className="col-3 mb-3">
+              <div className="col-2 mb-3">
                 <label className="form-label">Mã kết quả (MaKQ):</label>
                 <select
                   value={form.MaKQ ? form.MaKQ : ""}
@@ -360,13 +362,13 @@ export default function InputBienBanRKN() {
                   name="MaKQ"
                 >
                   <option defaultValue={""}>
-                    Chọn kết quả TSNT/Kế hoạch TSNT tương đương
+                    Chọn kết quả TSNT
                   </option>
                   {Data_ketquaTSNTs &&
                     Data_ketquaTSNTs.ketquaTSNTs.map(
                       (ketquatsnt: any, ind: number) => (
                         <option key={ind} value={ketquatsnt.MaKQ}>
-                          {ketquatsnt.KeHoachTSNT?.So}
+                          {ketquatsnt.MaKQ}-{ketquatsnt.KeHoachTSNT?.So}
                         </option>
                       )
                     )}

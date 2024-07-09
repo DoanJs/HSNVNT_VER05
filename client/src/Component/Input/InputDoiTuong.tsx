@@ -525,7 +525,7 @@ export default function InputDoiTuong() {
                     ))}
                 </select>
               </div>
-              <div className="col-3 mb-3">
+              <div className="col-2 mb-3">
                 <label className="form-label">Mã dân tộc (MaDT):</label>
                 <select
                   value={form.MaDT ? form.MaDT : ""}
@@ -543,7 +543,7 @@ export default function InputDoiTuong() {
                     ))}
                 </select>
               </div>
-              <div className="col-9 mb-3">
+              <div className="col-10 mb-3">
                 <label className="form-label">Thông tin khác:</label>
                 <textarea
                   value={form.ThongTinKhac ? form.ThongTinKhac : ""}

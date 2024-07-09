@@ -9,10 +9,7 @@ import {
   MUTATION_createBaoCaoKQGH,
   MUTATION_editBaoCaoKQGH,
   QUERY_baocaoKQGHs,
-  QUERY_caQHvaTDs,
   QUERY_cbcss,
-  QUERY_dois,
-  QUERY_doituongs,
   QUERY_ketquaTSNTs,
 } from "../../graphql/documentNode";
 import {
@@ -68,15 +65,6 @@ export default function InputBaoCaoKQGH() {
   const { data: Data_ketquaTSNTs } = useQuery(QUERY_ketquaTSNTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_dois } = useQuery(QUERY_dois, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_doituongs } = useQuery(QUERY_doituongs, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_cbcss } = useQuery(QUERY_cbcss, {
     variables: { utilsParams: {} },
   });
@@ -126,9 +114,6 @@ export default function InputBaoCaoKQGH() {
       NoiDung: obj.NoiDung,
 
       MaKQ: obj.KetQuaTSNT?.MaKQ,
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
-      MaDoi: obj.Doi?.MaDoi,
-      MaDoiTuong: obj.DoiTuong?.MaDoiTuong,
       MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
     };
   };
@@ -145,11 +130,7 @@ export default function InputBaoCaoKQGH() {
     setForm({
       ...form,
       [e.target.name]:
-        e.target.name === "MaKQ" ||
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaDoi" ||
-        e.target.name === "MaDoiTuong" ||
-        e.target.name === "MaLanhDaoPD"
+        e.target.name === "MaKQ" || e.target.name === "MaLanhDaoPD"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -275,7 +256,7 @@ export default function InputBaoCaoKQGH() {
                   <th scope="col">HinhAnh</th>
                   <th scope="col">ThoiGian</th>
                   <th scope="col">DiaDiem</th>
-                  <th scope="col">MucDich</th>
+                  <th scope="col">BiDanhDT</th>
                   <th scope="col">DoiTuong</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -295,8 +276,18 @@ export default function InputBaoCaoKQGH() {
                         {baocaokqgh.ThoiGian && handleTime(baocaokqgh.ThoiGian)}
                       </td>
                       <td>{baocaokqgh.DiaDiem}</td>
-                      <td>{baocaokqgh.MucDich}</td>
-                      <td>{baocaokqgh.DoiTuong?.TenDT}</td>
+                      <td>
+                        {
+                          baocaokqgh.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT
+                            ?.BiDanh
+                        }
+                      </td>
+                      <td>
+                        {
+                          baocaokqgh.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT
+                            ?.DeNghiTSNT?.DoiTuong?.TenDT
+                        }
+                      </td>
                       <td className="ip-ls-action">
                         <i
                           className="fa-solid fa-pen"
@@ -335,7 +326,7 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Hình ảnh (HinhAnh):</label>
+                <label className="form-label">Hình ảnh:</label>
                 <input
                   value={form.HinhAnh ? form.HinhAnh : ""}
                   name="HinhAnh"
@@ -345,7 +336,7 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mục đích (MucDich):</label>
+                <label className="form-label">Mục đích:</label>
                 <input
                   value={form.MucDich ? form.MucDich : ""}
                   name="MucDich"
@@ -355,7 +346,7 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Thời gian GH(ThoiGian):</label>
+                <label className="form-label">Thời gian GH:</label>
                 <input
                   value={form.ThoiGian ? form.ThoiGian : ""}
                   name="ThoiGian"
@@ -365,7 +356,7 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Địa điểm GH(DiaDiem):</label>
+                <label className="form-label">Địa điểm GH:</label>
                 <input
                   value={form.DiaDiem ? form.DiaDiem : ""}
                   name="DiaDiem"
@@ -375,9 +366,7 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">
-                  Phương tiện SD (PhuongTienSD):
-                </label>
+                <label className="form-label">Phương tiện SD:</label>
                 <input
                   value={form.PhuongTienSD ? form.PhuongTienSD : ""}
                   name="PhuongTienSD"
@@ -387,9 +376,7 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">
-                  Vai ngụy trang (VaiNguyTrang):
-                </label>
+                <label className="form-label">Vai ngụy trang:</label>
                 <input
                   value={form.VaiNguyTrang ? form.VaiNguyTrang : ""}
                   name="VaiNguyTrang"
@@ -399,27 +386,6 @@ export default function InputBaoCaoKQGH() {
                 />
               </div>
               {/* --------------------------Ma lien quan----------------------------------- */}
-
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đối tượng (MaDoiTuong):</label>
-                <select
-                  value={form.MaDoiTuong ? form.MaDoiTuong : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoiTuong"
-                >
-                  <option defaultValue={""}>Chọn đối tượng</option>
-                  {Data_doituongs &&
-                    Data_doituongs.doituongs.map(
-                      (doituong: any, ind: number) => (
-                        <option key={ind} value={doituong.MaDoiTuong}>
-                          {doituong.TenDT}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
               <div className="col-2 mb-3">
                 <label className="form-label">Mã kết quả TSNT (MaKQ):</label>
                 <select
@@ -434,7 +400,7 @@ export default function InputBaoCaoKQGH() {
                     Data_ketquaTSNTs.ketquaTSNTs.map(
                       (ketquatsnt: any, ind: number) => (
                         <option key={ind} value={ketquatsnt.MaKQ}>
-                          {ketquatsnt.MaKQ}
+                          {ketquatsnt.MaKQ} - {ketquatsnt.KeHoachTSNT?.So}
                         </option>
                       )
                     )}
@@ -453,49 +419,10 @@ export default function InputBaoCaoKQGH() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} -{cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đội (MaDoi):</label>
-                <select
-                  value={form.MaDoi ? form.MaDoi : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoi"
-                >
-                  <option defaultValue={""}>Chọn đội</option>
-                  {Data_dois &&
-                    Data_dois.dois.map((doi: any, ind: number) => (
-                      <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
-                <select
-                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCAQHvaTD"
-                >
-                  <option defaultValue={""}>
-                    Chọn CA quận huyện và tương đương
-                  </option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
                 </select>
               </div>
               <div className="col-6 mb-3">

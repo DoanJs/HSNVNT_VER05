@@ -8,12 +8,9 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_createQuyetDinhTSNT,
   MUTATION_editQuyetDinhTSNT,
-  QUERY_caQHvaTDs,
-  QUERY_caTTPvaTDs,
   QUERY_cbcss,
   QUERY_denghiTSNTs,
   QUERY_dois,
-  QUERY_doituongs,
   QUERY_quyetdinhTSNTs,
 } from "../../graphql/documentNode";
 import {
@@ -69,19 +66,10 @@ export default function InputQuyetDinhTSNT() {
   const { data: Data_denghiTSNTs } = useQuery(QUERY_denghiTSNTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_doituongs } = useQuery(QUERY_doituongs, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_cbcss } = useQuery(QUERY_cbcss, {
     variables: { utilsParams: {} },
   });
   const { data: Data_dois } = useQuery(QUERY_dois, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_caTTPvaTDs } = useQuery(QUERY_caTTPvaTDs, {
     variables: { utilsParams: {} },
   });
   // ----------------------------------------------------
@@ -142,9 +130,6 @@ export default function InputQuyetDinhTSNT() {
       MaDN: obj.DeNghiTSNT?.MaDN,
       MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
       MaDoi: obj.Doi?.MaDoi,
-      MaCATTPvaTD: obj.CATTPvaTD?.MaCATTPvaTD,
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
-      MaDoiTuong: obj.DoiTuong?.MaDoiTuong,
       MaDN_edit: obj.DeNghiTSNT?.MaDN,
     };
   };
@@ -167,10 +152,7 @@ export default function InputQuyetDinhTSNT() {
       [e.target.name]:
         e.target.name === "MaDN" ||
         e.target.name === "MaLanhDaoPD" ||
-        e.target.name === "MaDoi" ||
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaCATTPvaTD" ||
-        e.target.name === "MaDoiTuong"
+        e.target.name === "MaDoi"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -256,7 +238,7 @@ export default function InputQuyetDinhTSNT() {
       convertForm(quyetdinhTSNT);
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: `quyết định TSNT số ${quyetdinhTSNT.So}`,
+      Title: quyetdinhTSNT.So,
       Table: "QuyetDinhTSNTs",
       ID: quyetdinhTSNT.MaQD,
       Form: inputQuyetDinhTSNT,
@@ -322,7 +304,7 @@ export default function InputQuyetDinhTSNT() {
                       <td>
                         {quyetdinhTSNT.Ngay && handleTime(quyetdinhTSNT.Ngay)}
                       </td>
-                      <td>{quyetdinhTSNT.DoiTuong?.TenDT}</td>
+                      <td>{quyetdinhTSNT.DeNghiTSNT?.DoiTuong?.TenDT}</td>
                       <td>{quyetdinhTSNT.BiDanh}</td>
                       <td>
                         {quyetdinhTSNT.ThoiGianBD &&
@@ -357,7 +339,7 @@ export default function InputQuyetDinhTSNT() {
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Số quyết định (So):</label>
+                <label className="form-label">Số quyết định:</label>
                 <input
                   required
                   value={form.So ? form.So : ""}
@@ -378,27 +360,7 @@ export default function InputQuyetDinhTSNT() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mã đối tượng (MaDoiTuong):</label>
-                <select
-                  value={form.MaDoiTuong ? form.MaDoiTuong : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoiTuong"
-                >
-                  <option defaultValue={""}>Chọn đối tượng</option>
-                  {Data_doituongs &&
-                    Data_doituongs.doituongs.map(
-                      (doituong: any, ind: number) => (
-                        <option key={ind} value={doituong.MaDoiTuong}>
-                          {doituong.TenDT}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Bí danh (BiDanh):</label>
+                <label className="form-label">Bí danh:</label>
                 <input
                   value={form.BiDanh ? form.BiDanh : ""}
                   name="BiDanh"
@@ -449,24 +411,6 @@ export default function InputQuyetDinhTSNT() {
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mã lãnh đạo (MaLanhDaoPD):</label>
-                <select
-                  value={form.MaLanhDaoPD ? form.MaLanhDaoPD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaLanhDaoPD"
-                >
-                  <option defaultValue={""}>Chọn lãnh đạo phê duyệt</option>
-                  {Data_cbcss &&
-                    Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
-                      <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
                 <label className="form-label">Mã đội (MaDoi):</label>
                 <select
                   value={form.MaDoi ? form.MaDoi : ""}
@@ -479,60 +423,30 @@ export default function InputQuyetDinhTSNT() {
                   {Data_dois &&
                     Data_dois.dois.map((doi: any, ind: number) => (
                       <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
+                        {doi.TenDoi} - {doi.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
               </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
+              <div className="col-2 mb-3">
+                <label className="form-label">Mã lãnh đạo (MaLanhDaoPD):</label>
                 <select
-                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
+                  value={form.MaLanhDaoPD ? form.MaLanhDaoPD : ""}
                   className="form-select"
                   aria-label="Default select example"
                   onChange={changeForm}
-                  name="MaCAQHvaTD"
+                  name="MaLanhDaoPD"
                 >
-                  <option defaultValue={""}>
-                    Chọn CA quận huyện và tương đương
-                  </option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
+                  <option defaultValue={""}>Chọn lãnh đạo phê duyệt</option>
+                  {Data_cbcss &&
+                    Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
+                      <option key={ind} value={cbcs.MaCBCS}>
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} - {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
+                      </option>
+                    ))}
                 </select>
               </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">
-                  Mã CATTPvaTD (MaCATTPvaTD):
-                </label>
-                <select
-                  value={form.MaCATTPvaTD ? form.MaCATTPvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCATTPvaTD"
-                >
-                  <option defaultValue={""}>
-                    Chọn CA tỉnh thành phố và tương đương
-                  </option>
-                  {Data_caTTPvaTDs &&
-                    Data_caTTPvaTDs.caTTPvaTDs.map(
-                      (caTTPvaTD: any, ind: number) => (
-                        <option key={ind} value={caTTPvaTD.MaCATTPvaTD}>
-                          {caTTPvaTD.CATTPvaTD}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6 mb-3">
+              <div className="col-8 mb-3">
                 <label className="form-label">Nhiệm vụ cụ thể:</label>
                 <textarea
                   value={form.NhiemVuCT ? form.NhiemVuCT : ""}

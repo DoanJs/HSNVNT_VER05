@@ -300,7 +300,8 @@ export default function InputKyDuyetDN() {
                 {Data_cbcss &&
                   Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                     <option key={ind} value={cbcs.MaCBCS}>
-                      {cbcs.HoTen}
+                      {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                      {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                     </option>
                   ))}
               </select>
@@ -321,7 +322,8 @@ export default function InputKyDuyetDN() {
                 {Data_cbcss &&
                   Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                     <option key={ind} value={cbcs.MaCBCS}>
-                      {cbcs.HoTen}
+                      {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                      {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                     </option>
                   ))}
               </select>
@@ -342,7 +344,8 @@ export default function InputKyDuyetDN() {
                 {Data_cbcss &&
                   Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                     <option key={ind} value={cbcs.MaCBCS}>
-                      {cbcs.HoTen}
+                      {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                      {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                     </option>
                   ))}
               </select>

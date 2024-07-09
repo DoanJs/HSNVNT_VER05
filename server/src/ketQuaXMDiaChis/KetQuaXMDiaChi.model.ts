@@ -23,7 +23,7 @@ export class KetQuaXMDiaChi {
 
   @Column({ type: 'date', nullable: true })
   @Field({ nullable: true })
-  Ngay: string;
+  Ngay: Date;
 
   // relation
 

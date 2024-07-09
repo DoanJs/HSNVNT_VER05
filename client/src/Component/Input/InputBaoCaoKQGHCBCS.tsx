@@ -216,7 +216,7 @@ export default function InputBaoCaoKQGHCBCS() {
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Tìm kiếm nhanh..."
+              placeholder="Tìm kiếm nhanh BaoCaoKQGH_CBCS..."
               aria-label="Search"
               onChange={onSearchData}
             />
@@ -291,9 +291,7 @@ export default function InputBaoCaoKQGHCBCS() {
                 onChange={changeForm}
                 name="MaBCKQGH"
               >
-                <option defaultValue={""}>
-                  Chọn báo cáo KQGH (ngày báo cáo/địa điểm)
-                </option>
+                <option defaultValue={""}>Chọn báo cáo KQGH</option>
                 {Data_baocaoKQGHs &&
                   Data_baocaoKQGHs.baocaoKQGHs.map(
                     (baocaokqgh: any, ind: number) => (
@@ -318,7 +316,8 @@ export default function InputBaoCaoKQGHCBCS() {
                 {Data_cbcss &&
                   Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                     <option key={ind} value={cbcs.MaCBCS}>
-                      {cbcs.HoTen}
+                      {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                      {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                     </option>
                   ))}
               </select>

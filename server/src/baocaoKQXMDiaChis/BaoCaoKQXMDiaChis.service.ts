@@ -159,7 +159,7 @@ export default class BaoCaoKQXMDiaChisService {
     const result = await this.baocaoKQXMDiaChiRepository.query(
       SP_GET_DATA_DECRYPT(
         'BaoCaoPHDCs',
-        `'MaBCPHDC = ${baocaoKQXMDiaChi.MaDiaChiNV}'`,
+        `'MaBCPHDC = ${baocaoKQXMDiaChi.MaBCPHDC}'`,
         0,
         1,
       ),

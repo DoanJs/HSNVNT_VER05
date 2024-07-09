@@ -208,8 +208,8 @@ export const CSDLInput = [
   },
   {
     cap: 6,
-    to: "/nhaplieu/bienbanrknldtg",
-    label: "Biên bản RKN/Lãnh đạo tham gia",
+    to: "/nhaplieu/bienbanrkncbcs",
+    label: "Biên bản RKN/CBCS",
   },
   {
     cap: 6,
@@ -268,11 +268,6 @@ export const CSDLInput = [
   },
   {
     cap: 6,
-    to: "/nhaplieu/ketquatsntddnb",
-    label: "Kết quả TSNT/DDNB",
-  },
-  {
-    cap: 6,
     to: "/nhaplieu/ketquatsnttinhtp",
     label: "Kết quả TSNT/Tỉnh TP",
   },
@@ -288,8 +283,8 @@ export const CSDLInput = [
   },
   {
     cap: 6,
-    to: "/nhaplieu/phuongtiennv",
-    label: "Phương tiện nghiệp vụ",
+    to: "/nhaplieu/baocaophpt",
+    label: "Báo cáo phát hiện phương tiện",
   },
   {
     cap: 7,

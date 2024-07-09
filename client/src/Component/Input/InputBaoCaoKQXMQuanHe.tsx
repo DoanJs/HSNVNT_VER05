@@ -1,4 +1,4 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
 import moment from "moment";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,13 +6,11 @@ import styled from "styled-components";
 import { ModalDeleteData, Spinner } from "..";
 import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
+  MUTATION_createBaoCaoKQXMQuanHe,
+  MUTATION_editBaoCaoKQXMQuanHe,
   QUERY_baocaoKQXMQuanHes,
   QUERY_baocaoPHQHs,
-  QUERY_caQHvaTDs,
   QUERY_cbcss,
-  QUERY_dois,
-  QUERY_doituongs,
-  QUERY_quyetdinhTSNTs,
 } from "../../graphql/documentNode";
 import {
   handleSearch,
@@ -67,19 +65,6 @@ export default function InputBaoCaoKQXMQuanHe() {
       variables: { utilsParams: {} },
     }
   );
-  console.log(Data_baocaoKQXMQuanHes)
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_dois } = useQuery(QUERY_dois, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_doituongs } = useQuery(QUERY_doituongs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_quyetdinhTSNTs } = useQuery(QUERY_quyetdinhTSNTs, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_baocaoPHQHs } = useQuery(QUERY_baocaoPHQHs, {
     variables: { utilsParams: {} },
   });
@@ -87,16 +72,19 @@ export default function InputBaoCaoKQXMQuanHe() {
     variables: { utilsParams: {} },
   });
   // ----------------------------------------------------
-  // const [createQuyetDinhTSNT] = useMutation(MUTATION_createQuyetDinhTSNT, {
-  //   refetchQueries: [
-  //     { query: QUERY_baocaoKQXMQuanHes, variables: { utilsParams: {} } },
-  //   ],
-  // });
-  // const [editQuyetDinhTSNT] = useMutation(MUTATION_editQuyetDinhTSNT, {
-  //   refetchQueries: [
-  //     { query: QUERY_baocaoKQXMQuanHes, variables: { utilsParams: {} } },
-  //   ],
-  // });
+  const [createBaoCaoKQXMQuanHe] = useMutation(
+    MUTATION_createBaoCaoKQXMQuanHe,
+    {
+      refetchQueries: [
+        { query: QUERY_baocaoKQXMQuanHes, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [editBaoCaoKQXMQuanHe] = useMutation(MUTATION_editBaoCaoKQXMQuanHe, {
+    refetchQueries: [
+      { query: QUERY_baocaoKQXMQuanHes, variables: { utilsParams: {} } },
+    ],
+  });
   const infoDeleteData = useReactiveVar(infoDeleteDataVar);
   const [baocaoKQXMQuanHes, set_baocaoKQXMQuanHes] = useState([]);
   const [statusEdit, setStatusEdit] = useState(false);
@@ -107,8 +95,7 @@ export default function InputBaoCaoKQXMQuanHe() {
     let month = (time: any) => moment(time).month();
     let year = (time: any) => moment(time).year();
     return {
-      MaQD: obj.MaQD,
-      So: obj.So,
+      MaBCKQXMQH: obj.MaBCKQXMQH,
       Ngay: obj.Ngay
         ? `${year(obj.Ngay)}-${
             month(obj.Ngay) < 9
@@ -116,38 +103,25 @@ export default function InputBaoCaoKQXMQuanHe() {
               : month(obj.Ngay) + 1
           }-${day(obj.Ngay) < 10 ? "0" + day(obj.Ngay) : day(obj.Ngay)}`
         : "",
-      BiDanh: obj.BiDanh,
-      ThoiGianBD: obj.ThoiGianBD
-        ? `${year(obj.ThoiGianBD)}-${
-            month(obj.ThoiGianBD) < 9
-              ? "0" + (month(obj.ThoiGianBD) + 1)
-              : month(obj.ThoiGianBD) + 1
-          }-${
-            day(obj.ThoiGianBD) < 10
-              ? "0" + day(obj.ThoiGianBD)
-              : day(obj.ThoiGianBD)
-          }`
-        : "",
-      ThoiGianKT: obj.ThoiGianKT
-        ? `${year(obj.ThoiGianKT)}-${
-            month(obj.ThoiGianKT) < 9
-              ? "0" + (month(obj.ThoiGianKT) + 1)
-              : month(obj.ThoiGianKT) + 1
-          }-${
-            day(obj.ThoiGianKT) < 10
-              ? "0" + day(obj.ThoiGianKT)
-              : day(obj.ThoiGianKT)
-          }`
-        : "",
-      NhiemVuCT: obj.NhiemVuCT,
+      HoTen: obj.HoTen,
+      TenKhac: obj.TenKhac,
+      GioiTinh: obj.GioiTinh,
+      NamSinh: obj.NamSinh,
+      QueQuan: obj.QueQuan,
+      HKTT: obj.HKTT,
+      NoiO: obj.NoiO,
+      NgheNghiep: obj.NgheNghiep,
+      ChucVu: obj.ChucVu,
+      NoiLamViec: obj.NoiLamViec,
+      QuanHeGDXH: obj.QuanHeGDXH,
+      BienPhapXM: obj.BienPhapXM,
 
-      MaDN: obj.DeNghiTSNT?.MaDN,
+      MaBCPHQH: obj.BaoCaoPHQH?.MaBCPHQH,
+      MaTSXacMinh: obj.TSXacMinh?.MaCBCS,
       MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
-      MaDoi: obj.Doi?.MaDoi,
-      MaCATTPvaTD: obj.CATTPvaTD?.MaCATTPvaTD,
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
-      MaDoiTuong: obj.DoiTuong?.MaDoiTuong,
-      MaDN_edit: obj.DeNghiTSNT?.MaDN,
+      MaBCHPhuTrach: obj.BCHPhuTrach?.MaCBCS,
+
+      MaBCPHQH_edit: obj.BaoCaoPHQH?.MaBCPHQH,
     };
   };
 
@@ -167,10 +141,7 @@ export default function InputBaoCaoKQXMQuanHe() {
     setForm({
       ...form,
       [e.target.name]:
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaDoi" ||
-        e.target.name === "MaDoiTuong" ||
-        e.target.name === "MaQD" ||
+        e.target.name === "GioiTinh" ||
         e.target.name === "MaBCPHQH" ||
         e.target.name === "MaTSXacMinh" ||
         e.target.name === "MaLanhDaoPD" ||
@@ -182,88 +153,93 @@ export default function InputBaoCaoKQXMQuanHe() {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (form.So.trim() !== "") {
-    //   if (
-    //     // check one-to-one with MaDN
-    //     baocaoKQXMQuanHes.filter(
-    //       (quyetdinhTSNT: any) => quyetdinhTSNT.DeNghiTSNT?.MaDN === form.MaDN
-    //     ).length === 0 ||
-    //     (baocaoKQXMQuanHes.filter(
-    //       (quyetdinhTSNT: any) => quyetdinhTSNT.DeNghiTSNT?.MaDN === form.MaDN
-    //     ).length !== 0 &&
-    //       form.MaDN_edit === form.MaDN)
-    //   ) {
-    //     if (statusEdit) {
-    //       const { MaQD, MaDN_edit, ...quyetdinhTSNTInput } = form;
-    //       editQuyetDinhTSNT({
-    //         variables: {
-    //           quyetdinhTSNTInput,
-    //           id: MaQD,
-    //         },
-    //         onCompleted: (data) => {
-    //           showNotification(
-    //             "Chúc mừng",
-    //             `Cập nhật quyết định số "${data.editQuyetDinhTSNT.So}" thành công`,
-    //             "success"
-    //           );
-    //           setStatusEdit(false);
-    //           setForm(FI_QuyetDinhTSNT);
-    //         },
-    //         onError: (error) => {
-    //           showNotification("Lỗi!", error.message, "danger");
-    //           navigate("/dangnhap");
-    //         },
-    //       });
-    //     } else {
-    //       const { MaQD, MaDN_edit, ...quyetdinhTSNTInput } = form;
-    //       createQuyetDinhTSNT({
-    //         variables: {
-    //           quyetdinhTSNTInput,
-    //         },
-    //         onCompleted: (data) => {
-    //           showNotification(
-    //             "Chúc mừng",
-    //             `Thêm mới quyết định số "${data.createQuyetDinhTSNT.So}" thành công`,
-    //             "success"
-    //           );
-    //           setForm(FI_QuyetDinhTSNT);
-    //         },
-    //         onError: (error) => {
-    //           showNotification("Lỗi!", error.message, "danger");
-    //           navigate("/dangnhap");
-    //         },
-    //       });
-    //     }
-    //   } else {
-    //     showNotification(
-    //       "Cảnh báo!",
-    //       "Dữ liệu đã tồn tại, vui lòng kiểm tra lại !",
-    //       "warning"
-    //     );
-    //   }
-    // } else {
-    //   showNotification(
-    //     "Cảnh báo",
-    //     "Vui lòng nhập đúng và đầy đủ giá trị!",
-    //     "warning"
-    //   );
-    // }
+    if (form.Ngay !== "") {
+      if (
+        // check one-to-one with MaBCPHQH
+        baocaoKQXMQuanHes.filter(
+          (baocaokqxmqh: any) => baocaokqxmqh.BaoCaoPHQH?.MaBCPHQH === form.MaBCPHQH
+        ).length === 0 ||
+        (baocaoKQXMQuanHes.filter(
+          (baocaokqxmqh: any) => baocaokqxmqh.BaoCaoPHQH?.MaBCPHQH === form.MaBCPHQH
+        ).length !== 0 &&
+          form.MaBCPHQH_edit === form.MaBCPHQH)
+      ) {
+        if (statusEdit) {
+          const { MaBCKQXMQH, MaBCPHQH_edit, ...baocaoKQXMQuanHeInput } = form;
+          editBaoCaoKQXMQuanHe({
+            variables: {
+              baocaoKQXMQuanHeInput,
+              id: MaBCKQXMQH,
+            },
+            onCompleted: (data) => {
+              showNotification(
+                "Chúc mừng",
+                `Cập nhật báo cáo kết quả xác minh quan hệ ngày "${
+                  data.editBaoCaoKQXMQuanHe?.Ngay &&
+                  handleTime(data.editBaoCaoKQXMQuanHe?.Ngay)
+                }" thành công`,
+                "success"
+              );
+              setStatusEdit(false);
+              setForm(FI_BaoCaoKQXMQuanHe);
+            },
+            onError: (error) => {
+              showNotification("Lỗi!", error.message, "danger");
+              navigate("/dangnhap");
+            },
+          });
+        } else {
+          const { MaBCKQXMQH, MaBCPHQH_edit, ...baocaoKQXMQuanHeInput } = form;
+          createBaoCaoKQXMQuanHe({
+            variables: {
+              baocaoKQXMQuanHeInput,
+            },
+            onCompleted: (data) => {
+              showNotification(
+                "Chúc mừng",
+                `Thêm mới báo cáo kết quả xác minh quan hệ ngày "${
+                  data.createBaoCaoKQXMQuanHe?.Ngay &&
+                  handleTime(data.createBaoCaoKQXMQuanHe.Ngay)
+                }" thành công`,
+                "success"
+              );
+              setForm(FI_BaoCaoKQXMQuanHe);
+            },
+            onError: (error) => {
+              showNotification("Lỗi!", error.message, "danger");
+              navigate("/dangnhap");
+            },
+          });
+        }
+      } else {
+        showNotification(
+          "Cảnh báo!",
+          "Dữ liệu đã tồn tại, vui lòng kiểm tra lại !",
+          "warning"
+        );
+      }
+    } else {
+      showNotification(
+        "Cảnh báo",
+        "Vui lòng nhập đúng và đầy đủ giá trị!",
+        "warning"
+      );
+    }
   };
 
   const onEditData = (baocaokqxmqh: any) => {
     setStatusEdit(true);
-    console.log(baocaokqxmqh);
-    // setForm(convertForm(quyetdinhTSNT));
+    setForm(convertForm(baocaokqxmqh));
   };
 
   const onDeleteData = (baocaokqxmqh: any) => {
-    const { MaQD, MaDN_edit, ...inputBaoCaoKQXMQuanHe } =
+    const { MaBCKQXMQH, MaBCPHQH_edit, ...inputBaoCaoKQXMQuanHe } =
       convertForm(baocaokqxmqh);
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: `quyết định TSNT số ${baocaokqxmqh.So}`,
-      Table: "baocaoKQXMQuanHes",
-      ID: baocaokqxmqh.MaQD,
+      Title: `báo cáo KQXMQH ngày ${handleTime(baocaokqxmqh.Ngay)}`,
+      Table: "BaoCaoKQXMQuanHes",
+      ID: baocaokqxmqh.MaBCKQXMQH,
       Form: inputBaoCaoKQXMQuanHe,
     });
   };
@@ -309,8 +285,9 @@ export default function InputBaoCaoKQXMQuanHe() {
               <thead>
                 <tr>
                   <th scope="col">NgayBC</th>
-                  <th scope="col">BiDanh</th>
-                  <th scope="col">QuyetDinh</th>
+                  <th scope="col">HoTen</th>
+                  <th scope="col">BCPHQH</th>
+                  <th scope="col">BiDanhDT</th>
                   <th scope="col">DoiTuong</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -326,9 +303,20 @@ export default function InputBaoCaoKQXMQuanHe() {
                       <td>
                         {baocaokqxmqh.Ngay && handleTime(baocaokqxmqh.Ngay)}
                       </td>
+                      <td>{baocaokqxmqh.HoTen}</td>
                       <td>{baocaokqxmqh.BaoCaoPHQH?.BiDanh}</td>
-                      <td>{baocaokqxmqh.QuyetDinhTSNT?.So}</td>
-                      <td>{baocaokqxmqh.DoiTuong?.TenDT}</td>
+                      <td>
+                        {
+                          baocaokqxmqh.BaoCaoPHQH?.KetQuaTSNT?.KeHoachTSNT
+                            ?.QuyetDinhTSNT?.BiDanh
+                        }
+                      </td>
+                      <td>
+                        {
+                          baocaokqxmqh.BaoCaoPHQH?.KetQuaTSNT?.KeHoachTSNT
+                            ?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT
+                        }
+                      </td>
                       <td className="ip-ls-action">
                         <i
                           className="fa-solid fa-pen"
@@ -368,7 +356,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Họ tên (HoTen):</label>
+                <label className="form-label">Họ tên:</label>
                 <input
                   value={form.HoTen ? form.HoTen : ""}
                   name="HoTen"
@@ -378,7 +366,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Tên khác (TenKhac):</label>
+                <label className="form-label">Tên khác:</label>
                 <input
                   value={form.TenKhac ? form.TenKhac : ""}
                   name="TenKhac"
@@ -388,7 +376,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Giới tính (GioiTinh):</label>
+                <label className="form-label">Giới tính:</label>
                 <select
                   value={form.GioiTinh ? form.GioiTinh : ""}
                   className="form-select"
@@ -402,7 +390,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Năm sinh (NamSinh):</label>
+                <label className="form-label">Năm sinh:</label>
                 <input
                   value={form.NamSinh ? form.NamSinh : ""}
                   name="NamSinh"
@@ -412,7 +400,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Quê quán (QueQuan):</label>
+                <label className="form-label">Quê quán:</label>
                 <input
                   value={form.QueQuan ? form.QueQuan : ""}
                   name="QueQuan"
@@ -422,7 +410,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">HKTT (HKTT):</label>
+                <label className="form-label">HKTT:</label>
                 <input
                   value={form.HKTT ? form.HKTT : ""}
                   name="HKTT"
@@ -432,7 +420,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Nơi ở (NoiO):</label>
+                <label className="form-label">Nơi ở:</label>
                 <input
                   value={form.NoiO ? form.NoiO : ""}
                   name="NoiO"
@@ -442,7 +430,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Nghề nghiệp (NgheNghiep):</label>
+                <label className="form-label">Nghề nghiệp:</label>
                 <input
                   value={form.NgheNghiep ? form.NgheNghiep : ""}
                   name="NgheNghiep"
@@ -452,7 +440,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Chức vụ (ChucVu):</label>
+                <label className="form-label">Chức vụ:</label>
                 <input
                   value={form.ChucVu ? form.ChucVu : ""}
                   name="ChucVu"
@@ -462,7 +450,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Nơi làm việc (NoiLamViec):</label>
+                <label className="form-label">Nơi làm việc:</label>
                 <input
                   value={form.NoiLamViec ? form.NoiLamViec : ""}
                   name="NoiLamViec"
@@ -472,7 +460,7 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Biện pháp XM (BienPhapXM):</label>
+                <label className="form-label">Biện pháp XM:</label>
                 <input
                   value={form.BienPhapXM ? form.BienPhapXM : ""}
                   name="BienPhapXM"
@@ -482,46 +470,6 @@ export default function InputBaoCaoKQXMQuanHe() {
                 />
               </div>
               {/* --------------------------Ma lien quan----------------------------------- */}
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đối tượng (MaDoiTuong):</label>
-                <select
-                  value={form.MaDoiTuong ? form.MaDoiTuong : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoiTuong"
-                >
-                  <option defaultValue={""}>Chọn đối tượng</option>
-                  {Data_doituongs &&
-                    Data_doituongs.doituongs.map(
-                      (doituong: any, ind: number) => (
-                        <option key={ind} value={doituong.MaDoiTuong}>
-                          {doituong.TenDT}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã quyết định TSNT (MaQD):</label>
-                <select
-                  value={form.MaQD ? form.MaQD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaQD"
-                >
-                  <option defaultValue={""}>Chọn quyết định TSNT</option>
-                  {Data_quyetdinhTSNTs &&
-                    Data_quyetdinhTSNTs.quyetdinhTSNTs.map(
-                      (quyetdinhtsnt: any, ind: number) => (
-                        <option key={ind} value={quyetdinhtsnt.MaQD}>
-                          {quyetdinhtsnt.So}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
               <div className="col-2 mb-3">
                 <label className="form-label">Mã lãnh đạo (MaLanhDaoPD):</label>
                 <select
@@ -535,7 +483,8 @@ export default function InputBaoCaoKQXMQuanHe() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
@@ -555,7 +504,8 @@ export default function InputBaoCaoKQXMQuanHe() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
@@ -573,25 +523,8 @@ export default function InputBaoCaoKQXMQuanHe() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đội (MaDoi):</label>
-                <select
-                  value={form.MaDoi ? form.MaDoi : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoi"
-                >
-                  <option defaultValue={""}>Chọn đội</option>
-                  {Data_dois &&
-                    Data_dois.dois.map((doi: any, ind: number) => (
-                      <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
@@ -605,40 +538,27 @@ export default function InputBaoCaoKQXMQuanHe() {
                   onChange={changeForm}
                   name="MaBCPHQH"
                 >
-                  <option defaultValue={""}>Chọn BCPHQH tương ứng</option>
+                  <option defaultValue={""}>Chọn BCPHQH</option>
                   {Data_baocaoPHQHs &&
                     Data_baocaoPHQHs.baocaoPHQHs.map(
                       (baocaophqh: any, ind: number) => (
                         <option key={ind} value={baocaophqh.MaBCPHQH}>
-                          {baocaophqh.BiDanh}
+                          {baocaophqh.BiDanh} -{" "}
+                          {
+                            baocaophqh.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT
+                              ?.BiDanh
+                          }{" "}
+                          -{" "}
+                          {
+                            baocaophqh.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT
+                              ?.DeNghiTSNT?.DoiTuong?.TenDT
+                          }
                         </option>
                       )
                     )}
                 </select>
               </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
-                <select
-                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCAQHvaTD"
-                >
-                  <option defaultValue={""}>
-                    Chọn CA quận huyện và tương đương
-                  </option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
-              <div className="col-7 mb-3">
+              <div className="col-12 mb-3">
                 <label className="form-label">Quan hệ GDXH (QuanHeGDXH):</label>
                 <textarea
                   value={form.QuanHeGDXH ? form.QuanHeGDXH : ""}

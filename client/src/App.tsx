@@ -10,9 +10,14 @@ import {
   Home,
   InputBaoCaoKQGH,
   InputBaoCaoKQGHCBCS,
+  InputBaoCaoKQXMDiaChi,
   InputBaoCaoKQXMQuanHe,
+  InputBaoCaoKTDN,
+  InputBaoCaoPHPT,
+  InputBaoCaoPHQH,
+  InputBaoCaoPHQHCBCS,
   InputBienBanRKN,
-  InputBienBanRKNLanhDaoTG,
+  InputBienBanRKNCBCS,
   InputBienPhapDT,
   InputBienPhapDTDoiTuong,
   InputCapbac,
@@ -30,6 +35,10 @@ import {
   InputHinhThucHD,
   InputKeHoachTSNT,
   InputKeHoachTSNTLLDB,
+  InputKetQuaTSNT,
+  InputKetQuaTSNTTinhTP,
+  InputKetQuaXMDiaChi,
+  InputKetQuaXMQuanHe,
   InputKyDuyetDN,
   InputList,
   InputLLDB,
@@ -128,10 +137,19 @@ export default function App() {
           <Route path="/nhaplieu/lucluongthamgiakh" element={<InputLucLuongThamGiaKH />} />
           <Route path="/nhaplieu/tramct" element={<InputTramCT />} />
           <Route path="/nhaplieu/bienbanrkn" element={<InputBienBanRKN />} />
-          <Route path="/nhaplieu/bienbanrknldtg" element={<InputBienBanRKNLanhDaoTG />} />
+          <Route path="/nhaplieu/bienbanrkncbcs" element={<InputBienBanRKNCBCS />} />
           <Route path="/nhaplieu/baocaokqgh" element={<InputBaoCaoKQGH />} />
           <Route path="/nhaplieu/baocaokqghcbcs" element={<InputBaoCaoKQGHCBCS />} />
           <Route path="/nhaplieu/baocaokqxmquanhe" element={<InputBaoCaoKQXMQuanHe />} />
+          <Route path="/nhaplieu/baocaokqxmdiachi" element={<InputBaoCaoKQXMDiaChi />} />
+          <Route path="/nhaplieu/baocaoktdn" element={<InputBaoCaoKTDN />} />
+          <Route path="/nhaplieu/baocaophqh" element={<InputBaoCaoPHQH />} />
+          <Route path="/nhaplieu/baocaophqhcbcs" element={<InputBaoCaoPHQHCBCS />} />
+          <Route path="/nhaplieu/ketquatsnt" element={<InputKetQuaTSNT />} />
+          <Route path="/nhaplieu/ketquatsnttinhtp" element={<InputKetQuaTSNTTinhTP />} />
+          <Route path="/nhaplieu/ketquaxmquanhe" element={<InputKetQuaXMQuanHe />} />
+          <Route path="/nhaplieu/ketquaxmdiachi" element={<InputKetQuaXMDiaChi />} />
+          <Route path="/nhaplieu/baocaophpt" element={<InputBaoCaoPHPT />} />
 
 
 

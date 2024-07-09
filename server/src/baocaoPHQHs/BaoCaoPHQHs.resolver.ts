@@ -20,6 +20,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoPHQH } from './BaoCaoPHQH.model';
 import { BaoCaoPHQHsService } from './BaoCaoPHQHs.service';
 import { BaoCaoPHQHInput } from './type/BaoCaoPHQH.input';
+import { BaoCaoPHQH_CBCSType } from './type/BaoCaoPHQH_CBCS.type';
+import { BaoCaoPHQH_CBCSInput } from './type/BaoCaoPHQH_CBCS.input';
 
 @Resolver(() => BaoCaoPHQH)
 @UseGuards(GraphQLGuard)
@@ -64,6 +66,58 @@ export class BaoCaoPHQHsResolver {
     @Args('id') id: number,
   ): Promise<BaoCaoPHQH> {
     return this.baocaoPHQHsService.deleteBaoCaoPHQH(baocaoPHQHInput, id, user);
+  }
+
+  // many-to-many
+  @Query((returns) => [BaoCaoPHQH_CBCSType])
+  baocaoPHQHs_cbcss(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoPHQH_CBCSType[]> {
+    return this.baocaoPHQHsService.baocaoPHQHs_cbcss(utilsParams);
+  }
+
+  @Mutation((returns) => BaoCaoPHQH_CBCSType)
+  @UseGuards(InsertGuard)
+  createBaoCaoPHQH_CBCS(
+    @CurrentUser() user: any,
+    @Args('baocaoPHQH_cbcsInput')
+    baocaoPHQH_cbcsInput: BaoCaoPHQH_CBCSInput,
+  ): Promise<BaoCaoPHQH_CBCSType> {
+    return this.baocaoPHQHsService.createBaoCaoPHQH_CBCS(
+      baocaoPHQH_cbcsInput,
+      user,
+    );
+  }
+
+  @Mutation((returns) => BaoCaoPHQH_CBCSType)
+  @UseGuards(UpdateGuard)
+  editBaoCaoPHQH_CBCS(
+    @CurrentUser() user: any,
+    @Args('baocaoPHQH_cbcsInput')
+    baocaoPHQH_cbcsInput: BaoCaoPHQH_CBCSInput,
+    @Args('MaBCPHQH') MaBCPHQH: number,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BaoCaoPHQH_CBCSType> {
+    return this.baocaoPHQHsService.editBaoCaoPHQH_CBCS(
+      baocaoPHQH_cbcsInput,
+      MaBCPHQH,
+      MaCBCS,
+      user,
+    );
+  }
+
+  @Mutation((retursn) => BaoCaoPHQH_CBCSType)
+  @UseGuards(DeleteGuard)
+  deleteBaoCaoPHQH_CBCS(
+    @CurrentUser() user: any,
+    @Args('MaBCPHQH') MaBCPHQH: number,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BaoCaoPHQH_CBCSType> {
+    return this.baocaoPHQHsService.deleteBaoCaoPHQH_CBCS(
+      MaBCPHQH,
+      MaCBCS,
+      user,
+    );
   }
 
   // ResolveField

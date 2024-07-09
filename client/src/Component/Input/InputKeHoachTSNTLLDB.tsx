@@ -119,7 +119,7 @@ export default function InputKeHoachTSNTLLDB() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật "{ MaLLDB: ${form.MaLLDB}, MaKH: ${form.MaKH} }" thành công`,
+                `Cập nhật kế hoạch TSNT_lực lượng đặc biệt "{ MaLLDB: ${form.MaLLDB}, MaKH: ${form.MaKH} }" thành công`,
                 "success"
               );
               setStatusEdit(false);
@@ -141,7 +141,7 @@ export default function InputKeHoachTSNTLLDB() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới "{ MaLLDB: ${form.MaLLDB}, MaKH: ${form.MaKH} }" thành công`,
+                `Thêm mới kế hoạch TSNT_lực lượng đặc biệt "{ MaLLDB: ${form.MaLLDB}, MaKH: ${form.MaKH} }" thành công`,
                 "success"
               );
               setForm(FI_KeHoachTSNT_LLDB);

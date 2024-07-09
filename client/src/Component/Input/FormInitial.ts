@@ -75,7 +75,6 @@ export const FI_Doi = {
   TenDoi: "",
   MaCAQHvaTD: null,
 };
-// -------------
 export const FI_BienPhapDT_DoiTuong = {
   MaBPDT: null,
   MaDoiTuong: null,
@@ -83,6 +82,7 @@ export const FI_BienPhapDT_DoiTuong = {
   MaDoiTuong_old: 0,
 };
 
+// -------------
 export const FI_CBCS = {
   MaCBCS: 0,
   HoTen: "",
@@ -103,7 +103,6 @@ export const FI_CBCS = {
   MaCV: null,
   MaDoi: null
 };
-
 export const FI_DoiTuong = {
   MaDoiTuong: 0,
   TenDT: "",
@@ -128,7 +127,6 @@ export const FI_DoiTuong = {
   MaTCDT: null,
   MaLoai: null,
 };
-// ----------------------
 export const FI_DeNghiTSNT = {
   MaDN: 0,
   So: "",
@@ -142,15 +140,9 @@ export const FI_DeNghiTSNT = {
   MaDoiTuong: null,
   MaHTHD: null,
 };
-
-export const FI_DeNghiTSNT_TinhTP = {
-  MaTinhTP: null,
-  MaDN: null,
-  MaTinhTP_old: 0,
-  MaDN_old: 0,
-};
 export const FI_DauMoiPH_DN = {
   MaDMPH: 0,
+
   MaDN: null,
   MaLDDonViDN: null,
   MaCBTrucTiepPH: null,
@@ -158,14 +150,22 @@ export const FI_DauMoiPH_DN = {
 };
 export const FI_KyDuyet_DN = {
   MaKDDN: 0,
+  
   MaDN: null,
   MaDaiDienCATTPvaTD: null,
   MaDaiDienDonViDN: null,
   MaDaiDienDonViTSNT: null,
   MaDN_edit: null,
 };
+export const FI_DeNghiTSNT_TinhTP = {
+  MaTinhTP: null,
+  MaDN: null,
+  MaTinhTP_old: 0,
+  MaDN_old: 0,
+};
 export const FI_QuyetDinhTSNT = {
   MaQD: 0,
+
   So: "",
   Ngay: "",
   BiDanh: "",
@@ -176,13 +176,8 @@ export const FI_QuyetDinhTSNT = {
   MaDN: null,
   MaLanhDaoPD: null,
   MaDoi: null,
-  MaCATTPvaTD: null,
-  MaCAQHvaTD: null,
-  MaDoiTuong: null,
-
   MaDN_edit: null,
 };
-
 export const FI_QuyetDinhTSNT_TinhTP = {
   MaTinhTP: null,
   MaQD: null,
@@ -191,20 +186,17 @@ export const FI_QuyetDinhTSNT_TinhTP = {
 };
 export const FI_KeHoachTSNT = {
   MaKH: 0,
+
   So: "",
   Ngay: "",
   VanDeChuY: "",
   NoiDung: "",
 
   MaQD: null,
-  MaCAQHvaTD: null,
-  MaDoiTuong: null,
-  MaDoi: null,
-
   MaTramCT: null,
   MaLanhDaoPD: null,
   MaBCHPhuTrach: null,
-
+  
   MaQD_edit: null,
 };
 export const FI_KeHoachTSNT_LLDB = {
@@ -215,6 +207,7 @@ export const FI_KeHoachTSNT_LLDB = {
 };
 export const FI_LucLuongThamGiaKH = {
   MaLLTGKH: 0,
+  
   ViTri: "",
   MaKH: null,
   MaCBCS: null,
@@ -230,8 +223,6 @@ export const FI_TramCT = {
   VanDeChuY: "",
   QuyDinh: "",
 
-  MaCAQHvaTD: null,
-  MaDoi: null,
   MaTSXayDung: null,
   MaLanhDaoPD: null,
 };
@@ -251,15 +242,15 @@ export const FI_BienBanRKN = {
 
   MaKQ_edit: null,
 };
-
-export const FI_BienBanRKN_LanhDaoTG = {
+export const FI_BienBanRKN_CBCS = {
   MaBBRKN: null,
-  MaLanhDaoTG: null,
+  MaCBCS: null,
   MaBBRKN_old: 0,
-  MaLanhDaoTG_old: 0,
+  MaCBCS_old: 0,
 };
 export const FI_BaoCaoKQGH = {
   MaBCKQGH: 0,
+
   Ngay: "",
   HinhAnh: "",
   MucDich: "",
@@ -270,9 +261,6 @@ export const FI_BaoCaoKQGH = {
   NoiDung: "",
 
   MaKQ: null,
-  MaCAQHvaTD: null,
-  MaDoi: null,
-  MaDoiTuong: null,
   MaLanhDaoPD: null,
 };
 export const FI_BaoCaoKQGH_CBCS = {
@@ -298,12 +286,122 @@ export const FI_BaoCaoKQXMQuanHe = {
   QuanHeGDXH: "",
   BienPhapXM: "",
 
-  MaCAQHvaTD: null,
-  MaDoi: null,
-  MaDoiTuong: null,
-  MaQD: null,
   MaBCPHQH: null,
   MaTSXacMinh: null,
   MaLanhDaoPD: null,
   MaBCHPhuTrach: null,
+
+  MaBCPHQH_edit: null,
 };
+export const FI_BaoCaoKQXMDiaChi = {
+  MaBCKQXMDC: 0,
+
+  Ngay: "",
+  HoTenChuHo: "",
+  TenKhac: "",
+  GioiTinh: 0,
+  NamSinh: "",
+  QueQuan: "",
+  HKTT: "",
+  NoiO: "",
+  NoiLamViec: "",
+  QuanHeGiaDinh: "",
+  HoKhacCungDC: "",
+  NgheNghiep: "",
+  BienPhapXM: "",
+
+  MaBCPHDC: null,
+  MaTSXacMinh: null,
+  MaLanhDaoPD: null,
+  MaBCHPhuTrach: null,
+  
+  MaBCPHDC_edit: null,
+};
+export const FI_BaoCaoKTDN = {
+  MaBCKTDN: 0,
+
+  Ngay: "",
+  TinhHinhDT: "",
+  VanDeRKN: "",
+
+  MaKQ: null,
+  MaLanhDaoPD: null,
+  MaCBTongHop: null,
+  
+  MaKQ_edit: null,
+};
+export const FI_BaoCaoPHQH = {
+  MaBCPHQH: 0,
+
+  Ngay: "",
+  ThoiGianPH: "",
+  DiaDiemPH: "",
+  HinhAnh: "",
+  DiaChiCC: "",
+
+  BiDanh: "",
+  DDNhanDang: "",
+  TSNhanXet: "",
+
+  MaKQ: null,
+  MaLanhDaoPD: null,
+  MaToTruongTS: null,
+};
+export const FI_BaoCaoPHQH_CBCS = {
+  MaBCPHQH: null,
+  MaCBCS: null,
+  MaBCPHQH_old: 0,
+  MaCBCS_old: 0,
+};
+export const FI_KetQuaTSNT = {
+  MaKQ: 0,
+  ThoiGianBD: "",
+  ThoiGianKT: "",
+  DDNB: "",
+
+  MaKH: null,
+
+  MaKH_edit: null
+};
+export const FI_KetQuaTSNT_TinhTP = {
+  MaTinhTP: null,
+  MaKQ: null,
+  MaTinhTP_old: 0,
+  MaKQ_old: 0,
+};
+export const FI_KetQuaXMQuanHe = {
+  MaKQXMQH: 0,
+
+  So: "",
+  Ngay: "",
+
+  MaBCPHQH: null,
+  MaLanhDaoPD: null,
+
+  MaBCPHQH_edit: null
+};
+export const FI_KetQuaXMDiaChi = {
+  MaKQXMDC: 0,
+
+  So: "",
+  Ngay: "",
+
+  MaBCPHDC: null,
+  MaLanhDaoPD: null,
+  
+  MaBCPHDC_edit: null
+};
+export const FI_BaoCaoPHPT = {
+  MaBCPHPT: 0,
+
+  BKS: "",
+  ThoiGianPH: "",
+  DiaDiemPH: "",
+  HinhAnh: "",
+
+  MaKQ: null,
+};
+// chua duyet lai
+// ----------------------
+
+

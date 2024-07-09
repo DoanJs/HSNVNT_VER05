@@ -91,7 +91,7 @@ export default function InputQuyetDinhTSNTTinhTP() {
   const onSearchData = (e: ChangeEvent<HTMLInputElement>) => {
     set_quyetdinhTSNTs(
       handleSearch(
-        "quyetdinhTSNTs",
+        "QuyetDinhTSNTs",
         Data_quyetdinhTSNTs.quyetdinhTSNTs,
         e.target.value
       )
@@ -126,7 +126,7 @@ export default function InputQuyetDinhTSNTTinhTP() {
                 onCompleted: () => {
                   showNotification(
                     "Chúc mừng",
-                    `Cập nhật "{ MaTinhTP: ${form.MaTinhTP}, MaQD: ${form.MaQD} }" thành công`,
+                    `Cập nhật quyết đinh TSNT_tỉnh TP "{ MaTinhTP: ${form.MaTinhTP}, MaQD: ${form.MaQD} }" thành công`,
                     "success"
                   );
                   setStatusEdit(false);
@@ -148,7 +148,7 @@ export default function InputQuyetDinhTSNTTinhTP() {
             onCompleted: () => {
               showNotification(
                 "Chúc mừng",
-                `Thêm mới "{ MaTinhTP: ${form.MaTinhTP}, MaQD: ${form.MaQD} }" thành công`,
+                `Thêm mới quyết đinh TSNT_tỉnh TP "{ MaTinhTP: ${form.MaTinhTP}, MaQD: ${form.MaQD} }" thành công`,
                 "success"
               );
               setForm(FI_QuyetDinhTSNT_TinhTP);

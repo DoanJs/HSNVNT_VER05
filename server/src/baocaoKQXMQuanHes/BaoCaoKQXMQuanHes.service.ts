@@ -30,7 +30,7 @@ export class BaoCaoKQXMQuanHesService {
       Type,
       MaBCKQXMQH,
       BaoCaoKQXMQuanHeInput: {
-        Ngay: baocaoKQXMQuanHeInput.Ngay ? baocaoKQXMQuanHeInput.Ngay : null,
+        Ngay: baocaoKQXMQuanHeInput.Ngay ? `N'${baocaoKQXMQuanHeInput.Ngay}'` : null,
         HoTen: `N'${baocaoKQXMQuanHeInput.HoTen}'`, //crypto
         TenKhac: baocaoKQXMQuanHeInput.TenKhac
           ? `N'${baocaoKQXMQuanHeInput.TenKhac}'`
@@ -39,7 +39,7 @@ export class BaoCaoKQXMQuanHesService {
           ? baocaoKQXMQuanHeInput.GioiTinh
           : null,
         NamSinh: baocaoKQXMQuanHeInput.NamSinh
-          ? baocaoKQXMQuanHeInput.NamSinh
+          ? `N'${baocaoKQXMQuanHeInput.NamSinh}'`
           : null,
         QueQuan: baocaoKQXMQuanHeInput.QueQuan
           ? `N'${baocaoKQXMQuanHeInput.QueQuan}'`
@@ -185,7 +185,7 @@ export class BaoCaoKQXMQuanHesService {
     const result = await this.baocaoKQXMQuanHeRepository.query(
       SP_GET_DATA_DECRYPT(
         'BaoCaoPHQHs',
-        `'MaBCPHQH = ${baocaoKQXMQuanHe.MaBaoCaoPHQH}'`,
+        `'MaBCPHQH = ${baocaoKQXMQuanHe.MaBCPHQH}'`,
         0,
         1,
       ),

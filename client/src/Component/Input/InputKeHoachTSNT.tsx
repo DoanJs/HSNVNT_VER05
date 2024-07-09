@@ -8,10 +8,7 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_createKeHoachTSNT,
   MUTATION_editKeHoachTSNT,
-  QUERY_caQHvaTDs,
   QUERY_cbcss,
-  QUERY_dois,
-  QUERY_doituongs,
   QUERY_kehoachTSNTs,
   QUERY_quyetdinhTSNTs,
   QUERY_tramCTs,
@@ -66,16 +63,7 @@ export default function InputKeHoachTSNT() {
   const { data: Data_kehoachTSNTs, error } = useQuery(QUERY_kehoachTSNTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_doituongs } = useQuery(QUERY_doituongs, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_cbcss } = useQuery(QUERY_cbcss, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_dois } = useQuery(QUERY_dois, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
     variables: { utilsParams: {} },
   });
   const { data: Data_quyetdinhTSNTs } = useQuery(QUERY_quyetdinhTSNTs, {
@@ -84,7 +72,6 @@ export default function InputKeHoachTSNT() {
   const { data: Data_tramCTs } = useQuery(QUERY_tramCTs, {
     variables: { utilsParams: {} },
   });
-
   // ----------------------------------------------------
   const [createKeHoachTSNT] = useMutation(MUTATION_createKeHoachTSNT, {
     refetchQueries: [
@@ -117,11 +104,8 @@ export default function InputKeHoachTSNT() {
         : "",
       VanDeChuY: obj.VanDeChuY,
       NoiDung: obj.NoiDung,
-      MaQD: obj.QuyetDinhTSNT?.MaQD,
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
-      MaDoiTuong: obj.DoiTuong?.MaDoiTuong,
-      MaDoi: obj.Doi?.MaDoi,
 
+      MaQD: obj.QuyetDinhTSNT?.MaQD,
       MaTramCT: obj.TramCT?.MaTramCT,
       MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
       MaBCHPhuTrach: obj.BCHPhuTrach?.MaCBCS,
@@ -146,9 +130,6 @@ export default function InputKeHoachTSNT() {
       ...form,
       [e.target.name]:
         e.target.name === "MaQD" ||
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaDoiTuong" ||
-        e.target.name === "MaDoi" ||
         e.target.name === "MaTramCT" ||
         e.target.name === "MaLanhDaoPD" ||
         e.target.name === "MaBCHPhuTrach"
@@ -180,7 +161,7 @@ export default function InputKeHoachTSNT() {
             onCompleted: (data) => {
               showNotification(
                 "Chúc mừng",
-                `Cập nhật quyết định số "${data.editKeHoachTSNT.So}" thành công`,
+                `Cập nhật kế hoạch số "${data.editKeHoachTSNT.So}" thành công`,
                 "success"
               );
               setStatusEdit(false);
@@ -236,7 +217,7 @@ export default function InputKeHoachTSNT() {
     const { MaKH, MaQD_edit, ...inputKeHoachTSNT } = convertForm(kehoachTSNT);
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: `kế hoạch TSNT số ${kehoachTSNT.So}`,
+      Title: kehoachTSNT.So,
       Table: "KeHoachTSNTs",
       ID: kehoachTSNT.MaKH,
       Form: inputKeHoachTSNT,
@@ -299,7 +280,7 @@ export default function InputKeHoachTSNT() {
                       <td>
                         {kehoachTSNT.Ngay && handleTime(kehoachTSNT.Ngay)}
                       </td>
-                      <td>{kehoachTSNT.DoiTuong?.TenDT}</td>
+                      <td>{kehoachTSNT.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}</td>
                       <td className="ip-ls-action">
                         <i
                           className="fa-solid fa-pen"
@@ -325,7 +306,7 @@ export default function InputKeHoachTSNT() {
           <form onSubmit={submitForm}>
             <div className="row">
               <div className="col-2 mb-3">
-                <label className="form-label">Số kế hoạch (So):</label>
+                <label className="form-label">Số kế hoạch:</label>
                 <input
                   required
                   value={form.So ? form.So : ""}
@@ -346,26 +327,6 @@ export default function InputKeHoachTSNT() {
                 />
               </div>
               {/* --------------------------Ma lien quan----------------------------------- */}
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đối tượng (MaDoiTuong):</label>
-                <select
-                  value={form.MaDoiTuong ? form.MaDoiTuong : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoiTuong"
-                >
-                  <option defaultValue={""}>Chọn đối tượng</option>
-                  {Data_doituongs &&
-                    Data_doituongs.doituongs.map(
-                      (doituong: any, ind: number) => (
-                        <option key={ind} value={doituong.MaDoiTuong}>
-                          {doituong.TenDT}
-                        </option>
-                      )
-                    )}
-                </select>
-              </div>
               <div className="col-2 mb-3">
                 <label className="form-label">Mã quyết định TSNT (MaQD):</label>
                 <select
@@ -399,32 +360,15 @@ export default function InputKeHoachTSNT() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">Mã đội (MaDoi):</label>
-                <select
-                  value={form.MaDoi ? form.MaDoi : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoi"
-                >
-                  <option defaultValue={""}>Chọn đội</option>
-                  {Data_dois &&
-                    Data_dois.dois.map((doi: any, ind: number) => (
-                      <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-3 mb-3">
                 <label className="form-label">
-                  Mã BCH đội phụ trách (MaBCHPhuTrach):
+                  Mã BCH đội (MaBCHPhuTrach):
                 </label>
                 <select
                   value={form.MaBCHPhuTrach ? form.MaBCHPhuTrach : ""}
@@ -437,31 +381,10 @@ export default function InputKeHoachTSNT() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
-                </select>
-              </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
-                <select
-                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCAQHvaTD"
-                >
-                  <option defaultValue={""}>
-                    Chọn CA quận huyện và tương đương
-                  </option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
                 </select>
               </div>
               <div className="col-2 mb-3">

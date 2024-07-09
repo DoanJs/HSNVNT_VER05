@@ -47,7 +47,6 @@ const InputLucLuongThamGiaKHStyled = styled.div`
     }
   }
 `;
-
 export default function InputLucLuongThamGiaKH() {
   const navigate = useNavigate();
   const { data: Data_lucluongThamGiaKHs, error } = useQuery(
@@ -62,7 +61,7 @@ export default function InputLucLuongThamGiaKH() {
   const { data: Data_kehoachTSNTs } = useQuery(QUERY_kehoachTSNTs, {
     variables: { utilsParams: {} },
   });
-
+  // mutation
   const [createLucLuongThamGiaKH] = useMutation(
     MUTATION_createLucLuongThamGiaKH,
     {
@@ -119,7 +118,7 @@ export default function InputLucLuongThamGiaKH() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật lực lượng tham gia KH "${data.editLucLuongThamGiaKH?.KeHoachTSNT?.So}" với "${data.editLucLuongThamGiaKH?.CBCS?.HoTen}" thành công`,
+              `Cập nhật lực lượng tham gia KH "${data.editLucLuongThamGiaKH?.KeHoachTSNT?.So}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -140,10 +139,9 @@ export default function InputLucLuongThamGiaKH() {
             },
           },
           onCompleted: (data) => {
-            console.log(data)
             showNotification(
               "Chúc mừng",
-              `Thêm mới lực lượng tham gia KH "${data.createLucLuongThamGiaKH?.KeHoachTSNT?.So}" với "${data.createLucLuongThamGiaKH?.CBCS?.HoTen}" thành công`,
+              `Thêm mới lực lượng tham gia KH "${data.createLucLuongThamGiaKH?.KeHoachTSNT?.So}" thành công`,
               "success"
             );
             setForm(FI_LucLuongThamGiaKH);
@@ -293,14 +291,15 @@ export default function InputLucLuongThamGiaKH() {
                 {Data_cbcss &&
                   Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                     <option key={ind} value={cbcs.MaCBCS}>
-                      {cbcs.HoTen}
+                      {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                      {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                     </option>
                   ))}
               </select>
             </div>
             <div className="mb-3">
               <label className="form-label">
-                Vị trí trong kế hoạch (ViTri):
+                Vị trí trong kế hoạch:
               </label>
               <input
                 value={form.ViTri ? form.ViTri : ""}

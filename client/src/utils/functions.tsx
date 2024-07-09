@@ -123,7 +123,9 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         (obj: any) =>
           obj.So.toLowerCase().includes(keysearch) ||
           obj.QuyetDinhTSNT?.So.toLowerCase().includes(keysearch) ||
-          obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
+          obj.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT.toLowerCase().includes(
+            keysearch
+          ) ||
           moment(obj.Ngay)
             .date()
             .toString()
@@ -137,17 +139,19 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
       );
       break;
-    case "baocaoPHQHs":
+    case "BaoCaoPHQHs":
       arr = array.filter(
         (obj: any) =>
-          obj.DiaDiemPH.toLowerCase().includes(keysearch) ||
-          obj.DiaChiCC.toLowerCase().includes(keysearch) ||
-          obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
-          obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
+          obj.DiaDiemPH?.toLowerCase().includes(keysearch) ||
+          obj.BiDanh?.toLowerCase().includes(keysearch) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
             keysearch
           ) ||
           obj.TSThucHiens?.filter((cbcs: any) =>
-            cbcs.HoTen.toLowerCase().includes(keysearch)
+            cbcs.HoTen?.toLowerCase().includes(keysearch)
           ).length !== 0 ||
           moment(obj.ThoiGianPH)
             .date()
@@ -228,8 +232,10 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
       arr = array.filter(
         (obj: any) =>
           obj.DiaDiem?.toLowerCase().includes(keysearch) ||
-          obj.DoiTuong?.TenDT.toLowerCase().includes(keysearch) ||
-          obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
             keysearch
           ) ||
           obj.TSThucHiens?.filter((cbcs: any) =>
@@ -428,6 +434,126 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
             .toLowerCase()
             .includes(keysearch) ||
           moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "BaoCaoKQXMQuanHes":
+      arr = array.filter(
+        (obj: any) =>
+          obj.HoTen?.toLowerCase().includes(keysearch) ||
+          obj.BaoCaoPHQH?.BiDanh?.toLowerCase().includes(keysearch) ||
+          obj.BaoCaoPHQH?.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.BaoCaoPHQH?.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
+            keysearch
+          ) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.Ngay).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "BaoCaoKQXMDiaChis":
+      arr = array.filter(
+        (obj: any) =>
+          obj.HoTenChuHo?.toLowerCase().includes(keysearch) ||
+          obj.BaoCaoPHDC?.DiaChi?.toLowerCase().includes(keysearch) ||
+          obj.BaoCaoPHDC?.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.BaoCaoPHDC?.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
+            keysearch
+          ) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.Ngay).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "BaoCaoKTDNs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.TinhHinhDT?.toLowerCase().includes(keysearch) ||
+          obj.VanDeRKN?.toLowerCase().includes(keysearch) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.So?.toLowerCase().includes(keysearch) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
+            keysearch
+          ) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.Ngay).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "KetQuaTSNTs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.DDNB?.toLowerCase().includes(keysearch) ||
+          obj.KeHoachTSNT?.So?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "KetQuaXMQuanHes":
+      arr = array.filter(
+        (obj: any) =>
+          obj.So?.toLowerCase().includes(keysearch) ||
+          obj.BaoCaoPHQH?.BiDanh?.toLowerCase().includes(keysearch) ||
+          moment(obj.Ngay)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.Ngay).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.Ngay).year().toString().toLowerCase().includes(keysearch)
+      );
+      break;
+    case "BaoCaoPHPTs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.BKS?.toLowerCase().includes(keysearch) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
+            keysearch
+          ) ||
+          moment(obj.ThoiGianPH)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.ThoiGianPH).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.ThoiGianPH)
+            .year()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch)
       );
       break;
     default:

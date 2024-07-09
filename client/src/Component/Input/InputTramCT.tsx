@@ -8,10 +8,8 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_createTramCT,
   MUTATION_editTramCT,
-  QUERY_caQHvaTDs,
   QUERY_cbcss,
-  QUERY_dois,
-  QUERY_tramCTs,
+  QUERY_tramCTs
 } from "../../graphql/documentNode";
 import {
   handleSearch,
@@ -63,12 +61,6 @@ export default function InputTramCT() {
   const { data: Data_tramCTs, error } = useQuery(QUERY_tramCTs, {
     variables: { utilsParams: {} },
   });
-  const { data: Data_caQHvaTDs } = useQuery(QUERY_caQHvaTDs, {
-    variables: { utilsParams: {} },
-  });
-  const { data: Data_dois } = useQuery(QUERY_dois, {
-    variables: { utilsParams: {} },
-  });
   const { data: Data_cbcss } = useQuery(QUERY_cbcss, {
     variables: { utilsParams: {} },
   });
@@ -105,8 +97,6 @@ export default function InputTramCT() {
       VanDeChuY: obj.VanDeChuY,
       QuyDinh: obj.QuyDinh,
 
-      MaCAQHvaTD: obj.CAQHvaTD?.MaCAQHvaTD,
-      MaDoi: obj.Doi?.MaDoi,
       MaTSXayDung: obj.TSXayDung?.MaCBCS,
       MaLanhDaoPD: obj.LanhDaoPD?.MaCBCS,
     };
@@ -122,10 +112,7 @@ export default function InputTramCT() {
     setForm({
       ...form,
       [e.target.name]:
-        e.target.name === "MaCAQHvaTD" ||
-        e.target.name === "MaDoi" ||
-        e.target.name === "MaTSXayDung" ||
-        e.target.name === "MaLanhDaoPD"
+        e.target.name === "MaTSXayDung" || e.target.name === "MaLanhDaoPD"
           ? Number(e.target.value)
           : e.target.value,
     });
@@ -144,7 +131,7 @@ export default function InputTramCT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Cập nhật "${data.editTramCT.DiaDiem}" thành công`,
+              `Cập nhật trạm công tác "${data.editTramCT.DiaDiem}" thành công`,
               "success"
             );
             setStatusEdit(false);
@@ -164,7 +151,7 @@ export default function InputTramCT() {
           onCompleted: (data) => {
             showNotification(
               "Chúc mừng",
-              `Thêm mới "${data.createTramCT.DiaDiem}" thành công`,
+              `Thêm mới trạm công tác "${data.createTramCT.DiaDiem}" thành công`,
               "success"
             );
             setForm(FI_TramCT);
@@ -193,7 +180,7 @@ export default function InputTramCT() {
     const { MaTramCT, ...inputTramCT } = convertForm(tramct);
     infoDeleteDataVar({
       ...infoDeleteData,
-      Title: `trạm công tác tại ${tramct.DiaDiem}`,
+      Title: tramct.DiaDiem,
       Table: "TramCTs",
       ID: tramct.MaTramCT,
       Form: inputTramCT,
@@ -324,15 +311,14 @@ export default function InputTramCT() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
                 </select>
               </div>
               <div className="col-2 mb-3">
-                <label className="form-label">
-                  Mã lãnh đạo (MaLanhDaoPD):
-                </label>
+                <label className="form-label">Mã lãnh đạo (MaLanhDaoPD):</label>
                 <select
                   value={form.MaLanhDaoPD ? form.MaLanhDaoPD : ""}
                   className="form-select"
@@ -344,49 +330,10 @@ export default function InputTramCT() {
                   {Data_cbcss &&
                     Data_cbcss.cbcss.map((cbcs: any, ind: number) => (
                       <option key={ind} value={cbcs.MaCBCS}>
-                        {cbcs.HoTen}
+                        {cbcs.HoTen} - {cbcs.Doi?.TenDoi} -{" "}
+                        {cbcs.Doi?.CAQHvaTD?.CAQHvaTD}
                       </option>
                     ))}
-                </select>
-              </div>
-              <div className="col-2 mb-3">
-                <label className="form-label">Mã đội (MaDoi):</label>
-                <select
-                  value={form.MaDoi ? form.MaDoi : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaDoi"
-                >
-                  <option defaultValue={""}>Chọn đội</option>
-                  {Data_dois &&
-                    Data_dois.dois.map((doi: any, ind: number) => (
-                      <option key={ind} value={doi.MaDoi}>
-                        {doi.TenDoi}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-3 mb-3">
-                <label className="form-label">Mã CAQHvaTD (MaCAQHvaTD):</label>
-                <select
-                  value={form.MaCAQHvaTD ? form.MaCAQHvaTD : ""}
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={changeForm}
-                  name="MaCAQHvaTD"
-                >
-                  <option defaultValue={""}>
-                    Chọn công an quận huyện và tương đương
-                  </option>
-                  {Data_caQHvaTDs &&
-                    Data_caQHvaTDs.caQHvaTDs.map(
-                      (caQHvaTD: any, ind: number) => (
-                        <option key={ind} value={caQHvaTD.MaCAQHvaTD}>
-                          {caQHvaTD.CAQHvaTD}
-                        </option>
-                      )
-                    )}
                 </select>
               </div>
             </div>

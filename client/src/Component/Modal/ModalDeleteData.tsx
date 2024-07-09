@@ -4,8 +4,14 @@ import { infoDeleteDataVar } from "../../graphql/client/cache";
 import {
   MUTATION_deleteBaoCaoKQGH,
   MUTATION_deleteBaoCaoKQGH_CBCS,
+  MUTATION_deleteBaoCaoKQXMDiaChi,
+  MUTATION_deleteBaoCaoKQXMQuanHe,
+  MUTATION_deleteBaoCaoKTDN,
+  MUTATION_deleteBaoCaoPHPT,
+  MUTATION_deleteBaoCaoPHQH,
+  MUTATION_deleteBaoCaoPHQH_CBCS,
   MUTATION_deleteBienBanRKN,
-  MUTATION_deleteBienBanRKN_LanhDaoTG,
+  MUTATION_deleteBienBanRKN_CBCS,
   MUTATION_deleteBienPhapDT,
   MUTATION_deleteBienPhapDT_DoiTuong,
   MUTATION_deleteCAQHvaTD,
@@ -24,6 +30,10 @@ import {
   MUTATION_deleteHinhThucHD,
   MUTATION_deleteKeHoachTSNT,
   MUTATION_deleteKeHoachTSNT_LLDB,
+  MUTATION_deleteKetQuaTSNT,
+  MUTATION_deleteKetQuaTSNT_TinhTP,
+  MUTATION_deleteKetQuaXMDiaChi,
+  MUTATION_deleteKetQuaXMQuanHe,
   MUTATION_deleteKyDuyet_DN,
   MUTATION_deleteLLDB,
   MUTATION_deleteLoaiDT,
@@ -36,10 +46,16 @@ import {
   MUTATION_deleteTinhTP,
   MUTATION_deleteTonGiao,
   MUTATION_deleteTramCT,
+  QUERY_baoCaoKTDNs,
   QUERY_baocaoKQGHs,
   QUERY_baocaoKQGHs_cbcss,
+  QUERY_baocaoKQXMDiaChis,
+  QUERY_baocaoKQXMQuanHes,
+  QUERY_baocaoPHPTs,
+  QUERY_baocaoPHQHs,
+  QUERY_baocaoPHQHs_cbcss,
   QUERY_bienBanRKNs,
-  QUERY_bienBanRKNs_lanhDaoTGs,
+  QUERY_bienBanRKNs_cbcss,
   QUERY_bienPhapDTs,
   QUERY_bienphapDTs_doituongs,
   QUERY_caQHvaTDs,
@@ -58,6 +74,10 @@ import {
   QUERY_hinhthucHDs,
   QUERY_kehoachTSNTs,
   QUERY_kehoachTSNTs_lldbs,
+  QUERY_ketQuaXMDiaChis,
+  QUERY_ketQuaXMQuanHes,
+  QUERY_ketquaTSNTs,
+  QUERY_ketquaTSNTs_tinhTPs,
   QUERY_kyDuyet_DNs,
   QUERY_lldbs,
   QUERY_loaiDTs,
@@ -226,15 +246,12 @@ export default function ModalDeleteData() {
       { query: QUERY_bienBanRKNs, variables: { utilsParams: {} } },
     ],
   });
-  const [deleteBienBanRKN_LanhDaoTG] = useMutation(
-    MUTATION_deleteBienBanRKN_LanhDaoTG,
-    {
-      refetchQueries: [
-        { query: QUERY_bienBanRKNs_lanhDaoTGs, variables: { utilsParams: {} } },
-        { query: QUERY_bienBanRKNs, variables: { utilsParams: {} } },
-      ],
-    }
-  );
+  const [deleteBienBanRKN_CBCS] = useMutation(MUTATION_deleteBienBanRKN_CBCS, {
+    refetchQueries: [
+      { query: QUERY_bienBanRKNs_cbcss, variables: { utilsParams: {} } },
+      { query: QUERY_bienBanRKNs, variables: { utilsParams: {} } },
+    ],
+  });
   const [deleteBaoCaoKQGH] = useMutation(MUTATION_deleteBaoCaoKQGH, {
     refetchQueries: [
       { query: QUERY_baocaoKQGHs, variables: { utilsParams: {} } },
@@ -246,11 +263,81 @@ export default function ModalDeleteData() {
       { query: QUERY_baocaoKQGHs_cbcss, variables: { utilsParams: {} } },
     ],
   });
+  const [deleteBaoCaoKQXMQuanHe] = useMutation(
+    MUTATION_deleteBaoCaoKQXMQuanHe,
+    {
+      refetchQueries: [
+        { query: QUERY_baocaoKQXMQuanHes, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteBaoCaoKQXMDiaChi] = useMutation(
+    MUTATION_deleteBaoCaoKQXMDiaChi,
+    {
+      refetchQueries: [
+        { query: QUERY_baocaoKQXMDiaChis, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteBaoCaoKTDN] = useMutation(MUTATION_deleteBaoCaoKTDN, {
+    refetchQueries: [
+      { query: QUERY_baoCaoKTDNs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteBaoCaoPHQH] = useMutation(MUTATION_deleteBaoCaoPHQH, {
+    refetchQueries: [
+      { query: QUERY_baocaoPHQHs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteBaoCaoPHQH_CBCS] = useMutation(MUTATION_deleteBaoCaoPHQH_CBCS, {
+    refetchQueries: [
+      { query: QUERY_baocaoPHQHs, variables: { utilsParams: {} } },
+      { query: QUERY_baocaoPHQHs_cbcss, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteKetQuaTSNT] = useMutation(MUTATION_deleteKetQuaTSNT, {
+    refetchQueries: [
+      { query: QUERY_ketquaTSNTs, variables: { utilsParams: {} } },
+    ],
+  });
+  const [deleteKetQuaTSNT_TinhTP] = useMutation(
+    MUTATION_deleteKetQuaTSNT_TinhTP,
+    {
+      refetchQueries: [
+        { query: QUERY_ketquaTSNTs, variables: { utilsParams: {} } },
+        { query: QUERY_ketquaTSNTs_tinhTPs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteKetQuaXMQuanHe] = useMutation(
+    MUTATION_deleteKetQuaXMQuanHe,
+    {
+      refetchQueries: [
+        { query: QUERY_ketQuaXMQuanHes, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteKetQuaXMDiaChi] = useMutation(
+    MUTATION_deleteKetQuaXMDiaChi,
+    {
+      refetchQueries: [
+        { query: QUERY_ketQuaXMDiaChis, variables: { utilsParams: {} } },
+      ],
+    }
+  );
+  const [deleteBaoCaoPHPT] = useMutation(
+    MUTATION_deleteBaoCaoPHPT,
+    {
+      refetchQueries: [
+        { query: QUERY_baocaoPHPTs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
 
   const onMutationSuccess = () =>
     showNotification(
       "Chúc mừng",
-      `Xóa "${infoDeleteData.Title}" thành công`,
+      `Xóa "${infoDeleteData.Title}" thành công!`,
       "success"
     );
   const onMutationError = () => {
@@ -554,11 +641,11 @@ export default function ModalDeleteData() {
           onError: () => onMutationError(),
         });
         break;
-      case "BienBanRKNs_LanhDaoTGs":
-        deleteBienBanRKN_LanhDaoTG({
+      case "BienBanRKNs_CBCSs":
+        deleteBienBanRKN_CBCS({
           variables: {
             MaBBRKN: infoDeleteData.Form.MaBBRKN,
-            MaLanhDaoTG: infoDeleteData.Form.MaLanhDaoTG,
+            MaCBCS: infoDeleteData.Form.MaCBCS,
           },
           onCompleted: () => onMutationSuccess(),
           onError: () => onMutationError(),
@@ -579,6 +666,103 @@ export default function ModalDeleteData() {
           variables: {
             MaBCKQGH: infoDeleteData.Form.MaBCKQGH,
             MaCBCS: infoDeleteData.Form.MaCBCS,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoKQXMQuanHes":
+        deleteBaoCaoKQXMQuanHe({
+          variables: {
+            baocaoKQXMQuanHeInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoKQXMDiaChis":
+        deleteBaoCaoKQXMDiaChi({
+          variables: {
+            baocaoKQXMDiaChiInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoKTDNs":
+        deleteBaoCaoKTDN({
+          variables: {
+            baocaoKTDNInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoPHQHs":
+        deleteBaoCaoPHQH({
+          variables: {
+            baocaoPHQHInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoPHQHs_CBCSs":
+        deleteBaoCaoPHQH_CBCS({
+          variables: {
+            MaBCPHQH: infoDeleteData.Form.MaBCPHQH,
+            MaCBCS: infoDeleteData.Form.MaCBCS,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "KetQuaTSNTs":
+        deleteKetQuaTSNT({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "KetQuaTSNTs_TinhTPs":
+        deleteKetQuaTSNT_TinhTP({
+          variables: {
+            MaKQ: infoDeleteData.Form.MaKQ,
+            MaTinhTP: infoDeleteData.Form.MaTinhTP,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "KetQuaXMQuanHes":
+        deleteKetQuaXMQuanHe({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "KetQuaXMDiaChis":
+        deleteKetQuaXMDiaChi({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "BaoCaoPHPTs":
+        deleteBaoCaoPHPT({
+          variables: {
+            baocaoPHPTInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),
           onError: () => onMutationError(),

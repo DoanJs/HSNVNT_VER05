@@ -25,6 +25,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { KetQuaTSNT } from './KetQuaTSNT.model';
 import { KetQuaTSNTsService } from './KetQuaTSNTs.service';
 import { KetQuaTSNTInput } from './type/KetQuaTSNT.input';
+import { KetQuaTSNT_TinhTPType } from './type/KetQuaTSNT_TinhTP.type';
+import { KetQuaTSNT_TinhTPInput } from './type/KetQuaTSNT_TinhTP.input';
 
 @Resolver(() => KetQuaTSNT)
 @UseGuards(GraphQLGuard)
@@ -68,6 +70,59 @@ export class KetQuaTSNTsResolver {
     @Args('id') id: number,
   ): Promise<KetQuaTSNT> {
     return this.ketquaTSNTsService.deleteKetQuaTSNT(id, user);
+  }
+
+  // many-to-many relation
+
+  @Query((returns) => [KetQuaTSNT_TinhTPType])
+  ketquaTSNTs_tinhTPs(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<KetQuaTSNT_TinhTPType[]> {
+    return this.ketquaTSNTsService.ketquaTSNTs_tinhTPs(utilsParams);
+  }
+
+  @Mutation((returns) => KetQuaTSNT_TinhTPType)
+  @UseGuards(InsertGuard)
+  createKetQuaTSNT_TinhTP(
+    @CurrentUser() user: any,
+    @Args('ketquaTSNT_tinhtpInput')
+    ketquaTSNT_tinhtpInput: KetQuaTSNT_TinhTPInput,
+  ): Promise<KetQuaTSNT_TinhTPType> {
+    return this.ketquaTSNTsService.createKetQuaTSNT_TinhTP(
+      ketquaTSNT_tinhtpInput,
+      user,
+    );
+  }
+
+  @Mutation((returns) => KetQuaTSNT_TinhTPType)
+  @UseGuards(UpdateGuard)
+  editKetQuaTSNT_TinhTP(
+    @CurrentUser() user: any,
+    @Args('ketquaTSNT_tinhtpInput')
+    ketquaTSNT_tinhtpInput: KetQuaTSNT_TinhTPInput,
+    @Args('MaTinhTP') MaTinhTP: number,
+    @Args('MaKQ') MaKQ: number,
+  ): Promise<KetQuaTSNT_TinhTPType> {
+    return this.ketquaTSNTsService.editKetQuaTSNT_TinhTP(
+      ketquaTSNT_tinhtpInput,
+      MaTinhTP,
+      MaKQ,
+      user,
+    );
+  }
+
+  @Mutation((retursn) => KetQuaTSNT_TinhTPType)
+  @UseGuards(DeleteGuard)
+  deleteKetQuaTSNT_TinhTP(
+    @CurrentUser() user: any,
+    @Args('MaTinhTP') MaTinhTP: number,
+    @Args('MaKQ') MaKQ: number,
+  ): Promise<KetQuaTSNT_TinhTPType> {
+    return this.ketquaTSNTsService.deleteKetQuaTSNT_TinhTP(
+      MaTinhTP,
+      MaKQ,
+      user,
+    );
   }
 
   // ResolveField

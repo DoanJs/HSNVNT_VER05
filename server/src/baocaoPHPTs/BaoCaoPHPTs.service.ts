@@ -32,7 +32,7 @@ export class BaoCaoPHPTsService {
       MaBCPHPT,
       BaoCaoPHPTInput: {
         ThoiGianPH: baocaoPHPTInput.ThoiGianPH
-          ? baocaoPHPTInput.ThoiGianPH
+          ? `N'${baocaoPHPTInput.ThoiGianPH}'`
           : null,
         DiaDiemPH: baocaoPHPTInput.DiaDiemPH
           ? `N'${baocaoPHPTInput.DiaDiemPH}'`
@@ -121,7 +121,9 @@ export class BaoCaoPHPTsService {
   // ResolveField
 
   async KetQuaTSNT(baocaoPHPT: any): Promise<KetQuaTSNT> {
-    return this.dataloaderService.loaderKetQuaTSNT.load(baocaoPHPT.MaKQ);
+    if (baocaoPHPT.MaKQ) {
+      return this.dataloaderService.loaderKetQuaTSNT.load(baocaoPHPT.MaKQ);
+    }
   }
 
   async TSThucHiens(MaBCPHPT: number): Promise<CBCS[]> {
