@@ -10,5 +10,5 @@ export class SP_CHANGE_BAOCAOPHDC_Input {
   MaBCPHDC?: number;
 
   @Field({ nullable: true })
-  BAOCAOPHDCInput?: BaoCaoPHDCInput;
+  BaoCaoPHDCInput?: BaoCaoPHDCInput;
 }

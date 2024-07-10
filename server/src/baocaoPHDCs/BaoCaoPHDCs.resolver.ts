@@ -20,6 +20,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { BaoCaoPHDC } from './BaoCaoPHDC.model';
 import { BaoCaoPHDCsService } from './BaoCaoPHDCs.service';
 import { BaoCaoPHDCInput } from './type/BaoCaoPHDC.Input';
+import { BaoCaoPHDC_CBCSType } from './type/BaoCaoPHDC_CBCS.type';
+import { BaoCaoPHDC_CBCSInput } from './type/BaoCaoPHDC_CBCS.input';
 
 @Resolver(() => BaoCaoPHDC)
 @UseGuards(GraphQLGuard)
@@ -66,6 +68,57 @@ export class BaoCaoPHDCsResolver {
     return this.baocaoPHDCsService.deleteBaoCaoPHDC(baocaoPHDCInput, id, user);
   }
 
+  // many-to-many
+  @Query((returns) => [BaoCaoPHDC_CBCSType])
+  baocaoPHDCs_cbcss(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoPHDC_CBCSType[]> {
+    return this.baocaoPHDCsService.baocaoPHDCs_cbcss(utilsParams);
+  }
+
+  @Mutation((returns) => BaoCaoPHDC_CBCSType)
+  @UseGuards(InsertGuard)
+  createBaoCaoPHDC_CBCS(
+    @CurrentUser() user: any,
+    @Args('baocaoPHDC_cbcsInput')
+    baocaoPHDC_cbcsInput: BaoCaoPHDC_CBCSInput,
+  ): Promise<BaoCaoPHDC_CBCSType> {
+    return this.baocaoPHDCsService.createBaoCaoPHDC_CBCS(
+      baocaoPHDC_cbcsInput,
+      user,
+    );
+  }
+
+  @Mutation((returns) => BaoCaoPHDC_CBCSType)
+  @UseGuards(UpdateGuard)
+  editBaoCaoPHDC_CBCS(
+    @CurrentUser() user: any,
+    @Args('baocaoPHDC_cbcsInput')
+    baocaoPHDC_cbcsInput: BaoCaoPHDC_CBCSInput,
+    @Args('MaBCPHDC') MaBCPHDC: number,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BaoCaoPHDC_CBCSType> {
+    return this.baocaoPHDCsService.editBaoCaoPHDC_CBCS(
+      baocaoPHDC_cbcsInput,
+      MaBCPHDC,
+      MaCBCS,
+      user,
+    );
+  }
+
+  @Mutation((retursn) => BaoCaoPHDC_CBCSType)
+  @UseGuards(DeleteGuard)
+  deleteBaoCaoPHDC_CBCS(
+    @CurrentUser() user: any,
+    @Args('MaBCPHDC') MaBCPHDC: number,
+    @Args('MaCBCS') MaCBCS: number,
+  ): Promise<BaoCaoPHDC_CBCSType> {
+    return this.baocaoPHDCsService.deleteBaoCaoPHDC_CBCS(
+      MaBCPHDC,
+      MaCBCS,
+      user,
+    );
+  }
   // ResolveField
   @ResolveField((returns) => KetQuaTSNT)
   KetQuaTSNT(@Parent() baocaoPHDC: BaoCaoPHDC): Promise<KetQuaTSNT> {

@@ -9,7 +9,7 @@ export class ChuyenAnInput {
   ThoiGianBD?: string;
 
   @Field({ nullable: true })
-  MaTCDT?: string;
+  MaTCDT?: number;
 
   @Field({ nullable: true })
   TenCA?: string;

@@ -401,6 +401,40 @@ export const FI_BaoCaoPHPT = {
 
   MaKQ: null,
 };
+export const FI_DanhGiaTSTH = {
+  MaDanhGiaTSTH: 0,
+  LyDo: "",
+  VaiTro: "",
+  DanhGia: "",
+
+  MaKQ: null,
+  MaCBCS: null,
+};
+export const FI_BaoCaoPHDC = {
+  MaBCPHDC: 0,
+
+  ThoiGianPH: "",
+  DiaChi: "",
+  HinhAnh: "",
+
+  MaKQ: null,
+};
+export const FI_BaoCaoPHDC_CBCS = {
+  MaBCPHDC: null,
+  MaCBCS: null,
+  MaBCPHDC_old: 0,
+  MaCBCS_old: 0,
+};
+export const FI_ChuyenAn = {
+  MaCA: 0,
+
+  TenCA: "",
+  BiSo: "",
+  ThoiGianBD: "",
+  NoiDung: "",
+
+  MaTCDT: null,
+};
 // chua duyet lai
 // ----------------------
 

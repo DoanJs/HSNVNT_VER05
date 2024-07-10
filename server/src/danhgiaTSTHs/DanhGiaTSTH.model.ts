@@ -16,11 +16,11 @@ export class DanhGiaTSTH {
   @Field()
   MaDanhGiaTSTH: number;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
   VaiTro: string;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true })
+  @Column({ type: 'nvarchar', length: 100, nullable: true })
   @Field({ nullable: true })
   DanhGia: string;
 

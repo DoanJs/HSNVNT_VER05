@@ -228,16 +228,16 @@ export const SP_CHANGE_BAOCAOPHDC = (
   spCHANGEBAOCAOPHDCInput.MaBCPHDC +
   ',' +
   '@ThoiGianPH=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.ThoiGianPH +
+  spCHANGEBAOCAOPHDCInput.BaoCaoPHDCInput.ThoiGianPH +
   ',' +
   '@DiaChi=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.DiaChi +
+  spCHANGEBAOCAOPHDCInput.BaoCaoPHDCInput.DiaChi +
   ',' +
   '@HinhAnh=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.HinhAnh +
+  spCHANGEBAOCAOPHDCInput.BaoCaoPHDCInput.HinhAnh +
   ',' +
   '@MaKQ=' +
-  spCHANGEBAOCAOPHDCInput.BAOCAOPHDCInput.MaKQ;
+  spCHANGEBAOCAOPHDCInput.BaoCaoPHDCInput.MaKQ;
 
 export const SP_CHANGE_BAOCAOPHPT = (
   spCHANGEBAOCAOPHPTInput: SP_CHANGE_BAOCAOPHPT_Input,

@@ -253,13 +253,13 @@ export const CSDLInput = [
   },
   {
     cap: 6,
-    to: "/nhaplieu/diachinv",
-    label: "Địa chỉ nghi vấn",
+    to: "/nhaplieu/baocaophdc",
+    label: "Báo cáo phát hiện địa chỉ",
   },
   {
     cap: 6,
-    to: "/nhaplieu/diachinvcbcs",
-    label: "Địa chỉ nghi vấn/CBCS",
+    to: "/nhaplieu/baocaophdccbcs",
+    label: "Báo cáo phát hiện địa chỉ/CBCS",
   },
   {
     cap: 6,

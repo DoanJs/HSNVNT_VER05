@@ -59,6 +59,10 @@ export { default as InputKetQuaTSNTTinhTP } from "./Input/InputKetQuaTSNTTinhTP"
 export { default as InputKetQuaXMQuanHe } from "./Input/InputKetQuaXMQuanHe";
 export { default as InputKetQuaXMDiaChi } from "./Input/InputKetQuaXMDiaChi";
 export { default as InputBaoCaoPHPT } from "./Input/InputBaoCaoPHPT";
+export { default as InputDanhGiaTSTH } from "./Input/InputDanhGiaTSTH";
+export { default as InputBaoCaoPHDC } from "./Input/InputBaoCaoPHDC";
+export { default as InputBaoCaoPHDCCBCS } from "./Input/InputBaoCaoPHDCCBCS";
+export { default as InputChuyenAn } from "./Input/InputChuyenAn";
 export { default as ModalEditProfile } from "./Modal/ModalEditProfile";
 export { default as ModalLogout } from "./Modal/ModalLogout";
 export { default as ModalDeleteData } from "./Modal/ModalDeleteData";

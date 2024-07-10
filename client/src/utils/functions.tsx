@@ -556,6 +556,68 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
             .includes(keysearch)
       );
       break;
+    case "BaoCaoPHDCs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.DiaChi?.toLowerCase().includes(keysearch) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
+            keysearch
+          ) ||
+          moment(obj.ThoiGianPH)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.ThoiGianPH).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.ThoiGianPH)
+            .year()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch)
+      );
+      break;
+    case "DanhGiaTSTHs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.CBCS?.HoTen.toLowerCase().includes(keysearch) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
+            keysearch
+          ) ||
+          obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
+            keysearch
+          )
+      );
+      break;
+    case "ChuyenAns":
+      arr = array.filter(
+        (obj: any) =>
+          obj.BiSo?.toLowerCase().includes(keysearch) ||
+          obj.TenCA?.toLowerCase().includes(keysearch) ||
+          obj.TinhChatDT?.TinhChat?.toLowerCase().includes(
+            keysearch
+          ) ||
+          moment(obj.ThoiGianBD)
+            .date()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          (moment(obj.ThoiGianBD).month() + 1)
+            .toString()
+            .toLowerCase()
+            .includes(keysearch) ||
+          moment(obj.ThoiGianBD)
+            .year()
+            .toString()
+            .toLowerCase()
+            .includes(keysearch)
+      );
+      break;
     default:
   }
 
