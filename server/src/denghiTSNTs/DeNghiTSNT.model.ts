@@ -107,5 +107,6 @@ export class DeNghiTSNT {
   KyDuyet_DN: KyDuyet_DN;
 
   @OneToOne(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.DeNghiTSNT)
+  @Field((type) => QuyetDinhTSNT, { nullable: true })
   QuyetDinhTSNT: QuyetDinhTSNT;
 }

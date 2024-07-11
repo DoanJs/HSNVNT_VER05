@@ -22,7 +22,6 @@ import {
   MUTATION_deleteCapCA,
   MUTATION_deleteChucVu,
   MUTATION_deleteChuyenAn,
-  MUTATION_deleteDDNB,
   MUTATION_deleteDanToc,
   MUTATION_deleteDanhGiaTSTH,
   MUTATION_deleteDauMoiPH_DN,
@@ -30,6 +29,7 @@ import {
   MUTATION_deleteDeNghiTSNT_TinhTP,
   MUTATION_deleteDoi,
   MUTATION_deleteDoiTuong,
+  MUTATION_deleteDoiTuongCA,
   MUTATION_deleteHinhThucHD,
   MUTATION_deleteKeHoachTSNT,
   MUTATION_deleteKeHoachTSNT_LLDB,
@@ -72,10 +72,10 @@ import {
   QUERY_danhgiaTSTHs,
   QUERY_dantocs,
   QUERY_dauMoiPH_DNs,
-  QUERY_ddnbs,
   QUERY_denghiTSNTs,
   QUERY_denghiTSNTs_tinhTPs,
   QUERY_dois,
+  QUERY_doituongCAs,
   QUERY_doituongs,
   QUERY_hinhthucHDs,
   QUERY_kehoachTSNTs,
@@ -95,7 +95,7 @@ import {
   QUERY_tinhChatDTs,
   QUERY_tinhTPs,
   QUERY_tonGiaos,
-  QUERY_tramCTs,
+  QUERY_tramCTs
 } from "../../graphql/documentNode";
 import { showNotification } from "../../utils/functions";
 
@@ -160,9 +160,6 @@ export default function ModalDeleteData() {
   });
   const [deleteTinhTP] = useMutation(MUTATION_deleteTinhTP, {
     refetchQueries: [{ query: QUERY_tinhTPs, variables: { utilsParams: {} } }],
-  });
-  const [deleteDDNB] = useMutation(MUTATION_deleteDDNB, {
-    refetchQueries: [{ query: QUERY_ddnbs, variables: { utilsParams: {} } }],
   });
   const [deleteDoi] = useMutation(MUTATION_deleteDoi, {
     refetchQueries: [{ query: QUERY_dois, variables: { utilsParams: {} } }],
@@ -363,6 +360,14 @@ export default function ModalDeleteData() {
       ],
     }
   );
+  const [deleteDoiTuongCA] = useMutation(
+    MUTATION_deleteDoiTuongCA,
+    {
+      refetchQueries: [
+        { query: QUERY_doituongCAs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
 
   const onMutationSuccess = () =>
     showNotification(
@@ -509,15 +514,6 @@ export default function ModalDeleteData() {
         break;
       case "TinhTPs":
         deleteTinhTP({
-          variables: {
-            id: infoDeleteData.ID,
-          },
-          onCompleted: () => onMutationSuccess(),
-          onError: () => onMutationError(),
-        });
-        break;
-      case "DDNBs":
-        deleteDDNB({
           variables: {
             id: infoDeleteData.ID,
           },
@@ -821,6 +817,15 @@ export default function ModalDeleteData() {
         deleteChuyenAn({
           variables: {
             chuyenanInput: infoDeleteData.Form,
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "DoiTuongCAs":
+        deleteDoiTuongCA({
+          variables: {
             id: infoDeleteData.ID,
           },
           onCompleted: () => onMutationSuccess(),

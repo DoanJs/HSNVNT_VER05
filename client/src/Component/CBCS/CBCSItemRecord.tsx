@@ -5,7 +5,7 @@ import { handleTime } from "../../utils/functions";
 export default function CBCSItemRecord({ obj }: { obj: any }) {
   return (
     <tr>
-      <td>{handleTime(obj.Ngay)}</td>
+      <td>{obj.Ngay && handleTime(obj.Ngay)}</td>
       <td>
         <Link to={"/"} target="_blank" rel="noreferrer">
           link
@@ -14,20 +14,23 @@ export default function CBCSItemRecord({ obj }: { obj: any }) {
       <td>
         <b>
           <Link
-            to={`/doituong/${obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+            to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
             target="_blank"
           >
-            {obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+            {obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
           </Link>
         </b>
       </td>
       <td>
         <b>
           <Link
-            to={`/doituong/${obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+            to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
             target="_blank"
           >
-            {obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}
+            {
+              obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong
+                ?.TenDT
+            }
           </Link>
         </b>
       </td>

@@ -3,15 +3,20 @@ import moment from "moment";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { CBCSItemPlan, CBCSItemRecord, CBCSItemRelation, Spinner } from "..";
+import {
+  CBCSItemPlace,
+  CBCSItemPlan,
+  CBCSItemRecord,
+  CBCSItemRelation,
+  CBCSItemVehicle,
+  Spinner,
+} from "..";
 import { QUERY_cbcs } from "../../graphql/documentNode";
 import {
   handleDanhGiaTSTH,
   handleTime,
   handleValueSame,
 } from "../../utils/functions";
-import CBCSItemPlace from "./CBCSItemPlace";
-import CBCSItemVehicle from "./CBCSItemVehicle";
 
 const CBCSItemStyled = styled.div`
   h5,
@@ -81,17 +86,17 @@ const CBCSItemStyled = styled.div`
     justify-content: center;
     margin: 20px 0;
   }
+  .userDetails-note::-webkit-scrollbar {
+    background-color: #e4e6eb;
+    width: 4px;
+  }
+  .userDetails-note::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+  }
   .userDetails-note {
     height: 250px;
     overflow-y: scroll;
-    ::-webkit-scrollbar {
-      background-color: #e4e6eb;
-      width: 4px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: #007bff;
-      border-radius: 10px;
-    }
   }
   .userDetails-edit {
     position: fixed;
@@ -115,7 +120,6 @@ export default function CBCSItem() {
 
   useEffect(() => {
     if (Data_cbcs) {
-      console.log(Data_cbcs.cbcs);
       setCBCS({ ...Data_cbcs.cbcs });
     }
   }, [Data_cbcs]);
@@ -136,37 +140,33 @@ export default function CBCSItem() {
     if (formInputTime.endDate !== "" && formInputTime.startDate !== "") {
       const startDate = moment(formInputTime.startDate).format();
       const endDate = moment(formInputTime.endDate).format();
-      const newPlans = cbcs.DanhGiaTSTHs.filter(
+      let newPlans = cbcs.DanhGiaTSTHs.filter(
         (plan: any) =>
           plan.KetQuaTSNT?.ThoiGianBD >= startDate &&
           plan.KetQuaTSNT?.ThoiGianBD <= endDate
       );
-      const newRelations = cbcs.TSThucHien_BaoCaoPHQHs.filter(
+      let newRelations = cbcs.TSThucHien_BaoCaoPHQHs.filter(
         (rela: any) => rela.Ngay >= startDate && rela.Ngay <= endDate
       );
-      const newPlaces = cbcs.TSThucHien_DiaChiNVs.filter(
+      const newPlaces = cbcs.TSThucHien_BaoCaoPHDCs.filter(
         (place: any) =>
           place.ThoiGianPH >= startDate && place.ThoiGianPH <= endDate
       );
-      const newVehicles = cbcs.TSThucHien_PhuongTienNVs.filter(
+      const newVehicles = cbcs.TSThucHien_BaoCaoPHPTs.filter(
         (vehicle: any) =>
           vehicle.ThoiGianPH >= startDate && vehicle.ThoiGianPH <= endDate
       );
       const newRecords = cbcs.TSThucHien_BaoCaoKQGHs.filter(
         (record: any) => record.Ngay >= startDate && record.Ngay <= endDate
       );
-      //   const NewDetails = newUser.details.filter(
-      //     (text: string) =>
-      //       text.indexOf(String(moment(form.startDate).year())) !== -1
-      //   );
+
       setCBCS({
         ...cbcs,
         DanhGiaTSTHs: newPlans,
         TSThucHien_BaoCaoPHQHs: newRelations,
-        TSThucHien_DiaChiNVs: newPlaces,
-        TSThucHien_PhuongTienNVs: newVehicles,
+        TSThucHien_BaoCaoPHDCs: newPlaces,
+        TSThucHien_BaoCaoPHPTs: newVehicles,
         TSThucHien_BaoCaoKQGHs: newRecords,
-        // details: NewDetails,
       });
     }
   };
@@ -192,11 +192,11 @@ export default function CBCSItem() {
             <div className="col col-4">
               <div className="mb-3">
                 <label>Ngày sinh: </label>
-                <b>{handleTime(cbcs.NgaySinh)}</b>
+                <b>{cbcs.NgaySinh && handleTime(cbcs.NgaySinh)}</b>
               </div>
               <div className="mb-3">
                 <label>Giới tính: </label>
-                <b>{cbcs.GioiTinh === 0 ? "Nam" : "Nữ"}</b>
+                <b>{cbcs.GioiTinh === 1 ? "Nữ" : "Nam"}</b>
               </div>
             </div>
             <div className="col col-4">
@@ -224,6 +224,7 @@ export default function CBCSItem() {
               {/* {
                 newUser?.details.length > 0 && handleEnterRow_BOTConnect(newUser.details.join(";"), true)
               } */}
+              {cbcs.ThongTinChiTiet}
             </div>
           </div>
         </div>
@@ -283,7 +284,7 @@ export default function CBCSItem() {
             </th>
             <th scope="col">{cbcs.DanhGiaTSTHs?.length}</th>
             <th scope="col">
-              {handleValueSame("DanhGiaTSTH", cbcs.DanhGiaTSTHs).length}
+              {handleValueSame("DanhGiaTSTH", cbcs.DanhGiaTSTHs)?.length}
             </th>
             <th scope="col">
               {handleDanhGiaTSTH(cbcs.DanhGiaTSTHs).arrBD?.length}
@@ -333,7 +334,7 @@ export default function CBCSItem() {
                 handleValueSame(
                   "TSThucHien_BaoCaoPHQHs-BiDanhYC",
                   cbcs.TSThucHien_BaoCaoPHQHs
-                ).length
+                )?.length
               }
             </th>
             <th scope="col">
@@ -341,16 +342,24 @@ export default function CBCSItem() {
                 handleValueSame(
                   "TSThucHien_BaoCaoPHQHs-TenDT",
                   cbcs.TSThucHien_BaoCaoPHQHs
-                ).length
+                )?.length
               }
             </th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          {cbcs.TSThucHien_BaoCaoPHQHs?.map((obj: any, ind: number) => (
-            <CBCSItemRelation key={ind} obj={obj} />
-          ))}
+          {cbcs.TSThucHien_BaoCaoPHQHs?.length > 0 ? (
+            cbcs.TSThucHien_BaoCaoPHQHs?.map((obj: any, ind: number) => (
+              <CBCSItemRelation key={ind} obj={obj} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ textAlign: "center" }}>
+                <i>CBCS chưa phát hiện quan hệ nào!</i>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
@@ -379,7 +388,7 @@ export default function CBCSItem() {
                 handleValueSame(
                   "TSThucHien_BaoCaoKQGHs-BiDanhYC",
                   cbcs.TSThucHien_BaoCaoKQGHs
-                ).length
+                )?.length
               }
             </th>
             <th scope="col">
@@ -387,23 +396,31 @@ export default function CBCSItem() {
                 handleValueSame(
                   "TSThucHien_BaoCaoKQGHs-TenDT",
                   cbcs.TSThucHien_BaoCaoKQGHs
-                ).length
+                )?.length
               }
             </th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          {cbcs.TSThucHien_BaoCaoKQGHs?.map((obj: any, ind: number) => (
-            <CBCSItemRecord key={ind} obj={obj} />
-          ))}
+          {cbcs.TSThucHien_BaoCaoKQGHs?.length > 0 ? (
+            cbcs.TSThucHien_BaoCaoKQGHs?.map((obj: any, ind: number) => (
+              <CBCSItemRecord key={ind} obj={obj} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ textAlign: "center" }}>
+                <i>CBCS chưa ghi nhận được hình ảnh nào!</i>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
       <h6>
         PHƯƠNG TIỆN ĐƯỢC PHÁT HIỆN{" "}
         <i style={{ color: "#000000" }}>
-          ({cbcs.TSThucHien_PhuongTienNVs?.length} lượt)
+          ({cbcs.TSThucHien_BaoCaoPHPTs?.length} lượt)
         </i>
       </h6>
       <table className="table" style={{ marginBottom: "50px" }}>
@@ -420,38 +437,46 @@ export default function CBCSItem() {
             <th scope="col">
               <i>Số lượng:</i>
             </th>
-            <th scope="col">{cbcs.TSThucHien_PhuongTienNVs.length}</th>
+            <th scope="col">{cbcs.TSThucHien_BaoCaoPHPTs?.length}</th>
             <th scope="col"></th>
             <th scope="col">
               {
                 handleValueSame(
-                  "TSThucHien_PhuongTienNVs-BiDanhYC",
-                  cbcs.TSThucHien_PhuongTienNVs
-                ).length
+                  "TSThucHien_BaoCaoPHPTs-BiDanhYC",
+                  cbcs.TSThucHien_BaoCaoPHPTs
+                )?.length
               }
             </th>
             <th scope="col">
               {
                 handleValueSame(
-                  "TSThucHien_PhuongTienNVs-TenDT",
-                  cbcs.TSThucHien_PhuongTienNVs
-                ).length
+                  "TSThucHien_BaoCaoPHPTs-TenDT",
+                  cbcs.TSThucHien_BaoCaoPHPTs
+                )?.length
               }
             </th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {cbcs.TSThucHien_PhuongTienNVs.map((obj: any, ind: number) => (
-            <CBCSItemVehicle key={ind} obj={obj} />
-          ))}
+          {cbcs.TSThucHien_BaoCaoPHPTs?.length > 0 ? (
+            cbcs.TSThucHien_BaoCaoPHPTs?.map((obj: any, ind: number) => (
+              <CBCSItemVehicle key={ind} obj={obj} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ textAlign: "center" }}>
+                <i>CBCS chưa phát hiện được phương tiện nào!</i>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
       <h6>
         ĐỊA CHỈ ĐƯỢC PHÁT HIỆN
         <i style={{ color: "#000000" }}>
-          ({cbcs.TSThucHien_DiaChiNVs?.length} lượt)
+          ({cbcs.TSThucHien_BaoCaoPHDCs?.length} lượt)
         </i>
       </h6>
       <table className="table" style={{ marginBottom: "50px" }}>
@@ -468,31 +493,39 @@ export default function CBCSItem() {
             <th scope="col">
               <i>Số lượng:</i>
             </th>
-            <th scope="col">{cbcs.TSThucHien_DiaChiNVs?.length}</th>
+            <th scope="col">{cbcs.TSThucHien_BaoCaoPHDCs?.length}</th>
             <th scope="col"> </th>
             <th scope="col">
               {
                 handleValueSame(
-                  "TSThucHien_DiaChiNVs-BiDanhYC",
-                  cbcs.TSThucHien_DiaChiNVs
-                ).length
+                  "TSThucHien_BaoCaoPHDCs-BiDanhYC",
+                  cbcs.TSThucHien_BaoCaoPHDCs
+                )?.length
               }
             </th>
             <th scope="col">
               {
                 handleValueSame(
-                  "TSThucHien_DiaChiNVs-TenDT",
-                  cbcs.TSThucHien_DiaChiNVs
-                ).length
+                  "TSThucHien_BaoCaoPHDCs-TenDT",
+                  cbcs.TSThucHien_BaoCaoPHDCs
+                )?.length
               }
             </th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          {cbcs.TSThucHien_DiaChiNVs?.map((obj: any, ind: number) => (
-            <CBCSItemPlace key={ind} obj={obj} />
-          ))}
+          {cbcs.TSThucHien_BaoCaoPHDCs?.length > 0 ? (
+            cbcs.TSThucHien_BaoCaoPHDCs?.map((obj: any, ind: number) => (
+              <CBCSItemPlace key={ind} obj={obj} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ textAlign: "center" }}>
+                <i>CBCS chưa phát hiện được địa chỉ nào!</i>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </CBCSItemStyled>

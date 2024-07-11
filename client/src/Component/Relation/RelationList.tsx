@@ -74,7 +74,7 @@ export default function RelationList() {
 
   const onFilterRelation = (e: ChangeEvent<HTMLInputElement>) => {
     setBaocaoPHQHs(
-      handleSearch("baocaoPHQHs", Data_baocaoPHQHs.baocaoPHQHs, e.target.value)
+      handleSearch("BaoCaoPHQHs", Data_baocaoPHQHs.baocaoPHQHs, e.target.value)
     );
   };
 
@@ -91,7 +91,7 @@ export default function RelationList() {
               onChange={onFilterRelation}
               className="form-control mr-sm-2"
               type="search"
-              placeholder="Tìm theo thời gian, địa điểm phát hiện, địa chỉ, yêu cầu, đối tượng liên quan, TS thực hiện"
+              placeholder="Tìm nhanh theo thời gian, địa điểm, địa chỉ, yêu cầu, đối tượng, TS thực hiện"
               aria-label="Search"
             />
           </form>
@@ -103,7 +103,6 @@ export default function RelationList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">STT</th>
               <th scope="col">Thời gian PH</th>
               <th scope="col">Địa Điểm PH</th>
               <th scope="col">Hình Ảnh</th>
@@ -115,7 +114,7 @@ export default function RelationList() {
           </thead>
           <tbody>
             {baocaoPHQHs.map((baocaoPHQH: any, ind: number) => (
-              <RelationItem key={ind} baocaoPHQH={baocaoPHQH} ind={ind} />
+              <RelationItem key={ind} baocaoPHQH={baocaoPHQH} />
             ))}
           </tbody>
         </table>

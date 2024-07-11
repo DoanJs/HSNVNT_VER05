@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
-import { QUERY_phuongtienNV } from "../../graphql/documentNode";
+import { QUERY_baocaoPHPT } from "../../graphql/documentNode";
 import { handleTime } from "../../utils/functions";
 
 export const VehicleDetailStyle = styled.div`
@@ -24,9 +24,9 @@ export const VehicleDetailStyle = styled.div`
           height: 150px;
           margin-bottom: 8px;
         }
-      };
+      }
       .vehicle-dt-tsth {
-        margin-left: 30px
+        margin-left: 30px;
       }
     }
     .vehicle-dt-result {
@@ -44,12 +44,12 @@ export const VehicleDetailStyle = styled.div`
 
 export default function VehicleDetail() {
   const { id } = useParams();
-  const { data: Data_phuongtienNV } = useQuery(QUERY_phuongtienNV, {
+  const { data: Data_baocaoPHPT } = useQuery(QUERY_baocaoPHPT, {
     variables: { id: Number(id) },
   });
-  const phuongtienNV = Data_phuongtienNV?.phuongtienNV;
+  const baocaoPHPT = Data_baocaoPHPT?.baocaoPHPT;
 
-  if (!Data_phuongtienNV) return <Spinner />;
+  if (!Data_baocaoPHPT) return <Spinner />;
   return (
     <VehicleDetailStyle>
       <h5>THÔNG TIN CHI TIẾT VỀ PHƯƠNG TIỆN NGHI VẤN</h5>
@@ -60,26 +60,26 @@ export default function VehicleDetail() {
             Ngày báo cáo:&emsp;<b></b>
           </p>
           <p>
-            Biển kiểm soát:&emsp;<b>{phuongtienNV.BKS}</b>
+            Biển kiểm soát:&emsp;<b>{baocaoPHPT.BKS}</b>
           </p>
           <p>
-            Địa điểm phát hiện:&emsp;<b>{phuongtienNV.DiaDiemPH}</b>
+            Địa điểm phát hiện:&emsp;<b>{baocaoPHPT.DiaDiemPH}</b>
           </p>
           <p>
             Thời gian phát hiện:&emsp;
-            <b>{handleTime(phuongtienNV.ThoiGianPH)}</b>
+            <b>{handleTime(baocaoPHPT.ThoiGianPH)}</b>
           </p>
           <p>
             Liên quan đến đối tượng:&emsp;
             <Link
-              to={`/doituong/${phuongtienNV.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+              to={`/doituong/${baocaoPHPT.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
             >
-              <b>{phuongtienNV.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}</b>
+              <b>{baocaoPHPT.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}</b>
             </Link>
           </p>
           <p>Hình ảnh:</p>
           <Link
-            to={phuongtienNV.HinhAnh}
+            to={baocaoPHPT.HinhAnh}
             className="vehicle-dt-img"
             target="_blank"
           >
@@ -87,19 +87,19 @@ export default function VehicleDetail() {
           </Link>
           <p>Trinh sát phát hiện:</p>
           <div className="vehicle-dt-tsth">
-            {phuongtienNV.TSThucHiens?.map((cbcs: any, ind: number) => (
+            {baocaoPHPT.TSThucHiens?.map((cbcs: any, ind: number) => (
               <Fragment key={ind}>
                 <Link to={`/cbcs/${cbcs.MaCBCS}`}>{cbcs.HoTen};</Link>
-                <br/>
+                <br />
               </Fragment>
             ))}
           </div>
           <p>
             Trinh sát xác minh:&emsp;{" "}
             <Link
-              to={`/cbcs/${phuongtienNV.BaoCaoKQXMDiaChi?.TSXacMinh?.MaCBCS}`}
+              to={`/cbcs/${baocaoPHPT.BaoCaoKQXMDiaChi?.TSXacMinh?.MaCBCS}`}
             >
-              {phuongtienNV.BaoCaoKQXMDiaChi?.TSXacMinh?.HoTen}
+              {baocaoPHPT.BaoCaoKQXMDiaChi?.TSXacMinh?.HoTen}
             </Link>
           </p>
         </div>
@@ -110,59 +110,59 @@ export default function VehicleDetail() {
             <div>
               <p>
                 Họ tên chủ hộ:&emsp;{" "}
-                <b>{phuongtienNV.BaoCaoKQXMDiaChi?.HoTenChuHo}</b>
+                <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.HoTenChuHo}</b>
               </p>
               <p>
-                Nơi ở:&emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.NoiO}</b>
+                Nơi ở:&emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.NoiO}</b>
               </p>
               <p>
-                Quê quán:&emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.QueQuan}</b>
+                Quê quán:&emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.QueQuan}</b>
               </p>
             </div>
             <div>
               <p>
-                Tên khác: &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.TenKhac}</b>
+                Tên khác: &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.TenKhac}</b>
               </p>
               <p>
                 Giới tính: &emsp;{" "}
                 <b>
-                  {phuongtienNV.BaoCaoKQXMDiaChi?.GioiTinh === 0 ? "Nam" : "Nữ"}
+                  {baocaoPHPT.BaoCaoKQXMDiaChi?.GioiTinh === 0 ? "Nam" : "Nữ"}
                 </b>
               </p>
               <p>
-                HKTT: &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.HKTT}</b>
+                HKTT: &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.HKTT}</b>
               </p>
             </div>
             <div>
               <p>
-                Năm sinh: &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.NamSinh}</b>
+                Năm sinh: &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.NamSinh}</b>
               </p>
               <p>
                 Nghề nghiệp:&emsp;{" "}
-                <b>{phuongtienNV.BaoCaoKQXMDiaChi?.NgheNghiep}</b>
+                <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.NgheNghiep}</b>
               </p>
               <p>
-                Chức vụ: &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.ChucVu}</b>
+                Chức vụ: &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.ChucVu}</b>
               </p>
             </div>
           </div>
           <div>
             <p>
               Nơi làm việc: &emsp;{" "}
-              <b>{phuongtienNV.BaoCaoKQXMDiaChi?.NoiLamViec}</b>
+              <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.NoiLamViec}</b>
             </p>
           </div>
           <h6>QUAN HỆ GIA ĐÌNH CỦA CHỦ HỘ:</h6>
           <p>
-            &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.QuanHeGiaDinh}</b>
+            &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.QuanHeGiaDinh}</b>
           </p>
           <h6>NHỮNG HỘ KHÁC CÙNG ĐỊA CHỈ (nếu có):</h6>
           <p>
-            &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.HoKhacCungDC}</b>
+            &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.HoKhacCungDC}</b>
           </p>
           <h6>BIỆN PHÁP XÁC MINH, NGUỒN TÀI LIỆU, NGƯỜI CUNG CẤP:</h6>
           <p>
-            &emsp; <b>{phuongtienNV.BaoCaoKQXMDiaChi?.BienPhapXM}</b>
+            &emsp; <b>{baocaoPHPT.BaoCaoKQXMDiaChi?.BienPhapXM}</b>
           </p> */}
         </div>
       </div>

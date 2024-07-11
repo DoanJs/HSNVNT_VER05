@@ -3,9 +3,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
-import { QUERY_quyetdinhTSNTs } from "../../graphql/documentNode";
+import { QUERY_denghiTSNTs } from "../../graphql/documentNode";
 import {
-  Filter_Data,
+  Filter_File,
   handleSearch,
   showNotification,
 } from "../../utils/functions";
@@ -92,12 +92,13 @@ const FileListStyled = styled.div`
 export default function FileList() {
   const { category } = useParams();
   const navigate = useNavigate();
-  const { data: Data_quyetdinhTSNTs, error } = useQuery(QUERY_quyetdinhTSNTs, {
+  const { data: Data_denghiTSNTs, error } = useQuery(QUERY_denghiTSNTs, {
     variables: {
       utilsParams: {},
     },
   });
-  const [quyetdinhTSNTs, set_quyetdinhTSNTs] = useState([]);
+
+  const [denghiTSNTs, set_denghiTSNTs] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -110,25 +111,24 @@ export default function FileList() {
     }
     // eslint-disable-next-line
   }, [error]);
+
   useEffect(() => {
-    if (Data_quyetdinhTSNTs) {
-      set_quyetdinhTSNTs(
-        Filter_Data(category, Data_quyetdinhTSNTs.quyetdinhTSNTs)
-      );
+    if (Data_denghiTSNTs) {
+      set_denghiTSNTs(Filter_File(category, Data_denghiTSNTs.denghiTSNTs));
     }
-  }, [Data_quyetdinhTSNTs, category]);
+  }, [Data_denghiTSNTs, category]);
 
   const onFilterFile = (e: ChangeEvent<HTMLInputElement>) => {
-    set_quyetdinhTSNTs(
+    set_denghiTSNTs(
       handleSearch(
-        "files",
-        Filter_Data(category, Data_quyetdinhTSNTs.quyetdinhTSNTs),
+        "Files",
+        Filter_File(category, Data_denghiTSNTs.denghiTSNTs),
         e.target.value
       )
     );
   };
-
-  if (!Data_quyetdinhTSNTs) return <Spinner />;
+  
+  if (!Data_denghiTSNTs) return <Spinner />;
   return (
     <FileListStyled>
       <div className="fl-header">
@@ -139,7 +139,7 @@ export default function FileList() {
               : "HỒ SƠ THEO DÕI CÁC ĐỐI TƯỢNG KHÁC"}
           </h4>
           <i>
-            Số lượng: <b>{Filter_Data(category, quyetdinhTSNTs).length} </b>
+            Số lượng: <b>{Filter_File(category, denghiTSNTs).length} </b>
             Hồ sơ
           </i>
         </div>
@@ -166,7 +166,7 @@ export default function FileList() {
       </div>
       <hr />
       <ul className="list-group">
-        {quyetdinhTSNTs.map((obj: any, ind: number) => (
+        {denghiTSNTs.map((obj: any, ind: number) => (
           <FileItem key={ind} obj={obj} ind={ind} />
         ))}
       </ul>

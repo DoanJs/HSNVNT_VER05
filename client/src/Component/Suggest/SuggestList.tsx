@@ -154,7 +154,7 @@ export default function SuggestList() {
               onChange={onFilterSuggest}
               className="form-control mr-sm-2"
               type="search"
-              placeholder="Tìm theo số, ngày đề nghị, đơn vị giao, đối tượng"
+              placeholder="Tìm nhanh theo số, ngày đề nghị, đơn vị giao, đối tượng"
               aria-label="Search"
             />
           </form>
@@ -166,7 +166,6 @@ export default function SuggestList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">STT</th>
               <th scope="col">Số</th>
               <th scope="col">Ngày</th>
               <th scope="col">Đơn vị giao</th>
@@ -177,7 +176,7 @@ export default function SuggestList() {
           </thead>
           <tbody>
             {denghiTSNTs.map((denghiTSNT: any, ind: number) => (
-              <SuggestItem key={ind} denghiTSNT={denghiTSNT} ind={ind} />
+              <SuggestItem key={ind} denghiTSNT={denghiTSNT} />
             ))}
           </tbody>
         </table>

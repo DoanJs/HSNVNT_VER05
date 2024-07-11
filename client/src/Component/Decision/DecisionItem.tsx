@@ -3,20 +3,17 @@ import { handleTime } from "../../utils/functions";
 
 export default function DecisionItem({
   quyetdinhTSNT,
-  ind,
 }: {
   quyetdinhTSNT: any;
-  ind: number;
 }) {
   return (
     <tr>
-      <th>{ind + 1}</th>
       <td>
         <Link to={`/quyetdinhtsnt/${quyetdinhTSNT.MaQD}`} target="_blank">
           {quyetdinhTSNT.So}
         </Link>
       </td>
-      <td>{handleTime(quyetdinhTSNT.Ngay)}</td>
+      <td>{quyetdinhTSNT.Ngay && handleTime(quyetdinhTSNT.Ngay)}</td>
       <td>
         <Link
           to={`/doituong/${quyetdinhTSNT.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
@@ -33,8 +30,12 @@ export default function DecisionItem({
           {quyetdinhTSNT.BiDanh}
         </Link>
       </td>
-      <td>{handleTime(quyetdinhTSNT.ThoiGianBD)}</td>
-      <td>{handleTime(quyetdinhTSNT.ThoiGianKT)}</td>
+      <td>
+        {quyetdinhTSNT.ThoiGianBD && handleTime(quyetdinhTSNT.ThoiGianBD)}
+      </td>
+      <td>
+        {quyetdinhTSNT.ThoiGianKT && handleTime(quyetdinhTSNT.ThoiGianKT)}
+      </td>
     </tr>
   );
 }

@@ -435,6 +435,15 @@ export const FI_ChuyenAn = {
 
   MaTCDT: null,
 };
+export const FI_DoiTuongCA = {
+  MaDTCA: 0,
+
+  BiSo: "",
+  ViTri: "",
+
+  MaCA: null,
+  MaDoiTuong: null,
+};
 // chua duyet lai
 // ----------------------
 

@@ -1,19 +1,12 @@
 import { Link } from "react-router-dom";
 import { handleTime } from "../../utils/functions";
 
-export default function PlaceItem({
-  baocaophdc,
-  ind,
-}: {
-  baocaophdc: any;
-  ind: number;
-}) {
+export default function PlaceItem({ baocaophdc }: { baocaophdc: any }) {
   return (
     <tr>
-      <th>{ind + 1}</th>
       <td>
         <Link to={`/baocaophdc/${baocaophdc.MaBCPHDC}`} target="_blank">
-          {handleTime(baocaophdc.ThoiGianPH)}
+          {baocaophdc.ThoiGianPH && handleTime(baocaophdc.ThoiGianPH)}
         </Link>
       </td>
       <td>{baocaophdc.DiaChi}</td>
@@ -35,7 +28,10 @@ export default function PlaceItem({
           to={`/doituong/${baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
+          {
+            baocaophdc.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT
+              ?.DoiTuong?.TenDT
+          }
         </Link>
       </td>
       <td>

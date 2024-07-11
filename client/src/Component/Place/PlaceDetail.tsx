@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
+import { Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
-import { QUERY_diachiNV } from "../../graphql/documentNode";
+import { QUERY_baocaoPHDC } from "../../graphql/documentNode";
 import { handleTime } from "../../utils/functions";
-import { Fragment } from "react";
 
 export const PlaceDetailStyle = styled.div`
   margin-bottom: 20px;
@@ -41,15 +41,15 @@ export const PlaceDetailStyle = styled.div`
 
 export default function PlaceDetail() {
   const { id } = useParams();
-  const { data: Data_diachiNV } = useQuery(QUERY_diachiNV, {
+  const { data: Data_baocaoPHDC } = useQuery(QUERY_baocaoPHDC, {
     variables: { id: Number(id) },
   });
-  const diachiNV = Data_diachiNV?.diachiNV;
+  const baocaoPHDC = Data_baocaoPHDC?.baocaoPHDC;
 
   console.log(id)
-  console.log(diachiNV)
+  console.log(baocaoPHDC)
 
-  if (!Data_diachiNV) return <Spinner />;
+  if (!Data_baocaoPHDC) return <Spinner />;
   return (
     <PlaceDetailStyle>
       <h5>THÔNG TIN CHI TIẾT VỀ ĐỊA CHỈ NGHI VẤN</h5>
@@ -60,26 +60,26 @@ export default function PlaceDetail() {
             Ngày báo cáo:&emsp;<b></b>
           </p>
           <p>
-            Địa chỉ:&emsp;<b>{diachiNV.DiaChi}</b>
+            Địa chỉ:&emsp;<b>{baocaoPHDC.DiaChi}</b>
           </p>
           <p>
-            Thời gian phát hiện:&emsp;<b>{handleTime(diachiNV.ThoiGianPH)}</b>
+            Thời gian phát hiện:&emsp;<b>{handleTime(baocaoPHDC.ThoiGianPH)}</b>
           </p>
           <p>
             Liên quan đến đối tượng:&emsp;
             <Link
-              to={`/doituong/${diachiNV.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+              to={`/doituong/${baocaoPHDC.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
             >
-              <b>{diachiNV.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}</b>
+              <b>{baocaoPHDC.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}</b>
             </Link>
           </p>
           <p>Hình ảnh:</p>
-          <Link to={diachiNV.HinhAnh} className="place-dt-img" target="_blank">
+          <Link to={baocaoPHDC.HinhAnh} className="place-dt-img" target="_blank">
             <img alt="" src="/anqg.jpg" />
           </Link>
           <p>
             Trinh sát phát hiện:
-            {diachiNV.TSThucHiens?.map((cbcs: any, ind: number) => (
+            {baocaoPHDC.TSThucHiens?.map((cbcs: any, ind: number) => (
                 <Fragment key={ind}>
                   <span>&emsp;</span>
                   <Link to={`/cbcs/${cbcs.MaCBCS}`}>{cbcs.HoTen};</Link>
@@ -90,9 +90,9 @@ export default function PlaceDetail() {
           <p>
             Trinh sát xác minh:&emsp;{" "}
             <Link
-                to={`/cbcs/${diachiNV.BaoCaoKQXMDiaChi?.TSXacMinh?.MaCBCS}`}
+                to={`/cbcs/${baocaoPHDC.BaoCaoKQXMDiaChi?.TSXacMinh?.MaCBCS}`}
               >
-                {diachiNV.BaoCaoKQXMDiaChi?.TSXacMinh?.HoTen}
+                {baocaoPHDC.BaoCaoKQXMDiaChi?.TSXacMinh?.HoTen}
               </Link>
           </p>
         </div>
@@ -102,56 +102,56 @@ export default function PlaceDetail() {
           <div className="place-dt-result-header">
             <div>
               <p>
-                Họ tên chủ hộ:&emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.HoTenChuHo}</b>
+                Họ tên chủ hộ:&emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.HoTenChuHo}</b>
               </p>
               <p>
-                Nơi ở:&emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.NoiO}</b>
+                Nơi ở:&emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.NoiO}</b>
               </p>
               <p>
-                Quê quán:&emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.QueQuan}</b>
-              </p>
-            </div>
-            <div>
-              <p>
-                Tên khác: &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.TenKhac}</b>
-              </p>
-              <p>
-                Giới tính: &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.GioiTinh === 0 ? 'Nam' : 'Nữ'}</b>
-              </p>
-              <p>
-                HKTT: &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.HKTT}</b>
+                Quê quán:&emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.QueQuan}</b>
               </p>
             </div>
             <div>
               <p>
-                Năm sinh: &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.NamSinh}</b>
+                Tên khác: &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.TenKhac}</b>
+              </p>
+              <p>
+                Giới tính: &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.GioiTinh === 0 ? 'Nam' : 'Nữ'}</b>
+              </p>
+              <p>
+                HKTT: &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.HKTT}</b>
+              </p>
+            </div>
+            <div>
+              <p>
+                Năm sinh: &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.NamSinh}</b>
               </p>
               <p>
                 Nghề nghiệp:&emsp;{" "}
-                <b>{diachiNV.BaoCaoKQXMDiaChi?.NgheNghiep}</b>
+                <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.NgheNghiep}</b>
               </p>
               <p>
-                Chức vụ: &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.ChucVu}</b>
+                Chức vụ: &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.ChucVu}</b>
               </p>
             </div>
           </div>
           <div>
             <p>
               Nơi làm việc: &emsp;{" "}
-              <b>{diachiNV.BaoCaoKQXMDiaChi?.NoiLamViec}</b>
+              <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.NoiLamViec}</b>
             </p>
           </div>
           <h6>QUAN HỆ GIA ĐÌNH CỦA CHỦ HỘ:</h6>
           <p>
-            &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.QuanHeGiaDinh}</b>
+            &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.QuanHeGiaDinh}</b>
           </p>
           <h6>NHỮNG HỘ KHÁC CÙNG ĐỊA CHỈ (nếu có):</h6>
           <p>
-            &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.HoKhacCungDC}</b>
+            &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.HoKhacCungDC}</b>
           </p>
           <h6>BIỆN PHÁP XÁC MINH, NGUỒN TÀI LIỆU, NGƯỜI CUNG CẤP:</h6>
           <p>
-            &emsp; <b>{diachiNV.BaoCaoKQXMDiaChi?.BienPhapXM}</b>
+            &emsp; <b>{baocaoPHDC.BaoCaoKQXMDiaChi?.BienPhapXM}</b>
           </p>
         </div>
       </div>

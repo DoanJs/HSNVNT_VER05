@@ -12,8 +12,7 @@ import {
   IPADDRESS,
   PORTSERVER,
   arr_server,
-  keyValueSame_BiDanh_YC,
-  keyValueSame_TenDT,
+  keyValueSame_TenDT
 } from "./variable";
 
 export const MenuLink = ({ children, to, ...props }: MenuLinkParamsType) => {
@@ -28,16 +27,18 @@ export const MenuLink = ({ children, to, ...props }: MenuLinkParamsType) => {
   );
 };
 
-export const Filter_Data = (type: string | undefined, array: any) => {
+export const Filter_File = (type: string | undefined, array: any) => {
   if (type === "anqg") {
-    return array?.filter((obj: any) =>
-      ["Gián điệp", "Tình báo"].includes(obj.DoiTuong?.TinhChatDT?.TinhChat)
+    return array?.filter(
+      (obj: any) =>
+        obj.DoiTuong?.TinhChatDT?.TinhChat === "Gián điệp" ||
+        obj.DoiTuong?.TinhChatDT?.TinhChat === "Tình báo"
     );
   } else {
-    return array?.filter((obj: any) =>
-      ["Phản động", "Kinh tế", "Ma túy", "Hình sự"].includes(
-        obj.DoiTuong?.TinhChatDT?.TinhChat
-      )
+    return array?.filter(
+      (obj: any) =>
+        obj.DoiTuong?.TinhChatDT?.TinhChat !== "Gián điệp" &&
+        obj.DoiTuong?.TinhChatDT?.TinhChat !== "Tình báo"
     );
   }
 };
@@ -45,9 +46,9 @@ export const Filter_Data = (type: string | undefined, array: any) => {
 export const handleSearch = (type: string, array: any, keysearch: string) => {
   let arr: any = [];
   switch (type) {
-    case "files":
+    case "Files":
       arr = array.filter((obj: any) =>
-        obj.BiDanh.toLowerCase().includes(keysearch)
+        obj.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(keysearch)
       );
       break;
     case "DoiTuongs":
@@ -369,7 +370,6 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.TenKhac?.toLowerCase().includes(keysearch) ||
           obj.ChucVu?.ChucVu?.toLowerCase().includes(keysearch) ||
           obj.Doi?.TenDoi?.toLowerCase().includes(keysearch) ||
-          obj.CAQHvaTD?.CAQHvaTD?.toLowerCase().includes(keysearch) ||
           moment(obj.NgaySinh)
             .year()
             .toString()
@@ -599,9 +599,7 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         (obj: any) =>
           obj.BiSo?.toLowerCase().includes(keysearch) ||
           obj.TenCA?.toLowerCase().includes(keysearch) ||
-          obj.TinhChatDT?.TinhChat?.toLowerCase().includes(
-            keysearch
-          ) ||
+          obj.TinhChatDT?.TinhChat?.toLowerCase().includes(keysearch) ||
           moment(obj.ThoiGianBD)
             .date()
             .toString()
@@ -616,6 +614,15 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
             .toString()
             .toLowerCase()
             .includes(keysearch)
+      );
+      break;
+    case "DoiTuongCAs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.BiSo?.toLowerCase().includes(keysearch) ||
+          obj.ViTri?.toLowerCase().includes(keysearch) ||
+          obj.ChuyenAn?.BiSo?.toLowerCase().includes(keysearch) ||
+          obj.DoiTuong?.TenDT?.toLowerCase().includes(keysearch)
       );
       break;
     default:
@@ -690,29 +697,24 @@ export const handleValueSame = (key: string, arr: any[]) => {
   let array: any = [];
   let checkKeyValueSame: string | null = keyValueSame_TenDT.includes(key)
     ? "keyValueSame_TenDT"
-    : keyValueSame_BiDanh_YC.includes(key)
-    ? "keyValueSame_BiDanh_YC"
-    : null;
+    : "keyValueSame_BiDanh_YC";
 
   switch (checkKeyValueSame) {
     case "keyValueSame_TenDT":
       arr.map((obj: any) => {
-        if (!array.includes(obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT)) {
-          array.push(obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT);
+        if (!array.includes(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT)) {
+          array.push(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT);
         }
         return false;
       });
       break;
-    case "keyValueSame_BiDanh_YC":
-      arr.map((obj: any) => {
-        if (!array.includes(obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh)) {
-          array.push(obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh);
-        }
-        return false;
-      });
-      break;
-
     default:
+      arr.map((obj: any) => {
+        if (!array.includes(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh)) {
+          array.push(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh);
+        }
+        return false;
+      });
       break;
   }
   return array;

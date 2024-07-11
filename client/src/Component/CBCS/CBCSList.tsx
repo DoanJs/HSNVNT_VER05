@@ -57,6 +57,10 @@ const CBCSStyled = styled.div`
     }
   }
   .users-handle {
+    h5 {
+      text-align: center;
+      color: blue;
+    }
     justify-content: center;
     margin: 20px 0;
   }
@@ -184,9 +188,10 @@ export default function CBCSList() {
     <CBCSStyled>
       <div className="users-title">
         <h5>DANH SÁCH CÁC CBCS TRONG CSDL</h5>
-        <span>Số lượng: {cbcss.length} CBCS</span>
+        <span>
+          Số lượng: <i>{cbcss.length} CBCS</i>
+        </span>
       </div>
-
       <div className="list-person-type">
         <form className="form-inline my-2 my-lg-0">
           <i className="fas fa-search"></i>
@@ -194,13 +199,17 @@ export default function CBCSList() {
             onChange={onFilterCBCS}
             className="form-control mr-sm-2"
             type="search"
-            placeholder="Tìm theo tên, bí danh, năm sinh của CBCS"
+            placeholder="Tìm nhanh theo tên, tên khác của CBCS"
             aria-label="Search"
           />
         </form>
       </div>
+      <hr />
 
       <div className="row users-handle d-flex align-items-center">
+        <h5>
+          <i>Lọc dữ liệu</i>
+        </h5>
         <div className="col col-2">
           <div className="form-group d-flex flex-column align-items-center">
             <label>Từ ngày:</label>
@@ -241,9 +250,8 @@ export default function CBCSList() {
               onChange={onChangeFilterDetails}
               name="nameCBCS"
               className="form-control mr-sm-2"
-              type="search"
+              type="text"
               placeholder="Nhập tên của CBCS"
-              aria-label="Search"
             />
           </div>
         </div>

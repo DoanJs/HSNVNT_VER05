@@ -36,6 +36,7 @@ import {
   InputDeNghiTSNTTinhTP,
   InputDoi,
   InputDoiTuong,
+  InputDoiTuongCA,
   InputHinhThucHD,
   InputKeHoachTSNT,
   InputKeHoachTSNTLLDB,
@@ -87,7 +88,6 @@ export default function App() {
           <Route path="/doituong" element={<CrimeList />} />
           <Route path="/doituong/:id" element={<CrimeItem />} />
 
-          
           <Route path="/chuyenan" element={<ProjectList />} />
           <Route path="/chuyenan/:id" element={<ProjectItem />} />
           <Route path="/cbcs" element={<CBCSList />} />
@@ -112,9 +112,12 @@ export default function App() {
           <Route path="/diachinv/:id" element={<PlaceDetail />} />
           <Route path="/taikhoan/:id" element={<Profile />} />
 
+          <Route path="/chuyenan/:id/edit" element={<h1>edit chuyen an</h1>} />
+          {/* nhaplieu */}
           <Route path="/nhaplieu" element={<InputList />} />
           <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTD />} />
           <Route path="/nhaplieu/conganqhvatd" element={<InputCAQHvaTD />} />
+          <Route path="/nhaplieu/capbac" element={<InputCapbac />} />
           <Route path="/nhaplieu/chucvu" element={<InputChucVu />} />
           <Route path="/nhaplieu/bienphapdt" element={<InputBienPhapDT />} />
           <Route path="/nhaplieu/capca" element={<InputCapCA />} />
@@ -130,48 +133,81 @@ export default function App() {
           <Route path="/nhaplieu/doi" element={<InputDoi />} />
           <Route path="/nhaplieu/cbcs" element={<InputCBCS />} />
           <Route path="/nhaplieu/doituong" element={<InputDoiTuong />} />
-          <Route path="/nhaplieu/bienphapdtdt" element={<InputBienPhapDTDoiTuong />} />
+          <Route
+            path="/nhaplieu/bienphapdtdt"
+            element={<InputBienPhapDTDoiTuong />}
+          />
           <Route path="/nhaplieu/denghitsnt" element={<InputDeNghiTSNT />} />
-          <Route path="/nhaplieu/denghitsnttinhtp" element={<InputDeNghiTSNTTinhTP />} />
+          <Route
+            path="/nhaplieu/denghitsnttinhtp"
+            element={<InputDeNghiTSNTTinhTP />}
+          />
           <Route path="/nhaplieu/daumoiphdn" element={<InputDauMoiPHDN />} />
           <Route path="/nhaplieu/kyduyetdn" element={<InputKyDuyetDN />} />
-          <Route path="/nhaplieu/quyetdinhtsnt" element={<InputQuyetDinhTSNT />} />
-          <Route path="/nhaplieu/quyetdinhtsnttinhtp" element={<InputQuyetDinhTSNTTinhTP />} />
+          <Route
+            path="/nhaplieu/quyetdinhtsnt"
+            element={<InputQuyetDinhTSNT />}
+          />
+          <Route
+            path="/nhaplieu/quyetdinhtsnttinhtp"
+            element={<InputQuyetDinhTSNTTinhTP />}
+          />
           <Route path="/nhaplieu/kehoachtsnt" element={<InputKeHoachTSNT />} />
-          <Route path="/nhaplieu/kehoachtsntlldb" element={<InputKeHoachTSNTLLDB />} />
-          <Route path="/nhaplieu/lucluongthamgiakh" element={<InputLucLuongThamGiaKH />} />
+          <Route
+            path="/nhaplieu/kehoachtsntlldb"
+            element={<InputKeHoachTSNTLLDB />}
+          />
+          <Route
+            path="/nhaplieu/lucluongthamgiakh"
+            element={<InputLucLuongThamGiaKH />}
+          />
           <Route path="/nhaplieu/tramct" element={<InputTramCT />} />
           <Route path="/nhaplieu/bienbanrkn" element={<InputBienBanRKN />} />
-          <Route path="/nhaplieu/bienbanrkncbcs" element={<InputBienBanRKNCBCS />} />
+          <Route
+            path="/nhaplieu/bienbanrkncbcs"
+            element={<InputBienBanRKNCBCS />}
+          />
           <Route path="/nhaplieu/baocaokqgh" element={<InputBaoCaoKQGH />} />
-          <Route path="/nhaplieu/baocaokqghcbcs" element={<InputBaoCaoKQGHCBCS />} />
-          <Route path="/nhaplieu/baocaokqxmquanhe" element={<InputBaoCaoKQXMQuanHe />} />
-          <Route path="/nhaplieu/baocaokqxmdiachi" element={<InputBaoCaoKQXMDiaChi />} />
+          <Route
+            path="/nhaplieu/baocaokqghcbcs"
+            element={<InputBaoCaoKQGHCBCS />}
+          />
+          <Route
+            path="/nhaplieu/baocaokqxmquanhe"
+            element={<InputBaoCaoKQXMQuanHe />}
+          />
+          <Route
+            path="/nhaplieu/baocaokqxmdiachi"
+            element={<InputBaoCaoKQXMDiaChi />}
+          />
           <Route path="/nhaplieu/baocaoktdn" element={<InputBaoCaoKTDN />} />
           <Route path="/nhaplieu/baocaophqh" element={<InputBaoCaoPHQH />} />
-          <Route path="/nhaplieu/baocaophqhcbcs" element={<InputBaoCaoPHQHCBCS />} />
+          <Route
+            path="/nhaplieu/baocaophqhcbcs"
+            element={<InputBaoCaoPHQHCBCS />}
+          />
           <Route path="/nhaplieu/ketquatsnt" element={<InputKetQuaTSNT />} />
-          <Route path="/nhaplieu/ketquatsnttinhtp" element={<InputKetQuaTSNTTinhTP />} />
-          <Route path="/nhaplieu/ketquaxmquanhe" element={<InputKetQuaXMQuanHe />} />
-          <Route path="/nhaplieu/ketquaxmdiachi" element={<InputKetQuaXMDiaChi />} />
+          <Route
+            path="/nhaplieu/ketquatsnttinhtp"
+            element={<InputKetQuaTSNTTinhTP />}
+          />
+          <Route
+            path="/nhaplieu/ketquaxmquanhe"
+            element={<InputKetQuaXMQuanHe />}
+          />
+          <Route
+            path="/nhaplieu/ketquaxmdiachi"
+            element={<InputKetQuaXMDiaChi />}
+          />
           <Route path="/nhaplieu/baocaophpt" element={<InputBaoCaoPHPT />} />
           <Route path="/nhaplieu/danhgiatsth" element={<InputDanhGiaTSTH />} />
           <Route path="/nhaplieu/baocaophdc" element={<InputBaoCaoPHDC />} />
-          <Route path="/nhaplieu/baocaophdccbcs" element={<InputBaoCaoPHDCCBCS />} />
-          <Route path="/nhaplieu/chuyenan" element={<InputChuyenAn />}
+          <Route
+            path="/nhaplieu/baocaophdccbcs"
+            element={<InputBaoCaoPHDCCBCS />}
           />
-
-
-
-
-
-
-
-
-
-          <Route path="/nhaplieu/capbac" element={<InputCapbac />} />
-          
-          <Route path="/chuyenan/:id/edit" element={<h1>edit chuyen an</h1>} />
+          <Route path="/nhaplieu/chuyenan" element={<InputChuyenAn />} />
+          <Route path="/nhaplieu/doituongca" element={<InputDoiTuongCA />} />
         </Routes>
       </div>
     </div>

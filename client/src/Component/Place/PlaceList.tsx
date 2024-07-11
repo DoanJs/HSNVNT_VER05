@@ -91,7 +91,7 @@ export default function PlaceList() {
               onChange={onFilterPlace}
               className="form-control mr-sm-2"
               type="search"
-              placeholder="Tìm theo thời gian, địa điểm phát hiện, yêu cầu cụ thể, đối tượng liên quan, TS thực hiện"
+              placeholder="Tìm nhanh theo thời gian, địa điểm, yêu cầu, đối tượng, TS thực hiện"
               aria-label="Search"
             />
           </form>
@@ -103,7 +103,6 @@ export default function PlaceList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">STT</th>
               <th scope="col">Thời gian PH</th>
               <th scope="col">Địa chỉ</th>
               <th scope="col">Hình Ảnh</th>
@@ -114,7 +113,7 @@ export default function PlaceList() {
           </thead>
           <tbody>
             {baocaoPHDCs.map((baocaophdc: any, ind: number) => (
-              <PlaceItem baocaophdc={baocaophdc} ind={ind} key={ind} />
+              <PlaceItem baocaophdc={baocaophdc} key={ind} />
             ))}
           </tbody>
         </table>

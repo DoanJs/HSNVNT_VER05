@@ -5,7 +5,7 @@ import { handleTime } from "../../utils/functions";
 export default function CBCSItemRelation({ obj }: { obj: any }) {
   return (
     <tr>
-      <td>{handleTime(obj.Ngay)}</td>
+      <td>{obj.Ngay && handleTime(obj.Ngay)}</td>
       <td>
         <b>
           <Link to={`/baocaophqh/${obj.MaBCPHQH}`} target="_blank">
@@ -15,15 +15,24 @@ export default function CBCSItemRelation({ obj }: { obj: any }) {
       </td>
       <td>
         <b>
-          <Link to={`/doituong/${obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`} target="_blank">
-            {obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+          <Link
+            to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
+            target="_blank"
+          >
+            {obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
           </Link>
         </b>
       </td>
       <td>
         <b>
-          <Link to={`/doituong/${obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`} target="_blank">
-            {obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}
+          <Link
+            to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
+            target="_blank"
+          >
+            {
+              obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong
+                ?.TenDT
+            }
           </Link>
         </b>
       </td>

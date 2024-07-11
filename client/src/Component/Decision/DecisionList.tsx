@@ -95,7 +95,7 @@ export default function DecisionList() {
               onChange={onFilterDecision}
               className="form-control mr-sm-2"
               type="search"
-              placeholder="Tìm theo số, ngày quyết định, đối tượng, bí danh, thời gian bắt đầu, kết thúc TS"
+              placeholder="Tìm nhanh theo số, ngày quyết định, đối tượng, bí danh..."
               aria-label="Search"
             />
           </form>
@@ -107,7 +107,6 @@ export default function DecisionList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">STT</th>
               <th scope="col">Số</th>
               <th scope="col">Ngày</th>
               <th scope="col">Đối tượng</th>
@@ -118,7 +117,7 @@ export default function DecisionList() {
           </thead>
           <tbody>
             {quyetdinhTSNTs.map((quyetdinhTSNT: any, ind: number) => (
-              <DecisionItem key={ind} quyetdinhTSNT={quyetdinhTSNT} ind={ind} />
+              <DecisionItem key={ind} quyetdinhTSNT={quyetdinhTSNT} />
             ))}
           </tbody>
         </table>

@@ -14,7 +14,7 @@ export default function FileItem({ obj, ind }: { obj: any; ind: number }) {
         <div className="fl-gr-header">
           <i className="fa-solid fa-caret-right fl-gr-header-right"></i>
           <i className="fa-solid fa-caret-down fl-gr-header-down"></i>
-          <h6>{obj.BiDanh}</h6>
+          <h6>{obj.QuyetDinhTSNT?.BiDanh}</h6>
         </div>
         <span>{handleTime(obj.ThoiGianBD)}</span>
       </label>

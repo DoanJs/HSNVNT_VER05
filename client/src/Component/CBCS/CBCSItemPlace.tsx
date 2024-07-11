@@ -5,7 +5,7 @@ import { handleTime } from "../../utils/functions";
 export default function CBCSItemPlace({ obj }: { obj: any }) {
   return (
     <tr>
-      <td>{handleTime(obj.ThoiGianPH)}</td>
+      <td>{obj.ThoiGianPH && handleTime(obj.ThoiGianPH)}</td>
       <td>{obj.DiaChi}</td>
       <td>
         <Link to={"/"} target="_blank" rel="noreferrer">
@@ -15,20 +15,23 @@ export default function CBCSItemPlace({ obj }: { obj: any }) {
       <td>
         <b>
           <Link
-            to={`/doituong/${obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+            to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
             target="_blank"
           >
-            {obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh}
+            {obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh}
           </Link>
         </b>
       </td>
       <td>
         <b>
           <Link
-            to={`/doituong/${obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+            to={`/doituong/${obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
             target="_blank"
           >
-            {obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}
+            {
+              obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong
+                ?.TenDT
+            }
           </Link>
         </b>
       </td>

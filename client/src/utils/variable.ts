@@ -310,7 +310,11 @@ export const keyValueSame_BiDanh_YC = [
   "TSThucHien_PhuongTienNVs-BiDanhYC",
   "TSThucHien_DiaChiNVs-BiDanhYC",
 ];
-
+export const keyValueSame_DanhGiaTSTH_BiDanhYC = [
+  "TSThucHien_BaoCaoPHQHs-BiDanhYC",
+  "TSThucHien_BaoCaoKQGHs-BiDanhYC",
+];
+// chua duyet lai
 export const arr_server = [
   {
     MaDoiTuong: 1,
@@ -332,9 +336,4 @@ export const arr_server = [
     MaDoiTuong: 2,
     TenDT: "ho hao",
   },
-];
-
-export const keyValueSame_DanhGiaTSTH_BiDanhYC = [
-  "TSThucHien_BaoCaoPHQHs-BiDanhYC",
-  "TSThucHien_BaoCaoKQGHs-BiDanhYC",
 ];

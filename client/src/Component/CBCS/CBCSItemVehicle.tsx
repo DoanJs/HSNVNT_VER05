@@ -5,7 +5,7 @@ import { handleTime } from "../../utils/functions";
 export default function CBCSItemVehicle({ obj }: { obj: any }) {
   return (
     <tr>
-      <td>{handleTime(obj.ThoiGianPH)}</td>
+      <td>{obj.ThoiGianPH && handleTime(obj.ThoiGianPH)}</td>
       <td>
         <Link to={"/"} target="_blank" rel="noreferrer">
           {obj.BKS}

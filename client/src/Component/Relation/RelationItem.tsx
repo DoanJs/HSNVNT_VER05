@@ -1,19 +1,12 @@
 import { Link } from "react-router-dom";
 import { handleTime } from "../../utils/functions";
 
-export default function RelationItem({
-  baocaoPHQH,
-  ind,
-}: {
-  baocaoPHQH: any;
-  ind: number;
-}) {
+export default function RelationItem({ baocaoPHQH }: { baocaoPHQH: any }) {
   return (
     <tr>
-      <th>{ind + 1}</th>
       <td>
         <Link to={`/baocaophqh/${baocaoPHQH.MaBCPHQH}`} target="_blank">
-          {handleTime(baocaoPHQH.ThoiGianPH)}
+          {baocaoPHQH.ThoiGianPH && handleTime(baocaoPHQH.ThoiGianPH)}
         </Link>
       </td>
       <td>{baocaoPHQH.DiaDiemPH}</td>
@@ -31,7 +24,10 @@ export default function RelationItem({
           to={`/doituong/${baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
+          {
+            baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT
+              ?.DoiTuong?.TenDT
+          }
         </Link>
       </td>
       <td>

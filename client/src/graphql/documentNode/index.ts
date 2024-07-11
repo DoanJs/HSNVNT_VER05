@@ -270,9 +270,17 @@ export const QUERY_denghiTSNTs = gql`
         MaHTHD
         HinhThuc
       }
+      QuyetDinhTSNT {
+        MaQD
+        BiDanh
+      }
       DoiTuong {
         MaDoiTuong
         TenDT
+        TinhChatDT {
+          MaTCDT
+          TinhChat
+        }
       }
       CAQHvaTD {
         MaCAQHvaTD
@@ -389,6 +397,37 @@ export const QUERY_baocaoPHDCs = gql`
     }
   }
 `;
+export const QUERY_baocaoPHDC = gql`
+  query QUERY_baocaoPHDC($id: Float!) {
+    baocaoPHDC(id: $id) {
+      MaBCPHDC
+      HinhAnh
+      DiaChi
+      ThoiGianPH
+      KetQuaTSNT {
+        MaKQ
+        KeHoachTSNT {
+          MaKH
+          QuyetDinhTSNT {
+            MaQD
+            BiDanh
+            DeNghiTSNT {
+              MaDN
+              DoiTuong {
+                MaDoiTuong
+                TenDT
+              }
+            }
+          }
+        }
+      }
+      TSThucHiens {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
 export const QUERY_baocaoPHDCs_cbcss = gql`
   query QUERY_baocaoPHDCs_cbcss($utilsParams: UtilsParamsInput!) {
     baocaoPHDCs_cbcss(utilsParams: $utilsParams) {
@@ -400,6 +439,38 @@ export const QUERY_baocaoPHDCs_cbcss = gql`
 export const QUERY_baocaoPHPTs = gql`
   query QUERY_baocaoPHPTs($utilsParams: UtilsParamsInput!) {
     baocaoPHPTs(utilsParams: $utilsParams) {
+      MaBCPHPT
+      BKS
+      ThoiGianPH
+      DiaDiemPH
+      HinhAnh
+      KetQuaTSNT {
+        MaKQ
+        KeHoachTSNT {
+          MaKH
+          QuyetDinhTSNT {
+            MaQD
+            BiDanh
+            DeNghiTSNT {
+              MaDN
+              DoiTuong {
+                MaDoiTuong
+                TenDT
+              }
+            }
+          }
+        }
+      }
+      TSThucHiens {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const QUERY_baocaoPHPT = gql`
+  query QUERY_baocaoPHPT($id: Float!) {
+    baocaoPHPT(id: $id) {
       MaBCPHPT
       BKS
       ThoiGianPH
@@ -739,46 +810,6 @@ export const QUERY_danhgiaTSTHs = gql`
     }
   }
 `;
-
-
-
-
-
-
-export const MUTATION_createBienBanRKN_CBCS = gql`
-  mutation MUTATION_createBienBanRKN_CBCS(
-    $bienBanRKN_CBCSInput: BienBanRKN_CBCSInput!
-  ) {
-    createBienBanRKN_CBCS(bienBanRKN_CBCSInput: $bienBanRKN_CBCSInput) {
-      MaBBRKN
-      MaCBCS
-    }
-  }
-`;
-export const MUTATION_editBienBanRKN_CBCS = gql`
-  mutation MUTATION_editBienBanRKN_CBCS(
-    $bienBanRKN_CBCSInput: BienBanRKN_CBCSInput!
-    $MaBBRKN: Float!
-    $MaCBCS: Float!
-  ) {
-    editBienBanRKN_CBCS(
-      bienBanRKN_CBCSInput: $bienBanRKN_CBCSInput
-      MaBBRKN: $MaBBRKN
-      MaCBCS: $MaCBCS
-    ) {
-      MaBBRKN
-      MaCBCS
-    }
-  }
-`;
-export const MUTATION_deleteBienBanRKN_CBCS = gql`
-  mutation MUTATION_deleteBienBanRKN_CBCS($MaBBRKN: Float!, $MaCBCS: Float!) {
-    deleteBienBanRKN_CBCS(MaBBRKN: $MaBBRKN, MaCBCS: $MaCBCS) {
-      MaBBRKN
-      MaCBCS
-    }
-  }
-`;
 export const QUERY_baocaoKQGHs_cbcss = gql`
   query QUERY_baocaoKQGHs_cbcss($utilsParams: UtilsParamsInput!) {
     baocaoKQGHs_cbcss(utilsParams: $utilsParams) {
@@ -962,6 +993,188 @@ export const QUERY_ketQuaXMDiaChis = gql`
         MaCBCS
         HoTen
       }
+    }
+  }
+`;
+export const QUERY_doituongCAs = gql`
+  query QUERY_doituongCAs($utilsParams: UtilsParamsInput!) {
+    doituongCAs(utilsParams: $utilsParams) {
+      MaDTCA
+      BiSo
+      ViTri
+      ChuyenAn {
+        MaCA
+        BiSo
+        TenCA
+      }
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+    }
+  }
+`;
+export const QUERY_baocaoPHQH = gql`
+  query QUERY_baocaoPHQH($id: Float!) {
+    baocaoPHQH(id: $id) {
+      MaBCPHQH
+      Ngay
+      BiDanh
+      ThoiGianPH
+      DDNhanDang
+      DiaChiCC
+      DiaDiemPH
+      HinhAnh
+      TSNhanXet
+      TSThucHiens {
+        MaCBCS
+        HoTen
+      }
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+      KetQuaTSNT {
+        QuyetDinhTSNT {
+          BiDanh
+        }
+      }
+      BaoCaoKQXMQuanHe {
+        MaBCKQXMQH
+        HoTen
+        TenKhac
+        GioiTinh
+        NamSinh
+        QueQuan
+        HKTT
+        NoiO
+        NoiLamViec
+        ChucVu
+        NgheNghiep
+        QuanHeGDXH
+        BienPhapXM
+        TSXacMinh {
+          MaCBCS
+          HoTen
+        }
+      }
+    }
+  }
+`;
+export const QUERY_baocaoKQGH = gql`
+  query QUERY_baocaoKQGH($id: Float!) {
+    baocaoKQGH(id: $id) {
+      MaBCKQGH
+      Ngay
+      ThoiGian
+      DiaDiem
+      HinhAnh
+      PhuongTienSD
+      VaiNguyTrang
+      NoiDung
+      MucDich
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+      TSThucHiens {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const QUERY_caTTPvaTDs = gql`
+  query QUERY_caTTPvaTDs($utilsParams: UtilsParamsInput!) {
+    caTTPvaTDs(utilsParams: $utilsParams) {
+      MaCATTPvaTD
+      CATTPvaTD
+      CapCA {
+        MaCapCA
+        CapCA
+      }
+    }
+  }
+`;
+export const QUERY_capCAs = gql`
+  query QUERY_capCAs($utilsParams: UtilsParamsInput!) {
+    capCAs(utilsParams: $utilsParams) {
+      MaCapCA
+      CapCA
+    }
+  }
+`;
+export const QUERY_chucvus = gql`
+  query QUERY_chucvus($utilsParams: UtilsParamsInput!) {
+    chucvus(utilsParams: $utilsParams) {
+      MaCV
+      ChucVu
+    }
+  }
+`;
+export const QUERY_bienPhapDTs = gql`
+  query QUERY_bienPhapDTs($utilsParams: UtilsParamsInput!) {
+    bienPhapDTs(utilsParams: $utilsParams) {
+      MaBPDT
+      BienPhapDT
+    }
+  }
+`;
+export const QUERY_capbacs = gql`
+  query QUERY_capbacs($utilsParams: UtilsParamsInput!) {
+    capbacs(utilsParams: $utilsParams) {
+      MaCB
+      CapBac
+    }
+  }
+`;
+export const QUERY_quocTichs = gql`
+  query QUERY_quocTichs($utilsParams: UtilsParamsInput!) {
+    quocTichs(utilsParams: $utilsParams) {
+      MaQT
+      TenQT
+    }
+  }
+`;
+export const QUERY_loaiLLDBs = gql`
+  query QUERY_loaiLLDBs($utilsParams: UtilsParamsInput!) {
+    loaiLLDBs(utilsParams: $utilsParams) {
+      MaLoaiLLDB
+      TenLLDB
+      KyHieu
+    }
+  }
+`;
+export const QUERY_tinhTPs = gql`
+  query QUERY_tinhTPs($utilsParams: UtilsParamsInput!) {
+    tinhTPs(utilsParams: $utilsParams) {
+      MaTinhTP
+      TinhTP
+      Cap
+    }
+  }
+`;
+export const QUERY_bienphapDTs_doituongs = gql`
+  query QUERY_bienphapDTs_doituongs($utilsParams: UtilsParamsInput!) {
+    bienphapDTs_doituongs(utilsParams: $utilsParams) {
+      MaBPDT
+      MaDoiTuong
+    }
+  }
+`;
+export const QUERY_quyetdinhTSNTs_tinhTPs = gql`
+  query QUERY_quyetdinhTSNTs_tinhTPs($utilsParams: UtilsParamsInput!) {
+    quyetdinhTSNTs_tinhTPs(utilsParams: $utilsParams) {
+      MaQD
+      MaTinhTP
+    }
+  }
+`;
+export const QUERY_kehoachTSNTs_lldbs = gql`
+  query QUERY_kehoachTSNTs_lldbs($utilsParams: UtilsParamsInput!) {
+    kehoachTSNTs_lldbs(utilsParams: $utilsParams) {
+      MaLLDB
+      MaKH
     }
   }
 `;
@@ -1468,10 +1681,7 @@ export const MUTATION_createChuyenAn = gql`
   }
 `;
 export const MUTATION_editChuyenAn = gql`
-  mutation MUTATION_editChuyenAn(
-    $chuyenanInput: ChuyenAnInput!
-    $id: Float!
-  ) {
+  mutation MUTATION_editChuyenAn($chuyenanInput: ChuyenAnInput!, $id: Float!) {
     editChuyenAn(chuyenanInput: $chuyenanInput, id: $id) {
       MaCA
       TenCA
@@ -1489,395 +1699,88 @@ export const MUTATION_deleteChuyenAn = gql`
     }
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// chua duyet lai
-
-export const QUERY_account = gql`
-  query QUERY_account($id: Float!) {
-    account(accountID: $id) {
-      AccountID
-      Username
-      Role
-      Position
-    }
-  }
-`;
-export const QUERY_baocaoPHQH = gql`
-  query QUERY_baocaoPHQH($id: Float!) {
-    baocaoPHQH(id: $id) {
-      MaBCPHQH
-      Ngay
-      BiDanh
-      ThoiGianPH
-      DDNhanDang
-      DiaChiCC
-      DiaDiemPH
-      HinhAnh
-      TSNhanXet
-      TSThucHiens {
-        MaCBCS
-        HoTen
+export const MUTATION_createDoiTuongCA = gql`
+  mutation MUTATION_createDoiTuongCA($doituongCAInput: DoiTuongCAInput!) {
+    createDoiTuongCA(doituongCAInput: $doituongCAInput) {
+      MaDTCA
+      BiSo
+      ChuyenAn {
+        MaCA
+        BiSo
       }
       DoiTuong {
         MaDoiTuong
         TenDT
       }
-      KetQuaTSNT {
-        QuyetDinhTSNT {
-          BiDanh
-        }
-      }
-      BaoCaoKQXMQuanHe {
-        MaBCKQXMQH
-        HoTen
-        TenKhac
-        GioiTinh
-        NamSinh
-        QueQuan
-        HKTT
-        NoiO
-        NoiLamViec
-        ChucVu
-        NgheNghiep
-        QuanHeGDXH
-        BienPhapXM
-        TSXacMinh {
-          MaCBCS
-          HoTen
-        }
-      }
     }
   }
 `;
-export const QUERY_diachiNV = gql`
-  query QUERY_diachiNV($id: Float!) {
-    diachiNV(id: $id) {
-      MaDC
-      DiaChi
-      ThoiGianPH
-      HinhAnh
-      KetQuaTSNT {
-        QuyetDinhTSNT {
-          DoiTuong {
-            MaDoiTuong
-            TenDT
-          }
-        }
-      }
-      TSThucHiens {
-        MaCBCS
-        HoTen
-      }
-      BaoCaoKQXMDiaChi {
-        HoTenChuHo
-        TenKhac
-        NamSinh
-        GioiTinh
-        QueQuan
-        HKTT
-        NoiO
-        NgheNghiep
-        NoiLamViec
-        QuanHeGiaDinh
-        HoKhacCungDC
-        BienPhapXM
-        TSXacMinh {
-          MaCBCS
-          HoTen
-        }
-      }
-    }
-  }
-`;
-export const QUERY_phuongtienNV = gql`
-  query QUERY_phuongtienNV($id: Float!) {
-    phuongtienNV(id: $id) {
-      MaPT
-      BKS
-      ThoiGianPH
-      DiaDiemPH
-      HinhAnh
-      KetQuaTSNT {
-        QuyetDinhTSNT {
-          BiDanh
-          DoiTuong {
-            MaDoiTuong
-            TenDT
-          }
-        }
-      }
-      TSThucHiens {
-        MaCBCS
-        HoTen
-      }
-    }
-  }
-`;
-export const QUERY_baocaoKQGH = gql`
-  query QUERY_baocaoKQGH($id: Float!) {
-    baocaoKQGH(id: $id) {
-      MaBCKQGH
-      Ngay
-      ThoiGian
-      DiaDiem
-      HinhAnh
-      PhuongTienSD
-      VaiNguyTrang
-      NoiDung
-      MucDich
-      DoiTuong {
-        MaDoiTuong
-        TenDT
-      }
-      TSThucHiens {
-        MaCBCS
-        HoTen
-      }
-    }
-  }
-`;
-export const QUERY_cbcs = gql`
-  query QUERY_cbcs($id: Float!) {
-    cbcs(id: $id) {
-      MaCBCS
-      HoTen
-      TenKhac
-      NgaySinh
-      GioiTinh
-      Doi {
-        TenDoi
-      }
-      ChucVu {
-        ChucVu
-      }
-      DanhGiaTSTHs {
-        MaDanhGiaTSTH
-        DanhGia
-        KetQuaTSNT {
-          QuyetDinhTSNT {
-            BiDanh
-            DoiTuong {
-              MaDoiTuong
-              TenDT
-            }
-          }
-          ThoiGianBD
-          ThoiGianKT
-        }
-      }
-      TSThucHien_BaoCaoPHQHs {
-        MaBCPHQH
-        Ngay
-        BiDanh
-        KetQuaTSNT {
-          QuyetDinhTSNT {
-            BiDanh
-            DoiTuong {
-              MaDoiTuong
-              TenDT
-            }
-          }
-        }
-        TSThucHiens {
-          MaCBCS
-          HoTen
-        }
-      }
-      TSThucHien_BaoCaoKQGHs {
-        MaBCKQGH
-        Ngay
-        KetQuaTSNT {
-          QuyetDinhTSNT {
-            BiDanh
-            DoiTuong {
-              MaDoiTuong
-              TenDT
-            }
-          }
-        }
-        TSThucHiens {
-          MaCBCS
-          HoTen
-        }
-      }
-      TSThucHien_PhuongTienNVs {
-        MaPT
-        BKS
-        ThoiGianPH
-        DiaDiemPH
-        KetQuaTSNT {
-          QuyetDinhTSNT {
-            BiDanh
-            DoiTuong {
-              MaDoiTuong
-              TenDT
-            }
-          }
-        }
-        TSThucHiens {
-          MaCBCS
-          HoTen
-        }
-      }
-      TSThucHien_DiaChiNVs {
-        MaDC
-        ThoiGianPH
-        DiaChi
-        HinhAnh
-        KetQuaTSNT {
-          QuyetDinhTSNT {
-            BiDanh
-            DoiTuong {
-              MaDoiTuong
-              TenDT
-            }
-          }
-        }
-        TSThucHiens {
-          MaCBCS
-          HoTen
-        }
-      }
-    }
-  }
-`;
-export const QUERY_caTTPvaTDs = gql`
-  query QUERY_caTTPvaTDs($utilsParams: UtilsParamsInput!) {
-    caTTPvaTDs(utilsParams: $utilsParams) {
-      MaCATTPvaTD
-      CATTPvaTD
-      CapCA {
-        MaCapCA
-        CapCA
-      }
-    }
-  }
-`;
-export const QUERY_capCAs = gql`
-  query QUERY_capCAs($utilsParams: UtilsParamsInput!) {
-    capCAs(utilsParams: $utilsParams) {
-      MaCapCA
-      CapCA
-    }
-  }
-`;
-export const QUERY_chucvus = gql`
-  query QUERY_chucvus($utilsParams: UtilsParamsInput!) {
-    chucvus(utilsParams: $utilsParams) {
-      MaCV
-      ChucVu
-    }
-  }
-`;
-export const QUERY_bienPhapDTs = gql`
-  query QUERY_bienPhapDTs($utilsParams: UtilsParamsInput!) {
-    bienPhapDTs(utilsParams: $utilsParams) {
-      MaBPDT
-      BienPhapDT
-    }
-  }
-`;
-export const QUERY_capbacs = gql`
-  query QUERY_capbacs($utilsParams: UtilsParamsInput!) {
-    capbacs(utilsParams: $utilsParams) {
-      MaCB
-      CapBac
-    }
-  }
-`;
-export const QUERY_quocTichs = gql`
-  query QUERY_quocTichs($utilsParams: UtilsParamsInput!) {
-    quocTichs(utilsParams: $utilsParams) {
-      MaQT
-      TenQT
-    }
-  }
-`;
-export const QUERY_loaiLLDBs = gql`
-  query QUERY_loaiLLDBs($utilsParams: UtilsParamsInput!) {
-    loaiLLDBs(utilsParams: $utilsParams) {
-      MaLoaiLLDB
-      TenLLDB
-      KyHieu
-    }
-  }
-`;
-
-export const QUERY_tinhTPs = gql`
-  query QUERY_tinhTPs($utilsParams: UtilsParamsInput!) {
-    tinhTPs(utilsParams: $utilsParams) {
-      MaTinhTP
-      TinhTP
-      Cap
-    }
-  }
-`;
-export const QUERY_ddnbs = gql`
-  query QUERY_ddnbs($utilsParams: UtilsParamsInput!) {
-    ddnbs(utilsParams: $utilsParams) {
-      MaDDNB
-      DacDiem
-    }
-  }
-`;
-export const QUERY_bienphapDTs_doituongs = gql`
-  query QUERY_bienphapDTs_doituongs($utilsParams: UtilsParamsInput!) {
-    bienphapDTs_doituongs(utilsParams: $utilsParams) {
-      MaBPDT
-      MaDoiTuong
-    }
-  }
-`;
-export const QUERY_quyetdinhTSNTs_tinhTPs = gql`
-  query QUERY_quyetdinhTSNTs_tinhTPs($utilsParams: UtilsParamsInput!) {
-    quyetdinhTSNTs_tinhTPs(utilsParams: $utilsParams) {
-      MaQD
-      MaTinhTP
-    }
-  }
-`;
-export const QUERY_kehoachTSNTs_lldbs = gql`
-  query QUERY_kehoachTSNTs_lldbs($utilsParams: UtilsParamsInput!) {
-    kehoachTSNTs_lldbs(utilsParams: $utilsParams) {
-      MaLLDB
-      MaKH
-    }
-  }
-`;
-
-// ---------------
-export const MUTATION_getData_searchFast = gql`
-  mutation MUTATION_getData_searchFast($keySearch: String!) {
-    getData_searchFast(keySearch: $keySearch) {
-      TieuDe
-      LienKet
-    }
-  }
-`;
-export const MUTATION_editAccount = gql`
-  mutation MUTATION_editAccount(
+export const MUTATION_editDoiTuongCA = gql`
+  mutation MUTATION_editDoiTuongCA(
+    $doituongCAInput: DoiTuongCAInput!
     $id: Float!
-    $accountExtendInput: AccountExtendInput!
   ) {
-    editAccount(id: $id, accountExtendInput: $accountExtendInput) {
-      Username
+    editDoiTuongCA(doituongCAInput: $doituongCAInput, id: $id) {
+      MaDTCA
+      BiSo
+      ChuyenAn {
+        MaCA
+        BiSo
+      }
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+    }
+  }
+`;
+export const MUTATION_deleteDoiTuongCA = gql`
+  mutation MUTATION_deleteDoiTuongCA($id: Float!) {
+    deleteDoiTuongCA(id: $id) {
+      MaDTCA
+      BiSo
+      ChuyenAn {
+        MaCA
+        BiSo
+      }
+      DoiTuong {
+        MaDoiTuong
+        TenDT
+      }
+    }
+  }
+`;
+export const MUTATION_createBienBanRKN_CBCS = gql`
+  mutation MUTATION_createBienBanRKN_CBCS(
+    $bienBanRKN_CBCSInput: BienBanRKN_CBCSInput!
+  ) {
+    createBienBanRKN_CBCS(bienBanRKN_CBCSInput: $bienBanRKN_CBCSInput) {
+      MaBBRKN
+      MaCBCS
+    }
+  }
+`;
+export const MUTATION_editBienBanRKN_CBCS = gql`
+  mutation MUTATION_editBienBanRKN_CBCS(
+    $bienBanRKN_CBCSInput: BienBanRKN_CBCSInput!
+    $MaBBRKN: Float!
+    $MaCBCS: Float!
+  ) {
+    editBienBanRKN_CBCS(
+      bienBanRKN_CBCSInput: $bienBanRKN_CBCSInput
+      MaBBRKN: $MaBBRKN
+      MaCBCS: $MaCBCS
+    ) {
+      MaBBRKN
+      MaCBCS
+    }
+  }
+`;
+export const MUTATION_deleteBienBanRKN_CBCS = gql`
+  mutation MUTATION_deleteBienBanRKN_CBCS($MaBBRKN: Float!, $MaCBCS: Float!) {
+    deleteBienBanRKN_CBCS(MaBBRKN: $MaBBRKN, MaCBCS: $MaCBCS) {
+      MaBBRKN
+      MaCBCS
     }
   }
 `;
@@ -2244,30 +2147,6 @@ export const MUTATION_deleteTinhTP = gql`
     deleteTinhTP(id: $id) {
       MaTinhTP
       TinhTP
-    }
-  }
-`;
-export const MUTATION_createDDNB = gql`
-  mutation MUTATION_createDDNB($ddnb: String!) {
-    createDDNB(ddnb: $ddnb) {
-      MaDDNB
-      DacDiem
-    }
-  }
-`;
-export const MUTATION_editDDNB = gql`
-  mutation MUTATION_editDDNB($ddnb: String!, $id: Float!) {
-    editDDNB(ddnb: $ddnb, id: $id) {
-      MaDDNB
-      DacDiem
-    }
-  }
-`;
-export const MUTATION_deleteDDNB = gql`
-  mutation MUTATION_deleteDDNB($id: Float!) {
-    deleteDDNB(id: $id) {
-      MaDDNB
-      DacDiem
     }
   }
 `;
@@ -2793,7 +2672,183 @@ export const MUTATION_deleteBaoCaoKQGH = gql`
     }
   }
 `;
-// -----------------------------
+
+// chua duyet lai
+
+export const QUERY_account = gql`
+  query QUERY_account($id: Float!) {
+    account(accountID: $id) {
+      AccountID
+      Username
+      Role
+      Position
+    }
+  }
+`;
+export const QUERY_cbcs = gql`
+  query QUERY_cbcs($id: Float!) {
+    cbcs(id: $id) {
+      MaCBCS
+      HoTen
+      TenKhac
+      NgaySinh
+      GioiTinh
+      ThongTinChiTiet
+      Doi {
+        TenDoi
+      }
+      ChucVu {
+        ChucVu
+      }
+      DanhGiaTSTHs {
+        MaDanhGiaTSTH
+        DanhGia
+        KetQuaTSNT {
+          MaKQ
+          ThoiGianBD
+          ThoiGianKT
+          KeHoachTSNT {
+            MaKH
+            QuyetDinhTSNT {
+              MaQD
+              BiDanh
+              DeNghiTSNT {
+                MaDN
+                DoiTuong {
+                  MaDoiTuong
+                  TenDT
+                }
+              }
+            }
+          }
+        }
+      }
+      TSThucHien_BaoCaoPHQHs {
+        MaBCPHQH
+        Ngay
+        BiDanh
+        KetQuaTSNT {
+          MaKQ
+          KeHoachTSNT {
+            MaKH
+            QuyetDinhTSNT {
+              MaQD
+              BiDanh
+              DeNghiTSNT {
+                MaDN
+                DoiTuong {
+                  MaDoiTuong
+                  TenDT
+                }
+              }
+            }
+          }
+        }
+        TSThucHiens {
+          MaCBCS
+          HoTen
+        }
+      }
+      TSThucHien_BaoCaoKQGHs {
+        MaBCKQGH
+        Ngay
+        KetQuaTSNT {
+          MaKQ
+          KeHoachTSNT {
+            MaKH
+            QuyetDinhTSNT {
+              MaQD
+              BiDanh
+              DeNghiTSNT {
+                MaDN
+                DoiTuong {
+                  MaDoiTuong
+                  TenDT
+                }
+              }
+            }
+          }
+        }
+        TSThucHiens {
+          MaCBCS
+          HoTen
+        }
+      }
+      TSThucHien_BaoCaoPHPTs {
+        MaBCPHPT
+        BKS
+        ThoiGianPH
+        DiaDiemPH
+        KetQuaTSNT {
+          MaKQ
+          KeHoachTSNT {
+            MaKH
+            QuyetDinhTSNT {
+              MaQD
+              BiDanh
+              DeNghiTSNT {
+                MaDN
+                DoiTuong {
+                  MaDoiTuong
+                  TenDT
+                }
+              }
+            }
+          }
+        }
+        TSThucHiens {
+          MaCBCS
+          HoTen
+        }
+      }
+      TSThucHien_BaoCaoPHDCs {
+        MaBCPHDC
+        ThoiGianPH
+        DiaChi
+        HinhAnh
+        KetQuaTSNT {
+          MaKQ
+          KeHoachTSNT {
+            MaKH
+            QuyetDinhTSNT {
+              MaQD
+              BiDanh
+              DeNghiTSNT {
+                MaDN
+                DoiTuong {
+                  MaDoiTuong
+                  TenDT
+                }
+              }
+            }
+          }
+        }
+        TSThucHiens {
+          MaCBCS
+          HoTen
+        }
+      }
+    }
+  }
+`;
+export const MUTATION_getData_searchFast = gql`
+  mutation MUTATION_getData_searchFast($keySearch: String!) {
+    getData_searchFast(keySearch: $keySearch) {
+      TieuDe
+      LienKet
+    }
+  }
+`;
+export const MUTATION_editAccount = gql`
+  mutation MUTATION_editAccount(
+    $id: Float!
+    $accountExtendInput: AccountExtendInput!
+  ) {
+    editAccount(id: $id, accountExtendInput: $accountExtendInput) {
+      Username
+    }
+  }
+`;
 export const QUERY_doituongCAsOpen = gql`
   query QUERY_doituongCAsOpen($conditionCol: String!, $value: String!) {
     doituongCAsOpen(conditionCol: $conditionCol, value: $value) {
