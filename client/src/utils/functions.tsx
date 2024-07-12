@@ -12,7 +12,7 @@ import {
   IPADDRESS,
   PORTSERVER,
   arr_server,
-  keyValueSame_TenDT
+  keyValueSame_TenDT,
 } from "./variable";
 
 export const MenuLink = ({ children, to, ...props }: MenuLinkParamsType) => {
@@ -153,35 +153,6 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           ) ||
           obj.TSThucHiens?.filter((cbcs: any) =>
             cbcs.HoTen?.toLowerCase().includes(keysearch)
-          ).length !== 0 ||
-          moment(obj.ThoiGianPH)
-            .date()
-            .toString()
-            .toLowerCase()
-            .includes(keysearch) ||
-          (moment(obj.ThoiGianPH).month() + 1)
-            .toString()
-            .toLowerCase()
-            .includes(keysearch) ||
-          moment(obj.ThoiGianPH)
-            .year()
-            .toString()
-            .toLowerCase()
-            .includes(keysearch)
-      );
-      break;
-    case "diachiNVs":
-      arr = array.filter(
-        (obj: any) =>
-          obj.DiaChi.toLowerCase().includes(keysearch) ||
-          obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT.toLowerCase().includes(
-            keysearch
-          ) ||
-          obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
-            keysearch
-          ) ||
-          obj.TSThucHiens?.filter((cbcs: any) =>
-            cbcs.HoTen.toLowerCase().includes(keysearch)
           ).length !== 0 ||
           moment(obj.ThoiGianPH)
             .date()
@@ -349,11 +320,6 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
         (obj: any) =>
           obj.TinhTP?.toLowerCase().includes(keysearch) ||
           obj.Cap?.toLowerCase().includes(keysearch)
-      );
-      break;
-    case "DDNBs":
-      arr = array.filter((obj: any) =>
-        obj.DacDiem?.toLowerCase().includes(keysearch)
       );
       break;
     case "Dois":
@@ -540,6 +506,9 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
             keysearch
           ) ||
+          obj.TSThucHiens?.filter((cbcs: any) =>
+            cbcs.HoTen.toLowerCase().includes(keysearch)
+          ).length !== 0 ||
           moment(obj.ThoiGianPH)
             .date()
             .toString()
@@ -566,6 +535,9 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT?.toLowerCase().includes(
             keysearch
           ) ||
+          obj.TSThucHiens?.filter((cbcs: any) =>
+            cbcs.HoTen.toLowerCase().includes(keysearch)
+          ).length !== 0 ||
           moment(obj.ThoiGianPH)
             .date()
             .toString()
@@ -702,15 +674,25 @@ export const handleValueSame = (key: string, arr: any[]) => {
   switch (checkKeyValueSame) {
     case "keyValueSame_TenDT":
       arr.map((obj: any) => {
-        if (!array.includes(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT)) {
-          array.push(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT);
+        if (
+          !array.includes(
+            obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong
+              ?.TenDT
+          )
+        ) {
+          array.push(
+            obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong
+              ?.TenDT
+          );
         }
         return false;
       });
       break;
     default:
       arr.map((obj: any) => {
-        if (!array.includes(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh)) {
+        if (
+          !array.includes(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh)
+        ) {
           array.push(obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh);
         }
         return false;

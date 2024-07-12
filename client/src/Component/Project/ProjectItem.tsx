@@ -38,7 +38,7 @@ export default function ProjectItem() {
     variables: { id: Number(id) },
   });
   const chuyenan = Data_chuyenan?.chuyenan;
-console.log(chuyenan)
+
   if (!Data_chuyenan) return <Spinner />;
   return (
     <ProjectItemStyled>
@@ -54,15 +54,6 @@ console.log(chuyenan)
       <div className="caDetails-crime">
         <div className="d-flex align-items-start justify-content-between">
           <h5>I. CÁC ĐỐI TƯỢNG TRONG CHUYÊN ÁN</h5>
-          {/* <button
-            type="button"
-            className="btn btn-success"
-            style={{ marginLeft: "8px" }}
-            data-bs-toggle="modal"
-            data-bs-target="#modal-select-caCrime"
-          >
-            Thêm đối tượng
-          </button> */}
         </div>
         <table className="table">
           <thead>
@@ -71,8 +62,7 @@ console.log(chuyenan)
               <th scope="col">Bí số</th>
               <th scope="col">Năm sinh</th>
               <th scope="col">Địa chỉ</th>
-              <th scope="col">CMND/CCCD/DDCN</th>
-              <th scope="col">Handle</th>
+              <th scope="col">CMCCHC</th>
             </tr>
           </thead>
           <tbody>

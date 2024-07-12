@@ -7,6 +7,7 @@ import {
   DecisionList,
   File,
   FileList,
+  General,
   Home,
   InputBaoCaoKQGH,
   InputBaoCaoKQGHCBCS,
@@ -16,6 +17,7 @@ import {
   InputBaoCaoPHDC,
   InputBaoCaoPHDCCBCS,
   InputBaoCaoPHPT,
+  InputBaoCaoPHPTCBCS,
   InputBaoCaoPHQH,
   InputBaoCaoPHQHCBCS,
   InputBienBanRKN,
@@ -106,13 +108,15 @@ export default function App() {
           <Route path="/baocaophqh/:id" element={<RelationDetail />} />
           <Route path="/baocaokqgh" element={<RecordList />} />
           <Route path="/baocaokqgh/:id" element={<RecordDetail />} />
-          <Route path="/phuongtiennv" element={<VehicleList />} />
-          <Route path="/phuongtiennv/:id" element={<VehicleDetail />} />
-          <Route path="/diachinv" element={<PlaceList />} />
-          <Route path="/diachinv/:id" element={<PlaceDetail />} />
+          <Route path="/baocaophpt" element={<VehicleList />} />
+          <Route path="/baocaophpt/:id" element={<VehicleDetail />} />
+          <Route path="/baocaophdc" element={<PlaceList />} />
+          <Route path="/baocaophdc/:id" element={<PlaceDetail />} /> 
           <Route path="/taikhoan/:id" element={<Profile />} />
 
           <Route path="/chuyenan/:id/edit" element={<h1>edit chuyen an</h1>} />
+          <Route path="/thongke" element={<General />} />
+
           {/* nhaplieu */}
           <Route path="/nhaplieu" element={<InputList />} />
           <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTD />} />
@@ -200,6 +204,7 @@ export default function App() {
             element={<InputKetQuaXMDiaChi />}
           />
           <Route path="/nhaplieu/baocaophpt" element={<InputBaoCaoPHPT />} />
+          <Route path="/nhaplieu/baocaophptcbcs" element={<InputBaoCaoPHPTCBCS />} />
           <Route path="/nhaplieu/danhgiatsth" element={<InputDanhGiaTSTH />} />
           <Route path="/nhaplieu/baocaophdc" element={<InputBaoCaoPHDC />} />
           <Route

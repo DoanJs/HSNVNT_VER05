@@ -10,7 +10,9 @@ export default function RelationItem({ baocaoPHQH }: { baocaoPHQH: any }) {
         </Link>
       </td>
       <td>{baocaoPHQH.DiaDiemPH}</td>
-      <td>{baocaoPHQH.HinhAnh}</td>
+      <td>
+        {baocaoPHQH.HinhAnh && <Link to="/">link</Link>}
+      </td>
       <td>{baocaoPHQH.DiaChiCC}</td>
       <td>
         <Link

@@ -74,7 +74,7 @@ export default function VehicleList() {
 
   const onFilterVehicle = (e: ChangeEvent<HTMLInputElement>) => {
     setbaocaoPHPTs(
-      handleSearch("baocaoPHPTs", Data_baocaoPHPTs.baocaoPHPTs, e.target.value)
+      handleSearch("BaoCaoPHPTs", Data_baocaoPHPTs.baocaoPHPTs, e.target.value)
     );
   };
 
@@ -103,9 +103,8 @@ export default function VehicleList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">STT</th>
-              <th scope="col">Thời gian PH</th>
               <th scope="col">BKS</th>
+              <th scope="col">Thời gian PH</th>
               <th scope="col">Địa điểm PH</th>
               <th scope="col">Hình Ảnh</th>
               <th scope="col">Yêu cầu cụ thể</th>
@@ -125,7 +124,7 @@ export default function VehicleList() {
               </tr>
             ) : (
               baocaoPHPTs.map((baocaophpt: any, ind: number) => (
-                <VehicleItem baocaophpt={baocaophpt} ind={ind} key={ind} />
+                <VehicleItem baocaophpt={baocaophpt} key={ind} />
               ))
             )}
           </tbody>

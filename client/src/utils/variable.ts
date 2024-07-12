@@ -27,11 +27,11 @@ export const routeNavbar = {
       label: "Quan hệ nghi vấn",
     },
     {
-      to: "/diachinv",
+      to: "/baocaophdc",
       label: "Địa chỉ nghi vấn",
     },
     {
-      to: "/phuongtiennv",
+      to: "/baocaophpt",
       label: "Phương tiện nghi vấn",
     },
     {
@@ -43,6 +43,10 @@ export const routeNavbar = {
     {
       to: "/chuyenan",
       label: "Chuyên án",
+    },
+    {
+      to: "/thongke",
+      label: "Thống kê",
     },
   ],
   routeRight: [
@@ -285,6 +289,11 @@ export const CSDLInput = [
     cap: 6,
     to: "/nhaplieu/baocaophpt",
     label: "Báo cáo phát hiện phương tiện",
+  },
+  {
+    cap: 6,
+    to: "/nhaplieu/baocaophptcbcs",
+    label: "Báo cáo phát hiện phương tiện/CBCS",
   },
   {
     cap: 7,

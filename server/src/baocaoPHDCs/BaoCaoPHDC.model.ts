@@ -49,6 +49,7 @@ export class BaoCaoPHDC {
     () => BaoCaoKQXMDiaChi,
     (baocaoKQXMDiaChi) => baocaoKQXMDiaChi.BaoCaoPHDC,
   )
+  @Field(type=> BaoCaoKQXMDiaChi,{ nullable: true })
   BaoCaoKQXMDiaChi: BaoCaoKQXMDiaChi;
 
   @OneToOne(() => KetQuaXMDiaChi, (ketquaXMDiaChi) => ketquaXMDiaChi.BaoCaoPHDC)

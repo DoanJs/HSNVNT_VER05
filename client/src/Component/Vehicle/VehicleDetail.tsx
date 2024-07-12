@@ -57,9 +57,6 @@ export default function VehicleDetail() {
       <div className="vehicle-dt-body">
         <div className="vehicle-dt-header">
           <p>
-            Ngày báo cáo:&emsp;<b></b>
-          </p>
-          <p>
             Biển kiểm soát:&emsp;<b>{baocaoPHPT.BKS}</b>
           </p>
           <p>
@@ -67,14 +64,19 @@ export default function VehicleDetail() {
           </p>
           <p>
             Thời gian phát hiện:&emsp;
-            <b>{handleTime(baocaoPHPT.ThoiGianPH)}</b>
+            <b>{baocaoPHPT.ThoiGianPH && handleTime(baocaoPHPT.ThoiGianPH)}</b>
           </p>
           <p>
             Liên quan đến đối tượng:&emsp;
             <Link
-              to={`/doituong/${baocaoPHPT.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.MaDoiTuong}`}
+              to={`/doituong/${baocaoPHPT.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
             >
-              <b>{baocaoPHPT.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT}</b>
+              <b>
+                {
+                  baocaoPHPT.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT
+                    ?.DoiTuong?.TenDT
+                }
+              </b>
             </Link>
           </p>
           <p>Hình ảnh:</p>

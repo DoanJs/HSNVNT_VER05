@@ -74,7 +74,7 @@ export default function PlaceList() {
 
   const onFilterPlace = (e: ChangeEvent<HTMLInputElement>) => {
     setbaocaoPHDCs(
-      handleSearch("baocaoPHDCs", Data_baocaoPHDCs.baocaoPHDCs, e.target.value)
+      handleSearch("BaoCaoPHDCs", Data_baocaoPHDCs.baocaoPHDCs, e.target.value)
     );
   };
 
@@ -103,8 +103,8 @@ export default function PlaceList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">Thời gian PH</th>
               <th scope="col">Địa chỉ</th>
+              <th scope="col">Thời gian PH</th>
               <th scope="col">Hình Ảnh</th>
               <th scope="col">Yêu cầu cụ thể</th>
               <th scope="col">Đối tượng liên quan</th>

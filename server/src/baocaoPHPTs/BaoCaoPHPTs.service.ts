@@ -6,6 +6,7 @@ import { DataLoaderService } from 'src/dataloader/Dataloader.service';
 import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import {
   SP_CHANGE_BAOCAOPHPT,
+  SP_CHANGE_DATA,
   SP_GET_DATA,
   SP_GET_DATA_DECRYPT,
 } from 'src/utils/mssql/query';
@@ -13,6 +14,8 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { BaoCaoPHPT } from './BaoCaoPHPT.model';
 import { BaoCaoPHPTInput } from './type/BaoCaoPHPT.input';
+import { BaoCaoPHPT_CBCSType } from './type/BaoCaoPHPT_CBCS.type';
+import { BaoCaoPHPT_CBCSInput } from './type/BaoCaoPHDC_CBCS.input';
 
 @Injectable()
 export class BaoCaoPHPTsService {
@@ -118,6 +121,106 @@ export class BaoCaoPHPTsService {
     return result[0];
   }
 
+  async baocaoPHPTs_cbcss(
+    utilsParams: UtilsParamsInput,
+  ): Promise<BaoCaoPHPT_CBCSType[]> {
+    return this.baocaoPHPTRepository.query(
+      SP_GET_DATA(
+        'BaoCaoPHPTs_CBCSs',
+        `'MaBCPHPT != 0'`,
+        'MaBCPHPT',
+        utilsParams.skip ? utilsParams.skip : 0,
+        utilsParams.take ? utilsParams.take : 0,
+      ),
+    );
+  }
+  
+  async createBaoCaoPHPT_CBCS(
+    baocaoPHPT_cbcsInput: BaoCaoPHPT_CBCSInput,
+    user: any,
+  ): Promise<BaoCaoPHPT_CBCSType> {
+    const result = await this.baocaoPHPTRepository.query(
+      SP_CHANGE_DATA(
+        "'CREATE'",
+        'BaoCaoPHPTs_CBCSs',
+        `'MaBCPHPT, MaCBCS'`,
+        `'  ${baocaoPHPT_cbcsInput.MaBCPHPT},
+            ${baocaoPHPT_cbcsInput.MaCBCS}
+        '`,
+        `'MaBCPHPT = ${baocaoPHPT_cbcsInput.MaBCPHPT}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'CREATE',
+      Other: `{ MaBCPHPT: ${baocaoPHPT_cbcsInput.MaBCPHPT}, MaCBCS: ${baocaoPHPT_cbcsInput.MaCBCS} };`,
+      TableName: 'BaoCaoPHPTs_CBCSs',
+    });
+    return result[0];
+  }
+  
+  async editBaoCaoPHPT_CBCS(
+    baocaoPHPT_cbcsInput: BaoCaoPHPT_CBCSInput,
+    MaBCPHPT: number,
+    MaCBCS: number,
+    user: any,
+  ): Promise<BaoCaoPHPT_CBCSType> {
+    await this.baocaoPHPTRepository.query(
+      SP_CHANGE_DATA(
+        "'EDIT'",
+        'BaoCaoPHPTs_CBCSs',
+        null,
+        null,
+        null,
+        `'  MaBCPHPT = ${baocaoPHPT_cbcsInput.MaBCPHPT},
+            MaCBCS = ${baocaoPHPT_cbcsInput.MaCBCS}
+        '`,
+        `'MaBCPHPT = ${MaBCPHPT} AND MaCBCS = ${MaCBCS}'`,
+      ),
+    );
+    const result = await this.baocaoPHPTRepository.query(
+      SP_GET_DATA(
+        'BaoCaoPHPTs_CBCSs',
+        `'MaBCPHPT = ${baocaoPHPT_cbcsInput.MaBCPHPT} AND MaCBCS = ${baocaoPHPT_cbcsInput.MaCBCS}'`,
+        'MaBCPHPT',
+        0,
+        0,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `{ MaBCPHPT: ${baocaoPHPT_cbcsInput.MaBCPHPT}, MaCBCS: ${baocaoPHPT_cbcsInput.MaCBCS} };`,
+      TableName: 'BaoCaoPHPTs_CBCSs',
+    });
+    return result[0];
+  }
+  
+  async deleteBaoCaoPHPT_CBCS(
+    MaBCPHPT: number,
+    MaCBCS: number,
+    user: any,
+  ): Promise<BaoCaoPHPT_CBCSType> {
+    const result = await this.baocaoPHPTRepository.query(
+      SP_CHANGE_DATA(
+        "'DELETE'",
+        'BaoCaoPHPTs_CBCSs',
+        null,
+        null,
+        null,
+        null,
+        `'MaBCPHPT = ${MaBCPHPT} AND MaCBCS = ${MaCBCS}'`,
+      ),
+    );
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'DELETE',
+      Other: `{ MaBCPHPT: ${MaBCPHPT}, MaCBCS: ${MaCBCS} };`,
+      TableName: 'BaoCaoPHPTs_CBCSs',
+    });
+    return result[0];
+  }
+  
   // ResolveField
 
   async KetQuaTSNT(baocaoPHPT: any): Promise<KetQuaTSNT> {

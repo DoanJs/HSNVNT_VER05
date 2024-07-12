@@ -13,23 +13,12 @@ export default function ProjectCrime({ doituongCA }: { doituongCA: any }) {
         </Link>
       </td>
       <td>{doituongCA.BiSo}</td>
-      <td>{handleTime(doituongCA.DoiTuong?.NgaySinh)}</td>
+      <td>
+        {doituongCA.DoiTuong?.NgaySinh &&
+          handleTime(doituongCA.DoiTuong?.NgaySinh)}
+      </td>
       <td>{doituongCA.DoiTuong?.NoiO}</td>
       <td>{doituongCA.DoiTuong?.CMCCHC}</td>
-      <td>
-        <i
-          data-bs-toggle="modal"
-          data-bs-target="#modal-change-drop"
-          title="Đổi vai trò"
-          className="fa-sharp fa-solid fa-money-bill-transfer me-4"
-        ></i>
-        <i
-          data-bs-toggle="modal"
-          data-bs-target="#modal-change-drop" //modal-delete-object
-          title="Gỡ bỏ"
-          className="fas fa-trash"
-        ></i>
-      </td>
     </tr>
   );
 }

@@ -6,13 +6,13 @@ export default function PlaceItem({ baocaophdc }: { baocaophdc: any }) {
     <tr>
       <td>
         <Link to={`/baocaophdc/${baocaophdc.MaBCPHDC}`} target="_blank">
-          {baocaophdc.ThoiGianPH && handleTime(baocaophdc.ThoiGianPH)}
+          {baocaophdc.DiaChi}
         </Link>
       </td>
-      <td>{baocaophdc.DiaChi}</td>
+      <td>{baocaophdc.ThoiGianPH && handleTime(baocaophdc.ThoiGianPH)}</td>
       <td>
         <Link to={baocaophdc.HinhAnh} target="_blank">
-          Hình ảnh
+          link
         </Link>
       </td>
       <td>

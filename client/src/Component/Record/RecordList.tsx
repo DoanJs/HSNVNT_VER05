@@ -74,7 +74,7 @@ export default function RecordList() {
 
   const onFilterRecord = (e: ChangeEvent<HTMLInputElement>) => {
     setBaocaoKQGHs(
-      handleSearch("baocaoKQGHs", Data_baocaoKQGHs.baocaoKQGHs, e.target.value)
+      handleSearch("BaoCaoKQGHs", Data_baocaoKQGHs.baocaoKQGHs, e.target.value)
     );
   };
 
@@ -103,7 +103,6 @@ export default function RecordList() {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">STT</th>
               <th scope="col">Thời gian GH</th>
               <th scope="col">Địa Điểm GH</th>
               <th scope="col">Hình Ảnh</th>
@@ -114,7 +113,7 @@ export default function RecordList() {
           </thead>
           <tbody>
             {baocaoKQGHs.map((baocaoKQGH: any, ind: number) => (
-              <RecordItem key={ind} baocaoKQGH={baocaoKQGH} ind={ind} />
+              <RecordItem key={ind} baocaoKQGH={baocaoKQGH} />
             ))}
           </tbody>
         </table>

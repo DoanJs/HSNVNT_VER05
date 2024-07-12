@@ -1,19 +1,12 @@
 import { Link } from "react-router-dom";
 import { handleTime } from "../../utils/functions";
 
-export default function RecordItem({
-  baocaoKQGH,
-  ind,
-}: {
-  baocaoKQGH: any;
-  ind: number;
-}) {
+export default function RecordItem({ baocaoKQGH }: { baocaoKQGH: any }) {
   return (
     <tr>
-      <th>{ind + 1}</th>
       <td>
-        <Link to={`/baocaoKQGH/${baocaoKQGH.MaBCKQGH}`} target="_blank">
-          {handleTime(baocaoKQGH.ThoiGian)}
+        <Link to={`/baocaokqgh/${baocaoKQGH.MaBCKQGH}`} target="_blank">
+          {baocaoKQGH.ThoiGian && handleTime(baocaoKQGH.ThoiGian)}
         </Link>
       </td>
       <td>{baocaoKQGH.DiaDiem}</td>
@@ -35,7 +28,10 @@ export default function RecordItem({
           to={`/doituong/${baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
           target="_blank"
         >
-          {baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}
+          {
+            baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT
+              ?.DoiTuong?.TenDT
+          }
         </Link>
       </td>
       <td>

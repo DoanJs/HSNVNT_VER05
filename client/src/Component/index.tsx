@@ -61,6 +61,7 @@ export { default as InputKetQuaTSNTTinhTP } from "./Input/InputKetQuaTSNTTinhTP"
 export { default as InputKetQuaXMQuanHe } from "./Input/InputKetQuaXMQuanHe";
 export { default as InputKetQuaXMDiaChi } from "./Input/InputKetQuaXMDiaChi";
 export { default as InputBaoCaoPHPT } from "./Input/InputBaoCaoPHPT";
+export { default as InputBaoCaoPHPTCBCS } from "./Input/InputBaoCaoPHPTCBCS";
 export { default as InputDanhGiaTSTH } from "./Input/InputDanhGiaTSTH";
 export { default as InputBaoCaoPHDC } from "./Input/InputBaoCaoPHDC";
 export { default as InputBaoCaoPHDCCBCS } from "./Input/InputBaoCaoPHDCCBCS";
@@ -92,3 +93,4 @@ export { default as SuggestList } from "./Suggest/SuggestList";
 export { default as VehicleDetail } from "./Vehicle/VehicleDetail";
 export { default as VehicleItem } from "./Vehicle/VehicleItem";
 export { default as VehicleList } from "./Vehicle/VehicleList";
+export { default as General } from "./General/General";

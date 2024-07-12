@@ -444,6 +444,12 @@ export const FI_DoiTuongCA = {
   MaCA: null,
   MaDoiTuong: null,
 };
+export const FI_BaoCaoPHPT_CBCS = {
+  MaBCPHPT: null,
+  MaCBCS: null,
+  MaBCPHPT_old: 0,
+  MaCBCS_old: 0,
+};
 // chua duyet lai
 // ----------------------
 
