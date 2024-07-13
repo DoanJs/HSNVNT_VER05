@@ -23,13 +23,13 @@ export default function FileItem({ obj, ind }: { obj: any; ind: number }) {
         <Link to={`/doituong/${obj.DoiTuong.MaDoiTuong}`} target="_blank">
           <li className="list-group-item">Thông tin chi tiết</li>
         </Link>
-        <Link to="/" target="_blank">
+        <Link to={`/denghitsnt/${obj.MaDN}`} target="_blank">
           <li className="list-group-item">Đề nghị TSNT</li>
         </Link>
-        <Link to="/" target="_blank">
+        <Link to={`/quyetdinhtsnt/${obj.QuyetDinhTSNT?.MaQD}`} target="_blank">
           <li className="list-group-item">Quyết định TSNT</li>
         </Link>
-        <Link to="/" target="_blank">
+        <Link to={`/kehoachtsnt/${obj.QuyetDinhTSNT?.KeHoachTSNT?.MaKH}`} target="_blank">
           <li className="list-group-item">Kế hoạch TSNT</li>
         </Link>
       </ul>

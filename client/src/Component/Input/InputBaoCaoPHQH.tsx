@@ -413,7 +413,12 @@ export default function InputBaoCaoPHQH() {
                     Data_ketquaTSNTs.ketquaTSNTs.map(
                       (ketquatsnt: any, ind: number) => (
                         <option key={ind} value={ketquatsnt.MaKQ}>
-                          {ketquatsnt.MaKQ} - {ketquatsnt.KeHoachTSNT?.So}
+                          {ketquatsnt.MaKQ} - {ketquatsnt.KeHoachTSNT?.So} -{" "}
+                          {ketquatsnt.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh} -{" "}
+                          {
+                            ketquatsnt.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT
+                              ?.DoiTuong?.TenDT
+                          }
                         </option>
                       )
                     )}

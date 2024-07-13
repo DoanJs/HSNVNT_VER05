@@ -1,9 +1,16 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Spinner } from "..";
 import { QUERY_denghiTSNTs } from "../../graphql/documentNode";
-import { showNotification } from "../../utils/functions";
+import {
+  handleTime,
+  handleValueSame_One,
+  handleValueSame_Two,
+  showNotification,
+} from "../../utils/functions";
 
 const GeneralStyled = styled.div`
   .generals-title {
@@ -24,35 +31,6 @@ const GeneralStyled = styled.div`
   h6 {
     text-align: center;
     color: blue;
-  }
-  .list-person-type {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    .list-person-dropdow {
-      p {
-        cursor: pointer;
-      }
-    }
-    form {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      input {
-        width: 400px;
-      }
-      border: 1px solid #ced4da;
-      border-radius: 0.25rem;
-      padding-left: 16px;
-      input {
-        border: 1px solid #ffffff;
-        box-shadow: none;
-      }
-      i {
-        color: blue;
-      }
-    }
   }
   .generals-handle {
     h5 {
@@ -97,16 +75,69 @@ export default function General() {
   });
 
   const [denghiTSNTs, setdenghiTSNTs] = useState([]);
-  // const [formInputDetails, setFormInputDetails] = useState({
-  //   startDate: "",
-  //   endDate: "",
-  //   shortNamePlan: "",
-  //   nameCBCS: "",
-  // });
-console.log(denghiTSNTs)
+  const [form, setForm] = useState({
+    startDate: "",
+    endDate: "",
+    keySearch: "",
+  });
 
+  const changeForm = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  const handleSort = () => {
+    const startDate = moment(form.startDate).format();
+    const endDate = moment(form.endDate).format();
+    let denghiTSNTs_Time: any = [];
+    let denghiTSNTs_KeySearch: any = [];
 
+    if (form.endDate !== "" && form.startDate !== "") {
+      denghiTSNTs_Time = Data_denghiTSNTs.denghiTSNTs?.filter(
+        (denghitsnt: any) =>
+          moment(denghitsnt.QuyetDinhTSNT?.ThoiGianBD).format() >= startDate &&
+          moment(denghitsnt.QuyetDinhTSNT?.ThoiGianBD).format() <= endDate
+      );
+    } else {
+      denghiTSNTs_Time = Data_denghiTSNTs.denghiTSNTs;
+    }
+
+    if (form.keySearch !== "") {
+      denghiTSNTs_KeySearch = denghiTSNTs_Time.filter(
+        (denghitsnt: any) =>
+          denghitsnt.QuyetDinhTSNT?.BiDanh?.toLowerCase().indexOf(
+            form.keySearch.toLowerCase()
+          ) !== -1 ||
+          denghitsnt.CAQHvaTD?.CAQHvaTD?.toLowerCase().indexOf(
+            form.keySearch.toLowerCase()
+          ) !== -1 ||
+          denghitsnt.DoiTuong?.TenDT?.toLowerCase().indexOf(
+            form.keySearch.toLowerCase()
+          ) !== -1
+        // ||
+        // denghitsnt.QuyeDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs?.map(
+        //   (bcphqh: any) => bcphqh.BiDanh?.toLowerCase()
+        // )
+        //   .join(",")
+        //   .indexOf(form.keySearch.toLowerCase()) !== -1 ||
+        // denghitsnt.QuyeDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs?.map(
+        //   (bcphpt: any) => bcphpt.BKS.toLowerCase()
+        // )
+        //   .join(",")
+        //   .indexOf(form.keySearch.toLowerCase()) !== -1 ||
+        // denghitsnt.QuyeDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs?.map(
+        //   (bcphdc: any) => bcphdc.DiaChi.toLowerCase()
+        // )
+        //   .join(",")
+        //   .indexOf(form.keySearch.toLowerCase()) !== -1
+      );
+    } else {
+      denghiTSNTs_KeySearch = denghiTSNTs_Time;
+    }
+    setdenghiTSNTs(denghiTSNTs_KeySearch);
+  };
 
 
   useEffect(() => {
@@ -127,66 +158,7 @@ console.log(denghiTSNTs)
     }
   }, [Data_denghiTSNTs]);
 
-  // const onFilterCBCS = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setdenghiTSNTs(handleSearch("denghiTSNTs", Data_denghiTSNTs.denghiTSNTs, e.target.value));
-  // };
-
-  // const onChangeFilterDetails = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setFormInputDetails({
-  //     ...formInputDetails,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  // const onFilterDetails = () => {
-  //   let newdenghiTSNTs: any = [];
-  //   let newdenghiTSNTsPlan: any = [];
-  //   let newdenghiTSNTsNameCBCS: any = [];
-  //   const startDate = moment(formInputDetails.startDate).format();
-  //   const endDate = moment(formInputDetails.endDate).format();
-
-  //   if (formInputDetails.startDate !== "" && formInputDetails.endDate !== "") {
-  //     newdenghiTSNTs = Data_denghiTSNTs.denghiTSNTs?.map((cbcs: any) => {
-  //       return {
-  //         ...cbcs,
-  //         DanhGiaTSTHs: cbcs.DanhGiaTSTHs.filter(
-  //           (obj: any) =>
-  //             moment(obj.KetQuaTSNT?.ThoiGianBD).format() >= startDate &&
-  //             moment(obj.KetQuaTSNT?.ThoiGianBD).format() < endDate
-  //         ),
-  //       };
-  //     });
-  //   } else {
-  //     newdenghiTSNTs = Data_denghiTSNTs.denghiTSNTs;
-  //   }
-
-  //   if (formInputDetails.shortNamePlan !== "") {
-  //     newdenghiTSNTsPlan = newdenghiTSNTs?.map((cbcs: any) => {
-  //       return {
-  //         ...cbcs,
-  //         DanhGiaTSTHs: cbcs.DanhGiaTSTHs.filter((obj: any) =>
-  //           obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
-  //             formInputDetails.shortNamePlan
-  //           )
-  //         ),
-  //       };
-  //     });
-  //   } else {
-  //     newdenghiTSNTsPlan = newdenghiTSNTs;
-  //   }
-
-  //   if (formInputDetails.nameCBCS !== "") {
-  //     newdenghiTSNTsNameCBCS = newdenghiTSNTsPlan?.filter((cbcs: any) =>
-  //       cbcs.HoTen?.toLowerCase().includes(formInputDetails.nameCBCS)
-  //     );
-  //   } else {
-  //     newdenghiTSNTsNameCBCS = newdenghiTSNTsPlan;
-  //   }
-
-  //   setdenghiTSNTs(newdenghiTSNTsNameCBCS);
-  // };
-
-  // if (!Data_denghiTSNTs) return <Spinner />;
+  if (!Data_denghiTSNTs) return <Spinner />;
   return (
     <GeneralStyled>
       <div className="generals-title">
@@ -195,19 +167,6 @@ console.log(denghiTSNTs)
           Số lượng: <i>{denghiTSNTs.length} đề nghị trinh sát</i>
         </span>
       </div>
-      <div className="list-person-type">
-        <form className="form-inline my-2 my-lg-0">
-          <i className="fas fa-search"></i>
-          <input
-            // onChange={onFilterCBCS}
-            className="form-control mr-sm-2"
-            type="search"
-            placeholder="Tìm nhanh theo số đề nghị, bí danh, đối tượng..."
-            aria-label="Search"
-          />
-        </form>
-      </div>
-      <hr />
 
       <div className="row generals-handle d-flex align-items-center">
         <h5>
@@ -217,7 +176,7 @@ console.log(denghiTSNTs)
           <div className="form-group d-flex flex-column align-items-center">
             <label>Từ ngày:</label>
             <input
-              // onChange={onChangeFilterDetails}
+              onChange={changeForm}
               name="startDate"
               type="date"
               className="form-control"
@@ -228,7 +187,7 @@ console.log(denghiTSNTs)
           <div className="form-group d-flex flex-column align-items-center">
             <label>Đến ngày:</label>
             <input
-              // onChange={onChangeFilterDetails}
+              onChange={changeForm}
               name="endDate"
               type="date"
               className="form-control"
@@ -237,30 +196,18 @@ console.log(denghiTSNTs)
         </div>
         <div className="col col-2">
           <div className="form-group d-flex flex-column align-items-center">
-            <label>Tên yêu cầu:</label>
+            <label>Từ khóa:</label>
             <input
-              // onChange={onChangeFilterDetails}
-              name="shortNamePlan"
+              onChange={changeForm}
+              name="keySearch"
               type="text"
               className="form-control"
             />
           </div>
         </div>
-        <div className="col col-2">
-          <div className="form-group d-flex flex-column align-items-center">
-            <label>Tên CBCS</label>
-            <input
-              // onChange={onChangeFilterDetails}
-              name="nameCBCS"
-              className="form-control mr-sm-2"
-              type="text"
-              placeholder="Nhập tên của CBCS"
-            />
-          </div>
-        </div>
         <div className="col col-1" style={{ placeSelf: "end" }}>
           <button
-            // onClick={onFilterDetails}
+            onClick={handleSort}
             className="btn btn-primary"
             type="button"
           >
@@ -271,40 +218,177 @@ console.log(denghiTSNTs)
       <hr />
 
       <table className="table">
-        <thead style={{ color: "#000000" }}>
+        <thead style={{ color: "blue" }}>
           <tr>
             <th scope="col" style={{ lineHeight: 3 }}>
-              Tên CBCS
+              Đề Nghị TSNT
             </th>
             <th scope="col" style={{ lineHeight: 3 }}>
-              Số lượng
+              Đối tượng
             </th>
             <th scope="col" style={{ lineHeight: 3 }}>
-              Yêu cầu thực hiện
+              Thời gian
             </th>
-            <th scope="col" style={{ lineHeight: 3, color: "green" }}>
-              Yêu cầu biểu dương
+            <th scope="col" style={{ lineHeight: 3 }}>
+              Đơn vị giao
             </th>
-            <th scope="col" style={{ lineHeight: 3, color: "red" }}>
-              Yêu cầu RKN
+            <th scope="col" style={{ lineHeight: 3 }}>
+              Quan hệ
+            </th>
+            <th scope="col" style={{ lineHeight: 3 }}>
+              Địa Chỉ
+            </th>
+            <th scope="col" style={{ lineHeight: 3 }}>
+              Phương tiện
+            </th>
+            <th scope="col" style={{ lineHeight: 3 }}>
+              Hình ảnh
+            </th>
+          </tr>
+          <tr>
+            <th>{denghiTSNTs.length}</th>
+            <th>
+              {
+                handleValueSame_One(
+                  denghiTSNTs.map((obj: any) => obj.DoiTuong?.TenDT)
+                ).length
+              }
+            </th>
+            <th></th>
+            <th>
+              {
+                handleValueSame_One(
+                  denghiTSNTs.map((obj: any) => obj.CAQHvaTD?.CAQHvaTD)
+                ).length
+              }
+            </th>
+            <th>
+              {
+                handleValueSame_Two(
+                  denghiTSNTs.map(
+                    (obj: any) =>
+                      obj.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs
+                  ), 'BiDanh'
+                ).length
+              }
+            </th>
+            <th>
+            {
+                handleValueSame_Two(
+                  denghiTSNTs.map(
+                    (obj: any) =>
+                      obj.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs
+                  ), 'DiaChi'
+                ).length
+              }
+            </th>
+            <th>
+            {
+                handleValueSame_Two(
+                  denghiTSNTs.map(
+                    (obj: any) =>
+                      obj.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs
+                  ), 'BKS'
+                ).length
+              }
+            </th>
+            <th>
+            {
+                handleValueSame_Two(
+                  denghiTSNTs.map(
+                    (obj: any) =>
+                      obj.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs
+                  ), 'MaBCKQGH'
+                ).length
+              }
             </th>
           </tr>
         </thead>
         <tbody>
-          {/* {denghiTSNTs.length === 0 ? (
+          {denghiTSNTs.length === 0 ? (
             <tr>
               <td colSpan={5} className="text-center">
-                CSDL về CBCS trống!{" "}
-                <Link style={{ marginLeft: "10px" }} to="/nhaplieu/cbcs">
-                  Thêm CBCS mới
+                CSDL về đề nghị TSNT trống!{" "}
+                <Link style={{ marginLeft: "10px" }} to="/nhaplieu/denghitsnt">
+                  Thêm đề nghị TSNT mới
                 </Link>
               </td>
             </tr>
           ) : (
-            denghiTSNTs.map((cbcs: any, ind: number) => (
-              <CBCS key={ind} ind={ind} cbcs={cbcs} />
+            denghiTSNTs?.map((denghitsnt: any, ind: number) => (
+              <tr key={ind}>
+                <td>
+                  <Link
+                    target="_blank"
+                    to={`/doituong/${denghitsnt.DoiTuong?.MaDoiTuong}`}
+                  >
+                    {denghitsnt.QuyetDinhTSNT?.BiDanh}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    target="_blank"
+                    to={`/doituong/${denghitsnt.DoiTuong?.MaDoiTuong}`}
+                  >
+                    {denghitsnt.DoiTuong?.TenDT}
+                  </Link>
+                </td>
+                <td>
+                  {denghitsnt.QuyetDinhTSNT?.ThoiGianBD &&
+                    handleTime(denghitsnt.QuyetDinhTSNT?.ThoiGianBD)}
+                </td>
+                <td title={denghitsnt.CAQHvaTD?.CATTPvaTD?.CATTPvaTD}>
+                  {denghitsnt.CAQHvaTD?.CAQHvaTD}
+                </td>
+                <td>
+                  {denghitsnt.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHQHs?.map(
+                    (bcphqh: any, ind: number) => (
+                      <Fragment key={ind}>
+                        <Link to={`/baocaophqh/${bcphqh.MaBCPHQH}`}>
+                          {bcphqh.BiDanh}
+                        </Link>
+                        &emsp;
+                      </Fragment>
+                    )
+                  )}
+                </td>
+                <td>
+                  {denghitsnt.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHDCs?.map(
+                    (bcphdc: any, ind: number) => (
+                      <Fragment key={ind}>
+                        <Link to={`/baocaophdc/${bcphdc.MaBCPHDC}`}>
+                          {bcphdc.DiaChi}
+                        </Link>
+                        &emsp;
+                      </Fragment>
+                    )
+                  )}
+                </td>
+                <td>
+                  {denghitsnt.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoPHPTs?.map(
+                    (bcphpt: any, ind: number) => (
+                      <Fragment key={ind}>
+                        <Link to={`/baocaophpt/${bcphpt.MaBCPHPT}`}>
+                          {bcphpt.BKS}
+                        </Link>
+                        &emsp;
+                      </Fragment>
+                    )
+                  )}
+                </td>
+                <td>
+                  {denghitsnt.QuyetDinhTSNT?.KeHoachTSNT?.KetQuaTSNT?.BaoCaoKQGHs?.map(
+                    (bckqgh: any, ind: number) => (
+                      <Fragment key={ind}>
+                        <Link to={`/baocaokqgh/${bckqgh.MaBCKQGH}`}>link</Link>
+                        &emsp;
+                      </Fragment>
+                    )
+                  )}
+                </td>
+              </tr>
             ))
-          )} */}
+          )}
         </tbody>
       </table>
     </GeneralStyled>

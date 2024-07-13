@@ -665,6 +665,26 @@ export const showNotification = (
     },
   });
 
+export const handleValueSame_One = (array: any) => {
+  let result: any = [];
+  array.map((item: any) => {
+    if (!result.includes(item)) {
+      result.push(item);
+    }
+  });
+  return result.filter((obj: any) => obj !== null);
+};
+export const handleValueSame_Two = (arrParent: any, property: string) => {
+  let result: any = [];
+  arrParent?.map((arr: any) =>
+    arr?.map((obj: any) => {
+      if (!result.includes(obj[property])) {
+        result.push(obj[property]);
+      }
+    })
+  );
+  return result.filter((obj: any) => obj !== null);
+};
 export const handleValueSame = (key: string, arr: any[]) => {
   let array: any = [];
   let checkKeyValueSame: string | null = keyValueSame_TenDT.includes(key)
@@ -701,14 +721,12 @@ export const handleValueSame = (key: string, arr: any[]) => {
   }
   return array;
 };
-
 export const handleMiddleArr = (arr: any[]) => {
   const indexMid: number = Math.ceil(arr.length / 2);
   const arrLeft = arr.slice(0, indexMid);
   const arrRight = arr.slice(indexMid, arr.length);
   return { indexMid, arrLeft, arrRight };
 };
-
 export const handleDoiTuongCA = (arr: any[]) => {
   const DTChinh = arr.filter((obj: any) => obj.ViTri === "Đối tượng chính");
   const DTPhu = arr.filter((obj: any) => obj.ViTri === "Đối tượng phụ");
@@ -722,7 +740,6 @@ export const handleDoiTuongCA = (arr: any[]) => {
     DTKhac,
   };
 };
-
 export const handleBOTCONECT = (
   text: string,
   col_Check: string,

@@ -273,6 +273,29 @@ export const QUERY_denghiTSNTs = gql`
       QuyetDinhTSNT {
         MaQD
         BiDanh
+        ThoiGianBD
+        KeHoachTSNT {
+          MaKH
+          KetQuaTSNT {
+            MaKQ
+            BaoCaoPHQHs {
+              MaBCPHQH
+              BiDanh
+            }
+            BaoCaoPHPTs {
+              MaBCPHPT
+              BKS
+            }
+            BaoCaoPHDCs {
+              MaBCPHDC
+              DiaChi
+            }
+            BaoCaoKQGHs {
+              MaBCKQGH
+              HinhAnh
+            }
+          }
+        }
       }
       DoiTuong {
         MaDoiTuong
