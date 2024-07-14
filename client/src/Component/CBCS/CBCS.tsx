@@ -7,7 +7,11 @@ export default function CBCS({ cbcs, ind }: { cbcs: any; ind: number }) {
     <tr key={ind}>
       <td>
         <Link to={`/cbcs/${cbcs.MaCBCS}`} target="_blank">
-          <b title={`CBCS ${cbcs.Doi?.TenDoi}`}>{cbcs.HoTen}</b>
+          <b
+            title={`CBCS ${cbcs.Doi?.TenDoi} - ${cbcs.Doi?.CAQHvaTD?.CAQHvaTD} - ${cbcs.Doi?.CAQHvaTD?.CATTPvaTD?.CATTPvaTD}`}
+          >
+            {cbcs.HoTen}
+          </b>
         </Link>
       </td>
       <td>

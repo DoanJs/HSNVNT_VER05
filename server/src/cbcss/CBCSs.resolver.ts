@@ -39,6 +39,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { CBCS } from './CBCS.model';
 import { CBCSsService } from './CBCSs.service';
 import { CBCSInput } from './type/CBCS.Input';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 
 @Resolver(() => CBCS)
 @UseGuards(GraphQLGuard)
@@ -284,5 +285,10 @@ export class CBCSsResolver {
   @ResolveField((returns) => [QuyetDinhTSNT])
   LanhDaoPD_QuyetDinhTSNTs(@Parent() cbcs: CBCS): Promise<QuyetDinhTSNT[]> {
     return this.cbcssService.LanhDaoPD_QuyetDinhTSNTs(cbcs.MaCBCS);
+  }
+
+  @ResolveField((returns) => [ThanhVienBCA])
+  ThanhVienBCAs(@Parent() cbcs: CBCS): Promise<ThanhVienBCA[]> {
+    return this.cbcssService.ThanhVienBCAs(cbcs.MaCBCS);
   }
 }

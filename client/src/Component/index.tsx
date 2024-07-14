@@ -67,6 +67,7 @@ export { default as InputBaoCaoPHDC } from "./Input/InputBaoCaoPHDC";
 export { default as InputBaoCaoPHDCCBCS } from "./Input/InputBaoCaoPHDCCBCS";
 export { default as InputChuyenAn } from "./Input/InputChuyenAn";
 export { default as InputDoiTuongCA } from "./Input/InputDoiTuongCA";
+export { default as InputThanhVienBCA } from "./Input/InputThanhVienBCA";
 export { default as ModalEditProfile } from "./Modal/ModalEditProfile";
 export { default as ModalLogout } from "./Modal/ModalLogout";
 export { default as ModalDeleteData } from "./Modal/ModalDeleteData";

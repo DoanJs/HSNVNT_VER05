@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { DoiTuongCA } from 'src/doituongCAs/DoiTuongCA.model';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 import { TinhChatDT } from 'src/tinhchatDTs/TinhChatDT.model';
 import {
   Column,
@@ -47,4 +48,7 @@ export class ChuyenAn {
 
   @OneToMany(() => DoiTuongCA, (doituongCA) => doituongCA.ChuyenAn)
   DoiTuongCAs: [DoiTuongCA];
+
+  @OneToMany(() => ThanhVienBCA, (thanhvienBCA) => thanhvienBCA.ChuyenAn)
+  ThanhVienBCAs: [ThanhVienBCA] 
 }

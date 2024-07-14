@@ -113,6 +113,7 @@ export default function DecisionList() {
               <th scope="col">Bí danh</th>
               <th scope="col">Bắt đầu TS</th>
               <th scope="col">Kết thúc TS</th>
+              <th scope="col">Phạm vi TS</th>
             </tr>
           </thead>
           <tbody>

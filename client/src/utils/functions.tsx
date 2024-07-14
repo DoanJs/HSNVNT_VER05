@@ -67,7 +67,7 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.LoaiDT?.LoaiDT.toLowerCase().includes(keysearch)
       );
       break;
-    case "chuyenans":
+    case "ChuyenAns":
       arr = array.filter(
         (obj: any) =>
           obj.BiSo?.toLowerCase().includes(keysearch) ||
@@ -153,36 +153,6 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           ) ||
           obj.TSThucHiens?.filter((cbcs: any) =>
             cbcs.HoTen?.toLowerCase().includes(keysearch)
-          ).length !== 0 ||
-          moment(obj.ThoiGianPH)
-            .date()
-            .toString()
-            .toLowerCase()
-            .includes(keysearch) ||
-          (moment(obj.ThoiGianPH).month() + 1)
-            .toString()
-            .toLowerCase()
-            .includes(keysearch) ||
-          moment(obj.ThoiGianPH)
-            .year()
-            .toString()
-            .toLowerCase()
-            .includes(keysearch)
-      );
-      break;
-    case "phuongtienNVs":
-      arr = array.filter(
-        (obj: any) =>
-          obj.DiaDiemPH.toLowerCase().includes(keysearch) ||
-          obj.BKS.toLowerCase().includes(keysearch) ||
-          obj.KetQuaTSNT?.QuyetDinhTSNT?.DoiTuong?.TenDT.toLowerCase().includes(
-            keysearch
-          ) ||
-          obj.KetQuaTSNT?.QuyetDinhTSNT?.BiDanh.toLowerCase().includes(
-            keysearch
-          ) ||
-          obj.TSThucHiens?.filter((cbcs: any) =>
-            cbcs.HoTen.toLowerCase().includes(keysearch)
           ).length !== 0 ||
           moment(obj.ThoiGianPH)
             .date()
@@ -500,6 +470,7 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
       arr = array.filter(
         (obj: any) =>
           obj.BKS?.toLowerCase().includes(keysearch) ||
+          obj.DiaDiemPH?.toLowerCase().includes(keysearch) ||
           obj.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.BiDanh?.toLowerCase().includes(
             keysearch
           ) ||
@@ -595,6 +566,15 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.ViTri?.toLowerCase().includes(keysearch) ||
           obj.ChuyenAn?.BiSo?.toLowerCase().includes(keysearch) ||
           obj.DoiTuong?.TenDT?.toLowerCase().includes(keysearch)
+      );
+      break;
+    case "ThanhVienBCAs":
+      arr = array.filter(
+        (obj: any) =>
+          obj.BiDanh?.toLowerCase().includes(keysearch) ||
+          obj.ViTri?.toLowerCase().includes(keysearch) ||
+          obj.ChuyenAn?.BiSo?.toLowerCase().includes(keysearch) ||
+          obj.CBCS?.HoTen?.toLowerCase().includes(keysearch)
       );
       break;
     default:
@@ -780,4 +760,25 @@ export const handleBOTCONECT = (
     }
     return 0;
   });
+};
+export const handleAuthorization = (role: string, arrayPermis: string[]) => {
+  return arrayPermis.includes(role);
+};
+export const roleGroup = (key: string): String[] => {
+  let result: any;
+  switch (key) {
+    case "insert":
+      result = ["PTP_4", "BCH_4", "CBCS_4"];
+      break;
+    case "update":
+      result = ["PTP_4", "BCH_4", "CBCS_4"];
+      break;
+    case "delete":
+      result = ["PTP_4", "BCH_4", "CBCS_4"];
+      break;
+    default:
+      result = ["TP", "PTP", "PTP_4", "BCH", "BCH_4", "CBCS", "CBCS_4"];
+      break;
+  }
+  return result;
 };

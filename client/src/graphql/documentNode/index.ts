@@ -241,6 +241,27 @@ export const QUERY_chuyenan = gql`
       BiSo
       ThoiGianBD
       NoiDung
+      ThanhVienBCAs {
+        MaTVBCA
+        ViTri
+        BiDanh
+        CBCS {
+          MaCBCS
+          HoTen
+          Doi {
+            MaDoi
+            TenDoi
+            CAQHvaTD {
+              MaCAQHvaTD
+              CAQHvaTD
+              CATTPvaTD {
+                MaCATTPvaTD
+                CATTPvaTD
+              }
+            }
+          }
+        }
+      }
       DoiTuongCAs {
         MaDTCA
         ViTri
@@ -1064,6 +1085,24 @@ export const QUERY_doituongCAs = gql`
     }
   }
 `;
+export const QUERY_thanhvienBCAs = gql`
+  query QUERY_thanhvienBCAs($utilsParams: UtilsParamsInput!) {
+    thanhvienBCAs(utilsParams: $utilsParams) {
+      MaTVBCA
+      BiDanh
+      ViTri
+      ChuyenAn {
+        MaCA
+        BiSo
+        TenCA
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
 export const QUERY_baocaoPHQH = gql`
   query QUERY_baocaoPHQH($id: Float!) {
     baocaoPHQH(id: $id) {
@@ -1080,13 +1119,22 @@ export const QUERY_baocaoPHQH = gql`
         MaCBCS
         HoTen
       }
-      DoiTuong {
-        MaDoiTuong
-        TenDT
-      }
       KetQuaTSNT {
-        QuyetDinhTSNT {
-          BiDanh
+        MaKQ
+        KeHoachTSNT {
+          MaKH
+          QuyetDinhTSNT {
+            MaQD
+            BiDanh
+            DeNghiTSNT {
+              MaDN
+              DoiTuong {
+                MaDoiTuong
+                TenDT
+              }
+            }
+          }
+            
         }
       }
       BaoCaoKQXMQuanHe {
@@ -1123,9 +1171,21 @@ export const QUERY_baocaoKQGH = gql`
       VaiNguyTrang
       NoiDung
       MucDich
-      DoiTuong {
-        MaDoiTuong
-        TenDT
+      KetQuaTSNT {
+        MaKQ
+        KeHoachTSNT {
+          MaKH
+          QuyetDinhTSNT {
+            MaQD
+            DeNghiTSNT {
+              MaDN
+              DoiTuong {
+                MaDoiTuong
+                TenDT
+              }
+            }
+          }
+        }
       }
       TSThucHiens {
         MaCBCS
@@ -1830,6 +1890,57 @@ export const MUTATION_deleteDoiTuongCA = gql`
       DoiTuong {
         MaDoiTuong
         TenDT
+      }
+    }
+  }
+`;
+export const MUTATION_createThanhVienBCA = gql`
+  mutation MUTATION_createThanhVienBCA($thanhvienBCAInput: ThanhVienBCAInput!) {
+    createThanhVienBCA(thanhvienBCAInput: $thanhvienBCAInput) {
+      MaTVBCA
+      BiDanh
+      ChuyenAn {
+        MaCA
+        BiSo
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const MUTATION_editThanhVienBCA = gql`
+  mutation MUTATION_editThanhVienBCA(
+    $thanhvienBCAInput: ThanhVienBCAInput!
+    $id: Float!
+  ) {
+    editThanhVienBCA(thanhvienBCAInput: $thanhvienBCAInput, id: $id) {
+      MaTVBCA
+      BiDanh
+      ChuyenAn {
+        MaCA
+        BiSo
+      }
+      CBCS {
+        MaCBCS
+        HoTen
+      }
+    }
+  }
+`;
+export const MUTATION_deleteThanhVienBCA = gql`
+  mutation MUTATION_deleteThanhVienBCA($id: Float!) {
+    deleteThanhVienBCA(id: $id) {
+      MaTVBCA
+      BiDanh
+      ChuyenAn {
+        MaCA
+        BiSo
+      }
+      CBCS {
+        MaCBCS
+        HoTen
       }
     }
   }

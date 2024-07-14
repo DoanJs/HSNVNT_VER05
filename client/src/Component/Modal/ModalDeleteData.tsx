@@ -45,6 +45,7 @@ import {
   MUTATION_deleteQuocTich,
   MUTATION_deleteQuyetDinhTSNT,
   MUTATION_deleteQuyetDinhTSNT_TinhTP,
+  MUTATION_deleteThanhVienBCA,
   MUTATION_deleteTinhChatDT,
   MUTATION_deleteTinhTP,
   MUTATION_deleteTonGiao,
@@ -92,6 +93,7 @@ import {
   QUERY_quocTichs,
   QUERY_quyetdinhTSNTs,
   QUERY_quyetdinhTSNTs_tinhTPs,
+  QUERY_thanhvienBCAs,
   QUERY_tinhChatDTs,
   QUERY_tinhTPs,
   QUERY_tonGiaos,
@@ -368,6 +370,14 @@ export default function ModalDeleteData() {
       ],
     }
   );
+  const [deleteThanhVienBCA] = useMutation(
+    MUTATION_deleteThanhVienBCA,
+    {
+      refetchQueries: [
+        { query: QUERY_thanhvienBCAs, variables: { utilsParams: {} } },
+      ],
+    }
+  );
 
   const onMutationSuccess = () =>
     showNotification(
@@ -378,7 +388,7 @@ export default function ModalDeleteData() {
   const onMutationError = () => {
     showNotification(
       "Lỗi!",
-      "Dữ liệu có liên kết đến bảng khác. Hành động xóa bị lỗi, vui lòng kiểm tra lại!",
+      "Dữ liệu có liên kết đến bảng khác hoặc bạn không có quyền này. Hành động xóa bị lỗi, vui lòng kiểm tra lại!",
       "danger"
     );
     navigate("/dangnhap");
@@ -825,6 +835,15 @@ export default function ModalDeleteData() {
         break;
       case "DoiTuongCAs":
         deleteDoiTuongCA({
+          variables: {
+            id: infoDeleteData.ID,
+          },
+          onCompleted: () => onMutationSuccess(),
+          onError: () => onMutationError(),
+        });
+        break;
+      case "ThanhVienBCAs":
+        deleteThanhVienBCA({
           variables: {
             id: infoDeleteData.ID,
           },

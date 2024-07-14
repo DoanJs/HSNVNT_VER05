@@ -55,6 +55,7 @@ import {
   InputQuocTich,
   InputQuyetDinhTSNT,
   InputQuyetDinhTSNTTinhTP,
+  InputThanhVienBCA,
   InputTinhChatDT,
   InputTinhTP,
   InputTonGiao,
@@ -95,15 +96,7 @@ export default function App() {
           <Route path="/cbcs" element={<CBCSList />} />
           <Route path="/cbcs/:id" element={<CBCSItem />} />
           <Route path="/denghitsnt" element={<SuggestList />} />
-          <Route
-            path="/denghitsnt/:id"
-            element={<p>De nghi trinh sat/:id</p>}
-          />
           <Route path="/quyetdinhtsnt" element={<DecisionList />} />
-          <Route
-            path="/quyetdinhtsnt/:id"
-            element={<p>quyet dinh tsnt/:id</p>}
-          />
           <Route path="/baocaophqh" element={<RelationList />} />
           <Route path="/baocaophqh/:id" element={<RelationDetail />} />
           <Route path="/baocaokqgh" element={<RecordList />} />
@@ -111,12 +104,12 @@ export default function App() {
           <Route path="/baocaophpt" element={<VehicleList />} />
           <Route path="/baocaophpt/:id" element={<VehicleDetail />} />
           <Route path="/baocaophdc" element={<PlaceList />} />
-          <Route path="/baocaophdc/:id" element={<PlaceDetail />} /> 
+          <Route path="/baocaophdc/:id" element={<PlaceDetail />} />
           <Route path="/taikhoan/:id" element={<Profile />} />
 
           <Route path="/chuyenan/:id/edit" element={<h1>edit chuyen an</h1>} />
-          <Route path="/thongke" element={<General />} />
 
+          <Route path="/thongke" element={<General />} />
           {/* nhaplieu */}
           <Route path="/nhaplieu" element={<InputList />} />
           <Route path="/nhaplieu/conganttpvatd" element={<InputCATTPvaTD />} />
@@ -204,7 +197,10 @@ export default function App() {
             element={<InputKetQuaXMDiaChi />}
           />
           <Route path="/nhaplieu/baocaophpt" element={<InputBaoCaoPHPT />} />
-          <Route path="/nhaplieu/baocaophptcbcs" element={<InputBaoCaoPHPTCBCS />} />
+          <Route
+            path="/nhaplieu/baocaophptcbcs"
+            element={<InputBaoCaoPHPTCBCS />}
+          />
           <Route path="/nhaplieu/danhgiatsth" element={<InputDanhGiaTSTH />} />
           <Route path="/nhaplieu/baocaophdc" element={<InputBaoCaoPHDC />} />
           <Route
@@ -213,6 +209,7 @@ export default function App() {
           />
           <Route path="/nhaplieu/chuyenan" element={<InputChuyenAn />} />
           <Route path="/nhaplieu/doituongca" element={<InputDoiTuongCA />} />
+          <Route path="/nhaplieu/thanhvienbca" element={<InputThanhVienBCA />} />
         </Routes>
       </div>
     </div>

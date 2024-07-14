@@ -67,8 +67,8 @@ export default function RelationDetail() {
           </p>
           <p>
             Liên quan đến đối tượng:&emsp;
-            <Link to={`/doituong/${baocaoPHQH.DoiTuong?.MaDoiTuong}`}>
-              <b>{baocaoPHQH.DoiTuong?.TenDT}</b>
+            <Link to={`/doituong/${baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}>
+              <b>{baocaoPHQH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}</b>
             </Link>
           </p>
           <p>Hình ảnh:</p>
@@ -89,9 +89,8 @@ export default function RelationDetail() {
               Trinh sát phát hiện:
               {baocaoPHQH.TSThucHiens?.map((cbcs: any, ind: number) => (
                 <Fragment key={ind}>
-                  <span>&emsp;</span>
+                  <br/>
                   <Link to={`/cbcs/${cbcs.MaCBCS}`}>{cbcs.HoTen};</Link>
-                  <span>&emsp;</span>
                 </Fragment>
               ))}
             </p>

@@ -305,6 +305,11 @@ export const CSDLInput = [
     to: "/nhaplieu/doituongca",
     label: "Đối tượng chuyên án",
   },
+  {
+    cap: 7,
+    to: "/nhaplieu/thanhvienbca",
+    label: "Thành viên Ban chuyên án",
+  },
 ];
 export const keyValueSame_TenDT = [
   "DanhGiaTSTH",

@@ -172,6 +172,7 @@ export default function SuggestList() {
               <th scope="col">Đối tượng</th>
               <th scope="col">Bắt đầu</th>
               <th scope="col">Kết thúc</th>
+              <th scope="col">Địa bàn TS</th>
             </tr>
           </thead>
           <tbody>

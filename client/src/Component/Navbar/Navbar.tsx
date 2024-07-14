@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { accountLoginVar } from "../../graphql/client/cache";
 import { MUTATION_getData_searchFast } from "../../graphql/documentNode";
-import { MenuLink, showNotification } from "../../utils/functions";
+import { MenuLink, roleGroup, showNotification } from "../../utils/functions";
 import { routeNavbar } from "../../utils/variable";
 import NavbarSearchItem from "./NavbarSearchItem";
 
@@ -90,7 +90,7 @@ export default function Navbar() {
       },
       onError: (error) => {
         showNotification("Lỗi!", error.message, "danger");
-        navigate('/dangnhap');
+        navigate("/dangnhap");
       },
     });
   };
@@ -189,9 +189,13 @@ export default function Navbar() {
           </ul>
           <ul className="navbar-nav">
             {" "}
-            {routeNavbar.routeRight.map((item, ind: number) => {
-              return <MenuLink key={ind} to={item.to} children={item.label} />;
-            })}
+            {accountLogin &&
+              roleGroup("insert").includes(accountLogin.Role) &&
+              routeNavbar.routeRight.map((item, ind: number) => {
+                return (
+                  <MenuLink key={ind} to={item.to} children={item.label} />
+                );
+              })}
             {accountLogin ? (
               <Link
                 to={`/taikhoan/${accountLogin.AccountID}`}

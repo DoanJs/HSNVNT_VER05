@@ -28,9 +28,6 @@ const ProjectItemStyled = styled.div`
     color: red;
     cursor: pointer;
   }
-  .caDetails-handle {
-    text-align: right;
-  }
 `;
 export default function ProjectItem() {
   const { id } = useParams();
@@ -119,8 +116,39 @@ export default function ProjectItem() {
       <hr />
       <h5>II. THÔNG TIN CHUYÊN ÁN</h5>
       <p>
-        <b>1. Thành viên ban chuyên án</b>
+        <b>
+          1. Thành viên ban chuyên án:{" "}
+          <b>{chuyenan.ThanhVienBCAs?.length} thành viên</b>
+        </b>
       </p>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">HoTen</th>
+            <th scope="col">ViTri</th>
+            <th scope="col">BiDanh</th>
+            <th scope="col">DonVi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chuyenan.ThanhVienBCAs?.map((thanhvienbca: any, ind: number) => (
+            <tr key={ind}>
+              <td>
+                <Link to={`/cbcs/${thanhvienbca.CBCS?.MaCBCS}`}>
+                  {thanhvienbca.CBCS?.HoTen}
+                </Link>
+              </td>
+              <td>{thanhvienbca.ViTri}</td>
+              <td>{thanhvienbca.BiDanh}</td>
+              <td>
+                {thanhvienbca.CBCS?.Doi?.TenDoi} -{" "}
+                {thanhvienbca.CBCS?.Doi?.CAQHvaTD?.CAQHvaTD} -{" "}
+                {thanhvienbca.CBCS?.Doi?.CAQHvaTD?.CATTPvaTD?.CATTPvaTD}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {/* {ca.members.map((member: string, ind: number) => {
           if (ind === 0) {
             return <p key={ind}>- {member} - Trưởng ban chuyên án</p>;
@@ -129,25 +157,12 @@ export default function ProjectItem() {
           }
           return <p key={ind}>- {member} - Thành viên ban chuyên án</p>;
         })} */}
+
       <p>
         <b>2. Nội dung chuyên án</b>
       </p>
       <p>{chuyenan.NoiDung}</p>
       <hr />
-
-      <div className="caDetails-handle">
-        <Link
-          to={`/chuyenan/${chuyenan.MaCA}/edit`}
-          title="Chỉnh sửa"
-          className="fa fa-edit me-4"
-        ></Link>
-        <i
-          data-bs-toggle="modal"
-          data-bs-target="#modal-delete-object"
-          title="Xóa"
-          className="fas fa-trash"
-        ></i>
-      </div>
     </ProjectItemStyled>
   );
 }

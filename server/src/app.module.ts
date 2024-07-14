@@ -44,6 +44,7 @@ import { LoaiDTsModule } from './loaiDTs/LoaiDTs.module';
 import { LoaiLLDBsModule } from './loaiLLDBs/LoaiLLDBs.module';
 import { QuocTichsModule } from './quoctichs/QuocTichs.module';
 import { QuyetDinhTSNTsModule } from './quyetdinhTSNTs/QuyetDinhTSNTs.module';
+import { ThanhVienBCAsModule } from './thanhvienBCAs/ThanhVienBCAs.module';
 import { TKNhanhsModule } from './timkiemnhanhs/TKNhanhs.module';
 import { TinhTPsModule } from './tinhTPs/TinhTPs.module';
 import { TinhChatDTsModule } from './tinhchatDTs/TinhChatDTs.module';
@@ -104,6 +105,7 @@ require('dotenv').config();
     CBCSsModule,
     ChuyenAnsModule,
     DoiTuongCAsModule,
+    ThanhVienBCAsModule,
     BaoCaoKQGHsModule,
     BaoCaoPHQHsModule,
     BaoCaoKQXMQuanHesModule,

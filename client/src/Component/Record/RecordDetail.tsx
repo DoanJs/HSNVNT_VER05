@@ -76,12 +76,19 @@ export default function RecordDetail() {
           </p>
           <p>
             Liên quan đến đối tượng:&emsp;
-            <Link to={`/doituong/${baocaoKQGH.DoiTuong?.MaDoiTuong}`} target="_blank">
-              <b>{baocaoKQGH.DoiTuong?.TenDT}</b>
+            <Link
+              to={`/doituong/${baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`}
+              target="_blank"
+            >
+              <b>{baocaoKQGH.KetQuaTSNT?.KeHoachTSNT?.QuyetDinhTSNT?.DeNghiTSNT?.DoiTuong?.TenDT}</b>
             </Link>
           </p>
           <p>Hình ảnh:</p>
-          <Link to={baocaoKQGH.HinhAnh} className="record-dt-img" target="_blank">
+          <Link
+            to={baocaoKQGH.HinhAnh}
+            className="record-dt-img"
+            target="_blank"
+          >
             <img alt="" src={baocaoKQGH.HinhAnh || "/anqg.jpg"} />
           </Link>
           <div>
@@ -89,9 +96,8 @@ export default function RecordDetail() {
               Trinh sát phát hiện:
               {baocaoKQGH.TSThucHiens?.map((cbcs: any, ind: number) => (
                 <Fragment key={ind}>
-                  <span>&emsp;</span>
+                  <br/>
                   <Link to={`/cbcs/${cbcs.MaCBCS}`}>{cbcs.HoTen};</Link>
-                  <span>&emsp;</span>
                 </Fragment>
               ))}
             </p>

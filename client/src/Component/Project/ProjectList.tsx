@@ -83,7 +83,7 @@ export default function ProjectList() {
 
   const onFilterProject = (e: ChangeEvent<HTMLInputElement>) => {
     setChuyenans(
-      handleSearch("chuyenans", Data_chuyenans.chuyenans, e.target.value)
+      handleSearch("ChuyenAns", Data_chuyenans.chuyenans, e.target.value)
     );
   };
 

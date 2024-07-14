@@ -85,10 +85,8 @@ export default function PlaceDetail() {
             Trinh sát phát hiện:
             {baocaoPHDC.TSThucHiens?.map((cbcs: any, ind: number) => (
               <Fragment key={ind}>
-                <span>&emsp;</span>
-                <Link to={`/cbcs/${cbcs.MaCBCS}`}>{cbcs.HoTen};</Link>
-                <span>&emsp;</span>
                 <br/>
+                <Link to={`/cbcs/${cbcs.MaCBCS}`}>{cbcs.HoTen}</Link>
               </Fragment>
             ))}
           </p>

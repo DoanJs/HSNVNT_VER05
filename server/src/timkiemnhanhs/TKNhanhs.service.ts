@@ -100,6 +100,13 @@ export class TKNhanhsService {
       keySearch,
       'baocaophqh',
     );
+    const baocaoPHDCs_filter = await this.filterData_Fast(
+      'BaoCaoPHDCs',
+      'MaBCPHDC',
+      ['DiaChi'],
+      keySearch,
+      'baocaophdc',
+    );
     const bienbanRKNs_filter = await this.filterData_Fast(
       'BienBanRKNs',
       'MaBBRKN',
@@ -118,9 +125,7 @@ export class TKNhanhsService {
         'NoiO',
         'PhuongTien',
         'SDT',
-        'CCCD',
-        'CMND',
-        'SHC',
+        'CMCCHC',
         'ThongTinChiTiet',
       ],
       keySearch,
@@ -139,13 +144,6 @@ export class TKNhanhsService {
       ['NoiDungDN', 'NoiDungTN', 'So'],
       keySearch,
       'denghitsnt',
-    );
-    const diachiNVs_filter = await this.filterData_Fast(
-      'DiaChiNVs',
-      'MaDC',
-      ['DiaChi'],
-      keySearch,
-      'diachinv',
     );
     const doituongCAs_filter = await this.filterData_Fast(
       'DoiTuongCAs',
@@ -189,12 +187,12 @@ export class TKNhanhsService {
       keySearch,
       'lldb',
     );
-    const phuongtienNVs_filter = await this.filterData_Fast(
-      'PhuongTienNVs',
-      'MaPT',
+    const baocaoPHPTs_filter = await this.filterData_Fast(
+      'BaoCaoPHPTs',
+      'MaBCPHPT',
       ['BKS', 'DiaDiemPH'],
       keySearch,
-      'phuongtiennv',
+      'baocaophpt',
     );
     const quyetdinhTSNTs_filter = await this.filterData_Fast(
       'QuyetDinhTSNTs',
@@ -221,14 +219,14 @@ export class TKNhanhsService {
       cbcss_filter,
       chuyenans_filter,
       denghiTSNTs_filter,
-      diachiNVs_filter,
+      baocaoPHDCs_filter,
       doituongCAs_filter,
       doituongs_filter,
       kehoachTSNTs_filter,
       ketquaXMDiaChis_filter,
       ketquaXMQuanHes_filter,
       lldbs_filter,
-      phuongtienNVs_filter,
+      baocaoPHPTs_filter,
       quyetdinhTSNTs_filter,
       tramCTs_filter,
     );

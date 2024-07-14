@@ -18,6 +18,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnsService } from './ChuyenAns.service';
 import { ChuyenAnInput } from './type/ChuyenAn.input';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 
 @Resolver(() => ChuyenAn)
 @UseGuards(GraphQLGuard)
@@ -74,5 +75,11 @@ export class ChuyenAnsResolver {
   @ResolveField((returns) => [DoiTuongCA])
   DoiTuongCAs(@Parent() chuyenan: ChuyenAn): Promise<DoiTuongCA[]> {
     return this.chuyenansService.DoiTuongCAs(chuyenan.MaCA);
+  }
+
+
+  @ResolveField((returns) => [ThanhVienBCA])
+  ThanhVienBCAs(@Parent() chuyenan: ChuyenAn): Promise<ThanhVienBCA[]> {
+    return this.chuyenansService.ThanhVienBCAs(chuyenan.MaCA);
   }
 }

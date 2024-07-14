@@ -444,6 +444,15 @@ export const FI_DoiTuongCA = {
   MaCA: null,
   MaDoiTuong: null,
 };
+export const FI_ThanhVienBCA = {
+  MaTVBCA: 0,
+
+  BiDanh: "",
+  ViTri: "",
+
+  MaCA: null,
+  MaCBCS: null,
+};
 export const FI_BaoCaoPHPT_CBCS = {
   MaBCPHPT: null,
   MaCBCS: null,

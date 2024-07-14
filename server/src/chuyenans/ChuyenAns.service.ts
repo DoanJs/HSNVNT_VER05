@@ -13,6 +13,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { ChuyenAn } from './ChuyenAn.model';
 import { ChuyenAnInput } from './type/ChuyenAn.input';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 
 @Injectable()
 export class ChuyenAnsService {
@@ -123,6 +124,12 @@ export class ChuyenAnsService {
   async DoiTuongCAs(MaCA: number): Promise<DoiTuongCA[]> {
     return this.chuyenanRepository.query(
       SP_GET_DATA('DoiTuongCAs', `'MaCA = ${MaCA}'`, 'MaDTCA', 0, 0),
+    );
+  }
+
+  async ThanhVienBCAs(MaCA: number): Promise<ThanhVienBCA[]> {
+    return this.chuyenanRepository.query(
+      SP_GET_DATA('ThanhVienBCAs', `'MaCA = ${MaCA}'`, 'MaTVBCA', 0, 0),
     );
   }
 }

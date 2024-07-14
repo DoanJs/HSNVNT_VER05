@@ -8,11 +8,7 @@ export default function DecisionItem({
 }) {
   return (
     <tr>
-      <td>
-        <Link to={`/quyetdinhtsnt/${quyetdinhTSNT.MaQD}`} target="_blank">
-          {quyetdinhTSNT.So}
-        </Link>
-      </td>
+      <td>{quyetdinhTSNT.So}</td>
       <td>{quyetdinhTSNT.Ngay && handleTime(quyetdinhTSNT.Ngay)}</td>
       <td>
         <Link
@@ -35,6 +31,14 @@ export default function DecisionItem({
       </td>
       <td>
         {quyetdinhTSNT.ThoiGianKT && handleTime(quyetdinhTSNT.ThoiGianKT)}
+      </td>
+      <td>
+        {quyetdinhTSNT.PhamViTSs.map((obj: any, ind: number) => (
+          <span key={ind}>
+            {ind !== 0 && " - "}
+            {obj.TinhTP}
+          </span>
+        ))}
       </td>
     </tr>
   );

@@ -9,6 +9,7 @@ import { BaoCaoPHQH } from 'src/baocaoPHQHs/BaoCaoPHQH.model';
 import { BienBanRKN } from 'src/bienbanRKNs/BienBanRKN.model';
 import { CapBac } from 'src/capbacs/CapBac.model';
 import { ChucVu } from 'src/chucvus/ChucVu.model';
+import { ChuyenAn } from 'src/chuyenans/ChuyenAn.model';
 import { DanhGiaTSTH } from 'src/danhgiaTSTHs/DanhGiaTSTH.model';
 import { DanToc } from 'src/dantocs/DanToc.model';
 import { DauMoiPH_DN } from 'src/dauMoiPH_DNs/DauMoiPH_DN.model';
@@ -20,6 +21,7 @@ import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
@@ -259,4 +261,7 @@ export class CBCS {
 
   @OneToMany(() => QuyetDinhTSNT, (quyetdinhTSNT) => quyetdinhTSNT.LanhDaoPD)
   LanhDaoPD_QuyetDinhTSNTs: [QuyetDinhTSNT];
+
+  @OneToMany(() => ThanhVienBCA, (thanhvienBCA) => thanhvienBCA.CBCS)
+  ThanhVienBCAs: [ThanhVienBCA];
 }

@@ -34,6 +34,7 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CBCS } from './CBCS.model';
 import { CBCSInput } from './type/CBCS.Input';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 
 @Injectable()
 export class CBCSsService {
@@ -457,6 +458,11 @@ export class CBCSsService {
   async LanhDaoPD_QuyetDinhTSNTs(MaCBCS: number): Promise<QuyetDinhTSNT[]> {
     return this.cbcsRepository.query(
       SP_GET_DATA_DECRYPT('QuyetDinhTSNTs', `'MaLanhDaoPD = ${MaCBCS}'`, 0, 0),
+    );
+  }
+  async ThanhVienBCAs(MaCBCS: number): Promise<ThanhVienBCA[]> {
+    return this.cbcsRepository.query(
+      SP_GET_DATA_DECRYPT('ThanhVienBCAs', `'MaCBCS = ${MaCBCS}'`, 0, 0),
     );
   }
 }
