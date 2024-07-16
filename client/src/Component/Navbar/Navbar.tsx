@@ -4,7 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { accountLoginVar } from "../../graphql/client/cache";
 import { MUTATION_getData_searchFast } from "../../graphql/documentNode";
-import { MenuLink, roleGroup, showNotification } from "../../utils/functions";
+import {
+  handleAuthorization,
+  MenuLink,
+  showNotification,
+} from "../../utils/functions";
 import { routeNavbar } from "../../utils/variable";
 import NavbarSearchItem from "./NavbarSearchItem";
 
@@ -190,7 +194,11 @@ export default function Navbar() {
           <ul className="navbar-nav">
             {" "}
             {accountLogin &&
-              roleGroup("insert").includes(accountLogin.Role) &&
+              handleAuthorization(accountLogin.Role, [
+                "PTP_4",
+                "BCH_4",
+                "CBCS_4",
+              ]) &&
               routeNavbar.routeRight.map((item, ind: number) => {
                 return (
                   <MenuLink key={ind} to={item.to} children={item.label} />

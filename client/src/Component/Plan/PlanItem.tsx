@@ -1,7 +1,13 @@
+import { useReactiveVar } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Spinner } from "..";
-import { handleDanhGiaTSTH, handleTime } from "../../utils/functions";
+import { dataServerConnectVar } from "../../graphql/client/cache";
+import {
+  handleDanhGiaTSTH,
+  handleTime,
+  showBOT_Connect,
+} from "../../utils/functions";
 
 export const PlanItemStyled = styled.div`
   h5,
@@ -80,6 +86,8 @@ export default function PlanItem({
   quyetdinhTSNT: any;
   numberAction: number;
 }) {
+  const dataServerConnect = useReactiveVar(dataServerConnectVar);
+
   if (!quyetdinhTSNT) return <Spinner />;
   return (
     <PlanItemStyled id={`plan-${quyetdinhTSNT.MaQD}`}>
@@ -101,7 +109,7 @@ export default function PlanItem({
             <i>- Nhiệm vụ cụ thể:</i>
           </b>
         </p>
-        <p>{quyetdinhTSNT.NhiemVuCT}</p>
+        <p>{showBOT_Connect(quyetdinhTSNT.NhiemVuCT, dataServerConnect)}</p>
         <p>
           <b>
             <i>- Những vấn đề cần chú ý:</i>

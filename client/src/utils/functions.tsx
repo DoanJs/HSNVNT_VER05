@@ -8,12 +8,7 @@ import {
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import JWTManager from "./jwt";
 import { MenuLinkParamsType } from "./type";
-import {
-  IPADDRESS,
-  PORTSERVER,
-  arr_server,
-  keyValueSame_TenDT,
-} from "./variable";
+import { IPADDRESS, PORTSERVER, keyValueSame_TenDT } from "./variable";
 
 export const MenuLink = ({ children, to, ...props }: MenuLinkParamsType) => {
   let resolved = useResolvedPath(to);
@@ -65,19 +60,6 @@ export const handleSearch = (type: string, array: any, keysearch: string) => {
           obj.NoiLamViec?.toLowerCase().includes(keysearch) ||
           obj.TinhChatDT?.TinhChat.toLowerCase().includes(keysearch) ||
           obj.LoaiDT?.LoaiDT.toLowerCase().includes(keysearch)
-      );
-      break;
-    case "ChuyenAns":
-      arr = array.filter(
-        (obj: any) =>
-          obj.BiSo?.toLowerCase().includes(keysearch) ||
-          obj.TenCA?.toLowerCase().includes(keysearch) ||
-          obj.TinhChat?.TinhChat.toLowerCase().includes(keysearch) ||
-          moment(obj.ThoiGianBD)
-            .year()
-            .toString()
-            .toLowerCase()
-            .includes(keysearch)
       );
       break;
     case "DeNghiTSNTs":
@@ -720,65 +702,36 @@ export const handleDoiTuongCA = (arr: any[]) => {
     DTKhac,
   };
 };
-export const handleBOTCONECT = (
-  text: string,
-  col_Check: string,
-  col_ID: string,
-  link: string
-) => {
-  let result: any = [];
-
-  arr_server.map((obj: any) => {
-    let fromIndex: number = 0;
-    while (
-      text.toLowerCase().indexOf(obj[col_Check].toLowerCase(), fromIndex) !== -1
-    ) {
-      result.push({
-        position: text
-          .toLowerCase()
-          .indexOf(obj[col_Check].toLowerCase(), fromIndex),
-        length: obj[col_Check].length,
-        content: {
-          connect: obj[col_Check],
-          link: `${link}/${obj[col_ID]}`,
-        },
-      });
-      fromIndex =
-        text.toLowerCase().indexOf(obj[col_Check].toLowerCase(), fromIndex) +
-        obj[col_Check].length;
-    }
-    return false;
-  });
-  return result.sort(function (a: any, b: any) {
-    let x = a.position;
-    let y = b.position;
-    if (x > y) {
-      return 1;
-    }
-    if (x < y) {
-      return -1;
-    }
-    return 0;
-  });
-};
 export const handleAuthorization = (role: string, arrayPermis: string[]) => {
   return arrayPermis.includes(role);
 };
-export const roleGroup = (key: string): String[] => {
-  let result: any;
-  switch (key) {
-    case "insert":
-      result = ["PTP_4", "BCH_4", "CBCS_4"];
-      break;
-    case "update":
-      result = ["PTP_4", "BCH_4", "CBCS_4"];
-      break;
-    case "delete":
-      result = ["PTP_4", "BCH_4", "CBCS_4"];
-      break;
-    default:
-      result = ["TP", "PTP", "PTP_4", "BCH", "BCH_4", "CBCS", "CBCS_4"];
-      break;
-  }
-  return result;
+export const checkStr_Connect = (str: string, arrServer: any[]) => {
+  let result: any = null;
+  arrServer.map((obj: any) => {
+    if (obj.label.toLowerCase() === str.toLowerCase()) {
+      result = obj;
+    }
+  });
+  return result ? result : str;
 };
+export const handleArr_Connect = (text: any, arrServer: any[]) => {
+  let arrText = text.split("@");
+  arrText.map((str: string, ind: number) => {
+    if (checkStr_Connect(str, arrServer) !== str) {
+      arrText[ind] = checkStr_Connect(str, arrServer);
+    }
+  });
+  return arrText;
+};
+export const showBOT_Connect = (text: any, arrServer: any[]) =>
+  handleArr_Connect(text, arrServer).map((obj: any, ind: number) => {
+    if (obj.label) {
+      return (
+        <Link target="_blank" key={ind} to={obj.link}>
+          {obj.label}
+        </Link>
+      );
+    } else {
+      return <span key={ind}>{obj}</span>;
+    }
+  });

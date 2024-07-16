@@ -7,11 +7,13 @@ import { Account } from './Account.model';
 import { AccountInput } from './type/Account.input';
 import { AccountExtendInput } from './type/AccountExtend.input';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
+import { ActionDBsService } from 'src/actionDBs/ActionDBs.service';
 
 @Injectable()
 export class AccountService {
   constructor(
     @InjectRepository(Account) private accountRepository: Repository<Account>,
+    private actionDBsService: ActionDBsService,
   ) {}
 
   public readonly account_DataInput = (accountInput: AccountInput) => {
@@ -77,6 +79,7 @@ export class AccountService {
   async editAccount(
     id: number,
     accountExtendInput: AccountExtendInput,
+    user: any
   ): Promise<Account> {
     const { AccountInput, PasswordOld } = accountExtendInput;
     const hashPasswordOld = Crypto.SHA512(PasswordOld).toString();
@@ -137,6 +140,13 @@ export class AccountService {
     const account = await this.accountRepository.query(
       SP_GET_DATA('Accounts', `'AccountID = ${id}'`, 'AccountID', 0, 0)
     );
+    console.log(user)
+    this.actionDBsService.createActionDB({
+      MaHistory: user.MaHistory,
+      Action: 'EDIT',
+      Other: `AccountID: ${account[0].AccountID};`,
+      TableName: 'Accounts',
+    });
     return account[0];
   }
 }

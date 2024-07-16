@@ -4,6 +4,9 @@ import { Account } from './Account.model';
 import { AccountService } from './Account.service';
 import { AccountInput } from './type/Account.input';
 import { AccountExtendInput } from './type/AccountExtend.input';
+import { CurrentUser } from 'src/authPassport/user.decorator.graphql';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLGuard } from 'src/authPassport/GraphQL.Guard';
 
 @Resolver()
 export class AccountResolver {
@@ -28,10 +31,15 @@ export class AccountResolver {
   }
 
   @Mutation((returns) => Account)
+  @UseGuards(GraphQLGuard)
   editAccount(
+    @CurrentUser() user: any,
     @Args('id') id: number,
     @Args('accountExtendInput') accountExtendInput: AccountExtendInput,
   ): Promise<Account> {
-    return this.accountsService.editAccount(id, accountExtendInput);
+    return this.accountsService.editAccount(id, accountExtendInput, user);
   }
+
+  // ResolveField
+  // Histories
 }

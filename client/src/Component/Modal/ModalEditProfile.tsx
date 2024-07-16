@@ -41,7 +41,6 @@ export default function ModalEditProfile({ account }: { account: any }) {
     });
   };
   const submitForm = async () => {
-    console.log(form);
     if (
       form.usernameNew.trim() === "" ||
       form.passwordNew.trim() === "" ||
@@ -83,7 +82,6 @@ export default function ModalEditProfile({ account }: { account: any }) {
         "success"
       );
     } catch (error: any) {
-      console.log(error);
       showNotification("Lỗi", error.message, "danger");
     }
   };

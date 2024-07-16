@@ -1,3 +1,5 @@
+import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import {
   CBCSItem,
@@ -76,8 +78,54 @@ import {
   VehicleDetail,
   VehicleList,
 } from "./Component";
+import { dataServerConnectVar } from "./graphql/client/cache";
+import {
+  QUERY_chuyenans,
+  QUERY_doituongs,
+  QUERY_quyetdinhTSNTs,
+} from "./graphql/documentNode";
 
 export default function App() {
+  const { data: Data_doituongs } = useQuery(QUERY_doituongs, {
+    variables: { utilsParams: {} },
+  });
+  const { data: Data_quyetdinhTSNTs } = useQuery(QUERY_quyetdinhTSNTs, {
+    variables: { utilsParams: {} },
+  });
+  const { data: Data_chuyenans } = useQuery(QUERY_chuyenans, {
+    variables: { utilsParams: {} },
+  });
+
+  useEffect(() => {
+    if (Data_doituongs && Data_quyetdinhTSNTs && Data_chuyenans) {
+      let doituongs_connect = [...Data_doituongs.doituongs]?.map(
+        (doituong: any) => {
+          return {
+            link: `/doituong/${doituong.MaDoiTuong}`,
+            label: doituong.TenDT,
+          };
+        }
+      );
+      let quyetdinhTSNTs_connect = [...Data_quyetdinhTSNTs.quyetdinhTSNTs]?.map(
+        (quyetdinhtsnt: any) => {
+          return {
+            link: `/doituong/${quyetdinhtsnt.DeNghiTSNT?.DoiTuong?.MaDoiTuong}`,
+            label: quyetdinhtsnt.BiDanh,
+          };
+        }
+      );
+      let chuyenans_connect = [...Data_chuyenans.chuyenans]?.map(
+        (chuyenan: any) => {
+          return { link: `/chuyenan/${chuyenan.MaCA}`, label: chuyenan.BiSo };
+        }
+      );
+
+      dataServerConnectVar(
+        doituongs_connect.concat(quyetdinhTSNTs_connect, chuyenans_connect)
+      );
+    }
+  }, [Data_doituongs, Data_quyetdinhTSNTs, Data_chuyenans]);
+
   return (
     <div>
       <Navbar />
@@ -209,7 +257,10 @@ export default function App() {
           />
           <Route path="/nhaplieu/chuyenan" element={<InputChuyenAn />} />
           <Route path="/nhaplieu/doituongca" element={<InputDoiTuongCA />} />
-          <Route path="/nhaplieu/thanhvienbca" element={<InputThanhVienBCA />} />
+          <Route
+            path="/nhaplieu/thanhvienbca"
+            element={<InputThanhVienBCA />}
+          />
         </Routes>
       </div>
     </div>

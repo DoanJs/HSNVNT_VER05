@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { handleTime } from "../../utils/functions";
+import { Fragment } from "react";
 
 export default function RelationItem({ baocaoPHQH }: { baocaoPHQH: any }) {
   return (
@@ -10,9 +11,7 @@ export default function RelationItem({ baocaoPHQH }: { baocaoPHQH: any }) {
         </Link>
       </td>
       <td>{baocaoPHQH.DiaDiemPH}</td>
-      <td>
-        {baocaoPHQH.HinhAnh && <Link to="/">link</Link>}
-      </td>
+      <td>{baocaoPHQH.HinhAnh && <Link to="/">link</Link>}</td>
       <td>{baocaoPHQH.DiaChiCC}</td>
       <td>
         <Link
@@ -34,9 +33,12 @@ export default function RelationItem({ baocaoPHQH }: { baocaoPHQH: any }) {
       </td>
       <td>
         {baocaoPHQH.TSThucHiens.map((cbcs: any, ind: number) => (
-          <Link key={ind} to={`/cbcs/${cbcs?.MaCBCS}`} target="_blank">
-            <p>{cbcs?.HoTen}</p>
-          </Link>
+          <Fragment key={ind}>
+            {ind !== 0 && "; "}
+            <Link to={`/cbcs/${cbcs?.MaCBCS}`} target="_blank">
+              {cbcs?.HoTen}
+            </Link>
+          </Fragment>
         ))}
       </td>
     </tr>

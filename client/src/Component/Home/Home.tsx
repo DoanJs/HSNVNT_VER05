@@ -49,6 +49,7 @@ export default function Home() {
   const { data: Data_cbcss, error } = useQuery(QUERY_cbcss, {
     variables: { utilsParams: {} },
   });
+
   useEffect(() => {
     if (error) {
       showNotification(
