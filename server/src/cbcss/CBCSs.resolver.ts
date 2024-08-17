@@ -47,15 +47,17 @@ export class CBCSsResolver {
   constructor(private cbcssService: CBCSsService) {}
 
   @Query((returns) => [CBCS])
-  cbcss(@Args('utilsParams') utilsParams: UtilsParamsInput): Promise<CBCS[]> {
-    return this.cbcssService.cbcss(utilsParams);
+  cbcss(
+    @Args('utilsParams') utilsParams: UtilsParamsInput,
+    @CurrentUser() user: any,
+  ): Promise<CBCS[]> {
+    return this.cbcssService.cbcss(utilsParams, user);
   }
 
   @Query((returns) => CBCS)
-  cbcs(@Args('id') id: number): Promise<CBCS> {
-    return this.cbcssService.cbcs(id);
+  cbcs(@Args('id') id: number, @CurrentUser() user: any): Promise<CBCS> {
+    return this.cbcssService.cbcs(id, user);
   }
-
   @Mutation((returns) => CBCS)
   @UseGuards(InsertGuard)
   createCBCS(

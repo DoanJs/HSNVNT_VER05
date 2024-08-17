@@ -23,6 +23,7 @@ export class CapBacsService {
   };
 
   async capbacs(utilsParams: UtilsParamsInput): Promise<CapBac[]> {
+    
     return await this.capbacRepository.query(
       SP_GET_DATA(
         'CapBacs',

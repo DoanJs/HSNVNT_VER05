@@ -47,6 +47,7 @@ export class AuthPassportService {
   }
 
   async login(req: Request, res: Response): Promise<AccessTokenType> {
+    console.log(req.user)
     const account = req.user as Account;
     const payload = {
       AccountID: account.AccountID,

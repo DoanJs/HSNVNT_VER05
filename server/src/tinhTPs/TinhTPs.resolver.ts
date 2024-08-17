@@ -27,8 +27,9 @@ export class TinhTPsResolver {
   @Query((returns) => [TinhTP])
   tinhTPs(
     @Args('utilsParams') utilsParams: UtilsParamsInput,
+    @CurrentUser() user: any,
   ): Promise<TinhTP[]> {
-    return this.tinhTPsService.tinhTPs(utilsParams);
+    return this.tinhTPsService.tinhTPs(utilsParams, user);
   }
 
   @Query((returns) => TinhTP)

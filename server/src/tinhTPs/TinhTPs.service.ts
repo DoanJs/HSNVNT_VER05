@@ -7,9 +7,10 @@ import { KetQuaTSNT } from 'src/ketquaTSNTs/KetQuaTSNT.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
 import { SP_CHANGE_DATA, SP_GET_DATA } from 'src/utils/mssql/query';
 import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
-import { Repository } from 'typeorm';
+import { DataSourceOptions, Repository } from 'typeorm';
 import { TinhTP } from './TinhTP.model';
 import { TinhTPInput } from './type/TinhTP.Input';
+import { DatabaseService } from 'src/sqlserever/database.service';
 
 @Injectable()
 export class TinhTPsService {
@@ -17,6 +18,7 @@ export class TinhTPsService {
     @InjectRepository(TinhTP) private tinhTPRepository: Repository<TinhTP>,
     private readonly dataloaderService: DataLoaderService,
     private readonly actionDBsService: ActionDBsService,
+    private readonly databaseService: DatabaseService,
   ) {}
 
   public readonly tinhTP_DataInput = (tinhTPInput: TinhTPInput) => {
@@ -26,16 +28,42 @@ export class TinhTPsService {
     };
   };
 
-  tinhTPs(utilsParams: UtilsParamsInput): Promise<TinhTP[]> {
-    return this.tinhTPRepository.query(
-      SP_GET_DATA(
-        'TinhTPs',
-        "'MaTinhTP != 0'",
-        'MaTinhTP',
-        utilsParams.skip ? utilsParams.skip : 0,
-        utilsParams.take ? utilsParams.take : 0,
-      ),
-    );
+  async tinhTPs(utilsParams: UtilsParamsInput, user: any): Promise<TinhTP[]> {
+    const newConfig: DataSourceOptions = {
+      type: 'mssql',
+      host: 'localhost',
+      port: 1433,
+      username: user.Username,
+      password: user.Username,
+      database: 'HSNVNT_VER05',
+      synchronize: true, 
+      logging: true,
+      options: {
+        encrypt: true,
+      },
+      extra: {
+        trustServerCertificate: true,
+      },
+    };
+
+    await this.databaseService.changeConnectionConfig(newConfig);
+    const dataSource = this.databaseService.getDataSource();
+    return await dataSource.query(SP_GET_DATA(
+      'TinhTPs',
+      "'MaTinhTP != 0'",
+      'MaTinhTP',
+      utilsParams.skip ? utilsParams.skip : 0,
+      utilsParams.take ? utilsParams.take : 0,
+    ),);
+    // return this.tinhTPRepository.query(
+    //   SP_GET_DATA(
+    //     'TinhTPs',
+    //     "'MaTinhTP != 0'",
+    //     'MaTinhTP',
+    //     utilsParams.skip ? utilsParams.skip : 0,
+    //     utilsParams.take ? utilsParams.take : 0,
+    //   ),
+    // );
   }
 
   async tinhTP(id: number): Promise<TinhTP> {

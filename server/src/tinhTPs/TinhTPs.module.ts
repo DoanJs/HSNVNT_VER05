@@ -8,6 +8,7 @@ import { DataLoaderModule } from 'src/dataloader/Dataloader.module';
 import { TinhTP } from './TinhTP.model';
 import { TinhTPsResolver } from './TinhTPs.resolver';
 import { TinhTPsService } from './TinhTPs.service';
+import { DatabaseService } from 'src/sqlserever/database.service';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { TinhTPsService } from './TinhTPs.service';
       secret: process.env.SECRETJWT as string,
     }),
   ],
-  providers: [TinhTPsResolver, TinhTPsService, ActionDBsService],
+  providers: [TinhTPsResolver, TinhTPsService, ActionDBsService, DatabaseService],
 })
 export class TinhTPsModule {}

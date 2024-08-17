@@ -23,6 +23,8 @@ import { KyDuyet_DN } from 'src/kyDuyet_DNs/KyDuyet_DN.model';
 import { LLDB } from 'src/lldbs/LLDB.model';
 import { LucLuongThamGiaKH } from 'src/lltgKeHoachs/LucLuongThamGiaKH.model';
 import { QuyetDinhTSNT } from 'src/quyetdinhTSNTs/QuyetDinhTSNT.model';
+import { SQLServerAuthService } from 'src/sqlserever/sqlserver.auth.service';
+import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 import { TonGiao } from 'src/tongiaos/TonGiao.model';
 import { TramCT } from 'src/tramCTs/TramCT.model';
 import {
@@ -34,7 +36,6 @@ import { UtilsParamsInput } from 'src/utils/type/UtilsParams.input';
 import { Repository } from 'typeorm';
 import { CBCS } from './CBCS.model';
 import { CBCSInput } from './type/CBCS.Input';
-import { ThanhVienBCA } from 'src/thanhvienBCAs/ThanhVienBCA.model';
 
 @Injectable()
 export class CBCSsService {
@@ -42,6 +43,7 @@ export class CBCSsService {
     @InjectRepository(CBCS) private cbcsRepository: Repository<CBCS>,
     private readonly dataloaderService: DataLoaderService,
     private readonly actionDBsService: ActionDBsService,
+    private readonly sqlServerAuthService: SQLServerAuthService,
   ) {}
 
   public readonly CBCS_DataInput = (
@@ -76,8 +78,13 @@ export class CBCSsService {
     };
   };
 
-  cbcss(utilsParams: UtilsParamsInput): Promise<CBCS[]> {
-    return this.cbcsRepository.query(
+  async cbcss(utilsParams: UtilsParamsInput, user: any): Promise<CBCS[]> {
+    const dataSource = await this.sqlServerAuthService.SQLServerAuth(
+      user.Username,
+      user.Username,
+    );
+
+    return await dataSource.query(
       SP_GET_DATA_DECRYPT(
         'CBCSs',
         `'MaCBCS != 0'`,
@@ -87,8 +94,13 @@ export class CBCSsService {
     );
   }
 
-  async cbcs(id: number): Promise<CBCS> {
-    const result = await this.cbcsRepository.query(
+  async cbcs(id: number, user: any): Promise<CBCS> {
+    console.log(user)
+    const dataSource = await this.sqlServerAuthService.SQLServerAuth(
+      user.Username,
+      user.Username,
+    );
+    const result = await dataSource.query(
       SP_GET_DATA_DECRYPT('CBCSs', `'MaCBCS = ${id}'`, 0, 1),
     );
     return result[0];
